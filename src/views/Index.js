@@ -1,28 +1,7 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
-// node.js library that concatenates classes (strings)
 import classnames from "classnames";
-// javascipt plugin for creating charts
 import Chart from "chart.js";
-// react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
-// reactstrap components
 import {
   Button,
   Card,
@@ -38,7 +17,6 @@ import {
   Col
 } from "reactstrap";
 
-// core components
 import {
   chartOptions,
   parseOptions,
@@ -51,6 +29,11 @@ import Header from "components/Headers/Header.js";
 class Index extends React.Component {
   constructor(props){
     super(props);
+    this.onValueChangeInput = this.props.onValueChangeInput.bind(this);
+    this.onValueChangeOutput = this.props.onValueChangeOutput.bind(this);
+    this.onCurrencyChangeInput = this.props.onCurrencyChangeInput.bind(this);
+    this.onCurrencyChangeOutput = this.props.onCurrencyChangeOutput.bind(this);
+    this.reverse = this.props.reverse.bind(this);
     this.state = {
       activeNav: 1,
       chartExample1Data: "data1"
@@ -70,7 +53,7 @@ class Index extends React.Component {
   render() {
     return (
       <>
-        <Header />
+        <Header state={this.props.state} onValueChangeInput={this.props.onValueChangeInput} onValueChangeOutput={this.props.onValueChangeOutput} onCurrencyChangeInput={this.props.onCurrencyChangeInput} onCurrencyChangeOutput={this.props.onCurrencyChangeOutput} reverse={this.props.reverse} />
         {/* Page content */}
         <Container className="mt--7" fluid>
           <Row>
@@ -157,72 +140,26 @@ class Index extends React.Component {
                 <CardHeader className="border-0">
                   <Row className="align-items-center">
                     <div className="col">
-                      <h3 className="mb-0">Page visits</h3>
-                    </div>
-                    <div className="col text-right">
-                      <Button
-                        color="primary"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                        size="sm"
-                      >
-                        See all
-                      </Button>
+                      <h3 className="mb-0">Historical Exchange Rate</h3>
                     </div>
                   </Row>
                 </CardHeader>
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
-                      <th scope="col">Page name</th>
-                      <th scope="col">Visitors</th>
-                      <th scope="col">Unique users</th>
-                      <th scope="col">Bounce rate</th>
+                      <th scope="col">Base Currency</th>
+                      <th scope="col">Destination Currency</th>
+                      <th scope="col">Exchange Rate</th>
+                      <th scope="col">Historical Exchange Rate</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <th scope="row">/argon/</th>
-                      <td>4,569</td>
+                      <th scope="row">{this.props.state.inputCurrency}</th>
+                      <td>{this.props.state.outputCurrency}</td>
                       <td>340</td>
                       <td>
                         <i className="fas fa-arrow-up text-success mr-3" />{" "}
-                        46,53%
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">/argon/index.html</th>
-                      <td>3,985</td>
-                      <td>319</td>
-                      <td>
-                        <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                        46,53%
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">/argon/charts.html</th>
-                      <td>3,513</td>
-                      <td>294</td>
-                      <td>
-                        <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                        36,49%
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">/argon/tables.html</th>
-                      <td>2,050</td>
-                      <td>147</td>
-                      <td>
-                        <i className="fas fa-arrow-up text-success mr-3" />{" "}
-                        50,87%
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">/argon/profile.html</th>
-                      <td>1,795</td>
-                      <td>190</td>
-                      <td>
-                        <i className="fas fa-arrow-down text-danger mr-3" />{" "}
                         46,53%
                       </td>
                     </tr>

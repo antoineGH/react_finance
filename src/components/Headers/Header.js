@@ -1,26 +1,22 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
+import HistoryPercentage from '../../views/currency/HistoricalPercentage'
+import InformationCurrency from '../../views/currency/InformationCurrency'
+import InputValue from '../../views/currency/InputValue'
+import InputCurrency from '../../views/currency/InputCurrency'
+import InformationDate from '../../views/currency/InformationDate'
 
 // reactstrap components
-import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import { Card, CardBody, CardTitle, Container, Row, Col, Button } from "reactstrap";
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props)
+    this.onCurrencyChangeInput = this.props.onCurrencyChangeInput.bind(this);
+    this.onCurrencyChangeOutput = this.props.onCurrencyChangeOutput.bind(this);
+    this.onValueChangeInput = this.props.onValueChangeInput.bind(this);
+    this.onValueChangeOutput = this.props.onValueChangeOutput.bind(this);
+    this.reverse = this.props.reverse.bind(this);
+  }
   render() {
     return (
       <>
@@ -29,38 +25,62 @@ class Header extends React.Component {
             <div className="header-body">
               {/* Card stats */}
               <Row>
-                <Col lg="6" xl="3">
-                  <Card className="card-stats mb-4 mb-xl-0">
+                {/* --- Input Field Card --- */}
+                <Col lg="6" xl="5">
+                  <Card className="card-stats mb-4 mb-xl-0" style={{ height: '100%' }}>
+                    <CardBody>
+                      <Row>
+                        <Col lg="10" xl="10">
+                          <Row className='mt-1'>
+                            <Col md="10" lg="8" xl="3">
+                              <div className='inputValue'> {this.props.state && <InputValue inputValue={this.props.state.inputValue} onValueChange={this.props.onValueChangeInput} />}</div>
+                            </Col>
+                            <Col lg="6" xl="8">
+                              <div className='inputCurrency'> {this.props.state && <InputCurrency listCurrency={this.props.state.listCurrency} onCurrencyChange={this.props.onCurrencyChangeInput} options={{ value: this.props.state.optionsInput.value, label: this.props.state.optionsInput.label }} />}</div>
+                            </Col>
+                          </Row>
+                          <Row className='mt-2'>
+                            <Col lg="6" xl="3">
+                              <div className='inputValue'> {this.props.state && <InputValue inputValue={this.props.state.outputValue} onValueChange={this.props.onValueChangeOutput} />} </div>
+                            </Col>
+                            <Col lg="6" xl="8">
+                              <div className='inputCurrency'>{this.props.state && <InputCurrency listCurrency={this.props.state.listCurrency} onCurrencyChange={this.props.onCurrencyChangeOutput} options={{ value: this.props.state.optionsOutput.value, label: this.props.state.optionsOutput.label }} />} </div>
+                            </Col>
+                          </Row>
+                        </Col>
+                        <Col lg="1" xl="1" className='mx-auto my-auto'>
+                          <Button className='reverse' onClick={this.props.reverse}><i className="fas fa-random"></i></Button>
+                        </Col>
+                      </Row>
+                      <Row>
+
+                      </Row>
+
+                    </CardBody>
+                  </Card>
+                </Col>
+                {/* --- Information Currency Field --- */}
+                <Col lg="6" xl="2">
+                  <Card className="card-stats mb-4 mb-xl-0" style={{ height: '100%' }}>
                     <CardBody>
                       <Row>
                         <div className="col">
-                          <CardTitle
-                            tag="h5"
-                            className="text-uppercase text-muted mb-0"
-                          >
-                            Traffic
-                          </CardTitle>
-                          <span className="h2 font-weight-bold mb-0">
-                            350,897
-                          </span>
+                          <InformationCurrency state={this.props.state} />
                         </div>
                         <Col className="col-auto">
-                          <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
+                          <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
                             <i className="fas fa-chart-bar" />
                           </div>
                         </Col>
                       </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        <span className="text-success mr-2">
-                          <i className="fa fa-arrow-up" /> 3.48%
-                        </span>{" "}
-                        <span className="text-nowrap">Since last month</span>
-                      </p>
+                      {/* INSERT !!! DATE */}
+                      <InformationDate state={this.props.state} />
                     </CardBody>
                   </Card>
                 </Col>
-                <Col lg="6" xl="3">
-                  <Card className="card-stats mb-4 mb-xl-0">
+                {/* --- HIstorical Value Field --- */}
+                <Col lg="6" xl="2">
+                  <Card className="card-stats mb-4 mb-xl-0" style={{ height: '100%' }}>
                     <CardBody>
                       <Row>
                         <div className="col">
@@ -68,68 +88,20 @@ class Header extends React.Component {
                             tag="h5"
                             className="text-uppercase text-muted mb-0"
                           >
-                            New users
+                            History
                           </CardTitle>
                           <span className="h2 font-weight-bold mb-0">
-                            2,356
-                          </span>
-                        </div>
-                        <Col className="col-auto">
-                          <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
-                            <i className="fas fa-chart-pie" />
-                          </div>
-                        </Col>
-                      </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        <span className="text-danger mr-2">
-                          <i className="fas fa-arrow-down" /> 3.48%
-                        </span>{" "}
-                        <span className="text-nowrap">Since last week</span>
-                      </p>
-                    </CardBody>
-                  </Card>
-                </Col>
-                <Col lg="6" xl="3">
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <Row>
-                        <div className="col">
-                          <CardTitle
-                            tag="h5"
-                            className="text-uppercase text-muted mb-0"
-                          >
-                            Sales
-                          </CardTitle>
-                          <span className="h2 font-weight-bold mb-0">924</span>
-                        </div>
-                        <Col className="col-auto">
-                          <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                            <i className="fas fa-users" />
-                          </div>
-                        </Col>
-                      </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        <span className="text-warning mr-2">
-                          <i className="fas fa-arrow-down" /> 1.10%
-                        </span>{" "}
-                        <span className="text-nowrap">Since yesterday</span>
-                      </p>
-                    </CardBody>
-                  </Card>
-                </Col>
-                <Col lg="6" xl="3">
-                  <Card className="card-stats mb-4 mb-xl-0">
-                    <CardBody>
-                      <Row>
-                        <div className="col">
-                          <CardTitle
-                            tag="h5"
-                            className="text-uppercase text-muted mb-0"
-                          >
-                            Performance
-                          </CardTitle>
-                          <span className="h2 font-weight-bold mb-0">
-                            49,65%
+                            {this.props.state.inputCurrency && this.props.state.outputCurrency &&
+                              <p>
+                                <span className="h2 font-weight-bold mb-0">
+                                  {this.props.state.inputCurrency}
+                                </span>
+                                &nbsp;on&nbsp;
+                                  <span className="h2 font-weight-bold mb-0">
+                                  {this.props.state.outputCurrency}
+                                </span>
+                              </p>
+                            }
                           </span>
                         </div>
                         <Col className="col-auto">
@@ -138,12 +110,12 @@ class Header extends React.Component {
                           </div>
                         </Col>
                       </Row>
-                      <p className="mt-3 mb-0 text-muted text-sm">
-                        <span className="text-success mr-2">
-                          <i className="fas fa-arrow-up" /> 12%
-                        </span>{" "}
-                        <span className="text-nowrap">Since last month</span>
-                      </p>
+                      {this.props.state.historyPercentage &&
+                        <p className="mb-0 text-muted text-sm">
+                          <HistoryPercentage HistoricalPercentage={this.props.state.historyPercentage} />
+                      <span className="text-nowrap">Since last {this.props.state.active}.</span>
+                        </p>
+                      }
                     </CardBody>
                   </Card>
                 </Col>

@@ -45,7 +45,7 @@ function DisplayInformationCurrency(props) {
         );
     } else {
         return (<div className='select_currency'>
-            <p>Please select currency.</p>
+            <p>Please select currency</p>
         </div>);
     }
 }
@@ -63,6 +63,7 @@ export default class Currency extends Component {
         this.getGraphInfo = this.getGraphInfo.bind(this);
         this.setActive = this.setActive.bind(this);
         this.reverse = this.reverse.bind(this);
+        this.setState = this.setState.bind(this);
         this.state = {
             isLoaded: false,
             hasError: false,
@@ -73,6 +74,7 @@ export default class Currency extends Component {
             infoIsLoading: false,
 
             listCurrency: '',
+            listCurrencyHistory: [],
             inputCurrency: 'USD',
             outputCurrency: 'EUR',
             date: '',
@@ -105,6 +107,11 @@ export default class Currency extends Component {
                         rate: value
                     })
                 }
+                const date = new Date(Date.now())
+                const start_date = getDate(date)
+                const end_date = getDateBefore(date, 1, 'months')
+
+                this.getListExchange(start_date, end_date, 'USD', currencies)
                 this.setState({ listCurrency: currencies, isLoaded: true, hasError: false })
                 if (this.state.inputValue && this.state.outputCurrency) {
                     this.setState({ outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies) })
@@ -123,6 +130,25 @@ export default class Currency extends Component {
 
     // --- CLASS METHODS --- 
 
+    // Get List Exchange
+    getListExchange(startDate, endDate, baseCurrency, listCurrency) {
+        for (let i = 0; i < 5; i++) {
+            const randInt = Math.floor((Math.random() * listCurrency.length) + 1)
+            const destCurrency = listCurrency[randInt]['value']
+            fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)
+                .then(response => {
+                    const orderedDates = sortDate(response)
+                    const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency, endDate, startDate)
+                    const keyEndDate = (Object.keys(orderedDates)[orderedDates.length]);
+                    const rate = orderedDates[keyEndDate][destCurrency]
+
+                    this.setState({ listCurrencyHistory: [...this.state.listCurrencyHistory, { baseCurrency: baseCurrency, destCurrency: destCurrency, rate: rate, historyPercentage: historyPercentage }] })
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
+    }
     // Set base
     setBase(selectedCurrency) {
         this.setState({ infoIsLoading: true })
@@ -151,18 +177,13 @@ export default class Currency extends Component {
 
     // Get Graph Info
     getGraphInfo(startDate, endDate, baseCurrency, destCurrency) {
+        // console.log('fetchHistoryCurrency with ' + startDate, endDate, baseCurrency, destCurrency)
         fetchHistoryCurrency(startDate, endDate, baseCurrency, destCurrency)
             .then(response => {
                 const graphTitle = { base: baseCurrency, dest: destCurrency, start_at: startDate, end_at: endDate }
-
-                // Sort Object of objects with Date as a key
                 const orderedDates = sortDate(response)
-
                 const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency, startDate, endDate)
-
-                // Generate Arrays for Rates Values and Date.
                 const { graphLegend, graphValues } = genValues(orderedDates, destCurrency)
-                // Update State                
                 this.setState({ graphLegend: graphLegend, graphValues: graphValues, graphTitle: graphTitle, isHistoryLoaded: true, historyPercentage: historyPercentage })
             })
             .catch(error => {
@@ -267,39 +288,9 @@ export default class Currency extends Component {
         return historyPercentage
     }
 
-    getListExchange(listCurrency, graphTitle) {
-        // const randInt = Math.floor((Math.random() * listCurrency.length) + 1)
-        const randInt = 1
-        for (let i = 0; i < 5; i++) {
-            console.log((listCurrency[randInt + i]))
-            const baseCurrency = graphTitle.base
-            const destCurrency = listCurrency[randInt + i]['value']
-            const startDate = graphTitle.start_at
-            const endDate = graphTitle.end_at
-            console.log(baseCurrency, destCurrency, startDate, endDate)
-
-
-            // DEBUG INFINITE LOOP !!! 
-
-            // fetchHistoryCurrency(startDate, endDate, baseCurrency, destCurrency)
-            //     .then(response => {
-            //         const orderedDates = sortDate(response)
-            //         const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency, startDate, endDate)   
-            //         this.setState({ test: historyPercentage })
-            //     })
-            //     .catch(error => {
-            //         console.log(error)
-            //         this.setState({ hasHistoryError: true })
-            //     })
-
-        }
-    }
 
     // --- RENDER ---
     render() {
-
-        // if (this.state.listCurrency && this.state.graphTitle.start_at && console.log(this.getListExchange(this.state.listCurrency, this.state.graphTitle)))
-            console.log(this.state)
 
         if (this.state.hasError) {
             return (
@@ -327,7 +318,14 @@ export default class Currency extends Component {
         } else {
             return (
                 <>
-                    <Index state={this.state} onValueChangeInput={this.handleValueInputChange} onValueChangeOutput={this.handleValueOutputChange} onCurrencyChangeInput={this.handleCurrencyInputChange} onCurrencyChangeOutput={this.handleCurrencyOutputChange} reverse={this.reverse} />
+                    <Index
+                        state={this.state}
+                        onValueChangeInput={this.handleValueInputChange}
+                        onValueChangeOutput={this.handleValueOutputChange}
+                        onCurrencyChangeInput={this.handleCurrencyInputChange}
+                        onCurrencyChangeOutput={this.handleCurrencyOutputChange}
+                        reverse={this.reverse}
+                    />
                     <Container>
                         {/* Input Value & Currency */}
                         <Row>

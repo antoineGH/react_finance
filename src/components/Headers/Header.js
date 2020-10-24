@@ -17,6 +17,7 @@ class Header extends React.Component {
     this.onValueChangeOutput = this.props.onValueChangeOutput.bind(this);
     this.reverse = this.props.reverse.bind(this);
   }
+
   render() {
     return (
       <>
@@ -73,6 +74,7 @@ class Header extends React.Component {
                   </Card>
                 </Col>
                 {/* HISTORICAL CURRENCY CARD */}
+                {/* { this.props.state.listCurrency && this.props.state.graphTitle && console.log(this.props.getListExchange(this.props.state.listCurrency, this.props.state.graphTitle))} */}
                 <Col lg="6" xl="3" className='mt-4 mt-xl-0'>
                   <Card className="card-stats " style={{ height: '100%' }}>
                     <CardBody>

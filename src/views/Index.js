@@ -36,7 +36,14 @@ class Index extends React.Component {
   render() {
     return (
       <>
-        <Header state={this.props.state} onValueChangeInput={this.props.onValueChangeInput} onValueChangeOutput={this.props.onValueChangeOutput} onCurrencyChangeInput={this.props.onCurrencyChangeInput} onCurrencyChangeOutput={this.props.onCurrencyChangeOutput} reverse={this.props.reverse} />
+        <Header 
+          state={this.props.state} 
+          onValueChangeInput={this.props.onValueChangeInput} 
+          onValueChangeOutput={this.props.onValueChangeOutput} 
+          onCurrencyChangeInput={this.props.onCurrencyChangeInput} 
+          onCurrencyChangeOutput={this.props.onCurrencyChangeOutput} 
+          reverse={this.props.reverse} 
+        />
         <Container className="mt--7" fluid>
           <Row>
             {/* OVERVIEW MAIN GRAPH */}

@@ -34,24 +34,24 @@ class Header extends React.Component {
               {/* Card stats */}
               <Row>
                 {/* --- Input Field Card --- */}
-                <Col lg="6" xl="5">
+                <Col lg="12" xl="6">
                   <Card className="card-stats" style={{ height: '100%' }}>
                     <CardBody>
-                      <Row className='vertical-center reverse_div'> 
+                      <Row className='vertical-center reverse_div'>
                         <Col lg="10" xl="10">
                           <Row>
-                            <Col lg="8" xl="3">
+                            <Col lg="3" xl="4">
                               <div className='inputValue'> {this.props.state && <InputValue inputValue={this.props.state.inputValue} onValueChange={this.props.onValueChangeInput} />}</div>
                             </Col>
-                            <Col lg="6" xl="9">
+                            <Col lg="9" xl="8">
                               <div className='inputCurrency'> {this.props.state && <InputCurrency listCurrency={this.props.state.listCurrency} onCurrencyChange={this.props.onCurrencyChangeInput} options={{ value: this.props.state.optionsInput.value, label: this.props.state.optionsInput.label }} />}</div>
                             </Col>
                           </Row>
                           <Row className='mt-3 mt-md-4'>
-                            <Col lg="6" xl="3">
+                            <Col lg="3" xl="4">
                               <div className='inputValue'> {this.props.state && <InputValue inputValue={this.props.state.outputValue} onValueChange={this.props.onValueChangeOutput} />} </div>
                             </Col>
-                            <Col lg="6" xl="9">
+                            <Col lg="9" xl="8">
                               <div className='inputCurrency'>{this.props.state && <InputCurrency listCurrency={this.props.state.listCurrency} onCurrencyChange={this.props.onCurrencyChangeOutput} options={{ value: this.props.state.optionsOutput.value, label: this.props.state.optionsOutput.label }} />} </div>
                             </Col>
                           </Row>
@@ -64,7 +64,7 @@ class Header extends React.Component {
                   </Card>
                 </Col>
                 {/* --- Information Currency Field --- */}
-                <Col lg="6" xl="2" className='mt-4 mt-lg-0'>
+                <Col lg="6" xl="3" className='mt-4 mt-xl-0'>
                   <Card className="card-stats" style={{ height: '100%' }}>
                     <CardBody>
                       <Row>
@@ -82,7 +82,7 @@ class Header extends React.Component {
                   </Card>
                 </Col>
                 {/* --- HIstorical Value Field --- */}
-                <Col lg="6" xl="2" className='mt-4 mt-lg-0 mb-1 mb-xl-0'>
+                <Col lg="6" xl="3" className='mt-4 mt-xl-0'>
                   <Card className="card-stats " style={{ height: '100%' }}>
                     <CardBody>
                       <Row>
@@ -114,10 +114,14 @@ class Header extends React.Component {
                         </Col>
                       </Row>
                       {this.props.state.historyPercentage &&
-                        <p className="mb-0 text-muted text-sm">
-                          <HistoryPercentage HistoricalPercentage={this.props.state.historyPercentage} />
-                      <span className="text-nowrap">Since last {this.props.state.active}.</span>
-                        </p>
+                        <>
+                          <p className="mb-0 text-muted text-sm">
+                            <HistoryPercentage HistoricalPercentage={this.props.state.historyPercentage} />
+                          </p>
+                          <p className="mb-0 text-muted text-sm">
+                            <span className="text-nowrap">Since last {this.props.state.active}</span>
+                          </p>
+                        </>
                       }
                     </CardBody>
                   </Card>

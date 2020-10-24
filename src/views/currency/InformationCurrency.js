@@ -24,7 +24,7 @@ export default function InformationCurrency(props) {
         } else {
             return (
                 <div className='select_currency'>
-                    <p>Please select currency.</p>
+                    <p >Please select currency.</p>
                 </div>
             );
         }

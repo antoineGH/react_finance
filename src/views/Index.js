@@ -1,33 +1,16 @@
 import React from "react";
 import classnames from "classnames";
-import Chart from "chart.js";
-import { Line, Bar } from "react-chartjs-2";
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
-  Container,
-  Row,
-  Col
-} from "reactstrap";
-
-import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-  chartExample2
-} from "variables/charts.js";
-
 import Header from "components/Headers/Header.js";
 
+import Chart from "chart.js";
+import { Line, Bar } from "react-chartjs-2";
+
+import { Button, Card, CardHeader, CardBody, NavItem, NavLink, Nav, Progress, Table, Container, Row, Col } from "reactstrap";
+import { chartOptions, parseOptions, chartExample1, chartExample2 } from "variables/charts.js";
+
+// INDEX CLASS MANAGE GRAPHS AND ARRAYS
 class Index extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.onValueChangeInput = this.props.onValueChangeInput.bind(this);
     this.onValueChangeOutput = this.props.onValueChangeOutput.bind(this);
@@ -54,9 +37,9 @@ class Index extends React.Component {
     return (
       <>
         <Header state={this.props.state} onValueChangeInput={this.props.onValueChangeInput} onValueChangeOutput={this.props.onValueChangeOutput} onCurrencyChangeInput={this.props.onCurrencyChangeInput} onCurrencyChangeOutput={this.props.onCurrencyChangeOutput} reverse={this.props.reverse} />
-        {/* Page content */}
         <Container className="mt--7" fluid>
           <Row>
+            {/* OVERVIEW MAIN GRAPH */}
             <Col className="mb-5 mb-xl-0" xl="8">
               <Card className="bg-gradient-default shadow">
                 <CardHeader className="bg-transparent">
@@ -99,7 +82,6 @@ class Index extends React.Component {
                   </Row>
                 </CardHeader>
                 <CardBody>
-                  {/* Chart */}
                   <div className="chart">
                     <Line
                       data={chartExample1[this.state.chartExample1Data]}
@@ -110,6 +92,7 @@ class Index extends React.Component {
                 </CardBody>
               </Card>
             </Col>
+            {/* TOTAL ORDER GRAPH */}
             <Col xl="4">
               <Card className="shadow">
                 <CardHeader className="bg-transparent">
@@ -135,6 +118,7 @@ class Index extends React.Component {
             </Col>
           </Row>
           <Row className="mt-5">
+            {/* HISTORICAL EXCHANGE RATE */}
             <Col className="mb-5 mb-xl-0" xl="8">
               <Card className="shadow">
                 <CardHeader className="border-0">
@@ -167,6 +151,7 @@ class Index extends React.Component {
                 </Table>
               </Card>
             </Col>
+            {/* SOCIAL TRAFFIC */}
             <Col xl="4">
               <Card className="shadow">
                 <CardHeader className="border-0">

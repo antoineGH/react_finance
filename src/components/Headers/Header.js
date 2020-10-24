@@ -5,9 +5,9 @@ import InputValue from '../../views/currency/InputValue'
 import InputCurrency from '../../views/currency/InputCurrency'
 import InformationDate from '../../views/currency/InformationDate'
 
-// reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col, Button } from "reactstrap";
 
+// HEADER CLASS MANAGE CARDS
 class Header extends React.Component {
   constructor(props) {
     super(props)
@@ -19,21 +19,12 @@ class Header extends React.Component {
   }
   render() {
     return (
-
-      // Bootstrap Breakpoints
-      // @media (max-width: 575.98px) { ... }
-      // @media (max-width: 767.98px) { ... }
-      // @media (max-width: 991.98px) { ... }
-      // @media (max-width: 1199.98px) { ... }
-      // Col xs={12} sm={12} md={6}
-
       <>
         <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
           <Container fluid>
             <div className="header-body">
-              {/* Card stats */}
               <Row>
-                {/* --- Input Field Card --- */}
+                {/* INPUT FIELD MAIN CARD */}
                 <Col lg="12" xl="6">
                   <Card className="card-stats" style={{ height: '100%' }}>
                     <CardBody>
@@ -63,7 +54,7 @@ class Header extends React.Component {
                     </CardBody>
                   </Card>
                 </Col>
-                {/* --- Information Currency Field --- */}
+                {/* INFORMATION CURRENCY FIELD CARD */}
                 <Col lg="6" xl="3" className='mt-4 mt-xl-0'>
                   <Card className="card-stats" style={{ height: '100%' }}>
                     <CardBody>
@@ -81,7 +72,7 @@ class Header extends React.Component {
                     </CardBody>
                   </Card>
                 </Col>
-                {/* --- HIstorical Value Field --- */}
+                {/* HISTORICAL CURRENCY CARD */}
                 <Col lg="6" xl="3" className='mt-4 mt-xl-0'>
                   <Card className="card-stats " style={{ height: '100%' }}>
                     <CardBody>
@@ -113,7 +104,7 @@ class Header extends React.Component {
                           </div>
                         </Col>
                       </Row>
-                      {this.props.state.historyPercentage &&
+                      {this.props.state.historyPercentage && this.props.state.inputCurrency && this.props.state.outputCurrency &&
                         <>
                           <p className="mb-0 text-muted text-sm">
                             <HistoryPercentage HistoricalPercentage={this.props.state.historyPercentage} />

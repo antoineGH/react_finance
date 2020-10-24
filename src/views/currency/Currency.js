@@ -26,30 +26,6 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 
-function DisplayInformationCurrency(props) {
-    const state = props.state
-
-    if (state.infoIsLoading) {
-        return (
-            <div className='mt-5 ml-5'>
-                <ScaleLoader css="display: flex; justify-content: left;" color={"#2E3030"} size={15} />
-            </div>
-        );
-
-    } else if (state.outputCurrency && state.inputCurrency) {
-        return (
-            <>
-                <InformationCurrency state={state} reverse={props.reverse} />
-                <InformationDate state={state} />
-            </>
-        );
-    } else {
-        return (<div className='select_currency'>
-            <p>Please select currency</p>
-        </div>);
-    }
-}
-
 export default class Currency extends Component {
 
     // --- CLASS CONSTRUCTOR ---
@@ -149,6 +125,7 @@ export default class Currency extends Component {
                 })
         }
     }
+
     // Set base
     setBase(selectedCurrency) {
         this.setState({ infoIsLoading: true })
@@ -177,7 +154,6 @@ export default class Currency extends Component {
 
     // Get Graph Info
     getGraphInfo(startDate, endDate, baseCurrency, destCurrency) {
-        // console.log('fetchHistoryCurrency with ' + startDate, endDate, baseCurrency, destCurrency)
         fetchHistoryCurrency(startDate, endDate, baseCurrency, destCurrency)
             .then(response => {
                 const graphTitle = { base: baseCurrency, dest: destCurrency, start_at: startDate, end_at: endDate }
@@ -209,6 +185,8 @@ export default class Currency extends Component {
         } else {
             this.getGraphInfo(end_date, start_date, selectedCurrency, this.state.outputCurrency)
         }
+        this.setState({ listCurrencyHistory: []})
+        this.getListExchange(start_date, end_date, selectedCurrency, this.state.listCurrency)
         setTimeout(() => {
             this.setState({ active: 'month' })
         }, 500)
@@ -221,7 +199,6 @@ export default class Currency extends Component {
         } else {
             this.setState({ outputCurrency: selectedCurrency, optionsOutput: { value: selectedCurrency, label: selectedCurrency } })
 
-            // Updating History 
             const date = new Date(Date.now())
             const start_date = getDate(date)
             const end_date = getDateBefore(date, 1, 'months')
@@ -276,8 +253,8 @@ export default class Currency extends Component {
 
     // Calculate Historical %
     getHistoryPercentage(orderedDates, destCurrency, startDate, endDate) {
-        // Get Yesterday
-        const endDateMinusOne = getDateBefore(endDate, 1, 'days')
+        // Get 2 days ago
+        const endDateMinusOne = getDateBefore(endDate, 2, 'days')
 
         const t0 = orderedDates[startDate][destCurrency]
         const t1 = orderedDates[endDateMinusOne][destCurrency]
@@ -288,10 +265,8 @@ export default class Currency extends Component {
         return historyPercentage
     }
 
-
     // --- RENDER ---
     render() {
-
         if (this.state.hasError) {
             return (
                 <Container>

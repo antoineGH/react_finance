@@ -48,26 +48,6 @@
     height: 100%;
   }
 
- }
-  /* ----------- End CSS Custom for MD Screen ----------- */
-
- /* ----------- CSS Custom for XS/SM Screen ----------- */
-
-@media (max-width: 767.98px) { 
-  .list-group-item {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .top_pannel {
-    height: 100%;
-  }
-
-  .info_date{
-    margin-top: 0px;
-  }
-
   .inputValue {
     margin-right: 0%;
     margin-left: 0%;
@@ -87,6 +67,26 @@
 
   .reverse {
     margin-top: 4%;
+  }
+
+ }
+  /* ----------- End CSS Custom for MD Screen ----------- */
+
+ /* ----------- CSS Custom for XS/SM Screen ----------- */
+
+@media (max-width: 767.98px) { 
+  .list-group-item {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .top_pannel {
+    height: 100%;
+  }
+
+  .info_date{
+    margin-top: 0px;
   }
 
  }

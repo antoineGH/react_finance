@@ -40,14 +40,14 @@ class Header extends React.Component {
                       <Row className='vertical-center reverse_div'> 
                         <Col lg="10" xl="10">
                           <Row>
-                            <Col md="10" lg="8" xl="3">
+                            <Col lg="8" xl="3">
                               <div className='inputValue'> {this.props.state && <InputValue inputValue={this.props.state.inputValue} onValueChange={this.props.onValueChangeInput} />}</div>
                             </Col>
                             <Col lg="6" xl="9">
                               <div className='inputCurrency'> {this.props.state && <InputCurrency listCurrency={this.props.state.listCurrency} onCurrencyChange={this.props.onCurrencyChangeInput} options={{ value: this.props.state.optionsInput.value, label: this.props.state.optionsInput.label }} />}</div>
                             </Col>
                           </Row>
-                          <Row className='mt-3 mt-md-2'>
+                          <Row className='mt-3 mt-md-4'>
                             <Col lg="6" xl="3">
                               <div className='inputValue'> {this.props.state && <InputValue inputValue={this.props.state.outputValue} onValueChange={this.props.onValueChangeOutput} />} </div>
                             </Col>
@@ -60,15 +60,11 @@ class Header extends React.Component {
                           <Button className='reverse' onClick={this.props.reverse}><i className="fas fa-random"></i></Button>
                         </Col>
                       </Row>
-                      <Row>
-
-                      </Row>
-
                     </CardBody>
                   </Card>
                 </Col>
                 {/* --- Information Currency Field --- */}
-                <Col lg="6" xl="2" className='mt-4 mt-md-0'>
+                <Col lg="6" xl="2" className='mt-4 mt-lg-0'>
                   <Card className="card-stats" style={{ height: '100%' }}>
                     <CardBody>
                       <Row>
@@ -86,7 +82,7 @@ class Header extends React.Component {
                   </Card>
                 </Col>
                 {/* --- HIstorical Value Field --- */}
-                <Col lg="6" xl="2" className='mt-4 mt-md-0 mb-1 mb-xl-0'>
+                <Col lg="6" xl="2" className='mt-4 mt-lg-0 mb-1 mb-xl-0'>
                   <Card className="card-stats " style={{ height: '100%' }}>
                     <CardBody>
                       <Row>

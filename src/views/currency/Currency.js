@@ -246,6 +246,8 @@ export default class Currency extends Component {
         const start_date = getDate(date)
         const end_date = getDateBefore(date, 1, 'months')
         this.getGraphInfo(end_date, start_date, outputCurrency, inputCurrency)
+        this.setState({ listCurrencyHistory: []})
+        this.getListExchange(start_date, end_date, outputCurrency, this.state.listCurrency)
         setTimeout(() => {
             this.setState({ active: 'month' })
         }, 500)

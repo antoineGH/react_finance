@@ -1,48 +1,57 @@
-/* Form Design inputValue */
+ /* ----------- Input Field Design ----------- */
 
-.form-control {
-  display: block;
-  width: 100%;
-  height: calc(1.5em + .75rem);
-  padding: .0rem .75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: .25rem;
-}
+ .form-control {
+   display: block;
+   width: 100%;
+   height: calc(1.5em + .75rem);
+   padding: .0rem .75rem;
+   font-size: 1rem;
+   font-weight: 400;
+   line-height: 1.5;
+   color: #495057;
+   background-color: #fff;
+   background-clip: padding-box;
+   border: 1px solid #ced4da;
+   border-radius: .25rem;
+  }
 
-.form-control:focus {
-  color: #495057;
-  background-color: #fff;
-  outline: 0;
-  box-shadow: 0 0 0 0.1rem rgba(39, 93, 240, 0.25);
-}
+  .form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    outline: 0;
+    box-shadow: 0 0 0 0.1rem rgba(39, 93, 240, 0.25);
+  }
+  
+  .react-dropdown-select-content  {
+    width: 50%;
+  }
+  
+  .inputValue {
+    margin-right: -3%;
+    margin-left: 6%;
+  }
+  
+  .inputCurrency {
+    margin-right: 0%;
+    margin-left: -4%;
+  }
 
-.react-dropdown-select-content  {
-  width: 50%;
-}
-
-.inputValue {
-  margin-right: -3%;
-}
-
+  /* ----------- End Input Field Design ----------- */
+  
 .top_pannel {
   height: 12vh;
 }
 
-.info_date{
-  /* margin-top: -4.5%; */
-}
-
-@media (max-width: 1199px) { 
+ /* ----------- CSS Custom for MD Screen ----------- */
+@media (max-width: 1199px) {
   .top_pannel {
     height: 100%;
   }
+
  }
+  /* ----------- End CSS Custom for MD Screen ----------- */
+
+ /* ----------- CSS Custom for XS/SM Screen ----------- */
 
 @media (max-width: 767.98px) { 
   .list-group-item {
@@ -50,25 +59,57 @@
     margin-left: auto;
     margin-right: auto;
   }
+
   .top_pannel {
     height: 100%;
   }
+
   .info_date{
     margin-top: 0px;
   }
+
+  .inputValue {
+    margin-right: 0%;
+    margin-left: 0%;
+  } 
+
+  .inputCurrency {
+    margin-right: 0%;
+    margin-left: 0%;
+    margin-top: 1.5%;
+  }
+
+  .reverse_div {
+    text-align: center;	
+    display: flex;
+    align-items: center;
+  }
+
+  .reverse {
+    margin-top: 4%;
+  }
+
  }
+ /* ----------- End CSS Custom for XS/SM Screen ----------- */
+
+ 
+ /* ----------- GRAPH Currency Design ----------- */
+ 
+ .card_graph_currency{
+   background-color: #ffffff;
+   border-style: none;
+  }
+  
+  /* ----------- End GRAPH Currency Design ----------- */
 
 .span_currency {
   font-size: '1rem';
   font-weight: bold;
 }
 
-
-/* Currency Graph Design */
-
-.card_graph_currency{
-  background-color: #ffffff;
-  border-style: none;
+.select_currency {
+  display: flex; 
+  justify-content: left;
 }
 
 .list-group-item {
@@ -80,8 +121,6 @@
   border-color: #b3b3b3;
 }
 
-/* Error Data  */
-
 .error_data{
   margin-top: 20px;
   margin-bottom: 20px; 
@@ -89,11 +128,6 @@
   height: 120px; 
   display: flex; 
   justify-content: center;
-}
-
-.select_currency {
-  display: flex; 
-  justify-content: left;
 }
 
 .btn-outline-danger:focus{
@@ -112,12 +146,18 @@
   background-color: #f7fafc;
 }
 
-/* FONT Management */
+.vertical-center {
+  min-height: 100%;  
+  display: flex;
+  align-items: center;
+}
+
+/* ----------- FONT Management ----------- */
 
 @font-face {
   font-family: 'poppinsbold';
   src: url('./fonts/poppins-bold-webfont.woff2') format('woff2'),
-       url('./fonts/poppins-bold-webfont.woff') format('woff');
+  url('./fonts/poppins-bold-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -125,7 +165,7 @@
 @font-face {
   font-family: 'poppinsmedium';
   src: url('./fonts/poppins-medium-webfont.woff2') format('woff2'),
-       url('./fonts/poppins-medium-webfont.woff') format('woff');
+  url('./fonts/poppins-medium-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -133,7 +173,7 @@
 @font-face {
   font-family: 'poppinssemibold';
   src: url('./fonts/poppins-semibold-webfont.woff2') format('woff2'),
-       url('./fonts/poppins-semibold-webfont.woff') format('woff');
+  url('./fonts/poppins-semibold-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -141,7 +181,7 @@
 @font-face {
   font-family: 'poppinsregular';
   src: url('./fonts/poppins-regular-webfont.woff2') format('woff2'),
-       url('./fonts/poppins-regular-webfont.woff') format('woff');
+  url('./fonts/poppins-regular-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -152,3 +192,4 @@ p {
   font-size: 0.85rem;
 }
 
+/* ----------- End FONT Management ----------- */

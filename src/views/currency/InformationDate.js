@@ -9,9 +9,14 @@ export default function InformationDate(props) {
         }
         else if (props.state.date && props.state.outputCurrency && props.state.inputCurrency ) {
             return (
+                <>
                 <p className="mt-3 mb-0 text-muted text-sm">
+                    <span className="text-nowrap">European Central Bank</span>
+                </p>
+                <p className="mb-0 text-muted text-sm">
                     <span className="text-nowrap">{getDatetime(Date.parse(props.state.date))}</span>
                 </p>
+                </>
             );
         }
     }

@@ -126,27 +126,27 @@ export default class Currency extends Component {
     // Set base
     setBase(selectedCurrency) {
         this.setState({ infoIsLoading: true })
-            fetchCurrency(selectedCurrency)
-                .then(response => {
-                    this.setState({ date: response.date })
-                    const currencies = []
-                    for (const [prop, value] of Object.entries(response.rates)) {
-                        const currencyName = '(' + currenciesName[prop] + ')'
-                        currencies.push({
-                            value: prop,
-                            label: `${prop} ${currencyName}`,
-                            rate: value
-                        })
-                    }
-                    this.setState({ listCurrency: currencies, isLoaded: true, hasError: false, infoIsLoading: false })
-                    if (this.state.inputValue && this.state.outputCurrency) {
-                        this.setState({ outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies) })
-                    }
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.setState({ hasError: true, infoIsLoading: false })
-                })
+        fetchCurrency(selectedCurrency)
+            .then(response => {
+                this.setState({ date: response.date })
+                const currencies = []
+                for (const [prop, value] of Object.entries(response.rates)) {
+                    const currencyName = '(' + currenciesName[prop] + ')'
+                    currencies.push({
+                        value: prop,
+                        label: `${prop} ${currencyName}`,
+                        rate: value
+                    })
+                }
+                this.setState({ listCurrency: currencies, isLoaded: true, hasError: false, infoIsLoading: false })
+                if (this.state.inputValue && this.state.outputCurrency) {
+                    this.setState({ outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies) })
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({ hasError: true, infoIsLoading: false })
+            })
     }
 
     // Get Graph Info
@@ -267,13 +267,40 @@ export default class Currency extends Component {
         return historyPercentage
     }
 
+    getListExchange(listCurrency, graphTitle) {
+        // const randInt = Math.floor((Math.random() * listCurrency.length) + 1)
+        const randInt = 1
+        for (let i = 0; i < 5; i++) {
+            console.log((listCurrency[randInt + i]))
+            const baseCurrency = graphTitle.base
+            const destCurrency = listCurrency[randInt + i]['value']
+            const startDate = graphTitle.start_at
+            const endDate = graphTitle.end_at
+            console.log(baseCurrency, destCurrency, startDate, endDate)
+
+
+            // DEBUG INFINITE LOOP !!! 
+
+            // fetchHistoryCurrency(startDate, endDate, baseCurrency, destCurrency)
+            //     .then(response => {
+            //         const orderedDates = sortDate(response)
+            //         const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency, startDate, endDate)   
+            //         this.setState({ test: historyPercentage })
+            //     })
+            //     .catch(error => {
+            //         console.log(error)
+            //         this.setState({ hasHistoryError: true })
+            //     })
+
+        }
+    }
 
     // --- RENDER ---
     render() {
 
-        console.log(this.state)
+        // if (this.state.listCurrency && this.state.graphTitle.start_at && console.log(this.getListExchange(this.state.listCurrency, this.state.graphTitle)))
+            console.log(this.state)
 
-        const listCurrency = this.state.listCurrency;
         if (this.state.hasError) {
             return (
                 <Container>
@@ -300,7 +327,7 @@ export default class Currency extends Component {
         } else {
             return (
                 <>
-                    <Index state={this.state} onValueChangeInput={this.handleValueInputChange} onValueChangeOutput={this.handleValueOutputChange} onCurrencyChangeInput={this.handleCurrencyInputChange} onCurrencyChangeOutput={this.handleCurrencyOutputChange} reverse={this.reverse}/>
+                    <Index state={this.state} onValueChangeInput={this.handleValueInputChange} onValueChangeOutput={this.handleValueOutputChange} onCurrencyChangeInput={this.handleCurrencyInputChange} onCurrencyChangeOutput={this.handleCurrencyOutputChange} reverse={this.reverse} />
                     <Container>
                         {/* Input Value & Currency */}
                         <Row>

@@ -19,6 +19,14 @@ class Header extends React.Component {
   }
   render() {
     return (
+
+      // Bootstrap Breakpoints
+      // @media (max-width: 575.98px) { ... }
+      // @media (max-width: 767.98px) { ... }
+      // @media (max-width: 991.98px) { ... }
+      // @media (max-width: 1199.98px) { ... }
+      // Col xs={12} sm={12} md={6}
+
       <>
         <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
           <Container fluid>
@@ -27,23 +35,23 @@ class Header extends React.Component {
               <Row>
                 {/* --- Input Field Card --- */}
                 <Col lg="6" xl="5">
-                  <Card className="card-stats mb-4 mb-xl-0" style={{ height: '100%' }}>
+                  <Card className="card-stats" style={{ height: '100%' }}>
                     <CardBody>
-                      <Row>
+                      <Row className='vertical-center reverse_div'> 
                         <Col lg="10" xl="10">
-                          <Row className='mt-1'>
+                          <Row>
                             <Col md="10" lg="8" xl="3">
                               <div className='inputValue'> {this.props.state && <InputValue inputValue={this.props.state.inputValue} onValueChange={this.props.onValueChangeInput} />}</div>
                             </Col>
-                            <Col lg="6" xl="8">
+                            <Col lg="6" xl="9">
                               <div className='inputCurrency'> {this.props.state && <InputCurrency listCurrency={this.props.state.listCurrency} onCurrencyChange={this.props.onCurrencyChangeInput} options={{ value: this.props.state.optionsInput.value, label: this.props.state.optionsInput.label }} />}</div>
                             </Col>
                           </Row>
-                          <Row className='mt-2'>
+                          <Row className='mt-3 mt-md-2'>
                             <Col lg="6" xl="3">
                               <div className='inputValue'> {this.props.state && <InputValue inputValue={this.props.state.outputValue} onValueChange={this.props.onValueChangeOutput} />} </div>
                             </Col>
-                            <Col lg="6" xl="8">
+                            <Col lg="6" xl="9">
                               <div className='inputCurrency'>{this.props.state && <InputCurrency listCurrency={this.props.state.listCurrency} onCurrencyChange={this.props.onCurrencyChangeOutput} options={{ value: this.props.state.optionsOutput.value, label: this.props.state.optionsOutput.label }} />} </div>
                             </Col>
                           </Row>
@@ -60,8 +68,8 @@ class Header extends React.Component {
                   </Card>
                 </Col>
                 {/* --- Information Currency Field --- */}
-                <Col lg="6" xl="2">
-                  <Card className="card-stats mb-4 mb-xl-0" style={{ height: '100%' }}>
+                <Col lg="6" xl="2" className='mt-4 mt-md-0'>
+                  <Card className="card-stats" style={{ height: '100%' }}>
                     <CardBody>
                       <Row>
                         <div className="col">
@@ -73,14 +81,13 @@ class Header extends React.Component {
                           </div>
                         </Col>
                       </Row>
-                      {/* INSERT !!! DATE */}
                       <InformationDate state={this.props.state} />
                     </CardBody>
                   </Card>
                 </Col>
                 {/* --- HIstorical Value Field --- */}
-                <Col lg="6" xl="2">
-                  <Card className="card-stats mb-4 mb-xl-0" style={{ height: '100%' }}>
+                <Col lg="6" xl="2" className='mt-4 mt-md-0 mb-1 mb-xl-0'>
+                  <Card className="card-stats " style={{ height: '100%' }}>
                     <CardBody>
                       <Row>
                         <div className="col">

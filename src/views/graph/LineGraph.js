@@ -28,7 +28,7 @@ export default class LineGraph extends Component {
 		}
 
 		// Component should update if props.style is different than nextProps.style
-		if (this.props.style !== nextProps.style) {
+		if (this.props.style.backgroundColor !== nextProps.style.backgroundColor) {
 			return true
 		}
 
@@ -77,7 +77,7 @@ export default class LineGraph extends Component {
 							ticks: {
 								display: true,
 								autoSkip: true,
-								maxTicksLimit: 7,
+								maxTicksLimit: style.maxTicksLimit,
 							},
 							gridLines: {
 								display: true,
@@ -88,7 +88,7 @@ export default class LineGraph extends Component {
 					yAxes: [
 						{
 							ticks: {
-								maxTicksLimit: 3,
+								maxTicksLimit: 6,
 								display: true,
 							},
 							gridLines: {

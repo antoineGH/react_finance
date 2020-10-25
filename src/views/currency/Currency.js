@@ -367,18 +367,6 @@ export default class Currency extends Component {
 						active={this.state.active}
 						setActive={this.setActive}
 					/>
-					<Container>
-						<Row>
-							<Col xs={12} sm={12} md={12} lg={8}>
-								{/* Display Graph */}
-								{/* <Row className='justify-content-center text-center mt-2 mt-md-5'>
-                                <Col>
-                                    {this.state.inputCurrency && this.state.outputCurrency && this.state.isHistoryLoaded && <CurrencyGraph graphValues={this.state.graphValues} graphLegend={this.state.graphLegend} graphTitle={this.state.graphTitle} getGraphInfo={this.getGraphInfo} active={this.state.active} setActive={this.setActive} />}
-                                </Col>
-                            </Row> */}
-							</Col>
-						</Row>
-					</Container>
 				</>
 			)
 		}

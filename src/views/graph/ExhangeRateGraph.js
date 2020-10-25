@@ -38,11 +38,22 @@ export default class ExhangeRateGraph extends Component {
 			pointBackgroundColor: 'rgb(255, 93, 93)',
 			pointHoverRadius: 8,
 			pointHoverBackgroundColor: 'rgb(255, 93, 93)',
+			maxTicksLimit: 8,
 		}
 		this.setState({ style: currency_style })
 	}
 
 	getYear() {
+		const currency_style = {
+			borderColor: 'rgb(255, 93, 93)',
+			backgroundColor: 'rgba(255, 10, 13, 0.1)',
+			pointRadius: 1,
+			pointBackgroundColor: 'rgb(255, 93, 93)',
+			pointHoverRadius: 8,
+			pointHoverBackgroundColor: 'rgb(255, 93, 93)',
+			maxTicksLimit: 12,
+		}
+		this.setState({ style: currency_style })
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'years')
@@ -51,6 +62,16 @@ export default class ExhangeRateGraph extends Component {
 	}
 
 	getSixMonths() {
+		const currency_style = {
+			borderColor: 'rgb(255, 93, 93)',
+			backgroundColor: 'rgba(255, 10, 13, 0.1)',
+			pointRadius: 1,
+			pointBackgroundColor: 'rgb(255, 93, 93)',
+			pointHoverRadius: 8,
+			pointHoverBackgroundColor: 'rgb(255, 93, 93)',
+			maxTicksLimit: 6,
+		}
+		this.setState({ style: currency_style })
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		let end_date = getDateBefore(date, 6, 'months')
@@ -77,6 +98,16 @@ export default class ExhangeRateGraph extends Component {
 	}
 
 	getWeek() {
+		const currency_style = {
+			borderColor: 'rgb(255, 93, 93)',
+			backgroundColor: 'rgba(255, 10, 13, 0.1)',
+			pointRadius: 1,
+			pointBackgroundColor: 'rgb(255, 93, 93)',
+			pointHoverRadius: 8,
+			pointHoverBackgroundColor: 'rgb(255, 93, 93)',
+			maxTicksLimit: 7,
+		}
+		this.setState({ style: currency_style })
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 9, 'days')

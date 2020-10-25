@@ -1,0 +1,155 @@
+import React, { Component } from 'react'
+import getDate from '../currency/utils/getDate'
+import getDateBefore from '../currency/utils/getDateBefore'
+import getDateAfter from '../currency/utils/getDateAfter'
+import LineGraph from './LineGraph'
+import { Card, CardHeader, CardBody, NavItem, NavLink, Nav, Row, Col } from 'reactstrap'
+
+export default class ExhangeRateGraph extends Component {
+	// --- CLASS CONSTRUCTOR ---
+	constructor(props) {
+		super(props)
+		this.getYear = this.getYear.bind(this)
+		this.getSixMonths = this.getSixMonths.bind(this)
+		this.getThreeMonths = this.getThreeMonths.bind(this)
+		this.getMonth = this.getMonth.bind(this)
+		this.getWeek = this.getWeek.bind(this)
+		this.state = {
+			style: {},
+		}
+	}
+
+	// --- COMPONENT LIFECYCLE ---
+	componentDidMount() {
+		this.createMockData()
+	}
+
+	// --- CLASS METHODS ---
+
+	handleActive(active) {
+		this.props.setActive(active)
+	}
+
+	createMockData() {
+		const currency_style = {
+			borderColor: 'rgb(255, 93, 93)',
+			backgroundColor: 'rgba(255, 10, 13, 0.1)',
+			pointRadius: 1,
+			pointBackgroundColor: 'rgb(255, 93, 93)',
+			pointHoverRadius: 8,
+			pointHoverBackgroundColor: 'rgb(255, 93, 93)',
+		}
+		this.setState({ style: currency_style })
+	}
+
+	getYear() {
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		const end_date = getDateBefore(date, 1, 'years')
+		this.props.getGraphInfo(end_date, start_date, this.props.graphTitle.base, this.props.graphTitle.dest)
+		this.handleActive('1Y')
+	}
+
+	getSixMonths() {
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		let end_date = getDateBefore(date, 6, 'months')
+		end_date = getDateAfter(end_date, 2, 'days')
+		this.props.getGraphInfo(end_date, start_date, this.props.graphTitle.base, this.props.graphTitle.dest)
+		this.handleActive('6M')
+	}
+
+	getThreeMonths() {
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		let end_date = getDateBefore(date, 3, 'months')
+		end_date = getDateAfter(end_date, 2, 'days')
+		this.props.getGraphInfo(end_date, start_date, this.props.graphTitle.base, this.props.graphTitle.dest)
+		this.handleActive('3M')
+	}
+
+	getMonth() {
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		const end_date = getDateBefore(date, 1, 'months')
+		this.props.getGraphInfo(end_date, start_date, this.props.graphTitle.base, this.props.graphTitle.dest)
+		this.handleActive('1M')
+	}
+
+	getWeek() {
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		const end_date = getDateBefore(date, 9, 'days')
+		this.props.getGraphInfo(end_date, start_date, this.props.graphTitle.base, this.props.graphTitle.dest)
+		this.handleActive('1W')
+	}
+
+	render() {
+		const { graphValues, graphLegend, graphTitle } = this.props
+		const style = this.state.style
+
+		return (
+			<>
+				<Col className='mb-5 mb-xl-0' xl='8'>
+					<Card className='bg-gradient-default shadow'>
+						<CardHeader className='bg-transparent'>
+							<Row className='align-items-center'>
+								<div className='col'>
+									<h6 className='text-uppercase text-light ls-1 mb-1'>
+										<span style={{ fontSize: '0.80rem' }}>Period: {this.props.active} </span>({this.props.graphTitle.start_at} -{' '}
+										{this.props.graphTitle.end_at})
+									</h6>
+									<h2 className='text-white mb-0'>
+										Exchange Rate{' '}
+										<span style={{ fontSize: '0.80rem' }}>
+											({this.props.graphTitle.base} - {this.props.graphTitle.dest})
+										</span>
+									</h2>
+								</div>
+								<div className='col'>
+									<Nav className='justify-content-end' pills>
+										<NavItem>
+											<NavLink className={this.props.active === '1W' ? 'active' : ''} onClick={this.getWeek} href='#1W'>
+												<span className='d-none d-md-block'>1W</span>
+												<span className='d-md-none'>1W</span>
+											</NavLink>
+										</NavItem>
+										<NavItem>
+											<NavLink className={this.props.active === '1M' ? 'active' : ''} onClick={this.getMonth} href='#1M'>
+												<span className='d-none d-md-block'>1M</span>
+												<span className='d-md-none'>1M</span>
+											</NavLink>
+										</NavItem>
+										<NavItem>
+											<NavLink className={this.props.active === '3M' ? 'active' : ''} onClick={this.getThreeMonths} href='#3M'>
+												<span className='d-none d-md-block'>3M</span>
+												<span className='d-md-none'>3M</span>
+											</NavLink>
+										</NavItem>
+										<NavItem>
+											<NavLink className={this.props.active === '6M' ? 'active' : ''} onClick={this.getSixMonths} href='#6M'>
+												<span className='d-none d-md-block'>6M</span>
+												<span className='d-md-none'>6M</span>
+											</NavLink>
+										</NavItem>
+										<NavItem>
+											<NavLink className={this.props.active === '1Y' ? 'active' : ''} onClick={this.getYear} href='#1Y'>
+												<span className='d-none d-md-block'>1Y</span>
+												<span className='d-md-none'>1Y</span>
+											</NavLink>
+										</NavItem>
+									</Nav>
+								</div>
+							</Row>
+						</CardHeader>
+						<CardBody>
+							<div className='chart'>
+								<LineGraph graphValues={graphValues} graphLegend={graphLegend} graphTitle={graphTitle} style={style} />
+							</div>
+						</CardBody>
+					</Card>
+				</Col>
+			</>
+		)
+	}
+}

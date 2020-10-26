@@ -37,6 +37,7 @@ export default class ExhangeRateGraph extends Component {
 			pointRadius: 1,
 			pointBackgroundColor: 'rgb(255, 93, 93)',
 			pointHoverRadius: 8,
+
 			pointHoverBackgroundColor: 'rgb(255, 93, 93)',
 			maxTicksLimit: 8,
 		}

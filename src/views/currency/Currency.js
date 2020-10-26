@@ -42,12 +42,9 @@ export default class Currency extends Component {
 		this.state = {
 			isLoaded: false,
 			hasError: false,
-
 			isHistoryLoaded: false,
 			hasHistoryError: false,
-
 			infoIsLoading: false,
-
 			listCurrency: '',
 			listCurrencyHistory: [],
 			inputCurrency: 'USD',
@@ -56,14 +53,16 @@ export default class Currency extends Component {
 			inputValue: '1',
 			outputValue: '',
 			historyPercentage: '',
-
 			active: '1M',
 			graphLegend: {},
 			graphValues: {},
 			graphTitle: {},
-
 			optionsInput: { value: 'USD', label: 'USD' },
 			optionsOutput: { value: 'EUR', label: 'EUR' },
+			graphHistoryLegend: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+			graphHistoryValue: [],
+			hasGraphHistoryError: false,
+			isGraphHistoryLoaded: false,
 		}
 	}
 
@@ -107,6 +106,7 @@ export default class Currency extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
 		this.getGraphInfo(end_date, start_date, 'USD', 'EUR')
+		this.getHistoryGraphInfo(end_date, 'USD', 'EUR')
 	}
 
 	// --- CLASS METHODS ---
@@ -119,7 +119,7 @@ export default class Currency extends Component {
 			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)
 				.then((response) => {
 					const orderedDates = sortDate(response)
-					const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency, endDate, startDate)
+					const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency)
 					const keyEndDate = Object.keys(orderedDates)[orderedDates.length]
 					const rate = orderedDates[keyEndDate][destCurrency]
 
@@ -185,7 +185,7 @@ export default class Currency extends Component {
 					end_at: endDate,
 				}
 				const orderedDates = sortDate(response)
-				const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency, startDate, endDate)
+				const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency)
 				const { graphLegend, graphValues } = genValues(orderedDates, destCurrency)
 				this.setState({
 					graphLegend: graphLegend,
@@ -199,6 +199,36 @@ export default class Currency extends Component {
 				console.log(error)
 				this.setState({ hasHistoryError: true })
 			})
+	}
+
+	// Get Historical Graph Info
+	getHistoryGraphInfo(endDate, baseCurrency, destCurrency) {
+		const graphHistoryDates = []
+		const graphHistoryValue = []
+
+		// Array with date interval of 1 month from endDate to graphHistoryLegend.length (12 months)
+		for (let i = 0; i <= this.state.graphHistoryLegend.length; i++) {
+			endDate = getDateBefore(endDate, 1, 'months')
+			graphHistoryDates.push(endDate)
+		}
+
+		// While we have more than 2 values in the Array, get last elements in Array and its previous to fetchHistoryCurrency
+		while (graphHistoryDates.length >= 2) {
+			const startDate = graphHistoryDates[graphHistoryDates.length - 1]
+			const endDate = graphHistoryDates[graphHistoryDates.length - 2]
+			fetchHistoryCurrency(startDate, endDate, baseCurrency, destCurrency)
+				.then((response) => {
+					const orderedDates = sortDate(response)
+					const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency)
+					graphHistoryValue.push(historyPercentage)
+				})
+				.catch((error) => {
+					console.log(error)
+					this.setState({ hasGraphHistoryError: true })
+				})
+			graphHistoryDates.pop()
+		}
+		this.setState({ graphHistoryValue: graphHistoryValue, isGraphHistoryLoaded: true })
 	}
 
 	// Currency input change
@@ -317,11 +347,12 @@ export default class Currency extends Component {
 	}
 
 	// Calculate Historical %
-	getHistoryPercentage(orderedDates, destCurrency, startDate, endDate) {
-		// Get 2 days ago
-		const endDateMinusOne = getDateBefore(endDate, 2, 'days')
-		const t0 = orderedDates[startDate][destCurrency]
-		const t1 = orderedDates[endDateMinusOne][destCurrency]
+	getHistoryPercentage(orderedDates, destCurrency) {
+		const orderedDatesKeys = Object.keys(orderedDates)
+		const firstKey = orderedDatesKeys[0]
+		const lastKey = orderedDatesKeys[orderedDatesKeys.length - 1]
+		const t0 = orderedDates[firstKey][destCurrency]
+		const t1 = orderedDates[lastKey][destCurrency]
 
 		// Formula Historical Evolution % = ((t1 - t0) / t0) * 100
 		let historyPercentage = ((t1 - t0) / t0) * 100
@@ -347,7 +378,7 @@ export default class Currency extends Component {
 					<Row>
 						<Col xs={12} sm={12} md={12} lg={8}>
 							<div className='mt-5'>
-								<ScaleLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
+								<ScaleLoader css='display: flex; justify-content: center; margin-left:auto; margin-right:auto;' color={'#2E3030'} size={15} />
 							</div>
 						</Col>
 					</Row>

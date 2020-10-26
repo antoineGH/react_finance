@@ -8,10 +8,10 @@ export default class HistoricalExchangeRate extends Component {
 			<Table className='align-items-center table-flush' responsive>
 				<thead className='thead-light'>
 					<tr>
-						<th scope='col'>Base Currency</th>
-						<th scope='col'>Destination Currency</th>
-						<th scope='col'>Exchange Rate</th>
-						<th scope='col'>Historical Exchange Rate</th>
+						<th scope='col'>Base</th>
+						<th scope='col'>Destination</th>
+						<th scope='col'>Rate</th>
+						<th scope='col'>Historical Rate</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -21,7 +21,7 @@ export default class HistoricalExchangeRate extends Component {
 						return (
 							<tr key={count}>
 								<th scope='row'>{listCurrency.baseCurrency}</th>
-								<td>{listCurrency.destCurrency}</td>
+								<td style={{ fontWeight: 600 }}>{listCurrency.destCurrency}</td>
 								<td>{rate}</td>
 								<td>
 									{listCurrency.historyPercentage >= 0 ? (

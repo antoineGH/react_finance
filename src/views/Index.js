@@ -2,7 +2,8 @@ import React from 'react'
 import Header from 'components/Headers/Header.js'
 import HistoricalExchangeRate from './currency/HistoricalExchangeRate'
 import ExhangeRateGraph from './graph/ExhangeRateGraph'
-import { Button, Card, CardHeader, CardBody, Progress, Table, Container, Row, Col } from 'reactstrap'
+import HistoricalExchangeRateGraph from './graph/HistoricalExchangeRateGraph'
+import { Button, Card, CardHeader, Progress, Table, Container, Row, Col } from 'reactstrap'
 
 // INDEX CLASS MANAGE GRAPHS AND ARRAYS
 class Index extends React.Component {
@@ -47,22 +48,12 @@ class Index extends React.Component {
 							/>
 						)}
 						{/* TOTAL ORDER GRAPH */}
-						<Col xl='4'>
-							<Card className='shadow'>
-								<CardHeader className='bg-transparent'>
-									<Row className='align-items-center'>
-										<div className='col'>
-											<h6 className='text-uppercase text-muted ls-1 mb-1'>Performance</h6>
-											<h2 className='mb-0'>Total orders</h2>
-										</div>
-									</Row>
-								</CardHeader>
-								<CardBody>
-									{/* BUG: DISABLED TOTAL ORDER GRAPH */}
-									{/* Chart */}
-									<div className='chart'>{/* <Bar data={chartExample2.data} options={chartExample2.options} /> */}</div>
-								</CardBody>
-							</Card>
+						<Col xl='6'>
+							<HistoricalExchangeRateGraph
+								graphHistoryValue={this.props.state.graphHistoryValue}
+								graphHistoryLegend={this.props.state.graphHistoryLegend}
+								graphTitle={this.props.state.graphTitle}
+							/>
 						</Col>
 					</Row>
 					<Row className='mt-5'>

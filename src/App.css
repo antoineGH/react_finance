@@ -1,194 +1,191 @@
- /* ----------- Input Field Design ----------- */
+/* ----------- Input Field Design ----------- */
 
- .form-control {
-   display: block;
-   width: 100%;
-   height: calc(1.5em + .75rem);
-   padding: .0rem .75rem;
-   font-size: 1rem;
-   font-weight: 400;
-   line-height: 1.5;
-   color: #495057;
-   background-color: #fff;
-   background-clip: padding-box;
-   border: 1px solid #ced4da;
-   border-radius: .25rem;
-  }
-
-  .form-control:focus {
-    color: #495057;
-    background-color: #fff;
-    outline: 0;
-    box-shadow: 0 0 0 0.1rem rgba(39, 93, 240, 0.25);
-  }
-  
-  .react-dropdown-select-content  {
-    width: 50%;
-  }
-  
-  .inputValue {
-    margin-left: 0%;
-  }
-  
-  .inputCurrency {
-    margin-right: 0%;
-;
-  }
-
-  /* ----------- End Input Field Design ----------- */
-  
-.top_pannel {
-  height: 12vh;
+.form-control {
+	display: block;
+	width: 100%;
+	height: calc(1.5em + 0.75rem);
+	padding: 0rem 0.75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: 0.25rem;
 }
 
- /* ----------- CSS Custom for MD/LG Screen ----------- */
+.form-control:focus {
+	color: #495057;
+	background-color: #fff;
+	outline: 0;
+	box-shadow: 0 0 0 0.1rem rgba(39, 93, 240, 0.25);
+}
+
+.react-dropdown-select-content {
+	width: 50%;
+}
+
+.inputValue {
+	margin-left: 0%;
+}
+
+.inputCurrency {
+	margin-right: 0%;
+}
+
+/* ----------- End Input Field Design ----------- */
+
+.top_pannel {
+	height: 12vh;
+}
+
+.nav-pills .nav-item:not(:last-child) {
+	padding-right: 0.1rem;
+	margin-bottom: 0.5rem;
+}
+
+/* ----------- CSS Custom for MD/LG Screen ----------- */
 @media (max-width: 1199px) {
-  .top_pannel {
-    height: 100%;
-  }
+	.top_pannel {
+		height: 100%;
+	}
 
-  .inputValue {
-    margin-right: 0%;
-    margin-left: 0%;
-  } 
+	.inputValue {
+		margin-right: 0%;
+		margin-left: 0%;
+	}
 
-  .inputCurrency {
-    margin-right: 0%;
-    margin-left: 0%;
-    margin-top: 0%;
-  }
+	.inputCurrency {
+		margin-right: 0%;
+		margin-left: 0%;
+		margin-top: 0%;
+	}
 
-  .reverse_div {
-    text-align: center;	
-    display: flex;
-    align-items: center;
-  }
+	.reverse_div {
+		text-align: center;
+		display: flex;
+		align-items: center;
+	}
 
-  .reverse {
-    margin-top: 4%;
-  }
+	.reverse {
+		margin-top: 4%;
+	}
+}
+/* ----------- End CSS Custom for MD Screen ----------- */
 
- }
-  /* ----------- End CSS Custom for MD Screen ----------- */
+/* ----------- CSS Custom for XS/SM Screen ----------- */
 
- /* ----------- CSS Custom for XS/SM Screen ----------- */
+@media (max-width: 767.98px) {
+	.list-group-item {
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+	}
 
-@media (max-width: 767.98px) { 
-  .list-group-item {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+	.top_pannel {
+		height: 100%;
+	}
 
-  .top_pannel {
-    height: 100%;
-  }
+	.info_date {
+		margin-top: 0px;
+	}
+}
+/* ----------- End CSS Custom for XS/SM Screen ----------- */
 
-  .info_date{
-    margin-top: 0px;
-  }
+/* ----------- GRAPH Currency Design ----------- */
 
- }
- /* ----------- End CSS Custom for XS/SM Screen ----------- */
+.card_graph_currency {
+	background-color: #ffffff;
+	border-style: none;
+}
 
- 
- /* ----------- GRAPH Currency Design ----------- */
- 
- .card_graph_currency{
-   background-color: #ffffff;
-   border-style: none;
-  }
-  
-  /* ----------- End GRAPH Currency Design ----------- */
+/* ----------- End GRAPH Currency Design ----------- */
 
 .span_currency {
-  font-size: '1rem';
-  font-weight: bold;
+	font-size: '1rem';
+	font-weight: bold;
 }
 
 .select_currency {
-  display: flex; 
-  justify-content: left;
+	display: flex;
+	justify-content: left;
 }
 
 .list-group-item {
-  padding: .15rem 1.25rem;
+	padding: 0.15rem 1.25rem;
 }
 
 .list-group-item.active {
-  background-color: #282c31;
-  border-color: #b3b3b3;
+	background-color: #282c31;
+	border-color: #b3b3b3;
 }
 
-.error_data{
-  margin-top: 20px;
-  margin-bottom: 20px; 
-  padding-top: 42px; 
-  height: 120px; 
-  display: flex; 
-  justify-content: center;
+.error_data {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 42px;
+	height: 120px;
+	display: flex;
+	justify-content: center;
 }
 
-.btn-outline-danger:focus{
-  outline: 0 !important;
-  outline-offset: 0  !important;
-  background-image: none  !important;
-  -webkit-box-shadow: none !important;
-  box-shadow: none  !important;
+.btn-outline-danger:focus {
+	outline: 0 !important;
+	outline-offset: 0 !important;
+	background-image: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
 }
 
-.btn-secondary:focus{
-  outline: 0 !important;
-  outline-offset: 0  !important;
-  border: 0;
-  color: black;
-  background-color: #f7fafc;
+.btn-secondary:focus {
+	outline: 0 !important;
+	outline-offset: 0 !important;
+	border: 0;
+	color: black;
+	background-color: #f7fafc;
 }
 
 .vertical-center {
-  min-height: 100%;  
-  display: flex;
-  align-items: center;
+	min-height: 100%;
+	display: flex;
+	align-items: center;
 }
 
 /* ----------- FONT Management ----------- */
 
 @font-face {
-  font-family: 'poppinsbold';
-  src: url('./fonts/poppins-bold-webfont.woff2') format('woff2'),
-  url('./fonts/poppins-bold-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+	font-family: 'poppinsbold';
+	src: url('./fonts/poppins-bold-webfont.woff2') format('woff2'), url('./fonts/poppins-bold-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'poppinsmedium';
-  src: url('./fonts/poppins-medium-webfont.woff2') format('woff2'),
-  url('./fonts/poppins-medium-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+	font-family: 'poppinsmedium';
+	src: url('./fonts/poppins-medium-webfont.woff2') format('woff2'), url('./fonts/poppins-medium-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'poppinssemibold';
-  src: url('./fonts/poppins-semibold-webfont.woff2') format('woff2'),
-  url('./fonts/poppins-semibold-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+	font-family: 'poppinssemibold';
+	src: url('./fonts/poppins-semibold-webfont.woff2') format('woff2'), url('./fonts/poppins-semibold-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'poppinsregular';
-  src: url('./fonts/poppins-regular-webfont.woff2') format('woff2'),
-  url('./fonts/poppins-regular-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+	font-family: 'poppinsregular';
+	src: url('./fonts/poppins-regular-webfont.woff2') format('woff2'), url('./fonts/poppins-regular-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 p {
-  font-family: 'poppinsregular';
-  color: #474747;
-  font-size: 0.85rem;
+	font-family: 'poppinsregular';
+	color: #474747;
+	font-size: 0.85rem;
 }
 
 /* ----------- End FONT Management ----------- */

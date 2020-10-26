@@ -122,11 +122,11 @@ export default class ExhangeRateGraph extends Component {
 
 		return (
 			<>
-				<Col className='mb-5 mb-xl-0' xl='8'>
+				<Col className='mb-5 mb-xl-0' xl='6'>
 					<Card className='bg-gradient-default shadow'>
 						<CardHeader className='bg-transparent'>
 							<Row className='align-items-center'>
-								<div className='col'>
+								<div className='col-12 col-lg-6'>
 									<h6 className='text-uppercase text-light ls-1 mb-1'>
 										<span style={{ fontSize: '0.80rem' }}>Period: {this.props.active} </span>({this.props.graphTitle.start_at} -{' '}
 										{this.props.graphTitle.end_at})
@@ -138,7 +138,7 @@ export default class ExhangeRateGraph extends Component {
 										</span>
 									</h2>
 								</div>
-								<div className='col'>
+								<div className='col-12 col-lg-6 mt-4 mt-xl-0'>
 									<Nav className='justify-content-end' pills>
 										<NavItem>
 											<NavLink className={this.props.active === '1W' ? 'active' : ''} onClick={this.getWeek} href='#'>

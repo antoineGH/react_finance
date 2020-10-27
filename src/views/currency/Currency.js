@@ -16,6 +16,7 @@ import genValues from './utils/genValues'
 import getDate from './utils/getDate'
 import getDateBefore from './utils/getDateBefore'
 import fetchHistoryCurrency from './utils/fetchHistoryCurrency'
+import getMonth from './utils/getMonth'
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -202,15 +203,28 @@ export default class Currency extends Component {
 	}
 
 	// Get Historical Graph Info
+	// TODO: Update Months Graph
 	getHistoryGraphInfo(endDate, baseCurrency, destCurrency) {
 		const graphHistoryDates = []
 		const graphHistoryValue = []
 
 		// Array with date interval of 1 month from endDate to graphHistoryLegend.length (12 months)
 		for (let i = 0; i <= this.state.graphHistoryLegend.length; i++) {
-			endDate = getDateBefore(endDate, 1, 'months')
 			graphHistoryDates.push(endDate)
+			endDate = getDateBefore(endDate, 1, 'months')
 		}
+
+		const graphHistoryDateLegend = []
+		// graphHistoryDates -1 at the beggingin
+		// graphHistoryDates.shift()
+		graphHistoryDates.forEach((date) => {
+			const month = getMonth(date)
+			graphHistoryDateLegend.push(month)
+		})
+		graphHistoryDateLegend.reverse()
+		graphHistoryDateLegend.shift()
+		console.log(graphHistoryDateLegend)
+		this.setState({ graphHistoryDateLegend: graphHistoryDateLegend })
 
 		// While we have more than 2 values in the Array, get last elements in Array and its previous to fetchHistoryCurrency
 		while (graphHistoryDates.length >= 2) {

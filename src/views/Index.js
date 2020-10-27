@@ -51,7 +51,7 @@ class Index extends React.Component {
 						<Col xl='6'>
 							<HistoricalExchangeRateGraph
 								graphHistoryValue={this.props.state.graphHistoryValue}
-								graphHistoryLegend={this.props.state.graphHistoryLegend}
+								graphHistoryLegend={this.props.state.graphHistoryDateLegend}
 								graphTitle={this.props.state.graphTitle}
 							/>
 						</Col>

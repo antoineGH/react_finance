@@ -154,7 +154,8 @@ class Header extends React.Component {
 															<HistoryPercentage HistoricalPercentage={this.props.state.historyPercentage} />
 														</p>
 														<h6 class='text-uppercase text-muted ls-1 mb-1 mt-3'>
-															<span style={{ fontSize: '0.8rem' }}>Period: 1M </span>({start_date} - {end_date}){' '}
+															<span style={{ fontSize: '0.8rem' }}>Period: {this.props.state.active} </span>(
+															{this.props.state.graphTitle.start_at} - {this.props.state.graphTitle.end_at}){' '}
 														</h6>
 													</>
 												)}

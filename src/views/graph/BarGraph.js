@@ -26,7 +26,7 @@ export default class BarGraph extends Component {
 	// 	}
 
 	// 	// Component should update if props.style is different than nextProps.style
-	// 	if (this.props.style.backgroundColor !== nextProps.style.backgroundColor) {
+	// 	if (this.props.style !== nextProps.style) {
 	// 		return true
 	// 	}
 

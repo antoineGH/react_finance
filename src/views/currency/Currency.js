@@ -115,7 +115,9 @@ export default class Currency extends Component {
 	// Get List Exchange
 	getListExchange(startDate, endDate, baseCurrency, listCurrency) {
 		for (let i = 0; i < 5; i++) {
-			const randInt = Math.floor(Math.random() * listCurrency.length + 1)
+			const randInt = Math.floor(Math.random() * listCurrency.length)
+			console.log(randInt)
+			console.log(listCurrency[randInt]['value'])
 			const destCurrency = listCurrency[randInt]['value']
 			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)
 				.then((response) => {
@@ -214,8 +216,6 @@ export default class Currency extends Component {
 		}
 
 		const graphHistoryDateLegend = []
-		// graphHistoryDates -1 at the beggingin
-		// graphHistoryDates.shift()
 		graphHistoryDates.forEach((date) => {
 			const month = getMonth(date)
 			graphHistoryDateLegend.push(month)
@@ -264,8 +264,10 @@ export default class Currency extends Component {
 
 		if (this.state.outputCurrency === '') {
 			this.getGraphInfo(end_date, start_date, selectedCurrency, 'EUR')
+			this.getHistoryGraphInfo(end_date, selectedCurrency, 'EUR')
 		} else {
 			this.getGraphInfo(end_date, start_date, selectedCurrency, this.state.outputCurrency)
+			this.getHistoryGraphInfo(end_date, selectedCurrency, this.state.outputCurrency)
 		}
 		this.setState({ listCurrencyHistory: [] })
 		this.getListExchange(start_date, end_date, selectedCurrency, this.state.listCurrency)
@@ -295,6 +297,7 @@ export default class Currency extends Component {
 			const start_date = getDate(date)
 			const end_date = getDateBefore(date, 1, 'months')
 			this.getGraphInfo(end_date, start_date, this.state.inputCurrency, selectedCurrency)
+			this.getHistoryGraphInfo(end_date, this.state.inputCurrency, selectedCurrency)
 			setTimeout(() => {
 				this.setState({ active: '1M' })
 			}, 500)
@@ -351,6 +354,7 @@ export default class Currency extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
 		this.getGraphInfo(end_date, start_date, outputCurrency, inputCurrency)
+		this.getHistoryGraphInfo(end_date, outputCurrency, inputCurrency)
 		this.setState({ listCurrencyHistory: [] })
 		this.getListExchange(start_date, end_date, outputCurrency, this.state.listCurrency)
 		setTimeout(() => {

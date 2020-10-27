@@ -29,7 +29,7 @@ class Header extends React.Component {
 								<Col lg='12' xl='6'>
 									<Card className='card-stats' style={{ height: '100%' }}>
 										<CardBody>
-											<Row className='vertical-center reverse_div'>
+											<Row className='vertical-center reverse_div mt-3'>
 												<Col lg='10' xl='10'>
 													<Row>
 														<Col lg='3' xl='4'>

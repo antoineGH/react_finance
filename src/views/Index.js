@@ -37,22 +37,22 @@ class Index extends React.Component {
 				<Container className='mt--7' fluid>
 					<Row>
 						{/* OVERVIEW MAIN GRAPH */}
-						{this.props.state.inputCurrency && this.props.state.outputCurrency && this.props.state.isHistoryLoaded && (
-							<ExhangeRateGraph
-								graphValues={this.props.state.graphValues}
-								graphLegend={this.props.state.graphLegend}
-								graphTitle={this.props.state.graphTitle}
-								getGraphInfo={this.getGraphInfo}
-								active={this.props.state.active}
-								setActive={this.props.setActive}
-							/>
-						)}
+						<ExhangeRateGraph
+							graphValues={this.props.state.graphValues}
+							graphLegend={this.props.state.graphLegend}
+							graphTitle={this.props.state.graphTitle}
+							getGraphInfo={this.getGraphInfo}
+							active={this.props.state.active}
+							setActive={this.props.setActive}
+							state={this.props.state}
+						/>
 						{/* TOTAL ORDER GRAPH */}
 						<Col xl='6'>
 							<HistoricalExchangeRateGraph
 								graphHistoryValue={this.props.state.graphHistoryValue}
 								graphHistoryLegend={this.props.state.graphHistoryDateLegend}
 								graphTitle={this.props.state.graphTitle}
+								state={this.props.state}
 							/>
 						</Col>
 					</Row>
@@ -67,7 +67,7 @@ class Index extends React.Component {
 										</div>
 									</Row>
 								</CardHeader>
-								<HistoricalExchangeRate listCurrencyHistory={this.props.state.listCurrencyHistory} />
+								<HistoricalExchangeRate listCurrencyHistory={this.props.state.listCurrencyHistory} state={this.props.state} />
 							</Card>
 						</Col>
 						{/* SOCIAL TRAFFIC */}

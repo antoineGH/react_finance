@@ -1,3 +1,49 @@
+/* ---- Main Theme Design  ---- */
+
+.card {
+	min-height: 13vh;
+}
+
+.bg-gradient-info {
+	background: linear-gradient(87deg, #1e3c72 0, #2a5298 100%) !important;
+}
+
+.bg-gradient-default {
+	background: white !important;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #22437f;
+	border-color: #234480;
+}
+
+.btn-primary:hover {
+	color: #fff;
+	background-color: #1c386b;
+	border-color: #1e3a6d;
+}
+
+.bg-info {
+	background-color: #193464 !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+	color: #fff;
+	background-color: #233a64;
+}
+
+.nav-pills .nav-link {
+	color: #204079;
+	font-weight: 500;
+	font-size: 0.875rem;
+}
+
+.text-muted {
+	color: #53677d !important;
+}
+
 /* ----------- Input Field Design ----------- */
 
 .form-control {
@@ -73,6 +119,12 @@
 	}
 }
 /* ----------- End CSS Custom for MD Screen ----------- */
+
+@media (min-width: 767.98px) {
+	.navbar-vertical.navbar-expand-md .navbar-brand-img {
+		margin-right: 5%;
+	}
+}
 
 /* ----------- CSS Custom for XS/SM Screen ----------- */
 

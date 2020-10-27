@@ -5,37 +5,34 @@ import Chart from 'chart.js'
 let myBarChart
 
 export default class BarGraph extends Component {
-	chartRef = React.createRef()
+	barchartRef = React.createRef()
 
 	// call buildChart function on Mount
 	componentDidMount() {
-		this.buildChart()
-		const { graphValues, graphLegend, graphTitle } = this.props
-		this.setState({ graphLegend: graphLegend, graphTitle: graphTitle, graphValues: graphValues })
+		setTimeout(() => {
+			this.buildChart()
+		}, 1200)
 	}
 
 	// call buildChart function on Update
 	componentDidUpdate() {
-		this.buildChart()
+		setTimeout(() => {
+			this.buildChart()
+		}, 1200)
 	}
 
-	// shouldComponentUpdate(nextProps) {
-	// 	// Component should update if props.graphValues is different than nextProps.graphValue
-	// 	if (this.props.graphValues !== nextProps.graphValues) {
-	// 		return true
-	// 	}
+	shouldComponentUpdate(nextProps) {
+		// Component should update if props.graphValues is different than nextProps.graphValue
+		if (this.props.graphValues !== nextProps.graphValues) {
+			return true
+		}
 
-	// 	// Component should update if props.style is different than nextProps.style
-	// 	if (this.props.style !== nextProps.style) {
-	// 		return true
-	// 	}
-
-	// 	// Otherwise component shouldn't update
-	// 	return false
-	// }
+		// Otherwise component shouldn't update
+		return false
+	}
 
 	buildChart() {
-		const MyBarChartRef = this.chartRef.current.getContext('2d')
+		const MyBarChartRef = this.barchartRef.current.getContext('2d')
 		const { graphValues, graphLegend } = this.props
 
 		if (typeof myBarChart !== 'undefined') myBarChart.destroy()
@@ -75,7 +72,7 @@ export default class BarGraph extends Component {
 	render() {
 		return (
 			<>
-				<canvas id='myChart' ref={this.chartRef} />
+				<canvas id='myChart' ref={this.barchartRef} />
 			</>
 		)
 	}

@@ -116,8 +116,6 @@ export default class Currency extends Component {
 	getListExchange(startDate, endDate, baseCurrency, listCurrency) {
 		for (let i = 0; i < 5; i++) {
 			const randInt = Math.floor(Math.random() * listCurrency.length)
-			console.log(randInt)
-			console.log(listCurrency[randInt]['value'])
 			const destCurrency = listCurrency[randInt]['value']
 			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)
 				.then((response) => {

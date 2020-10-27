@@ -123,63 +123,115 @@ export default class ExhangeRateGraph extends Component {
 		return (
 			<>
 				<Col className='mb-5 mb-xl-0' xl='6'>
-					<Card className='bg-gradient-default shadow'>
-						<CardHeader className='bg-transparent'>
-							<Row className='align-items-center'>
-								<div className='col-12 col-lg-6'>
-									<h6 className='text-uppercase text-light ls-1 mb-1'>
-										<span style={{ fontSize: '0.80rem' }}>Period: {this.props.active} </span>({this.props.graphTitle.start_at} -{' '}
-										{this.props.graphTitle.end_at})
-									</h6>
-									<h2 className='text-white mb-0'>
-										Exchange Rate{' '}
-										<span style={{ fontSize: '0.80rem' }}>
-											({this.props.graphTitle.base} - {this.props.graphTitle.dest})
-										</span>
-									</h2>
+					{this.props.state.inputCurrency && this.props.state.outputCurrency && this.props.state.isHistoryLoaded ? (
+						<Card className='bg-gradient-default shadow'>
+							<CardHeader className='bg-transparent'>
+								<Row className='align-items-center'>
+									<div className='col-12 col-lg-6'>
+										<h6 className='text-uppercase text-muted ls-1 mb-1'>
+											<span style={{ fontSize: '0.80rem' }}>Period: {this.props.active} </span>({this.props.graphTitle.start_at} -{' '}
+											{this.props.graphTitle.end_at})
+										</h6>
+										<h2 style={{ color: '#32325d' }} className='text-dark mb-0'>
+											Exchange Rate{' '}
+											<span style={{ fontSize: '0.80rem' }}>
+												({this.props.graphTitle.base} - {this.props.graphTitle.dest})
+											</span>
+										</h2>
+									</div>
+									<div className='col-12 col-lg-6 mt-4 mt-xl-0'>
+										<Nav className='justify-content-end' pills>
+											<NavItem>
+												<NavLink className={this.props.active === '1W' ? 'active' : ''} onClick={this.getWeek} href='#'>
+													<span className='d-none d-md-block'>1W</span>
+													<span className='d-md-none'>1W</span>
+												</NavLink>
+											</NavItem>
+											<NavItem>
+												<NavLink className={this.props.active === '1M' ? 'active' : ''} onClick={this.getMonth} href='#'>
+													<span className='d-none d-md-block'>1M</span>
+													<span className='d-md-none'>1M</span>
+												</NavLink>
+											</NavItem>
+											<NavItem>
+												<NavLink className={this.props.active === '3M' ? 'active' : ''} onClick={this.getThreeMonths} href='#'>
+													<span className='d-none d-md-block'>3M</span>
+													<span className='d-md-none'>3M</span>
+												</NavLink>
+											</NavItem>
+											<NavItem>
+												<NavLink className={this.props.active === '6M' ? 'active' : ''} onClick={this.getSixMonths} href='#'>
+													<span className='d-none d-md-block'>6M</span>
+													<span className='d-md-none'>6M</span>
+												</NavLink>
+											</NavItem>
+											<NavItem>
+												<NavLink className={this.props.active === '1Y' ? 'active' : ''} onClick={this.getYear} href='#'>
+													<span className='d-none d-md-block'>1Y</span>
+													<span className='d-md-none'>1Y</span>
+												</NavLink>
+											</NavItem>
+										</Nav>
+									</div>
+								</Row>
+							</CardHeader>
+							<CardBody>
+								<div className='chart'>
+									<LineGraph graphValues={graphValues} graphLegend={graphLegend} graphTitle={graphTitle} style={style} />
 								</div>
-								<div className='col-12 col-lg-6 mt-4 mt-xl-0'>
-									<Nav className='justify-content-end' pills>
-										<NavItem>
-											<NavLink className={this.props.active === '1W' ? 'active' : ''} onClick={this.getWeek} href='#'>
-												<span className='d-none d-md-block'>1W</span>
-												<span className='d-md-none'>1W</span>
-											</NavLink>
-										</NavItem>
-										<NavItem>
-											<NavLink className={this.props.active === '1M' ? 'active' : ''} onClick={this.getMonth} href='#'>
-												<span className='d-none d-md-block'>1M</span>
-												<span className='d-md-none'>1M</span>
-											</NavLink>
-										</NavItem>
-										<NavItem>
-											<NavLink className={this.props.active === '3M' ? 'active' : ''} onClick={this.getThreeMonths} href='#'>
-												<span className='d-none d-md-block'>3M</span>
-												<span className='d-md-none'>3M</span>
-											</NavLink>
-										</NavItem>
-										<NavItem>
-											<NavLink className={this.props.active === '6M' ? 'active' : ''} onClick={this.getSixMonths} href='#'>
-												<span className='d-none d-md-block'>6M</span>
-												<span className='d-md-none'>6M</span>
-											</NavLink>
-										</NavItem>
-										<NavItem>
-											<NavLink className={this.props.active === '1Y' ? 'active' : ''} onClick={this.getYear} href='#'>
-												<span className='d-none d-md-block'>1Y</span>
-												<span className='d-md-none'>1Y</span>
-											</NavLink>
-										</NavItem>
-									</Nav>
-								</div>
-							</Row>
-						</CardHeader>
-						<CardBody>
-							<div className='chart'>
-								<LineGraph graphValues={graphValues} graphLegend={graphLegend} graphTitle={graphTitle} style={style} />
-							</div>
-						</CardBody>
-					</Card>
+							</CardBody>
+						</Card>
+					) : (
+						<Card className='bg-gradient-default shadow'>
+							<CardHeader className='bg-transparent'>
+								<Row className='align-items-center'>
+									<div className='col-12 col-lg-6'>
+										<h6 className='text-uppercase text-light ls-1 mb-1'>
+											<span style={{ fontSize: '0.80rem' }}>Period: </span>
+										</h6>
+										<h2 className='text-white mb-0'>Exchange Rate </h2>
+									</div>
+									<div className='col-12 col-lg-6 mt-4 mt-xl-0'>
+										<Nav className='justify-content-end' pills>
+											<NavItem>
+												<NavLink href='#'>
+													<span className='d-none d-md-block'>1W</span>
+													<span className='d-md-none'>1W</span>
+												</NavLink>
+											</NavItem>
+											<NavItem>
+												<NavLink href='#'>
+													<span className='d-none d-md-block'>1M</span>
+													<span className='d-md-none'>1M</span>
+												</NavLink>
+											</NavItem>
+											<NavItem>
+												<NavLink href='#'>
+													<span className='d-none d-md-block'>3M</span>
+													<span className='d-md-none'>3M</span>
+												</NavLink>
+											</NavItem>
+											<NavItem>
+												<NavLink href='#'>
+													<span className='d-none d-md-block'>6M</span>
+													<span className='d-md-none'>6M</span>
+												</NavLink>
+											</NavItem>
+											<NavItem>
+												<NavLink href='#'>
+													<span className='d-none d-md-block'>1Y</span>
+													<span className='d-md-none'>1Y</span>
+												</NavLink>
+											</NavItem>
+										</Nav>
+									</div>
+								</Row>
+							</CardHeader>
+							<CardBody>
+								<div className='chart'></div>
+							</CardBody>
+						</Card>
+					)}
 				</Col>
 			</>
 		)

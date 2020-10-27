@@ -203,7 +203,6 @@ export default class Currency extends Component {
 	}
 
 	// Get Historical Graph Info
-	// TODO: Update Months Graph
 	getHistoryGraphInfo(endDate, baseCurrency, destCurrency) {
 		const graphHistoryDates = []
 		const graphHistoryValue = []
@@ -223,7 +222,6 @@ export default class Currency extends Component {
 		})
 		graphHistoryDateLegend.reverse()
 		graphHistoryDateLegend.shift()
-		console.log(graphHistoryDateLegend)
 		this.setState({ graphHistoryDateLegend: graphHistoryDateLegend })
 
 		// While we have more than 2 values in the Array, get last elements in Array and its previous to fetchHistoryCurrency

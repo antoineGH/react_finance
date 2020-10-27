@@ -22,6 +22,10 @@ export default class HistoricalExchangeRateGraph extends Component {
 		const currency_style = {
 			borderColor: 'rgb(255, 93, 93)',
 			backgroundColor: 'rgba(255, 10, 13, 0.1)',
+			borderWidth: 2,
+			hoverBackgroundColor: 'rgb(255, 93, 93)',
+			hoverBorderColor: 'rgb(255, 93, 93)',
+			hoverBorderWidth: 2,
 		}
 		this.setState({ style: currency_style })
 	}

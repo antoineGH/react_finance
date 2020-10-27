@@ -33,7 +33,7 @@ export default class BarGraph extends Component {
 
 	buildChart() {
 		const MyBarChartRef = this.barchartRef.current.getContext('2d')
-		const { graphValues, graphLegend } = this.props
+		const { graphValues, graphLegend, style } = this.props
 
 		if (typeof myBarChart !== 'undefined') myBarChart.destroy()
 
@@ -44,8 +44,13 @@ export default class BarGraph extends Component {
 				datasets: [
 					{
 						label: 'Historical Exchange Rate',
-						backgroundColor: '#3e95cd',
 						data: graphValues,
+						borderColor: style.borderColor,
+						backgroundColor: style.backgroundColor,
+						borderWidth: style.borderWidth,
+						hoverBackgroundColor: style.hoverBackgroundColor,
+						hoverBorderColor: style.hoverBorderColor,
+						hoverBorderWidth: style.hoverBorderWidth,
 					},
 				],
 			},

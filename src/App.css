@@ -1,5 +1,15 @@
 /* ---- Main Theme Design  ---- */
 
+.table-flush {
+	/* table-layout: fixed; */
+	/* word-wrap: break-word; */
+}
+
+.table td,
+.table th {
+	white-space: normal;
+}
+
 .card {
 	min-height: 13vh;
 }

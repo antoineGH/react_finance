@@ -188,9 +188,7 @@ export default class Currency extends Component {
 		this.setState({ newsFeedError: false, newsFeedLoaded: false })
 		fetchNewsFeed(['Apple', 'Tesla', 'Microsoft'])
 			.then((response) => {
-				console.log(response.stories)
-				console.log(typeof response.stories)
-				this.setState({ newsFeedError: true, newsFeedLoaded: true, newsFeed: response.stories })
+				this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: response.stories })
 			})
 			.catch((error) => {
 				this.setState({ newsFeedError: true })

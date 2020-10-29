@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import BarLoader from 'react-spinners/BarLoader'
 import { Table } from 'reactstrap'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-library.add(fas)
+import Button from 'react-bootstrap/Button'
+import getDate from './utils/getDate'
 
 export default class NewsFeed extends Component {
 	constructor(props) {
@@ -17,17 +14,21 @@ export default class NewsFeed extends Component {
 	}
 
 	render() {
-		const { newsFeed, newsFeedError, newsFeedLoaded } = this.props
+		let { newsFeed, newsFeedError, newsFeedLoaded } = this.props
+		newsFeed = newsFeed.slice(0, 50)
+		console.log(newsFeed)
 
 		if (newsFeedError) {
 			return (
 				<>
 					<div className='text-center justify-content-center'>
-						<span className='error_data'>
-							<FontAwesomeIcon className='mt-1 mr-1' size='lg' icon={['fas', 'times']} />
-							&nbsp;Impossible to fetch data, try again later.
-						</span>
-						<button onClick={this.handleClick}> Try Again </button>
+						<span>&nbsp;Impossible to fetch Finance News Feed</span>
+					</div>
+					<div className='text-center justify-content-center mt-2'>
+						<Button size='sm' onClick={this.handleClick}>
+							{' '}
+							Try Again{' '}
+						</Button>
 					</div>
 				</>
 			)
@@ -45,18 +46,54 @@ export default class NewsFeed extends Component {
 			return (
 				<>
 					<Table className='align-items-center table-flush' responsive>
+						<col style={{ width: '5%' }} />
+						<col style={{ width: '8%' }} />
+						<col style={{ width: '62%' }} />
+						<col style={{ width: '10%' }} />
+						<col style={{ width: '15%' }} />
 						<thead className='thead-light'>
 							<tr>
-								<th scope='col'>Referral</th>
-								<th scope='col'>Visitors</th>
-								<th scope='col' />
+								<th scope='col'></th>
+								<th scope='col'>Date</th>
+								<th scope='col'>Title</th>
+								<th scope='col'>Article</th>
+								<th scope='col'>Source</th>
 							</tr>
 						</thead>
 						<tbody>
+							{newsFeed.map((info) => {
+								return (
+									<tr>
+										<td>
+											<img src={info.source.imageUrls.thumb} alt={info.source.brandName} />
+										</td>
+										<td>{info.publishTime.slice(0, 10)}</td>
+										<th scope='row' style={{ width: '16.66%' }}>
+											{info.title}
+										</th>
+										<td>
+											<a href={info.url}>Read More</a>
+										</td>
+										<td>
+											<a href={`https://${info.source.name}`}>{info.source.brandName}</a>
+										</td>
+									</tr>
+								)
+							})}
 							<tr>
-								<th scope='row'>Facebook</th>
-								<td>1,480</td>
-								<td></td>
+								<td>
+									<img src={newsFeed[0].source.imageUrls.thumb} alt={newsFeed[0].source.brandName} />
+								</td>
+								<td>{newsFeed[0].publishTime.slice(0, 10)}</td>
+								<th scope='row' style={{ width: '16.66%' }}>
+									{newsFeed[0].title}
+								</th>
+								<td>
+									<a href={newsFeed[0].url}>Read More</a>
+								</td>
+								<td>
+									<a href={`https://${newsFeed[0].source.name}`}>{newsFeed[0].source.brandName}</a>
+								</td>
 							</tr>
 						</tbody>
 					</Table>

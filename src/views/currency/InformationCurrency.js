@@ -1,14 +1,14 @@
 import React from 'react'
 import { CardTitle } from 'reactstrap'
 import toCurrency from '../currency/utils/toCurrency'
-import ScaleLoader from 'react-spinners/ScaleLoader'
+import BarLoader from 'react-spinners/BarLoader'
 
 export default function InformationCurrency(props) {
 	if (props.state) {
 		if (props.state.infoIsLoading) {
 			return (
-				<div className='ml-3'>
-					<ScaleLoader css='display: flex; justify-content: left;' color={'#2E3030'} size={15} />
+				<div className='text-center justify-content-center mt-3'>
+					<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
 				</div>
 			)
 		} else if (props.state.outputCurrency && props.state.inputCurrency) {

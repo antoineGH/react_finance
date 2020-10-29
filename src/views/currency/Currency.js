@@ -25,6 +25,7 @@ import Col from 'react-bootstrap/Col'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import fetchNewsFeed from './utils/fetchNewsFeed'
 library.add(fas)
 
 export default class Currency extends Component {
@@ -37,6 +38,7 @@ export default class Currency extends Component {
 		this.handleValueInputChange = this.handleValueInputChange.bind(this)
 		this.handleValueOutputChange = this.handleValueOutputChange.bind(this)
 		this.getGraphInfo = this.getGraphInfo.bind(this)
+		this.getNewsFeed = this.getNewsFeed.bind(this)
 		this.setActive = this.setActive.bind(this)
 		this.reverse = this.reverse.bind(this)
 		this.setState = this.setState.bind(this)
@@ -64,6 +66,9 @@ export default class Currency extends Component {
 			graphHistoryValue: [],
 			hasGraphHistoryError: false,
 			isGraphHistoryLoaded: false,
+			newsFeedError: false,
+			newsFeedLoaded: false,
+			newsFeed: [],
 		}
 	}
 
@@ -108,6 +113,7 @@ export default class Currency extends Component {
 		const end_date = getDateBefore(date, 1, 'months')
 		this.getGraphInfo(end_date, start_date, 'USD', 'EUR')
 		this.getHistoryGraphInfo(end_date, 'USD', 'EUR')
+		this.getNewsFeed()
 	}
 
 	// --- CLASS METHODS ---
@@ -145,33 +151,49 @@ export default class Currency extends Component {
 	// Set base
 	setBase(selectedCurrency) {
 		this.setState({ infoIsLoading: true })
-		fetchCurrency(selectedCurrency)
-			.then((response) => {
-				this.setState({ date: response.date })
-				const currencies = []
-				for (const [prop, value] of Object.entries(response.rates)) {
-					const currencyName = '(' + currenciesName[prop] + ')'
-					currencies.push({
-						value: prop,
-						label: `${prop} ${currencyName}`,
-						rate: value,
-					})
-				}
-				this.setState({
-					listCurrency: currencies,
-					isLoaded: true,
-					hasError: false,
-					infoIsLoading: false,
-				})
-				if (this.state.inputValue && this.state.outputCurrency) {
+		setTimeout(() => {
+			fetchCurrency(selectedCurrency)
+				.then((response) => {
+					this.setState({ date: response.date })
+					const currencies = []
+					for (const [prop, value] of Object.entries(response.rates)) {
+						const currencyName = '(' + currenciesName[prop] + ')'
+						currencies.push({
+							value: prop,
+							label: `${prop} ${currencyName}`,
+							rate: value,
+						})
+					}
 					this.setState({
-						outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+						listCurrency: currencies,
+						isLoaded: true,
+						hasError: false,
+						infoIsLoading: false,
 					})
-				}
+					if (this.state.inputValue && this.state.outputCurrency) {
+						this.setState({
+							outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+						})
+					}
+				})
+				.catch((error) => {
+					console.log(error)
+					this.setState({ hasError: true, infoIsLoading: false })
+				})
+		}, 2000)
+	}
+
+	// Get News Feed
+	getNewsFeed() {
+		this.setState({ newsFeedError: false, newsFeedLoaded: false })
+		fetchNewsFeed(['Apple', 'Tesla', 'Microsoft'])
+			.then((response) => {
+				console.log(response.stories)
+				console.log(typeof response.stories)
+				this.setState({ newsFeedError: true, newsFeedLoaded: true, newsFeed: response.stories })
 			})
 			.catch((error) => {
-				console.log(error)
-				this.setState({ hasError: true, infoIsLoading: false })
+				this.setState({ newsFeedError: true })
 			})
 	}
 
@@ -409,6 +431,7 @@ export default class Currency extends Component {
 						onCurrencyChangeOutput={this.handleCurrencyOutputChange}
 						reverse={this.reverse}
 						getGraphInfo={this.getGraphInfo}
+						getNewsFeed={this.getNewsFeed}
 						active={this.state.active}
 						setActive={this.setActive}
 					/>

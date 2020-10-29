@@ -11,9 +11,9 @@ export default class HistoricalExchangeRate extends Component {
 						<thead className='thead-light'>
 							<tr>
 								<th scope='col'>Base</th>
-								<th scope='col'>Destination</th>
+								<th scope='col'>Dest</th>
 								<th scope='col'>Rate</th>
-								<th scope='col'>Historical Rate</th>
+								<th scope='col'>Hist</th>
 							</tr>
 						</thead>
 						<tbody>

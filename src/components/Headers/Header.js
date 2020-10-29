@@ -5,9 +5,6 @@ import InputValue from '../../views/currency/InputValue'
 import InputCurrency from '../../views/currency/InputCurrency'
 import InformationDate from '../../views/currency/InformationDate'
 
-import getDate from '../../views/currency/utils/getDate'
-import getDateBefore from '../../views/currency/utils/getDateBefore'
-
 import { Card, CardBody, CardTitle, Container, Row, Col, Button } from 'reactstrap'
 
 // HEADER CLASS MANAGE CARDS
@@ -22,10 +19,6 @@ class Header extends React.Component {
 	}
 
 	render() {
-		const date = new Date(Date.now())
-		const start_date = getDate(date)
-		const end_date = getDateBefore(date, 1, 'years')
-
 		return (
 			<>
 				<div className='header bg-gradient-info pb-8 pt-5 pt-md-8'>
@@ -36,7 +29,7 @@ class Header extends React.Component {
 								<Col lg='12' xl='6'>
 									<Card className='card-stats' style={{ height: '100%' }}>
 										<CardBody>
-											<Row className='vertical-center reverse_div mt-3'>
+											<Row className='vertical-center reverse_div mt-1'>
 												<Col lg='10' xl='10'>
 													<Row>
 														<Col lg='3' xl='4'>
@@ -153,7 +146,7 @@ class Header extends React.Component {
 														<p className=' mb-0 text-muted text-sm'>
 															<HistoryPercentage HistoricalPercentage={this.props.state.historyPercentage} />
 														</p>
-														<h6 class='text-uppercase text-muted ls-1 mb-1 mt-3'>
+														<h6 className='text-uppercase text-muted ls-1 mb-1 mt-3'>
 															<span style={{ fontSize: '0.8rem' }}>Period: {this.props.state.active} </span>(
 															{this.props.state.graphTitle.start_at} - {this.props.state.graphTitle.end_at}){' '}
 														</h6>

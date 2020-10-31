@@ -102,6 +102,9 @@ class Header extends React.Component {
 										<CardBody>
 											<Row>
 												<div className='col'>
+													<CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+														Exchange Rate
+													</CardTitle>
 													<InformationCurrency state={this.props.state} />
 												</div>
 												<Col className='col-auto'>
@@ -115,7 +118,7 @@ class Header extends React.Component {
 									</Card>
 								</Col>
 								{/* HISTORICAL CURRENCY CARD */}
-								<Col lg='6' xl='3' className='mt-4 mt-xl-0'>
+								<Col lg='6' xl='3' className='mt-3 mt-xl-0'>
 									<Card className='card-stats ' style={{ height: '100%' }}>
 										<CardBody>
 											<Row>
@@ -140,18 +143,24 @@ class Header extends React.Component {
 												</Col>
 											</Row>
 											{this.props.state.historyPercentage !== undefined &&
-												this.props.state.inputCurrency &&
-												this.props.state.outputCurrency && (
-													<>
-														<p className=' mb-0 text-muted text-sm'>
-															<HistoryPercentage HistoricalPercentage={this.props.state.historyPercentage} />
-														</p>
-														<h6 className='text-uppercase text-muted ls-1 mb-1 mt-3'>
-															<span style={{ fontSize: '0.8rem' }}>Period: {this.props.state.active} </span>(
-															{this.props.state.graphTitle.start_at} - {this.props.state.graphTitle.end_at}){' '}
-														</h6>
-													</>
-												)}
+											this.props.state.inputCurrency &&
+											this.props.state.outputCurrency ? (
+												<>
+													<p className=' mb-0 text-muted text-sm'>
+														<HistoryPercentage HistoricalPercentage={this.props.state.historyPercentage} />
+													</p>
+													<h6 className='text-uppercase text-muted ls-1 mb-1 mt-3'>
+														<span style={{ fontSize: '0.8rem' }}>Period: {this.props.state.active} </span>(
+														{this.props.state.graphTitle.start_at} - {this.props.state.graphTitle.end_at}){' '}
+													</h6>
+												</>
+											) : (
+												<div className='reverse_div mb-1'>
+													<span style={{ fontSize: '0.80rem' }} class='mb-0'>
+														Please select currency
+													</span>
+												</div>
+											)}
 										</CardBody>
 									</Card>
 								</Col>

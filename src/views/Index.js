@@ -4,6 +4,8 @@ import HistoricalExchangeRate from './currency/HistoricalExchangeRate'
 import ExhangeRateGraph from './graph/ExhangeRateGraph'
 import HistoricalExchangeRateGraph from './graph/HistoricalExchangeRateGraph'
 import NewsFeed from './currency/NewsFeed'
+import getDate from './currency/utils/getDate'
+import getDateBefore from './currency/utils/getDateBefore'
 import { Card, CardHeader, Container, Row, Col } from 'reactstrap'
 
 // INDEX CLASS MANAGE GRAPHS AND ARRAYS
@@ -19,6 +21,8 @@ class Index extends React.Component {
 		this.reverse = this.props.reverse.bind(this)
 		this.setActive = this.props.setActive.bind(this)
 		this.getGraphInfo = this.props.getGraphInfo.bind(this)
+		this.getListExchange = this.props.getListExchange.bind(this)
+		this.setState = this.props.setState.bind(this)
 	}
 
 	// --- COMPONENT LIFECYCLE ---
@@ -26,6 +30,10 @@ class Index extends React.Component {
 	// --- CLASS METHODS ---
 
 	render() {
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		const end_date = getDateBefore(date, 1, 'months')
+
 		return (
 			<>
 				<Header
@@ -60,21 +68,41 @@ class Index extends React.Component {
 					</Row>
 					<Row className='mt-5'>
 						{/* HISTORICAL EXCHANGE RATE */}
-						<Col className='mb-5 mb-xl-0' xl='4'>
+						<Col className='mb-5 mb-xl-0' lg={12} xl='4'>
 							<Card className='shadow'>
 								<CardHeader className='border-0'>
 									<Row className='align-items-center'>
 										<div className='col'>
-											<h3 className='mb-0'>Historical Exchange Rate</h3>
+											{/* /TODO: */}
+											{this.props.state.inputCurrency && (
+												<h6 className='text-uppercase text-muted ls-1 mb-1 mt-3'>
+													<span style={{ fontSize: '0.8rem' }}>Period: 1M </span>({end_date} - {start_date}){' '}
+												</h6>
+											)}
+											<h3 className='mb-0'>
+												Historical Exchange Rate{' '}
+												{this.props.state.inputCurrency && (
+													<span style={{ fontSize: '0.80rem' }}>
+														From <span style={{ fontWeight: '650' }}>{this.props.state.inputCurrency}</span>
+													</span>
+												)}
+											</h3>
 										</div>
 									</Row>
 								</CardHeader>
-								<HistoricalExchangeRate listCurrencyHistory={this.props.state.listCurrencyHistory} state={this.props.state} />
+								<HistoricalExchangeRate
+									listCurrencyHistory={this.props.state.listCurrencyHistory}
+									listCurrencyLoaded={this.props.state.listCurrencyLoaded}
+									listCurrencyError={this.props.state.listCurrencyError}
+									getListExchange={this.props.getListExchange}
+									inputCurrency={this.props.state.inputCurrency}
+									listCurrency={this.props.state.listCurrency}
+									setState={this.props.setState}
+								/>
 							</Card>
 						</Col>
 						{/* SOCIAL TRAFFIC */}
-						<Col xl='8'>
-							{/* <Card className='shadow' style={{ height: '28.3vh' }}> */}
+						<Col lg={12} xl='8'>
 							<Card className='shadow'>
 								<CardHeader className='border-0'>
 									<Row className='align-items-center'>

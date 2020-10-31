@@ -6,10 +6,13 @@ import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 
 export default class NewsFeed extends Component {
+	// --- CLASS CONSTRUCTOR ---
 	constructor(props) {
 		super(props)
 		this.handleClick = this.handleClick.bind(this)
 	}
+
+	// --- CLASS METHODS ---
 	handleClick() {
 		this.props.getNewsFeed()
 	}
@@ -22,10 +25,10 @@ export default class NewsFeed extends Component {
 			return (
 				<>
 					<div className='text-center justify-content-center'>
-						<span>&nbsp;Impossible to fetch Finance News Feed</span>
+						<span style={{ fontSize: '0.80rem' }}>&nbsp;Impossible to fetch Finance Feed</span>
 					</div>
 					<div className='text-center justify-content-center mt-2'>
-						<Button size='sm' onClick={this.handleClick}>
+						<Button size='sm' className='mt-2 mb-4' onClick={this.handleClick}>
 							{' '}
 							Try Again{' '}
 						</Button>
@@ -37,7 +40,7 @@ export default class NewsFeed extends Component {
 		if (!newsFeedLoaded) {
 			return (
 				<>
-					<div className='text-center justify-content-center'>
+					<div className='text-center justify-content-center mb-4'>
 						<BarLoader css='display: flex; justify-content: center; margin-left:auto; margin-right:auto;' color={'#2E3030'} size={5} />
 					</div>
 				</>
@@ -47,7 +50,7 @@ export default class NewsFeed extends Component {
 				<>
 					{newsFeed.map((info) => {
 						return (
-							<Card className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>
+							<Card key={info.publishTime} className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>
 								<Card.Body className='card_news_body'>
 									<Row>
 										<Col xs={2} sm={2} md={2} lg={2} xl={1} className='text-left justify-content-left mr-3 mr-xl-2'>
@@ -63,7 +66,7 @@ export default class NewsFeed extends Component {
 												{info.publishTime.slice(0, 10)}
 											</Row>
 										</Col>
-										<Col xs={12} sm={12} md={12} lg={12} xl={8}>
+										<Col xs={12} sm={12} md={12} lg={12} xl={9}>
 											<Row className='text-left mx-auto justify-content-left'>
 												<a style={{ color: 'black', fontSize: '0.8rem' }} href={info.url}>
 													{info.title}

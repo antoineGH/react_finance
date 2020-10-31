@@ -43,32 +43,44 @@ export default class Currency extends Component {
 		this.reverse = this.reverse.bind(this)
 		this.setState = this.setState.bind(this)
 		this.state = {
+			infoIsLoading: false,
+
 			isLoaded: false,
 			hasError: false,
-			isHistoryLoaded: false,
-			hasHistoryError: false,
-			infoIsLoading: false,
-			listCurrency: '',
-			listCurrencyHistory: [],
+
 			inputCurrency: 'USD',
 			outputCurrency: 'EUR',
+
 			date: '',
+			active: '1M',
 			inputValue: '1',
 			outputValue: '',
 			historyPercentage: '',
-			active: '1M',
-			graphLegend: {},
-			graphValues: {},
-			graphTitle: {},
+
+			listCurrency: '',
 			optionsInput: { value: 'USD', label: 'USD' },
 			optionsOutput: { value: 'EUR', label: 'EUR' },
+
+			isHistoryLoaded: false,
+			hasHistoryError: false,
+
+			graphTitle: {},
+			isGraphHistoryLoaded: false,
+			hasGraphHistoryError: false,
+
 			graphHistoryLegend: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
 			graphHistoryValue: [],
-			hasGraphHistoryError: false,
-			isGraphHistoryLoaded: false,
-			newsFeedError: false,
+
+			graphLegend: {},
+			graphValues: {},
+
 			newsFeedLoaded: false,
+			newsFeedError: false,
 			newsFeed: [],
+
+			listCurrencyLoaded: false,
+			listCurrencyError: false,
+			listCurrencyHistory: [],
 		}
 	}
 
@@ -117,12 +129,13 @@ export default class Currency extends Component {
 	}
 
 	// --- CLASS METHODS ---
-
 	// Get List Exchange
 	getListExchange(startDate, endDate, baseCurrency, listCurrency) {
-		for (let i = 0; i < 5; i++) {
-			const randInt = Math.floor(Math.random() * listCurrency.length)
-			const destCurrency = listCurrency[randInt]['value']
+		this.setState({ listCurrencyError: false, listCurrencyLoaded: false })
+		const items = 33
+		for (let i = 0; i < items; i++) {
+			const destCurrency = listCurrency[i]['value']
+			if (destCurrency === baseCurrency) continue
 			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)
 				.then((response) => {
 					const orderedDates = sortDate(response)
@@ -141,9 +154,12 @@ export default class Currency extends Component {
 							},
 						],
 					})
+					if (this.state.listCurrencyHistory.length === items - 1) {
+						this.setState({ listCurrencyLoaded: true })
+					}
 				})
 				.catch((error) => {
-					console.log(error)
+					this.setState({ listCurrencyError: true })
 				})
 		}
 	}
@@ -432,6 +448,8 @@ export default class Currency extends Component {
 						getNewsFeed={this.getNewsFeed}
 						active={this.state.active}
 						setActive={this.setActive}
+						getListExchange={this.getListExchange}
+						setState={this.setState}
 					/>
 				</>
 			)

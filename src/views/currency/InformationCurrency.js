@@ -14,18 +14,21 @@ export default function InformationCurrency(props) {
 		} else if (props.state.outputCurrency && props.state.inputCurrency) {
 			return (
 				<>
-					<CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+					<span style={{ fontWeight: '650', fontSize: '1rem' }} className='h2 mb-0'>
 						1 {props.state.inputCurrency} equals
-					</CardTitle>
-					<span style={{ fontWeight: '650' }} className='h2 mb-0'>
+					</span>
+					<br />
+					<span style={{ fontWeight: '650', fontSize: '1.5rem' }} className='h2 mb-0'>
 						{toCurrency(1, props.state.outputCurrency, props.state.listCurrency)} {props.state.outputCurrency}
 					</span>
 				</>
 			)
 		} else {
 			return (
-				<div className='select_currency'>
-					<span class='h2 font-weight-bold mb-0'>Select currency</span>
+				<div className='reverse_div mt-4'>
+					<span style={{ fontSize: '0.80rem' }} class=''>
+						Please select currency
+					</span>
 				</div>
 			)
 		}

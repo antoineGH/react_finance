@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import BarLoader from 'react-spinners/BarLoader'
 import { Table } from 'reactstrap'
 import Button from 'react-bootstrap/Button'
-import getDate from './utils/getDate'
+import Row from 'react-bootstrap/Row'
+import Card from 'react-bootstrap/Card'
+import Col from 'react-bootstrap/Col'
 
 export default class NewsFeed extends Component {
 	constructor(props) {
@@ -15,8 +17,7 @@ export default class NewsFeed extends Component {
 
 	render() {
 		let { newsFeed, newsFeedError, newsFeedLoaded } = this.props
-		newsFeed = newsFeed.slice(0, 50)
-		console.log(newsFeed)
+		newsFeed = newsFeed.slice(0, 20)
 
 		if (newsFeedError) {
 			return (
@@ -45,58 +46,76 @@ export default class NewsFeed extends Component {
 		} else {
 			return (
 				<>
-					<Table className='align-items-center table-flush' responsive>
-						<col style={{ width: '5%' }} />
-						<col style={{ width: '8%' }} />
-						<col style={{ width: '62%' }} />
-						<col style={{ width: '10%' }} />
-						<col style={{ width: '15%' }} />
+					{/* // TODO: Table to Card ? */}
+					{/* xs = Extra small <576px
+					sm = Small ≥576px
+					md = Medium ≥768px
+					lg = Large ≥992px
+					xl = Extra large ≥1200px */}
+
+					<Card className='text-left mx-auto' style={{ width: '98%' }}>
+						<Card.Body>
+							<Card.Text>
+								<Row>
+									<Col xs={12} sm={12} md={1} lg={3} xl={2}>
+										<Row>
+											<img src={newsFeed[0].source.imageUrls.thumb} alt={newsFeed[0].source.brandName} />
+										</Row>
+									</Col>
+									<Col xs={12} sm={12} md={3} lg={3} xl={2}>
+										<Row>
+											<a href={`https://${newsFeed[0].source.name}`}>{newsFeed[0].source.brandName}</a>
+										</Row>
+										<Row style={{ fontSize: '0.7rem' }} className='text-muted'>
+											{newsFeed[0].publishTime.slice(0, 10)}
+										</Row>
+									</Col>
+									<Col xs={12} sm={12} md={6} lg={6} xl={8}>
+										<Row>Article Title</Row>
+										<Row>Article Description</Row>
+									</Col>
+								</Row>
+							</Card.Text>
+						</Card.Body>
+					</Card>
+
+					{/* <Table className='table-sm responsive'>
 						<thead className='thead-light'>
 							<tr>
 								<th scope='col'></th>
-								<th scope='col'>Date</th>
-								<th scope='col'>Title</th>
-								<th scope='col'>Article</th>
 								<th scope='col'>Source</th>
+								<th scope='col'>Article</th>
 							</tr>
 						</thead>
 						<tbody>
-							{newsFeed.map((info) => {
+							{newsFeed.map((info, count) => {
+								count++
 								return (
-									<tr>
-										<td>
+									<tr key={count}>
+										<td className='d-none d-md-block'>
 											<img src={info.source.imageUrls.thumb} alt={info.source.brandName} />
 										</td>
-										<td>{info.publishTime.slice(0, 10)}</td>
-										<th scope='row' style={{ width: '16.66%' }}>
-											{info.title}
+										<td>
+											<Row className='d-none d-md-block'>
+												<a href={`https://${info.source.name}`}>{info.source.brandName}</a>
+											</Row>
+											<Row className='d-none d-md-block' style={{ fontSize: '0.7rem' }}>
+												{info.publishTime.slice(0, 10)}
+											</Row>
+										</td>
+										<th scope='row'>
+											<Row>
+												<a style={{ color: 'black' }} href={info.url}>
+													{info.title}
+												</a>
+											</Row>
+											<Row style={{ fontSize: '0.7rem' }}>{info.description}</Row>
 										</th>
-										<td>
-											<a href={info.url}>Read More</a>
-										</td>
-										<td>
-											<a href={`https://${info.source.name}`}>{info.source.brandName}</a>
-										</td>
 									</tr>
 								)
 							})}
-							<tr>
-								<td>
-									<img src={newsFeed[0].source.imageUrls.thumb} alt={newsFeed[0].source.brandName} />
-								</td>
-								<td>{newsFeed[0].publishTime.slice(0, 10)}</td>
-								<th scope='row' style={{ width: '16.66%' }}>
-									{newsFeed[0].title}
-								</th>
-								<td>
-									<a href={newsFeed[0].url}>Read More</a>
-								</td>
-								<td>
-									<a href={`https://${newsFeed[0].source.name}`}>{newsFeed[0].source.brandName}</a>
-								</td>
-							</tr>
 						</tbody>
-					</Table>
+					</Table> */}
 				</>
 			)
 		}

@@ -1,14 +1,12 @@
 /* ---- Main Theme Design  ---- */
 
-/* .table-flush {
-	table-layout: fixed;
-	word-wrap: break-word;
+.card_news {
+	padding: 0px;
 }
 
-.table td,
-.table th {
-	white-space: normal;
-} */
+.card_news_body {
+	padding: 0.5rem 1.25rem 0rem 1.25rem;
+}
 */ .card {
 	min-height: 13vh;
 }

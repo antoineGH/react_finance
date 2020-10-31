@@ -74,7 +74,8 @@ class Index extends React.Component {
 						</Col>
 						{/* SOCIAL TRAFFIC */}
 						<Col xl='8'>
-							<Card className='shadow' style={{ height: '28.3vh' }}>
+							{/* <Card className='shadow' style={{ height: '28.3vh' }}> */}
+							<Card className='shadow'>
 								<CardHeader className='border-0'>
 									<Row className='align-items-center'>
 										<div className='col'>

@@ -25,7 +25,6 @@ export default class ExhangeRateGraph extends Component {
 	}
 
 	// --- CLASS METHODS ---
-
 	handleActive(active) {
 		this.props.setActive(active)
 	}

@@ -4,6 +4,7 @@ import getDatetime from './utils/getDatetime'
 import BarLoader from 'react-spinners/BarLoader'
 import { Card, CardBody, CardTitle, Row, Col } from 'reactstrap'
 
+// INFO: LOAD FUNCTION
 function LoadInformationCurrency(props) {
 	const { infoIsLoading, outputCurrency, inputCurrency, listCurrency, hasError, date } = props
 	if (hasError) {

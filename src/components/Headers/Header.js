@@ -7,6 +7,7 @@ import { Container, Row, Col } from 'reactstrap'
 
 // INFO: HEADER CLASS MANAGE CARDS
 class Header extends React.Component {
+	// --- CLASS CONSTRUCTOR ---
 	constructor(props) {
 		super(props)
 		this.onCurrencyChangeInput = this.props.onCurrencyChangeInput.bind(this)

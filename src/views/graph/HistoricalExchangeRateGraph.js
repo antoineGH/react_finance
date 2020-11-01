@@ -17,7 +17,6 @@ export default class HistoricalExchangeRateGraph extends Component {
 	}
 
 	// --- CLASS METHODS ---
-
 	createMockData() {
 		const currency_style = {
 			borderColor: 'rgb(255, 93, 93)',

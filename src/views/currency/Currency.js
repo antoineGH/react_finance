@@ -113,7 +113,6 @@ export default class Currency extends Component {
 				}
 			})
 			.catch((error) => {
-				console.log(error)
 				this.setState({ hasError: true })
 			})
 
@@ -190,7 +189,6 @@ export default class Currency extends Component {
 					}
 				})
 				.catch((error) => {
-					console.log(error)
 					this.setState({ hasError: true, infoIsLoading: false })
 				})
 		}, 2000)
@@ -230,7 +228,6 @@ export default class Currency extends Component {
 				})
 			})
 			.catch((error) => {
-				console.log(error)
 				this.setState({ hasHistoryError: true })
 			})
 	}
@@ -266,7 +263,6 @@ export default class Currency extends Component {
 					graphHistoryValue.push(historyPercentage)
 				})
 				.catch((error) => {
-					console.log(error)
 					this.setState({ hasGraphHistoryError: true })
 				})
 			graphHistoryDates.pop()

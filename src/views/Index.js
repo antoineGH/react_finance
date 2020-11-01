@@ -37,12 +37,29 @@ class Index extends React.Component {
 		return (
 			<>
 				<Header
-					state={this.props.state}
+					inputValue={this.props.state.inputValue}
+					outputValue={this.props.state.outputValue}
+					listCurrency={this.props.state.listCurrency}
+					valueInput={this.props.state.optionsInput.value}
+					labelInput={this.props.state.optionsInput.label}
+					valueOutput={this.props.state.optionsOutput.value}
+					labelOutput={this.props.state.optionsOutput.label}
 					onValueChangeInput={this.props.onValueChangeInput}
 					onValueChangeOutput={this.props.onValueChangeOutput}
 					onCurrencyChangeInput={this.props.onCurrencyChangeInput}
 					onCurrencyChangeOutput={this.props.onCurrencyChangeOutput}
 					reverse={this.props.reverse}
+					hasError={this.props.state.hasError}
+					infoIsLoading={this.props.state.infoIsLoading}
+					outputCurrency={this.props.state.outputCurrency}
+					inputCurrency={this.props.state.inputCurrency}
+					date={this.props.state.date}
+					isHistoryLoaded={this.props.state.isHistoryLoaded}
+					hasHistoryError={this.props.state.hasHistoryError}
+					historyPercentage={this.props.state.historyPercentage}
+					start_at={this.props.state.graphTitle.start_at}
+					end_at={this.props.state.graphTitle.end_at}
+					active={this.props.state.active}
 				/>
 				<Container className='mt--7' fluid>
 					<Row>

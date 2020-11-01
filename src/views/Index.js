@@ -73,17 +73,22 @@ class Index extends React.Component {
 								<CardHeader className='border-0'>
 									<Row className='align-items-center'>
 										<div className='col'>
-											{/* /TODO: */}
 											{this.props.state.inputCurrency && (
-												<h6 className='text-uppercase text-muted ls-1 mb-1 mt-3'>
-													<span style={{ fontSize: '0.8rem' }}>Period: 1M </span>({end_date} - {start_date}){' '}
+												<h6 style={{ fontSize: '0.8rem' }} className='text-uppercase text-muted ls-1 mb-1 mt-2'>
+													Period: <span style={{ fontWeight: '650' }}>1M</span>&nbsp;&nbsp;
+													<span style={{ fontSize: '0.75rem' }} className='text-muted'>
+														{end_date} <i className='fa-xs fas fa-chevron-right'></i> {start_date}
+													</span>{' '}
 												</h6>
 											)}
 											<h3 className='mb-0'>
 												Historical Exchange Rate{' '}
 												{this.props.state.inputCurrency && (
 													<span style={{ fontSize: '0.80rem' }}>
-														From <span style={{ fontWeight: '650' }}>{this.props.state.inputCurrency}</span>
+														From{' '}
+														<span style={{ fontWeight: '650' }}>
+															<span style={{ fontSize: '1rem' }}>{this.props.state.inputCurrency}</span>
+														</span>
 													</span>
 												)}
 											</h3>

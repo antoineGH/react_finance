@@ -3,9 +3,8 @@ import HistoryPercentage from '../../views/currency/HistoricalPercentage'
 import InformationCurrency from '../../views/currency/InformationCurrency'
 import InputValue from '../../views/currency/InputValue'
 import InputCurrency from '../../views/currency/InputCurrency'
-import InformationDate from '../../views/currency/InformationDate'
 
-import { Card, CardBody, CardTitle, Container, Row, Col, Button } from 'reactstrap'
+import { Card, CardBody, Container, Row, Col, Button } from 'reactstrap'
 
 // HEADER CLASS MANAGE CARDS
 class Header extends React.Component {
@@ -25,7 +24,7 @@ class Header extends React.Component {
 					<Container fluid>
 						<div className='header-body'>
 							<Row>
-								{/* INPUT FIELD MAIN CARD */}
+								{/* INFO: INPUT FIELD */}
 								<Col lg='12' xl='6'>
 									<Card className='card-stats' style={{ height: '100%' }}>
 										<CardBody>
@@ -96,73 +95,29 @@ class Header extends React.Component {
 										</CardBody>
 									</Card>
 								</Col>
-								{/* INFORMATION CURRENCY FIELD CARD */}
+								{/* INFO: INFORMATION CURRENCY FIELD */}
 								<Col lg='6' xl='3' className='mt-4 mt-xl-0'>
-									<Card className='card-stats' style={{ height: '100%' }}>
-										<CardBody>
-											<Row>
-												<div className='col'>
-													<CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-														Exchange Rate
-													</CardTitle>
-													<InformationCurrency state={this.props.state} />
-												</div>
-												<Col className='col-auto'>
-													<div className='icon icon-shape bg-yellow text-white rounded-circle shadow'>
-														<i className='fas fa-chart-bar' />
-													</div>
-												</Col>
-											</Row>
-											<InformationDate state={this.props.state} />
-										</CardBody>
-									</Card>
+									<InformationCurrency
+										hasError={this.props.state.hasError}
+										infoIsLoading={this.props.state.infoIsLoading}
+										outputCurrency={this.props.state.outputCurrency}
+										inputCurrency={this.props.state.inputCurrency}
+										listCurrency={this.props.state.listCurrency}
+										date={this.props.state.date}
+									/>
 								</Col>
-								{/* HISTORICAL CURRENCY CARD */}
+								{/* INFO: HISTORICAL CURRENCY */}
 								<Col lg='6' xl='3' className='mt-3 mt-xl-0'>
-									<Card className='card-stats ' style={{ height: '100%' }}>
-										<CardBody>
-											<Row>
-												<div className='col'>
-													<CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
-														History
-													</CardTitle>
-													<span className='h2 font-weight-bold mb-0'>
-														{this.props.state.inputCurrency && this.props.state.outputCurrency && (
-															<p>
-																<span className='h2 font-weight-bold mb-0'>{this.props.state.inputCurrency}</span>
-																&nbsp;on&nbsp;
-																<span className='h2 font-weight-bold mb-0'>{this.props.state.outputCurrency}</span>
-															</p>
-														)}
-													</span>
-												</div>
-												<Col className='col-auto'>
-													<div className='icon icon-shape bg-info text-white rounded-circle shadow'>
-														<i className='fas fa-percent' />
-													</div>
-												</Col>
-											</Row>
-											{this.props.state.historyPercentage !== undefined &&
-											this.props.state.inputCurrency &&
-											this.props.state.outputCurrency ? (
-												<>
-													<p className=' mb-0 text-muted text-sm'>
-														<HistoryPercentage HistoricalPercentage={this.props.state.historyPercentage} />
-													</p>
-													<h6 className='text-uppercase text-muted ls-1 mb-1 mt-3'>
-														<span style={{ fontSize: '0.8rem' }}>Period: {this.props.state.active} </span>(
-														{this.props.state.graphTitle.start_at} - {this.props.state.graphTitle.end_at}){' '}
-													</h6>
-												</>
-											) : (
-												<div className='reverse_div mb-1'>
-													<span style={{ fontSize: '0.80rem' }} class='mb-0'>
-														Please select currency
-													</span>
-												</div>
-											)}
-										</CardBody>
-									</Card>
+									<HistoryPercentage
+										isHistoryLoaded={this.props.state.isHistoryLoaded}
+										hasHistoryError={this.props.state.hasHistoryError}
+										outputCurrency={this.props.state.outputCurrency}
+										inputCurrency={this.props.state.inputCurrency}
+										historyPercentage={this.props.state.historyPercentage}
+										start_at={this.props.state.graphTitle.start_at}
+										end_at={this.props.state.graphTitle.end_at}
+										active={this.props.state.active}
+									/>
 								</Col>
 							</Row>
 						</div>

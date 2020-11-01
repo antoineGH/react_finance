@@ -128,9 +128,11 @@ export default class ExhangeRateGraph extends Component {
 							<CardHeader className='bg-transparent'>
 								<Row className='align-items-center'>
 									<div className='col-12 col-lg-6'>
-										<h6 className='text-uppercase text-muted ls-1 mb-1'>
-											<span style={{ fontSize: '0.80rem' }}>Period: {this.props.active} </span>({this.props.graphTitle.start_at} -{' '}
-											{this.props.graphTitle.end_at})
+										<h6 style={{ fontSize: '0.8rem' }} className='text-uppercase text-muted ls-1 mb-1 mt-2'>
+											Period: <span style={{ fontWeight: '650' }}>{this.props.active}</span>&nbsp;&nbsp;
+											<span style={{ fontSize: '0.75rem' }} className='text-muted'>
+												{this.props.graphTitle.start_at} <i className='fa-xs fas fa-chevron-right'></i> {this.props.graphTitle.end_at}
+											</span>{' '}
 										</h6>
 										<h2 style={{ color: '#32325d' }} className='text-dark mb-0'>
 											Exchange Rate{' '}

@@ -1,7 +1,4 @@
 import React, { Component } from 'react'
-// import InformationCurrency from './InformationCurrency'
-// import InformationDate from './InformationDate'
-// import CurrencyGraph from '../graph/CurrencyGraph'
 
 import Index from '../Index'
 

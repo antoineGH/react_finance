@@ -82,7 +82,6 @@ export default class Currency extends Component {
 	}
 
 	// --- COMPONENT LIFECYCLE ---
-
 	componentDidMount() {
 		fetchCurrency('USD')
 			.then((response) => {

@@ -129,11 +129,10 @@ export default class NewsFeed extends Component {
 			return (
 				<>
 					{/* INFO: Menu Filter */}
-
 					<Card className='card_filter text-center justify-content-center mx-auto mb-1 border-0' style={{ width: '98%' }}>
 						<Card.Body className='card_news_body'>
 							<Row>
-								<Col xs={2} sm={2} md={2} lg={2} xl={1} className='text-left justify-content-left mr-3 mr-xl-2'>
+								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='text-left justify-content-left mr-5 mr-sm-3 mr-xl-2'>
 									<Button className='btn-sm' onClick={() => this.filter('brandNameAsc')}>
 										Brand{' '}
 										{this.state.filterMethod === 'brandNameAsc' ? (
@@ -143,7 +142,7 @@ export default class NewsFeed extends Component {
 										)}
 									</Button>
 								</Col>
-								<Col xs={8} sm={8} md={8} lg={8} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
+								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
 									<Row>
 										<Button className='btn-sm' onClick={() => this.filter('publishTimeAsc')}>
 											Date{' '}
@@ -155,7 +154,7 @@ export default class NewsFeed extends Component {
 										</Button>
 									</Row>
 								</Col>
-								<Col xs={12} sm={12} md={12} lg={12} xl={9}>
+								<Col xs={3} sm={3} md={3} lg={3} xl={9}>
 									<Row className='text-left mx-auto justify-content-left'>
 										<Button className='btn-sm' onClick={() => this.filter('cityfalconScoreAsc')}>
 											Score{' '}
@@ -170,6 +169,7 @@ export default class NewsFeed extends Component {
 							</Row>
 						</Card.Body>
 					</Card>
+					{/* INFO: newsFeed cards */}
 					{newsFeed.map((info) => {
 						return (
 							<Card key={info.publishTime} className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>

@@ -115,7 +115,7 @@ class LoadHistoricalExchangeRate extends Component {
 								count++
 								const rate = Math.round(listCurrency.rate * 1000) / 1000
 								return (
-									<tr key={count}>
+									<tr key={count} className='card_news'>
 										<td style={{ fontWeight: 600 }}>{listCurrency.destCurrency}</td>
 										<td>{rate}</td>
 										<td>

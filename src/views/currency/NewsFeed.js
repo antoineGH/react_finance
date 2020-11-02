@@ -4,8 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
-import classnames from 'classnames'
-import styles from './styles.module.css'
+import Form from 'react-bootstrap/Form'
 
 export default class NewsFeed extends Component {
 	// --- CLASS CONSTRUCTOR ---
@@ -106,9 +105,6 @@ export default class NewsFeed extends Component {
 		// INFO: newsFeed sortBy
 		newsFeed = this.sortBy(this.state.filterMethod, newsFeed)
 
-		const containerClasses = classnames('container', 'mb-1', styles.container)
-		const formClasses = classnames('form-horizontal', styles.form)
-
 		// INFO: newsFeed search - if state.search filter the newsfeed array on conditional => string (title or description) include substring (state.search)
 		if (this.state.search !== '') {
 			newsFeed = newsFeed.filter((newarr) => newarr.title.includes(this.state.search) || newarr.description.includes(this.state.search))
@@ -141,35 +137,27 @@ export default class NewsFeed extends Component {
 		} else {
 			return (
 				<>
-					{/* TODO: FORM FILTER */}
-					<div className={containerClasses}>
-						<form className={formClasses} noValidate>
-							<p className='mb-1'>Refine your results</p>
-							<div className='columns text-center'>
-								<div className='column col-4 col-xs-12'>
-									<div className='form-group'>
-										<div className='col-3 col-sm-12'>
-											<label className='form-label' htmlFor='price-from'>
-												Search
-											</label>
-										</div>
-										<div className='col-9 col-sm-12'>
-											<input
-												className='form-input'
-												type='ntextumber'
-												id='search'
-												placeholder='Search'
-												value={this.state.search}
-												onChange={(e) => this.setState({ search: e.currentTarget.value })}
-											/>
-										</div>
-									</div>
-								</div>
+					<Col xs={3} sm={3} md={3} lg={3} xl={2}>
+						{/* INFO: Form Filter */}
+						<Form noValidate className='justify-content-left text-left mb-2 ml-1'>
+							<div className='form-group has-search'>
+								<span className='form-control-feedback'>
+									<i className='fas fa-search'></i>
+								</span>
+								<Form.Control
+									className='form_filter'
+									size='sm'
+									type='text'
+									id='search'
+									placeholder='Filter Articles'
+									value={this.state.search}
+									onChange={(e) => this.setState({ search: e.currentTarget.value })}
+								/>
 							</div>
-						</form>
-					</div>
+						</Form>
+					</Col>
 					{/* INFO: Menu Filter */}
-					<Card className='card_filter text-center justify-content-center mx-auto mb-1 border-0' style={{ width: '98%' }}>
+					<Card className='card_filter text-center justify-content-center mx-auto mb-1 border-0'>
 						<Card.Body className='card_news_body'>
 							<Row>
 								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='text-left justify-content-left mr-5 mr-sm-3 mr-xl-2'>
@@ -194,7 +182,7 @@ export default class NewsFeed extends Component {
 										</Button>
 									</Row>
 								</Col>
-								<Col xs={3} sm={3} md={3} lg={3} xl={9}>
+								<Col xs={3} sm={3} md={3} lg={3} xl={2}>
 									<Row className='text-left mx-auto justify-content-left'>
 										<Button className='btn-sm' onClick={() => this.filter('cityfalconScoreAsc')}>
 											Score{' '}

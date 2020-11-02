@@ -2,21 +2,18 @@ import React, { Component } from 'react'
 import Form from 'react-bootstrap/Form'
 
 export default class InputValue extends Component {
+	constructor(props) {
+		super(props)
+		this.handleChange = this.handleChange.bind(this)
+	}
 
-    constructor(props){
-        super(props)
-        this.handleChange = this.handleChange.bind(this);
-    }
+	handleChange(event) {
+		this.props.onValueChange(event.target.value)
+	}
 
-    handleChange(event) {
-        this.props.onValueChange(event.target.value)
-    }
+	render() {
+		const value = this.props.inputValue
 
-    render() {
-        const value = this.props.inputValue
-
-        return (
-            <Form.Control className='inputValue' type="text" value={value} onChange={this.handleChange} />
-        )
-    }
+		return <Form.Control className='inputValue form-control-input' type='text' value={value} onChange={this.handleChange} />
+	}
 }

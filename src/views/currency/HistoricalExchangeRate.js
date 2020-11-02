@@ -6,6 +6,8 @@ import getDateBefore from './utils/getDateBefore'
 import BarLoader from 'react-spinners/BarLoader'
 import { Table } from 'reactstrap'
 import Button from 'react-bootstrap/Button'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
 
 import { Card, CardHeader, Row } from 'reactstrap'
 
@@ -148,6 +150,7 @@ export default class HistoricalExchangeRate extends Component {
 		this.filter = this.filter.bind(this)
 		this.state = {
 			filterMethod: 'destAsc',
+			search: '',
 		}
 	}
 
@@ -242,7 +245,14 @@ export default class HistoricalExchangeRate extends Component {
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
+
+		// INFO: listCurrencyHistory sortBy
 		listCurrencyHistory = this.sortBy(this.state.filterMethod, listCurrencyHistory)
+
+		// INFO: listCurrencyHistory search - if state.search filter the newsfeed array on conditional => string (title or description) include substring (state.search)
+		if (this.state.search !== '') {
+			listCurrencyHistory = listCurrencyHistory.filter((newarr) => newarr.destCurrency.toLowerCase().includes(this.state.search.toLowerCase()))
+		}
 
 		return (
 			<Card className='shadow'>
@@ -271,6 +281,25 @@ export default class HistoricalExchangeRate extends Component {
 						</div>
 					</Row>
 				</CardHeader>
+				<Col xs={3} sm={3} md={3} lg={3} xl={4}>
+					{/* INFO: Form Filter */}
+					<Form noValidate className='justify-content-left text-left mb-2 ml-1'>
+						<div className='form-group has-search'>
+							<span className='form-control-feedback'>
+								<i className='fas fa-search'></i>
+							</span>
+							<Form.Control
+								className='form_filter'
+								size='sm'
+								type='text'
+								id='search'
+								placeholder='Filter Currencies'
+								value={this.state.search}
+								onChange={(e) => this.setState({ search: e.currentTarget.value })}
+							/>
+						</div>
+					</Form>
+				</Col>
 				<LoadHistoricalExchangeRate
 					listCurrencyHistory={listCurrencyHistory}
 					listCurrencyLoaded={listCurrencyLoaded}

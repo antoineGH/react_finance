@@ -1,5 +1,13 @@
 /* ---- Main Theme Design  ---- */
 
+.table .thead-light th {
+	background-color: white;
+	color: white;
+}
+.thead-light th {
+	border: none;
+}
+
 .has-search .form-control {
 	padding-left: 2.375rem;
 }

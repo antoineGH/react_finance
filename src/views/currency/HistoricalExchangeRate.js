@@ -283,7 +283,7 @@ export default class HistoricalExchangeRate extends Component {
 				</CardHeader>
 				<Col xs={3} sm={3} md={3} lg={3} xl={4}>
 					{/* INFO: Form Filter */}
-					<Form noValidate className='justify-content-left text-left mb-2 ml-1'>
+					<Form noValidate className='justify-content-left text-left ml-1'>
 						<div className='form-group has-search'>
 							<span className='form-control-feedback'>
 								<i className='fas fa-search'></i>

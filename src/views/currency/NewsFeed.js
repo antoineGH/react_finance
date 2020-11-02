@@ -107,7 +107,11 @@ export default class NewsFeed extends Component {
 
 		// INFO: newsFeed search - if state.search filter the newsfeed array on conditional => string (title or description) include substring (state.search)
 		if (this.state.search !== '') {
-			newsFeed = newsFeed.filter((newarr) => newarr.title.includes(this.state.search) || newarr.description.includes(this.state.search))
+			newsFeed = newsFeed.filter(
+				(newarr) =>
+					newarr.title.toLowerCase().includes(this.state.search.toLowerCase()) ||
+					newarr.description.toLowerCase().includes(this.state.search.toLowerCase())
+			)
 		}
 
 		if (newsFeedError) {

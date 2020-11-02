@@ -36,7 +36,7 @@ class LoadHistoricalExchangeRate extends Component {
 		this.props.filter(filterMethod, filterMethod)
 	}
 	render() {
-		const { listCurrencyHistory, listCurrencyLoaded, listCurrencyError, inputCurrency, handleClick, filterMethod, stateFilterMethod } = this.props
+		const { listCurrencyHistory, listCurrencyLoaded, listCurrencyError, inputCurrency, handleClick, stateFilterMethod } = this.props
 
 		if (listCurrencyError) {
 			return (

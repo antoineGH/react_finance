@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
+import classnames from 'classnames'
+import styles from './styles.module.css'
 
 export default class NewsFeed extends Component {
 	// --- CLASS CONSTRUCTOR ---
@@ -12,6 +14,7 @@ export default class NewsFeed extends Component {
 		this.handleClick = this.handleClick.bind(this)
 		this.state = {
 			filterMethod: 'publishTimeDesc',
+			search: '',
 		}
 	}
 
@@ -99,7 +102,17 @@ export default class NewsFeed extends Component {
 	render() {
 		let { newsFeed, newsFeedError, newsFeedLoaded } = this.props
 		newsFeed = newsFeed.slice(0, 20)
+
+		// INFO: newsFeed sortBy
 		newsFeed = this.sortBy(this.state.filterMethod, newsFeed)
+
+		const containerClasses = classnames('container', 'mb-1', styles.container)
+		const formClasses = classnames('form-horizontal', styles.form)
+
+		// INFO: newsFeed search - if state.search filter the newsfeed array on conditional => string (title or description) include substring (state.search)
+		if (this.state.search !== '') {
+			newsFeed = newsFeed.filter((newarr) => newarr.title.includes(this.state.search) || newarr.description.includes(this.state.search))
+		}
 
 		if (newsFeedError) {
 			return (
@@ -128,6 +141,33 @@ export default class NewsFeed extends Component {
 		} else {
 			return (
 				<>
+					{/* TODO: FORM FILTER */}
+					<div className={containerClasses}>
+						<form className={formClasses} noValidate>
+							<p className='mb-1'>Refine your results</p>
+							<div className='columns text-center'>
+								<div className='column col-4 col-xs-12'>
+									<div className='form-group'>
+										<div className='col-3 col-sm-12'>
+											<label className='form-label' htmlFor='price-from'>
+												Search
+											</label>
+										</div>
+										<div className='col-9 col-sm-12'>
+											<input
+												className='form-input'
+												type='ntextumber'
+												id='search'
+												placeholder='Search'
+												value={this.state.search}
+												onChange={(e) => this.setState({ search: e.currentTarget.value })}
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
 					{/* INFO: Menu Filter */}
 					<Card className='card_filter text-center justify-content-center mx-auto mb-1 border-0' style={{ width: '98%' }}>
 						<Card.Body className='card_news_body'>

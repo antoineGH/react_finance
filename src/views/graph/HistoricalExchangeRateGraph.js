@@ -39,18 +39,16 @@ export default class HistoricalExchangeRateGraph extends Component {
 						<CardHeader className='bg-transparent'>
 							<Row className='align-items-center'>
 								<div className='col'>
-									<h6 style={{ fontSize: '0.8rem' }} className='text-uppercase text-muted ls-1 mb-1 mt-2'>
-										Period: <span style={{ fontWeight: '650' }}>1Y</span>&nbsp;&nbsp;
-										<span style={{ fontSize: '0.75rem' }} className='text-muted'>
-											{getDateBefore(graphTitle.end_at, 1, 'years')} <i className='fa-xs fas fa-chevron-right'></i> {graphTitle.end_at}
-										</span>{' '}
-									</h6>
-									<h2 className='mb-0'>
-										Historical Exchange Rate{' '}
-										<span style={{ fontSize: '0.80rem' }}>
-											({graphTitle.base} - {graphTitle.dest})
+									<h5 className='text-uppercase text-muted mb-0 card-title'>
+										Historical Exchange Rate ({graphTitle.base} - {graphTitle.dest})
+									</h5>
+									<p className='mt-1 mb-0 text-muted text-sm'>
+										<span className='text-nowrap'>
+											1Y: {getDateBefore(graphTitle.end_at, 1, 'years')} <i className='fa-xs fas fa-chevron-right'></i>{' '}
+											{graphTitle.end_at}
 										</span>
-									</h2>
+									</p>
+									<span style={{ fontSize: '0.80rem' }}></span>
 								</div>
 							</Row>
 						</CardHeader>

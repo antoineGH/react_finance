@@ -77,7 +77,7 @@ class LoadHistoricalExchangeRate extends Component {
 		} else {
 			return (
 				<>
-					<Table className='align-items-center table-flush' responsive>
+					<Table className='align-items-center table-flush table-hover' responsive>
 						<thead className='thead-light'>
 							<tr>
 								<th scope='col'>
@@ -259,29 +259,18 @@ export default class HistoricalExchangeRate extends Component {
 				<CardHeader className='border-0'>
 					<Row className='align-items-center'>
 						<div className='col'>
+							<h5 className='text-uppercase text-muted mb-0 card-title'>Historical Exchange Rate {inputCurrency && 'From ' + inputCurrency}</h5>
 							{inputCurrency && (
-								<h6 style={{ fontSize: '0.8rem' }} className='text-uppercase text-muted ls-1 mb-1 mt-2'>
-									Period: <span style={{ fontWeight: '650' }}>1M</span>&nbsp;&nbsp;
-									<span style={{ fontSize: '0.75rem' }} className='text-muted'>
-										{end_date} <i className='fa-xs fas fa-chevron-right'></i> {start_date}
-									</span>{' '}
-								</h6>
-							)}
-							<h3 className='mb-0'>
-								Historical Exchange Rate{' '}
-								{inputCurrency && (
-									<span style={{ fontSize: '0.80rem' }}>
-										From{' '}
-										<span style={{ fontWeight: '650' }}>
-											<span style={{ fontSize: '1rem' }}>{inputCurrency}</span>
-										</span>
+								<p className='mt-1 mb-0 text-muted text-sm'>
+									<span className='text-nowrap'>
+										1M: {end_date} <i className='fa-xs fas fa-chevron-right'></i> {start_date}
 									</span>
-								)}
-							</h3>
+								</p>
+							)}
 						</div>
 					</Row>
 				</CardHeader>
-				<Col xs={3} sm={3} md={3} lg={3} xl={4}>
+				<Col xs={10} sm={7} md={6} lg={6} xl={4} className='mx-auto mx-lg-1'>
 					{/* INFO: Form Filter */}
 					<Form noValidate className='justify-content-left text-left ml-1'>
 						<div className='form-group has-search'>

@@ -26,18 +26,12 @@ function LoadHistoricalPercentage(props) {
 	if (historyPercentage && inputCurrency && outputCurrency) {
 		return (
 			<>
-				<p>
-					<span className='h2 mb-0' style={{ fontWeight: '650', fontSize: '1.5rem' }}>
-						{inputCurrency}
-					</span>
-					&nbsp;on&nbsp;
-					<span className='h2 mb-4' style={{ fontWeight: '650', fontSize: '1.5rem' }}>
-						{outputCurrency}
-					</span>
-				</p>
+				<h2 className='h2 mb-0 mt-2' style={{ fontWeight: '650', fontSize: '1.5rem' }}>
+					{inputCurrency} on {outputCurrency}
+				</h2>
 				{historyPercentage >= 0 ? (
 					<>
-						<span className='text-success mr-2'>
+						<span className='text-success mr-2 mt-1'>
 							<i className='fas fa-arrow-up' />
 							&nbsp;{historyPercentage}%.{' '}
 						</span>{' '}
@@ -50,12 +44,11 @@ function LoadHistoricalPercentage(props) {
 						</span>{' '}
 					</>
 				)}
-				<h6 style={{ fontSize: '0.8rem' }} className='text-uppercase text-muted ls-1 mb-1 mt-2'>
-					Period: <span style={{ fontWeight: '650' }}>{active}</span>&nbsp;&nbsp;
-					<span style={{ fontSize: '0.75rem' }} className='text-muted'>
-						{start_at} <i className='fa-xs fas fa-chevron-right'></i> {end_at}
-					</span>{' '}
-				</h6>
+				<p className='mb-0 text-muted text-sm mt-4'>
+					<span className='text-nowrap'>
+						{active}: {start_at} <i className='fa-xs fas fa-chevron-right'></i> {end_at}
+					</span>
+				</p>
 			</>
 		)
 	} else {

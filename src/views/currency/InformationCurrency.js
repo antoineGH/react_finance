@@ -28,22 +28,19 @@ function LoadInformationCurrency(props) {
 	if (!inputCurrency || !outputCurrency) {
 		return (
 			<div className='reverse_div mt-4'>
-				<span style={{ fontSize: '0.80rem' }} class=''>
-					Please select currency
-				</span>
+				<span style={{ fontSize: '0.80rem' }}>Please select currency</span>
 			</div>
 		)
 	} else {
 		return (
 			<>
-				<span style={{ fontWeight: '650', fontSize: '1rem' }} className='h2 mb-0'>
+				<p style={{ fontWeight: '650', fontSize: '1rem' }} className='h2 mb-0 mt-1'>
 					1 {inputCurrency} equals
-				</span>
-				<br />
-				<span style={{ fontWeight: '650', fontSize: '1.5rem' }} className='h2 mb-0'>
-					{toCurrency(1, outputCurrency, listCurrency)} {outputCurrency}
-				</span>
+				</p>
 
+				<h2 style={{ fontWeight: '650', fontSize: '1.5rem' }} className='h2 mt-0 mb-0'>
+					{toCurrency(1, outputCurrency, listCurrency)} {outputCurrency}
+				</h2>
 				<p className='mt-1 mb-0 text-muted text-sm'>
 					<span className='text-nowrap'>European Central Bank</span>
 				</p>

@@ -141,7 +141,7 @@ export default class NewsFeed extends Component {
 		} else {
 			return (
 				<>
-					<Col xs={3} sm={3} md={3} lg={3} xl={2}>
+					<Col xs={10} sm={8} md={6} lg={6} xl={2} className='mx-auto mx-lg-1'>
 						{/* INFO: Form Filter */}
 						<Form noValidate className='justify-content-left text-left mb-2 ml-1'>
 							<div className='form-group has-search'>

@@ -93,7 +93,7 @@ class Index extends React.Component {
 								<CardHeader className='border-0'>
 									<Row className='align-items-center'>
 										<div className='col'>
-											<h3 className='mb-0'>Finance News Feed</h3>
+											<h5 className='text-uppercase text-muted mb-0 card-title'>Finance Feed</h5>
 										</div>
 									</Row>
 								</CardHeader>

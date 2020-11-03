@@ -16,8 +16,6 @@ export default class InputCurrency extends Component {
 		} else {
 			const selectedCurrency = selected[0].value
 			const label = selected[0].label
-			console.log(label)
-
 			this.props.onCurrencyChange(selectedCurrency, label)
 		}
 	}

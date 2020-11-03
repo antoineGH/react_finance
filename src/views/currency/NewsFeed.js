@@ -11,15 +11,28 @@ export default class NewsFeed extends Component {
 	constructor(props) {
 		super(props)
 		this.handleClick = this.handleClick.bind(this)
+		this.handleSearch = this.handleSearch.bind(this)
+		this.searchForm = React.createRef()
 		this.state = {
 			filterMethod: 'publishTimeDesc',
 			search: '',
+			interests: '',
 		}
 	}
 
 	// --- CLASS METHODS ---
 	handleClick() {
 		this.props.getNewsFeed()
+	}
+
+	handleSearch() {
+		this.props.getNewsFeed(this.state.interests)
+		this.searchForm.reset()
+	}
+
+	handleSubmit = (e) => {
+		e.preventDefault()
+		this.props.getNewsFeed(this.state.interests)
 	}
 
 	filter(filterMethod) {
@@ -100,18 +113,19 @@ export default class NewsFeed extends Component {
 
 	render() {
 		let { newsFeed, newsFeedError, newsFeedLoaded } = this.props
-		newsFeed = newsFeed.slice(0, 20)
 
 		// INFO: newsFeed sortBy
 		newsFeed = this.sortBy(this.state.filterMethod, newsFeed)
 
 		// INFO: newsFeed search - if state.search filter the newsfeed array on conditional => string (title or description) include substring (state.search)
 		if (this.state.search !== '') {
-			newsFeed = newsFeed.filter(
-				(newarr) =>
-					newarr.title.toLowerCase().includes(this.state.search.toLowerCase()) ||
-					newarr.description.toLowerCase().includes(this.state.search.toLowerCase())
-			)
+			if (newsFeed[0].title && newsFeed[0].description) {
+				newsFeed = newsFeed.filter(
+					(newarr) =>
+						newarr.title.toLowerCase().includes(this.state.search.toLowerCase()) ||
+						newarr.description.toLowerCase().includes(this.state.search.toLowerCase())
+				)
+			}
 		}
 
 		if (newsFeedError) {
@@ -141,8 +155,38 @@ export default class NewsFeed extends Component {
 		} else {
 			return (
 				<>
-					<Col xs={10} sm={8} md={6} lg={6} xl={2} className='mx-auto mx-lg-1'>
-						{/* INFO: Form Filter */}
+					{/* INFO: Form Search */}
+					<Row>
+						<Col xs={10} sm={8} md={6} lg={6} xl={6} className='mx-auto mx-lg-1 ml-lg-3 mt-3'>
+							<Form className='justify-content-left text-left mb-2 ml-1' onSubmit={this.handleSubmit}>
+								<div className='form-group has-search'>
+									<span className='form-control-feedback'>
+										<i className='fas fa-search'></i>
+									</span>
+									<Form.Control
+										ref={this.searchForm}
+										className='form_filter'
+										size='sm'
+										type='text'
+										id='search'
+										placeholder='Search Interests (Comma separated)'
+										value={this.state.interests}
+										onChange={(e) => this.setState({ interests: e.currentTarget.value })}
+									/>
+									<Form.Text className='text-muted'>
+										Select from tickers e.g. BTC, GOOG, TSLA or assets e.g. Bitcoin, Google, Tesla.
+									</Form.Text>
+								</div>
+							</Form>
+						</Col>
+						<Col xs={10} sm={8} md={6} lg={6} xl={2} className='mx-auto mx-lg-1 mt-3'>
+							<Button className='btn-sm' type='submit' value='Submit'>
+								Search
+							</Button>
+						</Col>
+					</Row>
+					{/* INFO: Form Filter */}
+					<Col xs={10} sm={8} md={6} lg={6} xl={2} className='mx-auto mx-lg-1 mt-4'>
 						<Form noValidate className='justify-content-left text-left mb-2 ml-1'>
 							<div className='form-group has-search'>
 								<span className='form-control-feedback'>
@@ -204,7 +248,7 @@ export default class NewsFeed extends Component {
 					{/* INFO: newsFeed cards */}
 					{newsFeed.map((info) => {
 						return (
-							<Card key={info.publishTime} className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>
+							<Card key={info.uuid} className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>
 								<Card.Body className='card_news_body'>
 									<Row>
 										<Col xs={2} sm={2} md={2} lg={2} xl={1} className='text-left justify-content-left mr-3 mr-xl-2'>

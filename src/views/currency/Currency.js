@@ -55,8 +55,8 @@ export default class Currency extends Component {
 			historyPercentage: '',
 
 			listCurrency: '',
-			optionsInput: { value: 'USD', label: 'USD' },
-			optionsOutput: { value: 'EUR', label: 'EUR' },
+			optionsInput: { value: 'USD', label: 'USD (United States Dollar)' },
+			optionsOutput: { value: 'EUR', label: 'EUR (Euro)' },
 
 			isHistoryLoaded: false,
 			hasHistoryError: false,
@@ -194,11 +194,44 @@ export default class Currency extends Component {
 	}
 
 	// Get News Feed
-	getNewsFeed() {
+	getNewsFeed(interests) {
 		this.setState({ newsFeedError: false, newsFeedLoaded: false })
-		fetchNewsFeed(['Apple', 'Tesla', 'Microsoft'])
+		if (!interests) {
+			interests = ['Apple', 'Tesla', 'Microsoft']
+			fetchNewsFeed('cityfalcon', interests)
+				.then((response) => {
+					const stories = response.stories.slice(0, 20)
+					this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: stories })
+				})
+				.catch((error) => {
+					this.setState({ newsFeedError: true })
+				})
+			return
+		}
+
+		Promise.all([fetchNewsFeed('cityfalcon', interests), fetchNewsFeed('tickers', interests)])
 			.then((response) => {
-				this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: response.stories })
+				const storiesInterest = response[0].stories.slice(0, 15)
+				const storiesTickers = response[1].stories.slice(0, 15)
+				const stories = storiesInterest.concat(storiesTickers)
+				console.log(stories)
+				let flags = [],
+					storiesUnique = []
+				for (let i = 0; i < stories.length; i++) {
+					if (flags[stories[i].uuid]) continue
+					flags[stories[i].uuid] = true
+					const obj = {
+						uuid: stories[i].uuid,
+						publishTime: stories[i].publishTime,
+						cityfalconScore: stories[i].cityfalconScore,
+						title: stories[i].title,
+						description: stories[i].description,
+						source: stories[i].source,
+					}
+					storiesUnique.push(obj)
+				}
+				console.log(storiesUnique)
+				this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: storiesUnique })
 			})
 			.catch((error) => {
 				this.setState({ newsFeedError: true })

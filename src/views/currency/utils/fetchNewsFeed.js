@@ -7,12 +7,15 @@
 // fetchNewsFeed(identifier) return JSON Promise
 // return response.articles
 
+// Backup Proxy CORS
+// https://proxycorsfalcon.herokuapp.com/
+
 const language = 'en'
 const access_token = '9e522ad481d49a67ba237d3445b5eea849576a83e8ab46f9911f30406c42f810'
 
-export default async function fetchNewsFeed(identifiers) {
+export default async function fetchNewsFeed(identifier_type, identifiers) {
 	const identifiersString = identifiers.toString()
-	const urlToFetch = `http://js-cors-proxy.herokuapp.com/cityfalcon/${identifiersString}/${language}/${access_token}`
+	const urlToFetch = `http://proxycorsfalcon.herokuapp.com/${identifier_type}/${identifiersString}/${language}/${access_token}`
 	const response = await fetch(urlToFetch, {
 		method: 'GET',
 	})

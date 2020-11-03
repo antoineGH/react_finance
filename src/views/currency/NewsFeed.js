@@ -173,9 +173,7 @@ export default class NewsFeed extends Component {
 										value={this.state.interests}
 										onChange={(e) => this.setState({ interests: e.currentTarget.value })}
 									/>
-									<Form.Text className='text-muted'>
-										Select from tickers e.g. BTC, GOOG, TSLA or assets e.g. Bitcoin, Google, Tesla.
-									</Form.Text>
+									<Form.Text className='text-muted'>Search tickers e.g. BTC, GOOG, TSLA or assets e.g. Bitcoin, Google, Tesla.</Form.Text>
 								</div>
 							</Form>
 						</Col>
@@ -245,6 +243,16 @@ export default class NewsFeed extends Component {
 							</Row>
 						</Card.Body>
 					</Card>
+					{newsFeed.length === 0 && (
+						<>
+							<Row className='text-left justify-content-left ml-2 mt-3'>
+								<Col>
+									<p style={{ color: 'black', fontSize: '0.8rem' }}>No results, please refine your research to assets or tickers</p>
+									<p style={{ fontSize: '0.70rem', lineHeight: '0.5rem' }}> e.g. BTC, GOOG, TSLA, Bitcoin, Google, Tesla.</p>
+								</Col>
+							</Row>
+						</>
+					)}
 					{/* INFO: newsFeed cards */}
 					{newsFeed.map((info) => {
 						return (

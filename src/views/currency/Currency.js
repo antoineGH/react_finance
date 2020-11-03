@@ -270,7 +270,7 @@ export default class Currency extends Component {
 	}
 
 	// Currency input change
-	handleCurrencyInputChange(selectedCurrency) {
+	handleCurrencyInputChange(selectedCurrency, label) {
 		if (selectedCurrency === undefined) {
 			this.setState({
 				inputCurrency: '',
@@ -281,7 +281,7 @@ export default class Currency extends Component {
 		}
 		this.setState({
 			inputCurrency: selectedCurrency,
-			optionsInput: { value: selectedCurrency, label: selectedCurrency },
+			optionsInput: { value: selectedCurrency, label: label },
 		})
 		this.setBase(selectedCurrency)
 		const date = new Date(Date.now())
@@ -303,7 +303,7 @@ export default class Currency extends Component {
 	}
 
 	// Currency output change
-	handleCurrencyOutputChange(selectedCurrency) {
+	handleCurrencyOutputChange(selectedCurrency, label) {
 		if (selectedCurrency === undefined) {
 			this.setState({
 				outputCurrency: '',
@@ -315,7 +315,7 @@ export default class Currency extends Component {
 				outputCurrency: selectedCurrency,
 				optionsOutput: {
 					value: selectedCurrency,
-					label: selectedCurrency,
+					label: label,
 				},
 			})
 

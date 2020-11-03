@@ -11,14 +11,15 @@
 .has-search .form-control {
 	padding-left: 2.375rem;
 	font-size: 0.8rem;
+	margin-bottom: -8%;
 }
 
 .has-search .form-control-feedback {
 	position: absolute;
-	z-index: 2;
+	/* z-index: 2; */
 	display: block;
 	width: 2.375rem;
-	height: 2.375rem;
+	/* height: 2.375rem; */
 	line-height: 2rem;
 	text-align: center;
 	pointer-events: none;

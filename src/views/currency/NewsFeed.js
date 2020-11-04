@@ -156,9 +156,9 @@ export default class NewsFeed extends Component {
 			return (
 				<>
 					{/* INFO: Form Search */}
-					<Row>
-						<Col xs={10} sm={8} md={6} lg={6} xl={6} className='mx-auto mx-lg-1 ml-lg-3 mt-3'>
-							<Form className='justify-content-left text-left mb-2 ml-1' onSubmit={this.handleSubmit}>
+					<Form className='justify-content-left text-left ml-4' onSubmit={this.handleSubmit}>
+						<Row>
+							<Col xs={10} sm={8} md={6} lg={6} xl={5}>
 								<div className='form-group has-search'>
 									<span className='form-control-feedback'>
 										<i className='fas fa-search'></i>
@@ -173,14 +173,20 @@ export default class NewsFeed extends Component {
 										value={this.state.interests}
 										onChange={(e) => this.setState({ interests: e.currentTarget.value })}
 									/>
-									<Form.Text className='text-muted'>Search tickers e.g. BTC, GOOG, TSLA or assets e.g. Bitcoin, Google, Tesla.</Form.Text>
 								</div>
-							</Form>
-						</Col>
-						<Col xs={10} sm={8} md={6} lg={6} xl={2} className='mx-auto mx-lg-1 mt-3'>
-							<Button className='btn-sm' type='submit' value='Submit'>
-								Search
-							</Button>
+							</Col>
+							<Col xs={10} sm={8} md={6} lg={6} xl={2} className=''>
+								<Button className='btn-sm' type='submit' value='Submit'>
+									Search
+								</Button>
+							</Col>
+						</Row>
+					</Form>
+					<Row>
+						<Col xs={10} sm={8} md={6} lg={6} xl={6} className='mx-auto mx-lg-1 ml-lg-4 mt-2'>
+							<p style={{ fontSize: '0.75rem' }} className='text-muted'>
+								Search tickers e.g. BTC, GOOG, TSLA or assets e.g. Bitcoin, Google, Tesla.
+							</p>
 						</Col>
 					</Row>
 					{/* INFO: Form Filter */}
@@ -188,7 +194,7 @@ export default class NewsFeed extends Component {
 						<Form noValidate className='justify-content-left text-left mb-2 ml-1'>
 							<div className='form-group has-search'>
 								<span className='form-control-feedback'>
-									<i className='fas fa-search'></i>
+									<i className='fas fa-filter'></i>
 								</span>
 								<Form.Control
 									className='form_filter'
@@ -208,35 +214,20 @@ export default class NewsFeed extends Component {
 							<Row>
 								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='text-left justify-content-left mr-5 mr-sm-3 mr-xl-2'>
 									<Button className='btn-sm' onClick={() => this.filter('brandNameAsc')}>
-										Brand{' '}
-										{this.state.filterMethod === 'brandNameAsc' ? (
-											<i className='fas fa-sort-alpha-down'></i>
-										) : (
-											<i className='fas fa-sort-alpha-up'></i>
-										)}
+										Brand <i className='fas fa-sort'></i>
 									</Button>
 								</Col>
 								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
 									<Row>
 										<Button className='btn-sm' onClick={() => this.filter('publishTimeAsc')}>
-											Date{' '}
-											{this.state.filterMethod === 'publishTimeAsc' ? (
-												<i className='fas fa-sort-numeric-down'></i>
-											) : (
-												<i className='fas fa-sort-numeric-up'></i>
-											)}
+											Date <i className='fas fa-sort'></i>
 										</Button>
 									</Row>
 								</Col>
 								<Col xs={3} sm={3} md={3} lg={3} xl={2}>
 									<Row className='text-left mx-auto justify-content-left'>
 										<Button className='btn-sm' onClick={() => this.filter('cityfalconScoreAsc')}>
-											Score{' '}
-											{this.state.filterMethod === 'cityfalconScoreAsc' ? (
-												<i className='fas fa-sort-numeric-down'></i>
-											) : (
-												<i className='fas fa-sort-numeric-up'></i>
-											)}
+											Score <i className='fas fa-sort'></i>
 										</Button>
 									</Row>
 								</Col>

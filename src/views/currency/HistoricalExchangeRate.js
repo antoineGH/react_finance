@@ -82,32 +82,17 @@ class LoadHistoricalExchangeRate extends Component {
 							<tr>
 								<th scope='col'>
 									<Button className='btn-sm' onClick={() => this.filterChild('destAsc')}>
-										Currency{' '}
-										{stateFilterMethod === 'destAsc' ? (
-											<i className='fas fa-sort-alpha-down'></i>
-										) : (
-											<i className='fas fa-sort-alpha-up'></i>
-										)}
+										Currency <i className='fas fa-sort'></i>
 									</Button>
 								</th>
 								<th scope='col'>
 									<Button className='btn-sm' onClick={() => this.filterChild('rateAsc')}>
-										Rate{' '}
-										{stateFilterMethod === 'rateAsc' ? (
-											<i className='fas fa-sort-numeric-down'></i>
-										) : (
-											<i className='fas fa-sort-numeric-up'></i>
-										)}
+										Rate <i className='fas fa-sort'></i>
 									</Button>
 								</th>
 								<th scope='col'>
 									<Button className='btn-sm' onClick={() => this.filterChild('histAsc')}>
-										History{' '}
-										{stateFilterMethod === 'histAsc' ? (
-											<i className='fas fa-sort-numeric-down'></i>
-										) : (
-											<i className='fas fa-sort-numeric-up'></i>
-										)}
+										History <i className='fas fa-sort'></i>
 									</Button>
 								</th>
 							</tr>
@@ -275,7 +260,7 @@ export default class HistoricalExchangeRate extends Component {
 					<Form noValidate className='justify-content-left text-left ml-1'>
 						<div className='form-group has-search'>
 							<span className='form-control-feedback'>
-								<i className='fas fa-search'></i>
+								<i className='fas fa-filter'></i>
 							</span>
 							<Form.Control
 								className='form_filter'

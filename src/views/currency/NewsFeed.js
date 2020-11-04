@@ -190,7 +190,7 @@ export default class NewsFeed extends Component {
 						</Col>
 					</Row>
 					{/* INFO: Form Filter */}
-					<Col xs={10} sm={8} md={6} lg={6} xl={2} className='mx-auto mx-lg-1 mt-4'>
+					<Col xs={10} sm={8} md={6} lg={6} xl={2} className='mx-auto mx-lg-1'>
 						<Form noValidate className='justify-content-left text-left mb-2 ml-1'>
 							<div className='form-group has-search'>
 								<span className='form-control-feedback'>
@@ -239,7 +239,6 @@ export default class NewsFeed extends Component {
 							<Row className='text-left justify-content-left ml-2 mt-3'>
 								<Col>
 									<p style={{ color: 'black', fontSize: '0.8rem' }}>No results, please refine your research to assets or tickers</p>
-									<p style={{ fontSize: '0.70rem', lineHeight: '0.5rem' }}> e.g. BTC, GOOG, TSLA, Bitcoin, Google, Tesla.</p>
 								</Col>
 							</Row>
 						</>

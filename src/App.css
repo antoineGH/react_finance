@@ -1,5 +1,10 @@
 /* ---- Main Theme Design  ---- */
 
+.mt-5,
+.my-5 {
+	margin-top: 2rem !important;
+}
+
 .table .thead-light th {
 	background-color: white;
 	color: white;

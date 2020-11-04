@@ -77,7 +77,7 @@ class LoadHistoricalExchangeRate extends Component {
 		} else {
 			return (
 				<>
-					<Table className='align-items-center table-flush table-hover' responsive>
+					<Table className='align-items-center table-flush table-hover mt-3' responsive>
 						<thead className='thead-light'>
 							<tr>
 								<th scope='col'>
@@ -255,7 +255,7 @@ export default class HistoricalExchangeRate extends Component {
 						</div>
 					</Row>
 				</CardHeader>
-				<Col xs={10} sm={7} md={6} lg={6} xl={4} className='mx-auto mx-lg-1'>
+				<Col xs={10} sm={7} md={6} lg={6} xl={8} className='mx-lg-1'>
 					{/* INFO: Form Filter */}
 					<Form noValidate className='justify-content-left text-left ml-1'>
 						<div className='form-group has-search'>

@@ -158,7 +158,7 @@ export default class NewsFeed extends Component {
 					{/* INFO: Form Search */}
 					<Form className='justify-content-left text-left ml-4' onSubmit={this.handleSubmit}>
 						<Row>
-							<Col xs={10} sm={8} md={6} lg={6} xl={5}>
+							<Col xs={9} sm={8} md={6} lg={6} xl={5}>
 								<div className='form-group has-search'>
 									<span className='form-control-feedback'>
 										<i className='fas fa-search'></i>
@@ -169,13 +169,13 @@ export default class NewsFeed extends Component {
 										size='sm'
 										type='text'
 										id='search'
-										placeholder='Search Interests (Comma separated)'
+										placeholder='Search Interests'
 										value={this.state.interests}
 										onChange={(e) => this.setState({ interests: e.currentTarget.value })}
 									/>
 								</div>
 							</Col>
-							<Col xs={10} sm={8} md={6} lg={6} xl={2} className=''>
+							<Col xs={2} sm={2} md={6} lg={6} xl={2} className=''>
 								<Button className='btn-sm' type='submit' value='Submit'>
 									Search
 								</Button>
@@ -183,14 +183,14 @@ export default class NewsFeed extends Component {
 						</Row>
 					</Form>
 					<Row>
-						<Col xs={10} sm={8} md={6} lg={6} xl={6} className='mx-auto mx-lg-1 ml-lg-4 mt-2'>
+						<Col xs={10} sm={8} md={6} lg={6} xl={6} className='ml-4 mt-2'>
 							<p style={{ fontSize: '0.75rem' }} className='text-muted'>
-								Search tickers e.g. BTC, GOOG, TSLA or assets e.g. Bitcoin, Google, Tesla.
+								Search tickers e.g. BTC, TSLA or assets e.g. Bitcoin, Tesla (Comma separated).
 							</p>
 						</Col>
 					</Row>
 					{/* INFO: Form Filter */}
-					<Col xs={10} sm={8} md={6} lg={6} xl={2} className='mx-auto mx-lg-1'>
+					<Col xs={10} sm={8} md={6} lg={6} xl={5} className='mx-lg-1'>
 						<Form noValidate className='justify-content-left text-left mb-2 ml-1'>
 							<div className='form-group has-search'>
 								<span className='form-control-feedback'>
@@ -209,10 +209,10 @@ export default class NewsFeed extends Component {
 						</Form>
 					</Col>
 					{/* INFO: Menu Filter */}
-					<Card className='card_filter text-center justify-content-center mx-auto mb-1 border-0'>
+					<Card className='card_filter text-center justify-content-center mx-auto mb-1 mt-md-3 mt-5 border-0'>
 						<Card.Body className='card_news_body'>
 							<Row>
-								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='text-left justify-content-left mr-5 mr-sm-3 mr-xl-2'>
+								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='text-left justify-content-left mr-xl-2'>
 									<Button className='btn-sm' onClick={() => this.filter('brandNameAsc')}>
 										Brand <i className='fas fa-sort'></i>
 									</Button>
@@ -236,7 +236,7 @@ export default class NewsFeed extends Component {
 					</Card>
 					{newsFeed.length === 0 && (
 						<>
-							<Row className='text-left justify-content-left ml-2 mt-3'>
+							<Row className='text-left justify-content-left ml-2 mt-md-0 mt-3'>
 								<Col>
 									<p style={{ color: 'black', fontSize: '0.8rem' }}>No results, please refine your research to assets or tickers</p>
 								</Col>

@@ -52,7 +52,7 @@ class LoadHistoricalExchangeRate extends Component {
 
 	handlePageChange(pageNumber) {
 		const { listCurrencyHistory } = this.props
-		const pageLimit = 10
+		const pageLimit = 13
 		const offset = (pageNumber - 1) * pageLimit
 		const currentItems = listCurrencyHistory.slice(offset, offset + pageLimit)
 		this.setState({ activePage: pageNumber, currentItems: currentItems })
@@ -104,7 +104,22 @@ class LoadHistoricalExchangeRate extends Component {
 		} else {
 			return (
 				<>
-					<Table className='align-items-center table-flush table-hover mt-3' responsive>
+					{/* INFO: Pagination */}
+					<Row className='text-left  ml-2 mt-md-0 mt-3'>
+						<Col className='mt-3 justify-content-center'>
+							<Pagination
+								hideFirstLastPages
+								pageRangeDisplayed={10}
+								activePage={this.state.activePage}
+								itemsCountPerPage={13}
+								totalItemsCount={listCurrencyHistory.length}
+								onChange={this.handlePageChange.bind(this)}
+								itemClass='page-item'
+								linkClass='page-link'
+							/>
+						</Col>
+					</Row>
+					<Table className='align-items-center table-flush table-hover mt-1' responsive>
 						<thead className='thead-light'>
 							<tr>
 								<th scope='col'>
@@ -145,20 +160,6 @@ class LoadHistoricalExchangeRate extends Component {
 							})}
 						</tbody>
 					</Table>
-					<Row className='text-left  ml-2 mt-md-0 mt-3'>
-						<Col className='mt-3 justify-content-center'>
-							<Pagination
-								hideFirstLastPages
-								pageRangeDisplayed={10}
-								activePage={this.state.activePage}
-								itemsCountPerPage={10}
-								totalItemsCount={listCurrencyHistory.length}
-								onChange={this.handlePageChange.bind(this)}
-								itemClass='page-item'
-								linkClass='page-link'
-							/>
-						</Col>
-					</Row>
 				</>
 			)
 		}
@@ -297,7 +298,7 @@ export default class HistoricalExchangeRate extends Component {
 						</div>
 					</Row>
 				</CardHeader>
-				<Col xs={10} sm={7} md={6} lg={6} xl={8} className='mx-lg-1'>
+				<Col xs={10} sm={7} md={6} lg={6} xl={8} className='mx-lg-1 mb-2'>
 					{/* INFO: Form Filter */}
 					<Form noValidate className='justify-content-left text-left ml-1'>
 						<div className='form-group has-search'>

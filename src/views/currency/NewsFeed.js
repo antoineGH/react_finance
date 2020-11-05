@@ -214,7 +214,7 @@ export default class NewsFeed extends Component {
 						</Col>
 					</Row>
 					{/* INFO: Form Filter */}
-					<Col xs={10} sm={8} md={6} lg={6} xl={5} className='mx-lg-1'>
+					<Col xs={10} sm={8} md={6} lg={6} xl={5} className='mx-lg-1 mb-2'>
 						<Form noValidate className='justify-content-left text-left mb-2 ml-1'>
 							<div className='form-group has-search'>
 								<span className='form-control-feedback'>
@@ -232,8 +232,23 @@ export default class NewsFeed extends Component {
 							</div>
 						</Form>
 					</Col>
+					{/* INFO: Pagination */}
+					<Row className='text-left  ml-2 mt-md-0 mt-4'>
+						<Col className='mt-4 justify-content-left'>
+							<Pagination
+								hideFirstLastPages
+								pageRangeDisplayed={10}
+								activePage={this.state.activePage}
+								itemsCountPerPage={10}
+								totalItemsCount={newsFeed.length}
+								onChange={this.handlePageChange.bind(this)}
+								itemClass='page-item'
+								linkClass='page-link'
+							/>
+						</Col>
+					</Row>
 					{/* INFO: Menu Filter */}
-					<Card className='card_filter text-center justify-content-center mx-auto mb-1 mt-md-3 mt-5 border-0'>
+					<Card className='card_filter text-center justify-content-center mx-auto mb-1 mt-md-1 mt-1 border-0'>
 						<Card.Body className='card_news_body'>
 							<Row>
 								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='text-left justify-content-left mr-xl-2'>
@@ -269,53 +284,41 @@ export default class NewsFeed extends Component {
 					)}
 					{/* INFO: newsFeed cards */}
 					{/* {newsFeed.map((info) => { */}
-					{currentItems.map((info) => {
-						return (
-							<Card key={info.uuid} className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>
-								<Card.Body className='card_news_body'>
-									<Row>
-										<Col xs={2} sm={2} md={2} lg={2} xl={1} className='text-left justify-content-left mr-3 mr-xl-2'>
-											<img src={info.source.imageUrls.thumb} alt={info.source.brandName} />
-										</Col>
-										<Col xs={8} sm={8} md={8} lg={8} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
-											<Row>
-												<a href={`https://${info.source.name}`} style={{ fontSize: '0.7rem' }}>
-													{info.source.brandName}
-												</a>
-											</Row>
-											<Row style={{ fontSize: '0.7rem', marginTop: '-1%' }} className='text-muted '>
-												{info.publishTime.slice(0, 10)}
-											</Row>
-										</Col>
-										<Col xs={12} sm={12} md={12} lg={12} xl={9}>
-											<Row className='text-left mx-auto justify-content-left'>
-												<a style={{ color: 'black', fontSize: '0.8rem' }} href={info.url}>
-													{info.title}
-												</a>
-											</Row>
-											<Row className='text-left mx-auto justify-content-left' style={{ fontSize: '0.7rem' }}>
-												{info.description}
-											</Row>
-										</Col>
-									</Row>
-								</Card.Body>
-							</Card>
-						)
-					})}
-					<Row className='text-left  ml-2 mt-md-0 mt-3'>
-						<Col className='mt-3 justify-content-center'>
-							<Pagination
-								hideFirstLastPages
-								pageRangeDisplayed={10}
-								activePage={this.state.activePage}
-								itemsCountPerPage={10}
-								totalItemsCount={newsFeed.length}
-								onChange={this.handlePageChange.bind(this)}
-								itemClass='page-item'
-								linkClass='page-link'
-							/>
-						</Col>
-					</Row>
+					<div class='col-container'>
+						{currentItems.map((info) => {
+							return (
+								<Card key={info.uuid} className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>
+									<Card.Body className='card_news_body'>
+										<Row>
+											<Col xs={2} sm={2} md={2} lg={2} xl={1} className='text-left justify-content-left mr-3 mr-xl-2'>
+												<img src={info.source.imageUrls.thumb} alt={info.source.brandName} />
+											</Col>
+											<Col xs={8} sm={8} md={8} lg={8} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
+												<Row>
+													<a href={`https://${info.source.name}`} style={{ fontSize: '0.7rem' }}>
+														{info.source.brandName}
+													</a>
+												</Row>
+												<Row style={{ fontSize: '0.7rem', marginTop: '-1%' }} className='text-muted '>
+													{info.publishTime.slice(0, 10)}
+												</Row>
+											</Col>
+											<Col xs={12} sm={12} md={12} lg={12} xl={9}>
+												<Row className='text-left mx-auto justify-content-left'>
+													<a style={{ color: 'black', fontSize: '0.8rem' }} href={info.url}>
+														{info.title}
+													</a>
+												</Row>
+												<Row className='text-left mx-auto justify-content-left' style={{ fontSize: '0.7rem' }}>
+													{info.description}
+												</Row>
+											</Col>
+										</Row>
+									</Card.Body>
+								</Card>
+							)
+						})}
+					</div>
 				</>
 			)
 		}

@@ -1,6 +1,12 @@
 /* ---- Main Theme Design  ---- */
+
+.col-container {
+	display: table; /* Make the container element behave like a table */
+	width: 100%; /* Set full-width to expand the whole page */
+}
+
 .pagination {
-	justify-content: center;
+	justify-content: left;
 }
 
 .page-item.active .page-link {

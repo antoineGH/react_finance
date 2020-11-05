@@ -1,4 +1,27 @@
 /* ---- Main Theme Design  ---- */
+.pagination {
+	justify-content: center;
+}
+
+.page-item.active .page-link {
+	z-index: 1;
+	color: #fff;
+	background-color: #22437f;
+	border-color: #234480;
+}
+
+.page-item .page-link,
+.page-item span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	margin: 0 3px;
+	border-radius: 0 !important;
+	width: 34px;
+	height: 34px;
+	font-size: 0.875rem;
+}
 
 .mt-5,
 .my-5 {

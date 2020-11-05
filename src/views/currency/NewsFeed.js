@@ -303,16 +303,20 @@ export default class NewsFeed extends Component {
 							</Card>
 						)
 					})}
-					<Pagination
-						hideFirstLastPages
-						pageRangeDisplayed={10}
-						activePage={this.state.activePage}
-						itemsCountPerPage={10}
-						totalItemsCount={newsFeed.length}
-						onChange={this.handlePageChange.bind(this)}
-						itemClass='page-item'
-						linkClass='page-link'
-					/>
+					<Row className='text-left  ml-2 mt-md-0 mt-3'>
+						<Col className='mt-3 justify-content-center'>
+							<Pagination
+								hideFirstLastPages
+								pageRangeDisplayed={10}
+								activePage={this.state.activePage}
+								itemsCountPerPage={10}
+								totalItemsCount={newsFeed.length}
+								onChange={this.handlePageChange.bind(this)}
+								itemClass='page-item'
+								linkClass='page-link'
+							/>
+						</Col>
+					</Row>
 				</>
 			)
 		}

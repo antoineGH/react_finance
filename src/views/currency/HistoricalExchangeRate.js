@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import getDate from './utils/getDate'
 import getDateBefore from './utils/getDateBefore'
 
+import Pagination from 'react-js-pagination'
+
 import BarLoader from 'react-spinners/BarLoader'
 import { Table } from 'reactstrap'
 import Button from 'react-bootstrap/Button'
@@ -23,6 +25,20 @@ class LoadHistoricalExchangeRate extends Component {
 	}
 
 	// --- COMPONENT LIFECYCLE ---
+
+	componentDidUpdate(prevProps, prevState) {
+		// handle first load, page one
+		if (this.props.listCurrencyHistory !== prevProps.listCurrencyHistory) {
+			this.handlePageChange(1)
+		}
+
+		if (this.props.stateFilterMethod !== prevProps.stateFilterMethod) {
+			// handle filtermethod change even with pagination
+			console.log('Filter method change')
+			this.handlePageChange(this.state.activePage)
+		}
+	}
+
 	shouldComponentUpdate(nextProps) {
 		// Component should update if this.state.filterMethod is different than nextProps.filterMethod
 		if (this.state.filterMethod !== nextProps.filterMethod) {
@@ -33,12 +49,23 @@ class LoadHistoricalExchangeRate extends Component {
 	}
 
 	// --- CLASS METHODS ---
+
+	handlePageChange(pageNumber) {
+		const { listCurrencyHistory } = this.props
+		const pageLimit = 10
+		const offset = (pageNumber - 1) * pageLimit
+		const currentItems = listCurrencyHistory.slice(offset, offset + pageLimit)
+		this.setState({ activePage: pageNumber, currentItems: currentItems })
+	}
+
 	filterChild(filterMethod) {
 		this.setState({ filterMethod: filterMethod })
 		this.props.filter(filterMethod, filterMethod)
 	}
+
 	render() {
 		const { listCurrencyHistory, listCurrencyLoaded, listCurrencyError, inputCurrency, handleClick } = this.props
+		const { currentItems } = this.state
 
 		if (listCurrencyError) {
 			return (
@@ -66,7 +93,7 @@ class LoadHistoricalExchangeRate extends Component {
 			)
 		}
 
-		if (!listCurrencyLoaded) {
+		if (!listCurrencyLoaded || this.state.currentItems === undefined) {
 			return (
 				<>
 					<div className='text-center justify-content-center mb-4'>
@@ -98,7 +125,7 @@ class LoadHistoricalExchangeRate extends Component {
 							</tr>
 						</thead>
 						<tbody>
-							{listCurrencyHistory.map((listCurrency, count) => {
+							{currentItems.map((listCurrency, count) => {
 								count++
 								const rate = Math.round(listCurrency.rate * 1000) / 1000
 								return (
@@ -118,6 +145,20 @@ class LoadHistoricalExchangeRate extends Component {
 							})}
 						</tbody>
 					</Table>
+					<Row className='text-left  ml-2 mt-md-0 mt-3'>
+						<Col className='mt-3 justify-content-center'>
+							<Pagination
+								hideFirstLastPages
+								pageRangeDisplayed={10}
+								activePage={this.state.activePage}
+								itemsCountPerPage={10}
+								totalItemsCount={listCurrencyHistory.length}
+								onChange={this.handlePageChange.bind(this)}
+								itemClass='page-item'
+								linkClass='page-link'
+							/>
+						</Col>
+					</Row>
 				</>
 			)
 		}
@@ -140,6 +181,7 @@ export default class HistoricalExchangeRate extends Component {
 	}
 
 	// --- CLASS METHODS ---
+
 	handleClick() {
 		const { inputCurrency, listCurrency } = this.props
 		const date = new Date(Date.now())

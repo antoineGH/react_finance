@@ -30,7 +30,6 @@ export default class NewsFeed extends Component {
 
 		if (this.state.filterMethod !== prevState.filterMethod) {
 			// handle filtermethod change even with pagination
-			console.log('change filtering method !')
 			this.handlePageChange(this.state.activePage)
 		}
 	}

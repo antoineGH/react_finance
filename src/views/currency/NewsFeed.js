@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Pagination from 'react-js-pagination'
 import BarLoader from 'react-spinners/BarLoader'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
@@ -20,7 +21,30 @@ export default class NewsFeed extends Component {
 		}
 	}
 
+	// --- COMPONENT LIFECYCLE ---
+	componentDidUpdate(prevProps, prevState) {
+		// handle first load, page one
+		if (this.props.newsFeed !== prevProps.newsFeed) {
+			this.handlePageChange(1)
+		}
+
+		if (this.state.filterMethod !== prevState.filterMethod) {
+			// handle filtermethod change even with pagination
+			console.log('change filtering method !')
+			this.handlePageChange(this.state.activePage)
+		}
+	}
+
 	// --- CLASS METHODS ---
+
+	handlePageChange(pageNumber) {
+		const { newsFeed } = this.props
+		const pageLimit = 10
+		const offset = (pageNumber - 1) * pageLimit
+		const currentItems = newsFeed.slice(offset, offset + pageLimit)
+		this.setState({ activePage: pageNumber, currentItems: currentItems })
+	}
+
 	handleClick() {
 		this.props.getNewsFeed()
 	}
@@ -113,6 +137,7 @@ export default class NewsFeed extends Component {
 
 	render() {
 		let { newsFeed, newsFeedError, newsFeedLoaded } = this.props
+		const { currentItems } = this.state
 
 		// INFO: newsFeed sortBy
 		newsFeed = this.sortBy(this.state.filterMethod, newsFeed)
@@ -144,7 +169,7 @@ export default class NewsFeed extends Component {
 			)
 		}
 
-		if (!newsFeedLoaded) {
+		if (!newsFeedLoaded || this.state.currentItems === undefined) {
 			return (
 				<>
 					<div className='text-center justify-content-center mb-4'>
@@ -244,7 +269,8 @@ export default class NewsFeed extends Component {
 						</>
 					)}
 					{/* INFO: newsFeed cards */}
-					{newsFeed.map((info) => {
+					{/* {newsFeed.map((info) => { */}
+					{currentItems.map((info) => {
 						return (
 							<Card key={info.uuid} className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>
 								<Card.Body className='card_news_body'>
@@ -277,6 +303,16 @@ export default class NewsFeed extends Component {
 							</Card>
 						)
 					})}
+					<Pagination
+						hideFirstLastPages
+						pageRangeDisplayed={10}
+						activePage={this.state.activePage}
+						itemsCountPerPage={10}
+						totalItemsCount={newsFeed.length}
+						onChange={this.handlePageChange.bind(this)}
+						itemClass='page-item'
+						linkClass='page-link'
+					/>
 				</>
 			)
 		}

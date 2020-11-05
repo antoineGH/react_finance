@@ -200,7 +200,8 @@ export default class Currency extends Component {
 			interests = ['Apple', 'Tesla', 'Microsoft']
 			fetchNewsFeed('cityfalcon', interests)
 				.then((response) => {
-					const stories = response.stories.slice(0, 20)
+					// const stories = response.stories.slice(0, 20)
+					const stories = response.stories
 					this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: stories })
 				})
 				.catch((error) => {

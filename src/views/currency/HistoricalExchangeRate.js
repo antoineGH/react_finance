@@ -34,7 +34,6 @@ class LoadHistoricalExchangeRate extends Component {
 
 		if (this.props.stateFilterMethod !== prevProps.stateFilterMethod) {
 			// handle filtermethod change even with pagination
-			console.log('Filter method change')
 			this.handlePageChange(this.state.activePage)
 		}
 	}
@@ -298,7 +297,7 @@ export default class HistoricalExchangeRate extends Component {
 						</div>
 					</Row>
 				</CardHeader>
-				<Col xs={10} sm={7} md={6} lg={6} xl={8} className='mx-lg-1 mb-2'>
+				<Col xs={10} sm={7} md={6} lg={6} xl={6} className='mx-lg-1 mb-2'>
 					{/* INFO: Form Filter */}
 					<Form noValidate className='justify-content-left text-left ml-1'>
 						<div className='form-group has-search'>

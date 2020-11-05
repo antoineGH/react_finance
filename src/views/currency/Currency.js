@@ -212,8 +212,8 @@ export default class Currency extends Component {
 
 		Promise.all([fetchNewsFeed('cityfalcon', interests), fetchNewsFeed('tickers', interests)])
 			.then((response) => {
-				const storiesInterest = response[0].stories.slice(0, 15)
-				const storiesTickers = response[1].stories.slice(0, 15)
+				const storiesInterest = response[0].stories
+				const storiesTickers = response[1].stories
 				const stories = storiesInterest.concat(storiesTickers)
 				console.log(stories)
 				let flags = [],

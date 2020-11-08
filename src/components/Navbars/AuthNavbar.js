@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { UncontrolledCollapse, NavbarBrand, Navbar, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap'
+import { UncontrolledCollapse, Navbar, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap'
 
 class AdminNavbar extends React.Component {
 	render() {
@@ -8,9 +8,6 @@ class AdminNavbar extends React.Component {
 			<>
 				<Navbar className='navbar-top navbar-horizontal navbar-dark' expand='md'>
 					<Container className='px-4'>
-						<NavbarBrand to='/' tag={Link}>
-							<img alt='...' src={require('assets/img/brand/argon-react-white.png')} />
-						</NavbarBrand>
 						<button className='navbar-toggler' id='navbar-collapse-main'>
 							<span className='navbar-toggler-icon' />
 						</button>
@@ -19,7 +16,7 @@ class AdminNavbar extends React.Component {
 								<Row>
 									<Col className='collapse-brand' xs='6'>
 										<Link to='/'>
-											<img alt='...' src={require('assets/img/brand/argon-react.png')} />
+											<img alt='...' src={require('assets/img/brand/logo_brand_financial.png')} />
 										</Link>
 									</Col>
 									<Col className='collapse-close' xs='6'>
@@ -30,29 +27,17 @@ class AdminNavbar extends React.Component {
 									</Col>
 								</Row>
 							</div>
-							<Nav className='ml-auto' navbar>
-								<NavItem>
-									<NavLink className='nav-link-icon' to='/' tag={Link}>
-										<i className='ni ni-planet' />
-										<span className='nav-link-inner--text'>Dashboard</span>
-									</NavLink>
-								</NavItem>
+							<Nav className='mx-auto' navbar>
 								<NavItem>
 									<NavLink className='nav-link-icon' to='/auth/register' tag={Link}>
 										<i className='ni ni-circle-08' />
-										<span className='nav-link-inner--text'>Register</span>
+										<span className='nav-link-inner--text'>Sign Up</span>
 									</NavLink>
 								</NavItem>
 								<NavItem>
 									<NavLink className='nav-link-icon' to='/auth/login' tag={Link}>
-										<i className='ni ni-key-25' />
-										<span className='nav-link-inner--text'>Login</span>
-									</NavLink>
-								</NavItem>
-								<NavItem>
-									<NavLink className='nav-link-icon' to='/admin/user-profile' tag={Link}>
-										<i className='ni ni-single-02' />
-										<span className='nav-link-inner--text'>Profile</span>
+										<i className='fas fa-sign-in-alt'></i>
+										<span className='nav-link-inner--text'>Sign In</span>
 									</NavLink>
 								</NavItem>
 							</Nav>

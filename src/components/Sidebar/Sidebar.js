@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink as NavLinkRRD, Link } from 'react-router-dom'
+import { logout } from '../../auth'
 import { PropTypes } from 'prop-types'
 import {
 	Collapse,
@@ -47,6 +48,12 @@ class Sidebar extends React.Component {
 			collapseOpen: false,
 		})
 	}
+
+	disconnect() {
+		logout()
+		localStorage.removeItem('username')
+	}
+
 	// creates the links that appear in the left menu / Sidebar
 	createLinks = (routes) => {
 		return routes.map((prop, key) => {
@@ -104,7 +111,7 @@ class Sidebar extends React.Component {
 							<DropdownToggle nav>
 								<Media className='align-items-center'>
 									<span className='avatar avatar-sm rounded-circle'>
-										<img alt='...' src={require('assets/img/theme/team-1-800x800.jpg')} />
+										<img alt='...' src={require('assets/img/theme/default.jpg')} />
 									</span>
 								</Media>
 							</DropdownToggle>
@@ -129,7 +136,7 @@ class Sidebar extends React.Component {
 									<span>Support</span>
 								</DropdownItem>
 								<DropdownItem divider />
-								<DropdownItem href='#pablo' onClick={(e) => e.preventDefault()}>
+								<DropdownItem onClick={this.disconnect}>
 									<i className='ni ni-user-run' />
 									<span>Logout</span>
 								</DropdownItem>

@@ -129,8 +129,6 @@ export default class Currency extends Component {
 		this.setState({ listCurrencyError: false, listCurrencyLoaded: false })
 		const items = 33
 		for (let i = 0; i < items - 1; i++) {
-			// console.log(i)
-			// console.log(listCurrency)
 			const destCurrency = listCurrency[i]['value']
 			if (destCurrency === baseCurrency) continue
 			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)

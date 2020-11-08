@@ -67,6 +67,7 @@
 		"react-router-dom": "5.1.2",
 		"react-scripts": "^3.4.4",
 		"react-spinners": "^0.9.0",
+		"react-token-auth": "^1.1.7",
 		"reactstrap": "8.4.1"
 	},
 	"devDependencies": {

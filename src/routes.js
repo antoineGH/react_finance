@@ -14,7 +14,7 @@ var routes = [
 	},
 	{
 		path: '/user-profile',
-		name: 'User Profile',
+		name: 'My Profile',
 		icon: 'ni ni-single-02 text-yellow',
 		component: Profile,
 		layout: '/admin',

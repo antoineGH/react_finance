@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
+import Modal from 'react-bootstrap/Modal'
+import { useHistory } from 'react-router-dom'
 
 export default function Register() {
 	const [email, setEmail] = useState('')
@@ -8,12 +10,16 @@ export default function Register() {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
+	const [messageModal, setMessageModal] = useState('')
+	const [iconModal, setIconModal] = useState('')
+	const [smShow, setSmShow] = useState(false)
+	const history = useHistory()
 
 	async function createUser() {
 		const user = { username, email, password, first_name, last_name }
 		user.key = username
 
-		const response = await fetch('/api/users', {
+		const response = await fetch('http://localhost:5000/api/users', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -41,10 +47,17 @@ export default function Register() {
 		e.preventDefault()
 		createUser()
 			.then((response) => {
-				console.log(response)
+				setSmShow(true)
+				setMessageModal('Successfully Registered')
+				setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
+				setTimeout(() => {
+					history.push('/auth/login')
+				}, 750)
 			})
 			.catch((error) => {
-				console.log(error.message)
+				setSmShow(true)
+				setMessageModal(error.message)
+				setIconModal(<i style={{ color: 'red' }} className='fas fa-exclamation-circle'></i>)
 			})
 	}
 
@@ -131,6 +144,15 @@ export default function Register() {
 					</CardBody>
 				</Card>
 			</Col>
+			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
+				<Modal.Header closeButton>
+					<Modal.Title id='example-modal-sizes-title-sm'>
+						{iconModal}
+						{'  '}
+						{messageModal}
+					</Modal.Title>
+				</Modal.Header>
+			</Modal>
 		</>
 	)
 }

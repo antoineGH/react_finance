@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import { login } from '../../auth'
 import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
+import Modal from 'react-bootstrap/Modal'
+import { useHistory } from 'react-router-dom'
 
 export default function Login() {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+	const [messageModal, setMessageModal] = useState('')
+	const [iconModal, setIconModal] = useState('')
+	const [smShow, setSmShow] = useState(false)
+	const history = useHistory()
 
 	async function requestLogin() {
 		const user = { username, password }
-		const response = await fetch('/api/login', {
+		const response = await fetch('http://localhost:5000/api/login', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -28,7 +34,7 @@ export default function Login() {
 			}
 		}
 		return new Promise((resolve, reject) => {
-			responseJson ? resolve(responseJson) : reject(errorJson.message)
+			responseJson ? resolve(responseJson) : reject(errorJson)
 		})
 	}
 
@@ -38,10 +44,18 @@ export default function Login() {
 				if (response.access_token) {
 					login(response)
 					localStorage.setItem('username', response.username)
+					setSmShow(true)
+					setMessageModal('Successfully Logged in')
+					setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
+					setTimeout(() => {
+						history.push('/')
+					}, 750)
 				}
 			})
 			.catch((error) => {
-				console.log(error)
+				setSmShow(true)
+				setMessageModal(error.message)
+				setIconModal(<i style={{ color: 'red' }} className='fas fa-exclamation-circle'></i>)
 			})
 	}
 
@@ -89,6 +103,15 @@ export default function Login() {
 					</CardBody>
 				</Card>
 			</Col>
+			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
+				<Modal.Header closeButton>
+					<Modal.Title id='example-modal-sizes-title-sm'>
+						{iconModal}
+						{'  '}
+						{messageModal}
+					</Modal.Title>
+				</Modal.Header>
+			</Modal>
 		</>
 	)
 }

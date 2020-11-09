@@ -10,6 +10,7 @@ var routes = [
 		icon: 'ni ni-tv-2 text-primary',
 		component: Currency,
 		layout: '/admin',
+		action: undefined,
 	},
 	{
 		path: '/user-profile',
@@ -17,6 +18,7 @@ var routes = [
 		icon: 'ni ni-single-02 text-yellow',
 		component: Profile,
 		layout: '/admin',
+		action: undefined,
 	},
 	{
 		path: '/login',
@@ -24,6 +26,7 @@ var routes = [
 		icon: 'fas fa-unlock-alt text-info',
 		component: Login,
 		layout: '/auth',
+		action: undefined,
 	},
 	{
 		path: '/register',
@@ -31,6 +34,24 @@ var routes = [
 		icon: 'ni ni-circle-08 text-pink',
 		component: Register,
 		layout: '/auth',
+		action: undefined,
+	},
+	{
+		path: '/login',
+		name: 'Logout',
+		icon: 'fas fa-sign-out-alt text-grey',
+		layout: '/auth',
+		action: disconnect,
 	},
 ]
+
+function disconnect() {
+	console.log('logout phon')
+	// logout()
+	// localStorage.removeItem('username')
+	// setTimeout(() => {
+	// 	history.push('/auth/login')
+	// }, 750)
+}
+
 export default routes

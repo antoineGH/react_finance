@@ -133,17 +133,17 @@ export default function Profile() {
 		fetchUserInfo()
 			.then((response) => {
 				setEmail(response.user.email)
-				setFirstName(response.user.first_name)
-				setLastName(response.user.last_name)
+				setFirstName(toTitleCase(response.user.first_name))
+				setLastName(toTitleCase(response.user.last_name))
 				setUsername(response.user.username)
 				setBirthday(response.user.birthdate)
 				setAboutMe(response.user.about_me)
 				setPosition(response.user.position)
 				setEducation(response.user.education)
-				setAddress(response.user.address)
-				setCity(response.user.city)
+				setAddress(toTitleCase(response.user.address))
+				setCity(toTitleCase(response.user.city))
 				setPostcode(response.user.postcode)
-				setCountry(response.user.country)
+				setCountry(toTitleCase(response.user.country))
 				setProfilePicture(response.user.profile_picture)
 				setAge(calculateAge(response.user.birthdate))
 			})
@@ -151,12 +151,12 @@ export default function Profile() {
 	}, [])
 
 	function handleClick(e) {
-		e.preventDefault()
 		requestUpdate()
 			.then((response) => {
 				setSmShow(true)
 				setMessageModal(response.message)
 				setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
+				window.location.reload()
 			})
 			.catch((error) => {
 				setSmShow(true)
@@ -192,6 +192,16 @@ export default function Profile() {
 		const year = birthdate.slice(4, birthdate.length)
 		birthdate = `${year}-${month}-${day}`
 		return moment().diff(birthdate, 'years')
+	}
+
+	function toTitleCase(str) {
+		return str
+			.toLowerCase()
+			.split(' ')
+			.map(function (word) {
+				return word.charAt(0).toUpperCase() + word.slice(1)
+			})
+			.join(' ')
 	}
 
 	const current_user = localStorage.username
@@ -428,7 +438,7 @@ export default function Profile() {
 														onChange={(e) => setProfilePicture(e.target.value)}
 														className='form-control-alternative'
 														id='input-profilePicture'
-														placeholder='Confirm Password'
+														placeholder='Profile Picture'
 														type='text'
 													/>
 												</FormGroup>

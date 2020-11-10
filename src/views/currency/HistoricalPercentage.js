@@ -54,9 +54,7 @@ function LoadHistoricalPercentage(props) {
 	} else {
 		return (
 			<div className='reverse_div mt-4'>
-				<span style={{ fontSize: '0.80rem' }} class=''>
-					Please select currency
-				</span>
+				<span style={{ fontSize: '0.80rem' }}>Please select currency</span>
 			</div>
 		)
 	}

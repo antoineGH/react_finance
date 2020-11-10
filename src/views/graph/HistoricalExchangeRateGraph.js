@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import { Card, CardHeader, CardBody, Row } from 'reactstrap'
+import { Card, CardHeader, CardBody, Row, Button } from 'reactstrap'
 import getDateBefore from '../currency/utils/getDateBefore'
 import BarGraph from './BarGraph'
+import BarLoader from 'react-spinners/BarLoader'
 
 export default class HistoricalExchangeRateGraph extends Component {
 	// --- CLASS CONSTRUCTOR ---
 	constructor(props) {
 		super(props)
+		this.handleReload = this.handleReload.bind(this)
 		this.state = {
 			style: {},
 		}
@@ -14,6 +16,14 @@ export default class HistoricalExchangeRateGraph extends Component {
 	// --- COMPONENT LIFECYCLE ---
 	componentDidMount() {
 		this.createMockData()
+	}
+
+	componentDidUpdate() {
+		if (this.state.reloaded) {
+			this.setState({ reloaded: false })
+			return true
+		}
+		return false
 	}
 
 	// --- CLASS METHODS ---
@@ -29,9 +39,14 @@ export default class HistoricalExchangeRateGraph extends Component {
 		this.setState({ style: currency_style })
 	}
 
+	handleReload() {
+		this.setState({ reloaded: true })
+	}
+
 	render() {
 		const { graphHistoryValue, graphHistoryLegend, graphTitle } = this.props
 		const style = this.state.style
+
 		return (
 			<>
 				{this.props.state.inputCurrency && this.props.state.outputCurrency && this.props.state.isHistoryLoaded ? (
@@ -51,6 +66,11 @@ export default class HistoricalExchangeRateGraph extends Component {
 									<span style={{ fontSize: '0.80rem' }}></span>
 								</div>
 							</Row>
+							<div className='text-right col-12' style={{ marginTop: '-5%', marginBottom: '2%' }}>
+								<Button color='primary ' size='sm' onClick={this.handleReload}>
+									<i className='fas fa-sync-alt'></i>
+								</Button>
+							</div>
 						</CardHeader>
 						<CardBody>
 							{/* Chart */}
@@ -60,22 +80,7 @@ export default class HistoricalExchangeRateGraph extends Component {
 						</CardBody>
 					</Card>
 				) : (
-					<Card className='shadow'>
-						<CardHeader className='bg-transparent'>
-							<Row className='align-items-center'>
-								<div className='col'>
-									<h6 className='text-uppercase text-muted ls-1 mb-1'>
-										<span style={{ fontSize: '0.80rem' }}>Period:</span>
-									</h6>
-									<h2 className='mb-0'>Historical Exchange Rate </h2>
-								</div>
-							</Row>
-						</CardHeader>
-						<CardBody>
-							{/* Chart */}
-							<div className='chart'></div>
-						</CardBody>
-					</Card>
+					<p>lol</p>
 				)}
 			</>
 		)

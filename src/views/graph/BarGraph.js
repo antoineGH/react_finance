@@ -3,20 +3,26 @@ import Chart from 'chart.js'
 
 // Declare myLineChart and set chart default settings
 let myBarChart
+let t
 
 export default class BarGraph extends Component {
 	barchartRef = React.createRef()
 
+	// --- COMPONENT LIFECYCLE ---
 	// call buildChart function on Mount
 	componentDidMount() {
-		setTimeout(() => {
+		t = setTimeout(() => {
 			this.buildChart()
 		}, 1200)
 	}
 
+	componentWillUnmount() {
+		clearTimeout(t)
+	}
+
 	// call buildChart function on Update
 	componentDidUpdate() {
-		setTimeout(() => {
+		t = setTimeout(() => {
 			this.buildChart()
 		}, 1200)
 	}
@@ -31,6 +37,7 @@ export default class BarGraph extends Component {
 		return false
 	}
 
+	// --- CLASS METHODS ---
 	buildChart() {
 		const MyBarChartRef = this.barchartRef.current.getContext('2d')
 		const { graphValues, graphLegend, style } = this.props
@@ -77,7 +84,7 @@ export default class BarGraph extends Component {
 	render() {
 		return (
 			<>
-				<canvas id='myChart' ref={this.barchartRef} />
+				<canvas id='myCharted' ref={this.barchartRef} />
 			</>
 		)
 	}

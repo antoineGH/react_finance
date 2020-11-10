@@ -196,19 +196,20 @@ export default class Currency extends Component {
 	// Get News Feed
 	getNewsFeed(interests) {
 		this.setState({ newsFeedError: false, newsFeedLoaded: false })
-		if (!interests) {
-			interests = ['Apple', 'Tesla', 'Microsoft']
-			fetchNewsFeed('cityfalcon', interests)
-				.then((response) => {
-					// const stories = response.stories.slice(0, 20)
-					const stories = response.stories
-					this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: stories })
-				})
-				.catch((error) => {
-					this.setState({ newsFeedError: true })
-				})
-			return
-		}
+		// TODO: Disabled FetchNewsFeed
+		// if (!interests) {
+		// 	interests = ['Apple', 'Tesla', 'Microsoft']
+		// 	fetchNewsFeed('cityfalcon', interests)
+		// 		.then((response) => {
+		// 			// const stories = response.stories.slice(0, 20)
+		// 			const stories = response.stories
+		// 			this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: stories })
+		// 		})
+		// 		.catch((error) => {
+		// 			this.setState({ newsFeedError: true })
+		// 		})
+		// 	return
+		// }
 
 		Promise.all([fetchNewsFeed('cityfalcon', interests), fetchNewsFeed('tickers', interests)])
 			.then((response) => {

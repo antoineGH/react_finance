@@ -130,24 +130,31 @@ export default function Profile() {
 	}
 
 	useEffect(() => {
+		let mounted = true
 		fetchUserInfo()
 			.then((response) => {
-				setEmail(response.user.email)
-				setFirstName(toTitleCase(response.user.first_name))
-				setLastName(toTitleCase(response.user.last_name))
-				setUsername(response.user.username)
-				setBirthday(response.user.birthdate)
-				setAboutMe(response.user.about_me)
-				setPosition(response.user.position)
-				setEducation(response.user.education)
-				setAddress(toTitleCase(response.user.address))
-				setCity(toTitleCase(response.user.city))
-				setPostcode(response.user.postcode)
-				setCountry(toTitleCase(response.user.country))
-				setProfilePicture(response.user.profile_picture)
-				setAge(calculateAge(response.user.birthdate))
+				if (mounted) {
+					setEmail(response.user.email)
+					setFirstName(toTitleCase(response.user.first_name))
+					setLastName(toTitleCase(response.user.last_name))
+					setUsername(response.user.username)
+					setBirthday(response.user.birthdate)
+					setAboutMe(response.user.about_me)
+					setPosition(response.user.position)
+					setEducation(response.user.education)
+					setAddress(toTitleCase(response.user.address))
+					setCity(toTitleCase(response.user.city))
+					setPostcode(response.user.postcode)
+					setCountry(toTitleCase(response.user.country))
+					setProfilePicture(response.user.profile_picture)
+					setAge(calculateAge(response.user.birthdate))
+				}
 			})
 			.catch((error) => {})
+
+		return function cleanup() {
+			mounted = false
+		}
 	}, [])
 
 	function handleClick(e) {

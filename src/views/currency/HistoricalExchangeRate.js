@@ -96,7 +96,11 @@ class LoadHistoricalExchangeRate extends Component {
 			return (
 				<>
 					<div className='text-center justify-content-center mb-4'>
-						<BarLoader css='display: flex; justify-content: center; margin-left:auto; margin-right:auto;' color={'#2E3030'} size={5} />
+						<BarLoader
+							css='display: flex; margin-top: 25px; justify-content: center; margin-left:auto; margin-right:auto;'
+							color={'#2E3030'}
+							size={5}
+						/>
 					</div>
 				</>
 			)

@@ -13,6 +13,7 @@ class LoadNewsFeed extends Component {
 	constructor(props) {
 		super(props)
 		this.filter = this.props.filter.bind(this)
+		this.handleClick = this.props.handleClick.bind(this)
 		this.state = {
 			filterMethod: '',
 		}
@@ -55,11 +56,11 @@ class LoadNewsFeed extends Component {
 		if (newsFeedError) {
 			return (
 				<>
-					<div className='text-center justify-content-center'>
+					<div className='text-center justify-content-center mt-4'>
 						<span style={{ fontSize: '0.80rem' }}>&nbsp;Impossible to fetch Finance Feed</span>
 					</div>
 					<div className='text-center justify-content-center mt-2'>
-						<Button size='sm' className='mt-2 mb-4' onClick={this.handleClick}>
+						<Button size='sm' className='mt-2 mb-4' onClick={this.props.handleClick}>
 							{' '}
 							Try Again{' '}
 						</Button>
@@ -72,7 +73,11 @@ class LoadNewsFeed extends Component {
 			return (
 				<>
 					<div className='text-center justify-content-center mb-4'>
-						<BarLoader css='display: flex; justify-content: center; margin-left:auto; margin-right:auto;' color={'#2E3030'} size={5} />
+						<BarLoader
+							css='display: flex; justify-content: center; margin-top: 25px; margin-left:auto; margin-right:auto;'
+							color={'#2E3030'}
+							size={5}
+						/>
 					</div>
 				</>
 			)
@@ -355,6 +360,7 @@ export default class NewsFeed extends Component {
 					filter={this.filter}
 					filterMethod={this.state.filterMethod}
 					setState={this.setState}
+					handleClick={this.handleClick}
 				/>
 			</>
 		)

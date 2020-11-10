@@ -267,7 +267,12 @@ export default function Profile() {
 										<Button color='primary' href='#pablo' onClick={handleClick} size='sm'>
 											Update Profile
 										</Button>
-										<Button className='mt-xl-0 mr-xl-0 mt-1 mr-1' color='danger' href='#pablo' onClick={deleteConfirmation} size='sm'>
+										<Button
+											className='mt-xl-0 mr-xl-0 mt-lg-0 mt-1 mr-1'
+											color='danger'
+											href='#pablo'
+											onClick={deleteConfirmation}
+											size='sm'>
 											Delete Account
 										</Button>
 									</Col>

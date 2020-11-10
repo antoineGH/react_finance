@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink as NavLinkRRD, Link, useHistory } from 'react-router-dom'
+import { NavLink as NavLinkRRD, Link } from 'react-router-dom'
 import { logout } from '../../auth'
 import { PropTypes } from 'prop-types'
 import {
@@ -71,6 +71,8 @@ class Sidebar extends React.Component {
 						</NavLink>
 					</NavItem>
 				)
+			} else {
+				return null
 			}
 		})
 	}

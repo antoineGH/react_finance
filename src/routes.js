@@ -41,17 +41,7 @@ var routes = [
 		name: 'Logout',
 		icon: 'fas fa-sign-out-alt text-grey',
 		layout: '/auth',
-		action: disconnect,
+		action: 'disconnect',
 	},
 ]
-
-function disconnect() {
-	console.log('logout phon')
-	// logout()
-	// localStorage.removeItem('username')
-	// setTimeout(() => {
-	// 	history.push('/auth/login')
-	// }, 750)
-}
-
 export default routes

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import Index from '../Index'
 
-import ScaleLoader from 'react-spinners/ScaleLoader'
+import BarLoader from 'react-spinners/BarLoader'
 
 import fetchCurrency from './utils/fetchCurrency'
 import toCurrency from './utils/toCurrency'
@@ -452,9 +452,13 @@ export default class Currency extends Component {
 			return (
 				<>
 					<Row>
-						<Col xs={12} sm={12} md={12} lg={8}>
+						<Col xs={12} sm={12} md={12} lg={12}>
 							<div className='mt-5'>
-								<ScaleLoader css='display: flex; justify-content: center; margin-left:auto; margin-right:auto;' color={'#2E3030'} size={15} />
+								<BarLoader
+									css='display: flex; margin-top: 45px; justify-content: center; margin-left:auto; margin-right:auto;'
+									color={'#2E3030'}
+									size={20}
+								/>
 							</div>
 						</Col>
 					</Row>

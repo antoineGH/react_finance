@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { login } from '../../auth'
 import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
 import Modal from 'react-bootstrap/Modal'
-import { useHistory, useParams, Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 export default function Login() {
 	const [username, setUsername] = useState('')
@@ -44,17 +44,8 @@ export default function Login() {
 				if (response.access_token) {
 					login(response)
 					localStorage.setItem('username', response.username)
-					// TODO: Push State with login to next page to display Modal !
-
-					setSmShow(true)
-					setMessageModal('Successfully Logged in')
-					setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
-
-					// history.push('/')
-					history.push({
-						pathname: '/',
-						state: { name: 'Antoine' },
-					})
+					localStorage.setItem('smShow', true)
+					history.push('/')
 				}
 			})
 			.catch((error) => {

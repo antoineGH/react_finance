@@ -23,6 +23,7 @@ import {
 	Row,
 	Col,
 } from 'reactstrap'
+import Button from 'react-bootstrap/Button'
 
 class Sidebar extends React.Component {
 	state = {
@@ -75,6 +76,17 @@ class Sidebar extends React.Component {
 				return null
 			}
 		})
+	}
+
+	// change Color
+	changeColor() {
+		console.log('coucou change color')
+		localStorage.setItem('color', 'linear-gradient(to right, #2b5876 , #4e4376)')
+	}
+
+	resetColor() {
+		console.log('reset change color')
+		localStorage.removeItem('color')
 	}
 	render() {
 		const { routes, logo } = this.props
@@ -195,6 +207,9 @@ class Sidebar extends React.Component {
 							<Nav navbar>{this.createLinks(routes)}</Nav>
 							{/* Divider */}
 							<hr className='my-3' />
+							{/* // TODO: CHANGE BACKGROUND COLOR SHIT FOCUS FFS */}
+							<Button onClick={this.changeColor}>Toggle</Button>
+							<Button onClick={this.resetColor}>Reset</Button>
 						</Collapse>
 					</Container>
 				</Navbar>

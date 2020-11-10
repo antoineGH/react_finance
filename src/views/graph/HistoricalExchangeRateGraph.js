@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Card, CardHeader, CardBody, Row, Button } from 'reactstrap'
 import getDateBefore from '../currency/utils/getDateBefore'
 import BarGraph from './BarGraph'
-import BarLoader from 'react-spinners/BarLoader'
 
 export default class HistoricalExchangeRateGraph extends Component {
 	// --- CLASS CONSTRUCTOR ---

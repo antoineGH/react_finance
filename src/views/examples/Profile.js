@@ -212,9 +212,14 @@ export default function Profile() {
 	}
 
 	const current_user = localStorage.username
+	const welcome = `Hello ${first_name}.`
+	const message = 'This is your profile page. You can see and edit your information.'
+	const background = {
+		color: 'linear-gradient(to right, #141e30, #243b55)',
+	}
 	return (
 		<>
-			<UserHeader first_name={first_name} />
+			<UserHeader welcome={welcome} message={message} background={background} />
 			{/* Page content */}
 			<Container className='mt--7' fluid>
 				<Row>

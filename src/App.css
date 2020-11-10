@@ -81,7 +81,7 @@
 }
 
 .bg-gradient-info {
-	background: linear-gradient(87deg, #1e3c72 0, #2a5298 100%) !important;
+	background: linear-gradient(to right, #141e30, #243b55) !important;
 }
 
 .bg-gradient-default {

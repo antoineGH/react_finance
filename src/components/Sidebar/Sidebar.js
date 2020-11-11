@@ -32,6 +32,7 @@ class Sidebar extends React.Component {
 	constructor(props) {
 		super(props)
 		this.activeRoute.bind(this)
+		this.changeColor = this.props.changeColor.bind(this)
 	}
 	activeRoute(routeName) {
 		return this.props.location.pathname.indexOf(routeName) > -1 ? 'active' : ''
@@ -78,16 +79,11 @@ class Sidebar extends React.Component {
 		})
 	}
 
-	// change Color
-	changeColor() {
-		console.log('coucou change color')
-		localStorage.setItem('color', 'linear-gradient(to right, #2b5876 , #4e4376)')
+	handleChange(color) {
+		this.changeColor(color)
+		localStorage.setItem('color', color)
 	}
 
-	resetColor() {
-		console.log('reset change color')
-		localStorage.removeItem('color')
-	}
 	render() {
 		const { routes, logo } = this.props
 		let navbarBrandProps
@@ -207,9 +203,52 @@ class Sidebar extends React.Component {
 							<Nav navbar>{this.createLinks(routes)}</Nav>
 							{/* Divider */}
 							<hr className='my-3' />
-							{/* // TODO: CHANGE BACKGROUND COLOR SHIT FOCUS FFS */}
-							<Button onClick={this.changeColor}>Toggle</Button>
-							<Button onClick={this.resetColor}>Reset</Button>
+							<Row className='justify-content-left text-left mt-2'>
+								<Col>
+									<Button
+										className=' ml-1 mb-1 squared_button'
+										style={{
+											background: 'linear-gradient(to right, #2193b0, #6dd5ed)',
+											border: 0,
+										}}
+										onClick={() => this.handleChange('linear-gradient(to right, #2193b0, #6dd5ed)')}></Button>
+									<Button
+										className='mb-1 squared_button'
+										style={{
+											background: 'linear-gradient(to right, #42275a, #734b6d)',
+											border: 0,
+										}}
+										onClick={() => this.handleChange('linear-gradient(to right, #42275a, #734b6d)')}></Button>
+									<Button
+										className='mb-1 squared_button'
+										style={{
+											background: 'linear-gradient(to right, #eb3349, #f45c43)',
+											border: 0,
+										}}
+										onClick={() => this.handleChange('linear-gradient(to right, #eb3349 , #f45c43)')}></Button>
+									<Button
+										className='mb-1 squared_button'
+										style={{
+											background: 'linear-gradient(to right, #614385, #516395)',
+											border: 0,
+										}}
+										onClick={() => this.handleChange('linear-gradient(to right, #614385 , #516395)')}></Button>
+									<Button
+										className='mb-1 squared_button'
+										style={{
+											background: 'linear-gradient(to right, #000428, #004e92)',
+											border: 0,
+										}}
+										onClick={() => this.handleChange('linear-gradient(to right, #000428 , #004e92)')}></Button>
+									<Button
+										className='mb-1 squared_button'
+										style={{
+											background: 'linear-gradient(to right, #141e30, #243b55)',
+											border: 0,
+										}}
+										onClick={() => this.handleChange('linear-gradient(to right, #141e30  , #243b55)')}></Button>
+								</Col>
+							</Row>
 						</Collapse>
 					</Container>
 				</Navbar>

@@ -268,6 +268,7 @@ export default function Profile() {
 							</CardBody>
 						</Card>
 					</Col>
+
 					<Col className='order-xl-1' xl='8'>
 						<Card className='bg-secondary shadow'>
 							<CardHeader className='bg-white border-0'>

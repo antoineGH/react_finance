@@ -1,5 +1,14 @@
 /* ---- Main Theme Design  ---- */
 
+.squared_button {
+	padding: 0.75rem 0.75rem;
+	margin-right: 0.1rem;
+}
+
+.btn:not(:last-child) {
+	margin-right: 0rem;
+}
+
 .col-container {
 	display: table; /* Make the container element behave like a table */
 	width: 100%; /* Set full-width to expand the whole page */

@@ -10,11 +10,31 @@ export default class HistoricalExchangeRateGraph extends Component {
 		this.handleReload = this.handleReload.bind(this)
 		this.state = {
 			style: {},
+			backgroundColor: localStorage.backgroundColor,
+			borderColor: localStorage.borderColor,
+			pointBackgroundColor: localStorage.pointBackgroundColor,
+			pointHoverBackgroundColor: localStorage.pointHoverBackgroundColor,
 		}
 	}
 	// --- COMPONENT LIFECYCLE ---
+
+	static getDerivedStateFromProps(props, state) {
+		return {
+			backgroundColor: props.backgroundColor,
+			borderColor: props.borderColor,
+			pointBackgroundColor: props.pointBackgroundColor,
+			pointHoverBackgroundColor: props.pointHoverBackgroundColor,
+		}
+	}
+
 	componentDidMount() {
 		this.createMockData()
+		this.setState({
+			backgroundColor: this.props.backgroundColor,
+			borderColor: this.props.borderColor,
+			pointBackgroundColor: this.props.pointBackgroundColor,
+			pointHoverBackgroundColor: this.props.pointHoverBackgroundColor,
+		})
 	}
 
 	componentDidUpdate() {
@@ -74,12 +94,20 @@ export default class HistoricalExchangeRateGraph extends Component {
 						<CardBody>
 							{/* Chart */}
 							<div className='chart'>
-								<BarGraph graphValues={graphHistoryValue} graphLegend={graphHistoryLegend} style={style} />
+								<BarGraph
+									graphValues={graphHistoryValue}
+									graphLegend={graphHistoryLegend}
+									style={style}
+									backgroundColor={this.state.backgroundColor}
+									borderColor={this.state.borderColor}
+									pointBackgroundColor={this.state.pointBackgroundColor}
+									pointHoverBackgroundColor={this.state.pointHoverBackgroundColor}
+								/>
 							</div>
 						</CardBody>
 					</Card>
 				) : (
-					<p>lol</p>
+					<p>Error</p>
 				)}
 			</>
 		)

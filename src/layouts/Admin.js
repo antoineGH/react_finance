@@ -4,10 +4,17 @@ import { Container } from 'reactstrap'
 import AdminNavbar from 'components/Navbars/AdminNavbar.js'
 import AdminFooter from 'components/Footers/AdminFooter.js'
 import Sidebar from 'components/Sidebar/Sidebar.js'
-import StyleContext from '../views/examples/StyleContext'
+import {
+	StyleContext,
+	backgroundColorContext,
+	borderColorContext,
+	pointBackgroundColorContext,
+	pointHoverBackgroundColorContext,
+} from '../views/examples/StyleContext'
 
 import routes from 'routes.js'
 import { authFetch } from 'auth'
+import { themes } from '../views/examples/Themes'
 
 class Admin extends React.Component {
 	constructor(props) {
@@ -15,13 +22,23 @@ class Admin extends React.Component {
 		this.changeColor = this.changeColor.bind(this)
 		this.state = {
 			color: localStorage.color,
+			backgroundColor: localStorage.backgroundColor,
+			borderColor: localStorage.borderColor,
+			pointBackgroundColor: localStorage.pointBackgroundColor,
+			pointHoverBackgroundColor: localStorage.pointHoverBackgroundColor,
 		}
 	}
 
 	componentDidMount() {
 		this.getColor()
 			.then((response) => {
-				this.setState({ color: response.style })
+				this.setState({
+					color: themes[response.style].header,
+					backgroundColor: themes[response.style].backgroundColor,
+					borderColor: themes[response.style].borderColor,
+					pointBackgroundColor: themes[response.style].pointBackgroundColor,
+					pointHoverBackgroundColor: themes[response.style].pointHoverBackgroundColor,
+				})
 			})
 			.catch((error) => {
 				console.log(error)
@@ -84,8 +101,14 @@ class Admin extends React.Component {
 	}
 
 	changeColor(color) {
-		this.setState({ color: color })
-		localStorage.setItem('color', color)
+		this.setState({
+			color: themes[color].header,
+			backgroundColor: themes[color].backgroundColor,
+			borderColor: themes[color].borderColor,
+			pointBackgroundColor: themes[color].pointBackgroundColor,
+			pointHoverBackgroundColor: themes[color].pointHoverBackgroundColor,
+		})
+
 		this.updateColor(color)
 			.then((response) => {
 				console.log(response)
@@ -127,16 +150,24 @@ class Admin extends React.Component {
 					}}
 				/>{' '}
 				<StyleContext.Provider value={this.state.color}>
-					<div className='main-content' ref='mainContent'>
-						<AdminNavbar {...this.props} brandText={this.getBrandText(this.props.location.pathname)} />
-						<Switch>
-							{this.getRoutes(routes)}
-							<Redirect from='*' to='/admin/index' />
-						</Switch>
-						<Container fluid>
-							<AdminFooter />
-						</Container>
-					</div>
+					<backgroundColorContext.Provider value={this.state.backgroundColor}>
+						<borderColorContext.Provider value={this.state.borderColor}>
+							<pointBackgroundColorContext.Provider value={this.state.pointBackgroundColor}>
+								<pointHoverBackgroundColorContext.Provider value={this.state.pointHoverBackgroundColor}>
+									<div className='main-content' ref='mainContent'>
+										<AdminNavbar {...this.props} brandText={this.getBrandText(this.props.location.pathname)} />
+										<Switch>
+											{this.getRoutes(routes)}
+											<Redirect from='*' to='/admin/index' />
+										</Switch>
+										<Container fluid>
+											<AdminFooter />
+										</Container>
+									</div>
+								</pointHoverBackgroundColorContext.Provider>
+							</pointBackgroundColorContext.Provider>
+						</borderColorContext.Provider>
+					</backgroundColorContext.Provider>
 				</StyleContext.Provider>
 			</>
 		)

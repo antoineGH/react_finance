@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink as NavLinkRRD, Link } from 'react-router-dom'
 import { logout } from '../../auth'
+import { themes } from '../../views/examples/Themes'
 import { PropTypes } from 'prop-types'
 import {
 	Collapse,
@@ -81,7 +82,11 @@ class Sidebar extends React.Component {
 
 	handleChange(color) {
 		this.changeColor(color)
-		localStorage.setItem('color', color)
+		localStorage.setItem('color', themes[color].header)
+		localStorage.setItem('backgroundColor', themes[color].backgroundColor)
+		localStorage.setItem('borderColor', themes[color].borderColor)
+		localStorage.setItem('pointBackgroundColor', themes[color].pointBackgroundColor)
+		localStorage.setItem('pointHoverBackgroundColor', themes[color].pointHoverBackgroundColor)
 	}
 
 	render() {
@@ -211,42 +216,42 @@ class Sidebar extends React.Component {
 											background: 'linear-gradient(to right, #2193b0, #6dd5ed)',
 											border: 0,
 										}}
-										onClick={() => this.handleChange('linear-gradient(to right, #2193b0, #6dd5ed)')}></Button>
+										onClick={() => this.handleChange('blue')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
 											background: 'linear-gradient(to right, #42275a, #734b6d)',
 											border: 0,
 										}}
-										onClick={() => this.handleChange('linear-gradient(to right, #42275a, #734b6d)')}></Button>
+										onClick={() => this.handleChange('mauve')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
 											background: 'linear-gradient(to right, #eb3349, #f45c43)',
 											border: 0,
 										}}
-										onClick={() => this.handleChange('linear-gradient(to right, #eb3349 , #f45c43)')}></Button>
+										onClick={() => this.handleChange('orange')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
 											background: 'linear-gradient(to right, #614385, #516395)',
 											border: 0,
 										}}
-										onClick={() => this.handleChange('linear-gradient(to right, #614385 , #516395)')}></Button>
+										onClick={() => this.handleChange('purple')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
 											background: 'linear-gradient(to right, #000428, #004e92)',
 											border: 0,
 										}}
-										onClick={() => this.handleChange('linear-gradient(to right, #000428 , #004e92)')}></Button>
+										onClick={() => this.handleChange('royal')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
 											background: 'linear-gradient(to right, #141e30, #243b55)',
 											border: 0,
 										}}
-										onClick={() => this.handleChange('linear-gradient(to right, #141e30  , #243b55)')}></Button>
+										onClick={() => this.handleChange('grey')}></Button>
 								</Col>
 							</Row>
 						</Collapse>

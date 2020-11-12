@@ -2,7 +2,7 @@ import React from 'react'
 import HistoryPercentage from '../../views/currency/HistoricalPercentage'
 import InformationCurrency from '../../views/currency/InformationCurrency'
 import InputField from '../../views/currency/InputField'
-import StyleContext from '../../views/examples/StyleContext'
+import { StyleContext } from '../../views/examples/StyleContext'
 
 import { Container, Row, Col } from 'reactstrap'
 

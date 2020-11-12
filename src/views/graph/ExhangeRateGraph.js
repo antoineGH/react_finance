@@ -16,12 +16,32 @@ export default class ExhangeRateGraph extends Component {
 		this.getWeek = this.getWeek.bind(this)
 		this.state = {
 			style: {},
+			backgroundColor: localStorage.backgroundColor,
+			borderColor: localStorage.borderColor,
+			pointBackgroundColor: localStorage.pointBackgroundColor,
+			pointHoverBackgroundColor: localStorage.pointHoverBackgroundColor,
 		}
 	}
 
 	// --- COMPONENT LIFECYCLE ---
+
+	static getDerivedStateFromProps(props, state) {
+		return {
+			backgroundColor: props.backgroundColor,
+			borderColor: props.borderColor,
+			pointBackgroundColor: props.pointBackgroundColor,
+			pointHoverBackgroundColor: props.pointHoverBackgroundColor,
+		}
+	}
+
 	componentDidMount() {
 		this.createMockData()
+		this.setState({
+			backgroundColor: this.props.backgroundColor,
+			borderColor: this.props.borderColor,
+			pointBackgroundColor: this.props.pointBackgroundColor,
+			pointHoverBackgroundColor: this.props.pointHoverBackgroundColor,
+		})
 	}
 
 	// --- CLASS METHODS ---
@@ -175,7 +195,16 @@ export default class ExhangeRateGraph extends Component {
 							</CardHeader>
 							<CardBody>
 								<div className='chart'>
-									<LineGraph graphValues={graphValues} graphLegend={graphLegend} graphTitle={graphTitle} style={style} />
+									<LineGraph
+										graphValues={graphValues}
+										graphLegend={graphLegend}
+										graphTitle={graphTitle}
+										style={style}
+										backgroundColor={this.state.backgroundColor}
+										borderColor={this.state.borderColor}
+										pointBackgroundColor={this.state.pointBackgroundColor}
+										pointHoverBackgroundColor={this.state.pointHoverBackgroundColor}
+									/>
 								</div>
 							</CardBody>
 						</Card>

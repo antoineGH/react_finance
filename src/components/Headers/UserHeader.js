@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Row, Col } from 'reactstrap'
-import StyleContext from '../../views/examples/StyleContext'
+import { StyleContext } from '../../views/examples/StyleContext'
 
 class UserHeader extends React.Component {
 	constructor(props) {

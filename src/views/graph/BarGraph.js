@@ -33,6 +33,10 @@ export default class BarGraph extends Component {
 			return true
 		}
 
+		if (this.props.backgroundColor !== nextProps.backgroundColor) {
+			return true
+		}
+
 		// Otherwise component shouldn't update
 		return false
 	}
@@ -40,7 +44,7 @@ export default class BarGraph extends Component {
 	// --- CLASS METHODS ---
 	buildChart() {
 		const MyBarChartRef = this.barchartRef.current.getContext('2d')
-		const { graphValues, graphLegend, style } = this.props
+		const { graphValues, graphLegend, style, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
 
 		if (typeof myBarChart !== 'undefined') myBarChart.destroy()
 
@@ -52,11 +56,11 @@ export default class BarGraph extends Component {
 					{
 						label: 'Historical Exchange Rate',
 						data: graphValues,
-						borderColor: style.borderColor,
-						backgroundColor: style.backgroundColor,
+						borderColor: borderColor,
+						backgroundColor: backgroundColor,
 						borderWidth: style.borderWidth,
-						hoverBackgroundColor: style.hoverBackgroundColor,
-						hoverBorderColor: style.hoverBorderColor,
+						hoverBackgroundColor: pointHoverBackgroundColor,
+						hoverBorderColor: pointBackgroundColor,
 						hoverBorderWidth: style.hoverBorderWidth,
 					},
 				],

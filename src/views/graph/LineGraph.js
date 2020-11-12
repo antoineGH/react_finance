@@ -32,13 +32,17 @@ export default class LineGraph extends Component {
 			return true
 		}
 
+		if (this.props.backgroundColor !== nextProps.backgroundColor) {
+			return true
+		}
+
 		// Otherwise component shouldn't update
 		return false
 	}
 
 	buildChart() {
 		const MyChartRef = this.chartRef.current.getContext('2d')
-		const { graphValues, graphLegend, graphTitle, style } = this.props
+		const { graphValues, graphLegend, graphTitle, style, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
 
 		let ratesRounded = []
 		if (graphValues) {
@@ -59,12 +63,12 @@ export default class LineGraph extends Component {
 						label: `${graphTitle.base} - ${graphTitle.dest}`,
 						data: ratesRounded,
 						fill: true,
-						borderColor: style.borderColor,
-						backgroundColor: style.backgroundColor,
+						borderColor: borderColor,
+						backgroundColor: backgroundColor,
 						pointRadius: style.pointRadius,
-						pointBackgroundColor: style.pointBackgroundColor,
+						pointBackgroundColor: pointBackgroundColor,
 						pointHoverRadius: style.pointHoverRadius,
-						pointHoverBackgroundColor: style.pointHoverBackgroundColor,
+						pointHoverBackgroundColor: pointHoverBackgroundColor,
 					},
 				],
 			},

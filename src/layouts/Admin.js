@@ -7,6 +7,7 @@ import Sidebar from 'components/Sidebar/Sidebar.js'
 import StyleContext from '../views/examples/StyleContext'
 
 import routes from 'routes.js'
+import { authFetch } from 'auth'
 
 class Admin extends React.Component {
 	constructor(props) {
@@ -16,15 +17,82 @@ class Admin extends React.Component {
 			color: localStorage.color,
 		}
 	}
+
+	componentDidMount() {
+		this.getColor()
+			.then((response) => {
+				this.setState({ color: response.style })
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	}
+
 	componentDidUpdate(e) {
 		document.documentElement.scrollTop = 0
 		document.scrollingElement.scrollTop = 0
 		this.refs.mainContent.scrollTop = 0
 	}
 
+	async getColor() {
+		const response = await authFetch('http://localhost:5000/api/user/setting', {
+			method: 'GET',
+			headers: {
+				'Content-type': 'application/json',
+			},
+		})
+		let responseJson = undefined
+		let errorJson = undefined
+
+		if (response.ok) {
+			responseJson = await response.json()
+		} else {
+			if (response.status === 400) {
+				errorJson = await response.json()
+			}
+		}
+		return new Promise((resolve, reject) => {
+			responseJson ? resolve(responseJson) : reject(errorJson)
+		})
+	}
+
+	async updateColor(color) {
+		const settings = {
+			color,
+		}
+
+		const response = await authFetch('http://localhost:5000/api/user/setting', {
+			method: 'PUT',
+			headers: {
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify(settings),
+		})
+		let responseJson = undefined
+		let errorJson = undefined
+
+		if (response.ok) {
+			responseJson = await response.json()
+		} else {
+			if (response.status === 400) {
+				errorJson = await response.json()
+			}
+		}
+		return new Promise((resolve, reject) => {
+			responseJson ? resolve(responseJson) : reject(errorJson)
+		})
+	}
+
 	changeColor(color) {
 		this.setState({ color: color })
 		localStorage.setItem('color', color)
+		this.updateColor(color)
+			.then((response) => {
+				console.log(response)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}
 
 	getRoutes = (routes) => {

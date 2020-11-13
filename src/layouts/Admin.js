@@ -111,7 +111,7 @@ class Admin extends React.Component {
 
 		this.updateColor(color)
 			.then((response) => {
-				console.log(response)
+				console.log(response.message)
 			})
 			.catch((error) => {
 				console.log(error)

@@ -62,7 +62,7 @@ function LoadHistoricalPercentage(props) {
 
 // INFO: HISTORICAL CURRENCY
 export default function HistoricalPercentage(props) {
-	const { isHistoryLoaded, hasHistoryError, outputCurrency, inputCurrency, historyPercentage, start_at, end_at, active } = props
+	const { isHistoryLoaded, hasHistoryError, outputCurrency, inputCurrency, historyPercentage, start_at, end_at, active, borderColor } = props
 
 	return (
 		<Card className='card-stats ' style={{ height: '100%' }}>
@@ -84,7 +84,7 @@ export default function HistoricalPercentage(props) {
 						/>
 					</div>
 					<Col className='col-auto'>
-						<div className='icon icon-shape bg-info text-white rounded-circle shadow'>
+						<div className='icon icon-shape text-white rounded-circle shadow' style={{ backgroundColor: borderColor }}>
 							<i className='fas fa-percent' />
 						</div>
 					</Col>

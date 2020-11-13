@@ -1,5 +1,9 @@
 /* ---- Main Theme Design  ---- */
 
+.form-control-input-profile {
+	height: calc(1.5em + 1.2rem);
+}
+
 .squared_button {
 	padding: 0.75rem 0.75rem;
 	margin-right: 0.1rem;
@@ -20,9 +24,9 @@
 
 .page-item.active .page-link {
 	z-index: 1;
-	color: #fff;
-	background-color: #22437f;
-	border-color: #234480;
+	color: #8898aa;
+	background-color: #ffffff;
+	border-color: #a3aeba;
 }
 
 .page-item .page-link,

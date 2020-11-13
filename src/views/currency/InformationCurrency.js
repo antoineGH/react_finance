@@ -56,7 +56,7 @@ function LoadInformationCurrency(props) {
 
 // INFO: INFORMATION CURRENCY FIELD
 export default function InformationCurrency(props) {
-	const { infoIsLoading, outputCurrency, inputCurrency, listCurrency, hasError, date } = props
+	const { infoIsLoading, outputCurrency, inputCurrency, listCurrency, hasError, date, borderColor } = props
 
 	return (
 		<Card className='card-stats' style={{ height: '100%' }}>
@@ -76,7 +76,7 @@ export default function InformationCurrency(props) {
 						/>
 					</div>
 					<Col className='col-auto'>
-						<div className='icon icon-shape bg-yellow text-white rounded-circle shadow'>
+						<div className='icon icon-shape text-white rounded-circle shadow' style={{ backgroundColor: borderColor }}>
 							<i className='fas fa-chart-bar' />
 						</div>
 					</Col>

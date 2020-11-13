@@ -19,6 +19,8 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+import { authFetch } from '../../auth'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -124,6 +126,31 @@ export default class Currency extends Component {
 	}
 
 	// --- CLASS METHODS ---
+	async fetchUserSettings() {
+		const response = await authFetch('http://localhost:5000/api/user/setting', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+		let responseJson = undefined
+		let errorJson = undefined
+
+		if (response.ok) {
+			responseJson = await response.json()
+		} else {
+			if (response.status === 400) {
+				errorJson = await response.json()
+			}
+			if (response.status === 401) {
+				errorJson = await response.json()
+			}
+		}
+		return new Promise((resolve, reject) => {
+			responseJson ? resolve(responseJson) : reject(errorJson.message)
+		})
+	}
+
 	// Get List Exchange
 	getListExchange(startDate, endDate, baseCurrency, listCurrency) {
 		this.setState({ listCurrencyError: false, listCurrencyLoaded: false })

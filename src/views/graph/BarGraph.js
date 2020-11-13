@@ -37,11 +37,16 @@ export default class BarGraph extends Component {
 			return true
 		}
 
+		if (this.props.reload !== nextProps.reload) {
+			return true
+		}
+
 		// Otherwise component shouldn't update
 		return false
 	}
 
 	// --- CLASS METHODS ---
+
 	buildChart() {
 		const MyBarChartRef = this.barchartRef.current.getContext('2d')
 		const { graphValues, graphLegend, style, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props

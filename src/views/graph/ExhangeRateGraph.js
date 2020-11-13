@@ -136,7 +136,7 @@ export default class ExhangeRateGraph extends Component {
 	}
 
 	render() {
-		const { graphValues, graphLegend, graphTitle } = this.props
+		const { graphValues, graphLegend, graphTitle, borderColor } = this.props
 		const style = this.state.style
 
 		return (
@@ -160,31 +160,46 @@ export default class ExhangeRateGraph extends Component {
 									<div className='col-12 col-lg-6 mt-4 mt-xl-0'>
 										<Nav className='justify-content-end' pills>
 											<NavItem>
-												<NavLink className={this.props.active === '1W' ? 'active' : ''} onClick={this.getWeek} href='#'>
+												<NavLink
+													style={this.props.active === '1W' ? { backgroundColor: borderColor, color: 'white' } : {}}
+													onClick={this.getWeek}
+													href='#'>
 													<span className='d-none d-md-block'>1W</span>
 													<span className='d-md-none'>1W</span>
 												</NavLink>
 											</NavItem>
 											<NavItem>
-												<NavLink className={this.props.active === '1M' ? 'active' : ''} onClick={this.getMonth} href='#'>
+												<NavLink
+													style={this.props.active === '1M' ? { backgroundColor: borderColor, color: 'white' } : {}}
+													onClick={this.getMonth}
+													href='#'>
 													<span className='d-none d-md-block'>1M</span>
 													<span className='d-md-none'>1M</span>
 												</NavLink>
 											</NavItem>
 											<NavItem>
-												<NavLink className={this.props.active === '3M' ? 'active' : ''} onClick={this.getThreeMonths} href='#'>
+												<NavLink
+													style={this.props.active === '3M' ? { backgroundColor: borderColor, color: 'white' } : {}}
+													onClick={this.getThreeMonths}
+													href='#'>
 													<span className='d-none d-md-block'>3M</span>
 													<span className='d-md-none'>3M</span>
 												</NavLink>
 											</NavItem>
 											<NavItem>
-												<NavLink className={this.props.active === '6M' ? 'active' : ''} onClick={this.getSixMonths} href='#'>
+												<NavLink
+													style={this.props.active === '6M' ? { backgroundColor: borderColor, color: 'white' } : {}}
+													onClick={this.getSixMonths}
+													href='#'>
 													<span className='d-none d-md-block'>6M</span>
 													<span className='d-md-none'>6M</span>
 												</NavLink>
 											</NavItem>
 											<NavItem>
-												<NavLink className={this.props.active === '1Y' ? 'active' : ''} onClick={this.getYear} href='#'>
+												<NavLink
+													style={this.props.active === '1Y' ? { backgroundColor: borderColor, color: 'white' } : {}}
+													onClick={this.getYear}
+													href='#'>
 													<span className='d-none d-md-block'>1Y</span>
 													<span className='d-md-none'>1Y</span>
 												</NavLink>
@@ -212,45 +227,12 @@ export default class ExhangeRateGraph extends Component {
 						<Card className='bg-gradient-default shadow'>
 							<CardHeader className='bg-transparent'>
 								<Row className='align-items-center'>
-									<div className='col-12 col-lg-6'>
-										<h6 className='text-uppercase text-light ls-1 mb-1'>
-											<span style={{ fontSize: '0.80rem' }}>Period: </span>
-										</h6>
-										<h2 className='text-white mb-0'>Exchange Rate </h2>
-									</div>
-									<div className='col-12 col-lg-6 mt-4 mt-xl-0'>
-										<Nav className='justify-content-end' pills>
-											<NavItem>
-												<NavLink href='#'>
-													<span className='d-none d-md-block'>1W</span>
-													<span className='d-md-none'>1W</span>
-												</NavLink>
-											</NavItem>
-											<NavItem>
-												<NavLink href='#'>
-													<span className='d-none d-md-block'>1M</span>
-													<span className='d-md-none'>1M</span>
-												</NavLink>
-											</NavItem>
-											<NavItem>
-												<NavLink href='#'>
-													<span className='d-none d-md-block'>3M</span>
-													<span className='d-md-none'>3M</span>
-												</NavLink>
-											</NavItem>
-											<NavItem>
-												<NavLink href='#'>
-													<span className='d-none d-md-block'>6M</span>
-													<span className='d-md-none'>6M</span>
-												</NavLink>
-											</NavItem>
-											<NavItem>
-												<NavLink href='#'>
-													<span className='d-none d-md-block'>1Y</span>
-													<span className='d-md-none'>1Y</span>
-												</NavLink>
-											</NavItem>
-										</Nav>
+									<div className='col'>
+										<h5 className='text-uppercase text-muted mb-0 card-title'>Exchange Rate</h5>
+										<p className='mt-1 mb-0 text-muted text-sm'>
+											<span className='text-nowrap'>Period</span>
+										</p>
+										<span style={{ fontSize: '0.80rem' }}></span>
 									</div>
 								</Row>
 							</CardHeader>

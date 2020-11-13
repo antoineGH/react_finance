@@ -63,7 +63,7 @@ class LoadHistoricalExchangeRate extends Component {
 	}
 
 	render() {
-		const { listCurrencyHistory, listCurrencyLoaded, listCurrencyError, inputCurrency, handleClick } = this.props
+		const { listCurrencyHistory, listCurrencyLoaded, listCurrencyError, inputCurrency, handleClick, borderColor } = this.props
 		const { currentItems } = this.state
 
 		if (listCurrencyError) {
@@ -73,7 +73,7 @@ class LoadHistoricalExchangeRate extends Component {
 						<span style={{ fontSize: '0.80rem' }}>&nbsp;Impossible to fetch Historical Exchange Rate</span>
 					</div>
 					<div className='text-center justify-content-center mt-2'>
-						<Button size='sm' className='mt-2 mb-4' onClick={handleClick}>
+						<Button style={{ backgroundColor: borderColor, borderColor: borderColor }} size='sm' className='mt-2 mb-4' onClick={handleClick}>
 							{' '}
 							Try Again{' '}
 						</Button>
@@ -126,17 +126,26 @@ class LoadHistoricalExchangeRate extends Component {
 						<thead className='thead-light'>
 							<tr>
 								<th scope='col'>
-									<Button className='btn-sm' onClick={() => this.filterChild('destAsc')}>
+									<Button
+										style={{ backgroundColor: borderColor, borderColor: borderColor }}
+										className='btn-sm'
+										onClick={() => this.filterChild('destAsc')}>
 										Currency <i className='fas fa-sort'></i>
 									</Button>
 								</th>
 								<th scope='col'>
-									<Button className='btn-sm' onClick={() => this.filterChild('rateAsc')}>
+									<Button
+										style={{ backgroundColor: borderColor, borderColor: borderColor }}
+										className='btn-sm'
+										onClick={() => this.filterChild('rateAsc')}>
 										Rate <i className='fas fa-sort'></i>
 									</Button>
 								</th>
 								<th scope='col'>
-									<Button className='btn-sm' onClick={() => this.filterChild('histAsc')}>
+									<Button
+										style={{ backgroundColor: borderColor, borderColor: borderColor }}
+										className='btn-sm'
+										onClick={() => this.filterChild('histAsc')}>
 										History <i className='fas fa-sort'></i>
 									</Button>
 								</th>
@@ -272,7 +281,7 @@ export default class HistoricalExchangeRate extends Component {
 	}
 
 	render() {
-		let { listCurrencyHistory, listCurrencyLoaded, listCurrencyError, inputCurrency } = this.props
+		let { listCurrencyHistory, listCurrencyLoaded, listCurrencyError, inputCurrency, borderColor } = this.props
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
@@ -329,6 +338,7 @@ export default class HistoricalExchangeRate extends Component {
 					filter={this.filter}
 					stateFilterMethod={this.state.filterMethod}
 					setState={this.setState}
+					borderColor={borderColor}
 				/>
 			</Card>
 		)

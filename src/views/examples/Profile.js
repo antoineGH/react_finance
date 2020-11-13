@@ -5,6 +5,9 @@ import { authFetch, logout } from '../../auth'
 import moment from 'moment'
 import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
+import Select from 'react-dropdown-select'
+import fetchCurrency from '../currency/utils/fetchCurrency'
+import { currenciesName } from '../currency/utils/currenciesName'
 
 export default function Profile() {
 	const [email, setEmail] = useState('')
@@ -30,6 +33,12 @@ export default function Profile() {
 
 	const [show, setShow] = useState(false)
 
+	const [listCurrencyError, setListCurrencyError] = useState([])
+	const [listCurrencyLoaded, setListCurrencyLoaded] = useState([])
+	const [listCurrency, setListCurrency] = useState([])
+	const [selectedCurrency, setSelectedCurrency] = useState('Default Currency')
+	const [selectedDBCurrency, setSelectedDBCurrency] = useState('')
+
 	const handleShow = () => setShow(true)
 	const handleClose = () => setShow(false)
 
@@ -37,6 +46,31 @@ export default function Profile() {
 
 	async function fetchUserInfo() {
 		const response = await authFetch('http://localhost:5000/api/user', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+		let responseJson = undefined
+		let errorJson = undefined
+
+		if (response.ok) {
+			responseJson = await response.json()
+		} else {
+			if (response.status === 400) {
+				errorJson = await response.json()
+			}
+			if (response.status === 401) {
+				errorJson = await response.json()
+			}
+		}
+		return new Promise((resolve, reject) => {
+			responseJson ? resolve(responseJson) : reject(errorJson.message)
+		})
+	}
+
+	async function fetchUserSettings() {
+		const response = await authFetch('http://localhost:5000/api/user/setting', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -131,6 +165,34 @@ export default function Profile() {
 
 	useEffect(() => {
 		let mounted = true
+		fetchCurrency('USD')
+			.then((response) => {
+				const currencies = []
+				for (const [prop, value] of Object.entries(response.rates)) {
+					const currencyName = '(' + currenciesName[prop] + ')'
+					currencies.push({
+						value: prop,
+						label: `${prop} ${currencyName}`,
+						rate: value,
+					})
+				}
+				setListCurrency(currencies)
+			})
+			.catch((error) => {
+				setListCurrencyError(true)
+			})
+		fetchUserSettings()
+			.then((response) => {
+				if (mounted) {
+					setSelectedCurrency(response.default_currency)
+					setSelectedDBCurrency(response.default_currency)
+					setListCurrencyLoaded(false)
+					setListCurrencyError(false)
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 		fetchUserInfo()
 			.then((response) => {
 				if (mounted) {
@@ -158,6 +220,15 @@ export default function Profile() {
 	}, [])
 
 	function handleClick(e) {
+		if (selectedCurrency !== selectedDBCurrency) {
+			updateCurrencyChange()
+				.then((response) => {
+					console.log(response)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		}
 		requestUpdate()
 			.then((response) => {
 				setSmShow(true)
@@ -211,12 +282,46 @@ export default function Profile() {
 			.join(' ')
 	}
 
+	function handleChange(selected) {
+		selected && setSelectedCurrency(selected[0].value)
+		return
+	}
+
+	async function updateCurrencyChange() {
+		const settings = { default_currency: selectedCurrency }
+
+		const response = await authFetch('http://localhost:5000/api/user/setting', {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(settings),
+		})
+		let responseJson = undefined
+		let errorJson = undefined
+		if (response.ok) {
+			responseJson = await response.json()
+		} else {
+			if (response.status === 400) {
+				errorJson = await response.json()
+			}
+			if (response.status === 401) {
+				errorJson = await response.json()
+			}
+		}
+
+		return new Promise((resolve, reject) => {
+			responseJson ? resolve(responseJson) : reject(errorJson.message)
+		})
+	}
+
 	const current_user = localStorage.username
 	const welcome = `Hello ${first_name}.`
 	const message = 'This is your profile page. You can see and edit your information.'
 	const background = {
 		color: 'linear-gradient(to right, #141e30, #243b55)',
 	}
+
 	return (
 		<>
 			<UserHeader welcome={welcome} message={message} background={background} />
@@ -293,6 +398,39 @@ export default function Profile() {
 							</CardHeader>
 							<CardBody>
 								<Form>
+									{/* User settings */}
+									<h6 className='heading-small text-muted mb-4'>User settings</h6>
+									<div className='pl-lg-4'>
+										<Row>
+											<Col lg='6'>
+												<FormGroup>
+													<label className='form-control-label' htmlFor='input-username'>
+														Default Currency
+													</label>
+													<Select
+														key={new Date().getTime()}
+														options={listCurrency}
+														values={[
+															{
+																label: selectedCurrency + ' (' + currenciesName[selectedCurrency] + ')',
+																value: selectedCurrency,
+															},
+														]}
+														onChange={(selected) => handleChange(selected)}
+														keepSelectedInList={true}
+														dropdownHandle={true}
+														closeOnSelect={true}
+														clearable={false}
+														loading={listCurrencyLoaded ? true : false}
+														disabled={listCurrencyError ? true : false}
+														style={{ borderRadius: '.25rem' }}
+													/>
+												</FormGroup>
+											</Col>
+										</Row>
+									</div>
+
+									{/* User information */}
 									<h6 className='heading-small text-muted mb-4'>User information</h6>
 									<div className='pl-lg-4'>
 										<Row>
@@ -305,7 +443,7 @@ export default function Profile() {
 														readOnly
 														value={username}
 														onChange={(e) => setUsername(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-username'
 														placeholder='Username'
 														type='text'
@@ -321,7 +459,7 @@ export default function Profile() {
 														readOnly
 														value={email}
 														onChange={(e) => setEmail(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-email'
 														placeholder='Email'
 														type='email'
@@ -338,7 +476,7 @@ export default function Profile() {
 													<Input
 														value={password}
 														onChange={(e) => setPassword(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-password'
 														placeholder='Password'
 														type='password'
@@ -353,7 +491,7 @@ export default function Profile() {
 													<Input
 														value={confirmPassword}
 														onChange={(e) => setConfirmPassword(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-confirm-password'
 														placeholder='Confirm Password'
 														type='password'
@@ -370,7 +508,7 @@ export default function Profile() {
 													<Input
 														value={first_name}
 														onChange={(e) => setFirstName(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-first-name'
 														placeholder='First name'
 														type='text'
@@ -385,7 +523,7 @@ export default function Profile() {
 													<Input
 														value={last_name}
 														onChange={(e) => setLastName(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-last-name'
 														placeholder='Last name'
 														type='text'
@@ -407,7 +545,7 @@ export default function Profile() {
 													<Input
 														value={position}
 														onChange={(e) => setPosition(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-position'
 														placeholder='Position'
 														type='text'
@@ -422,7 +560,7 @@ export default function Profile() {
 													<Input
 														value={education}
 														onChange={(e) => setEducation(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-education'
 														placeholder='Education'
 														type='text'
@@ -439,7 +577,7 @@ export default function Profile() {
 													<Input
 														value={birthday}
 														onChange={(e) => setBirthday(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-birthday'
 														placeholder='Birthday'
 														type='text'
@@ -454,7 +592,7 @@ export default function Profile() {
 													<Input
 														value={profilePicture}
 														onChange={(e) => setProfilePicture(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-profilePicture'
 														placeholder='Profile Picture'
 														type='text'
@@ -474,7 +612,7 @@ export default function Profile() {
 														rows={3}
 														value={aboutMe}
 														onChange={(e) => setAboutMe(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-aboutMe'
 														placeholder='About Me'
 													/>
@@ -495,7 +633,7 @@ export default function Profile() {
 													<Input
 														value={address}
 														onChange={(e) => setAddress(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-address'
 														placeholder='Home Address'
 														type='text'
@@ -512,7 +650,7 @@ export default function Profile() {
 													<Input
 														value={city}
 														onChange={(e) => setCity(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-city'
 														placeholder='City'
 														type='text'
@@ -527,7 +665,7 @@ export default function Profile() {
 													<Input
 														value={postcode}
 														onChange={(e) => setPostcode(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-postal-code'
 														placeholder='Postal code'
 														type='number'
@@ -542,7 +680,7 @@ export default function Profile() {
 													<Input
 														value={country}
 														onChange={(e) => setCountry(e.target.value)}
-														className='form-control-alternative'
+														className='form-control-input-profile'
 														id='input-country'
 														placeholder='Country'
 														type='text'

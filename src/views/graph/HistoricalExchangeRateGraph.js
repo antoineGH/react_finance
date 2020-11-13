@@ -14,6 +14,7 @@ export default class HistoricalExchangeRateGraph extends Component {
 			borderColor: localStorage.borderColor,
 			pointBackgroundColor: localStorage.pointBackgroundColor,
 			pointHoverBackgroundColor: localStorage.pointHoverBackgroundColor,
+			reload: false,
 		}
 	}
 	// --- COMPONENT LIFECYCLE ---
@@ -59,11 +60,12 @@ export default class HistoricalExchangeRateGraph extends Component {
 	}
 
 	handleReload() {
-		this.setState({ reloaded: true })
+		const reload = !this.state.reload
+		this.setState({ reload: reload })
 	}
 
 	render() {
-		const { graphHistoryValue, graphHistoryLegend, graphTitle } = this.props
+		const { graphHistoryValue, graphHistoryLegend, graphTitle, borderColor } = this.props
 		const style = this.state.style
 
 		return (
@@ -86,7 +88,7 @@ export default class HistoricalExchangeRateGraph extends Component {
 								</div>
 							</Row>
 							<div className='text-right col-12' style={{ marginTop: '-5%', marginBottom: '2%' }}>
-								<Button color='primary ' size='sm' onClick={this.handleReload}>
+								<Button style={{ backgroundColor: borderColor, color: 'white' }} size='sm' onClick={this.handleReload}>
 									<i className='fas fa-sync-alt'></i>
 								</Button>
 							</div>
@@ -102,12 +104,34 @@ export default class HistoricalExchangeRateGraph extends Component {
 									borderColor={this.state.borderColor}
 									pointBackgroundColor={this.state.pointBackgroundColor}
 									pointHoverBackgroundColor={this.state.pointHoverBackgroundColor}
+									reload={this.state.reload}
 								/>
 							</div>
 						</CardBody>
 					</Card>
 				) : (
-					<p>Error</p>
+					<Card className='shadow'>
+						<CardHeader className='bg-transparent'>
+							<Row className='align-items-center'>
+								<div className='col'>
+									<h5 className='text-uppercase text-muted mb-0 card-title'>Historical Exchange Rate</h5>
+									<p className='mt-1 mb-0 text-muted text-sm'>
+										<span className='text-nowrap'>Period</span>
+									</p>
+									<span style={{ fontSize: '0.80rem' }}></span>
+								</div>
+							</Row>
+							<div className='text-right col-12' style={{ marginTop: '-5%', marginBottom: '2%' }}>
+								<Button style={{ backgroundColor: borderColor, color: 'white' }} size='sm' onClick={this.handleReload}>
+									<i className='fas fa-sync-alt'></i>
+								</Button>
+							</div>
+						</CardHeader>
+						<CardBody>
+							{/* Chart */}
+							<div className='chart'></div>
+						</CardBody>
+					</Card>
 				)}
 			</>
 		)

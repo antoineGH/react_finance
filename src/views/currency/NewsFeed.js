@@ -50,7 +50,7 @@ class LoadNewsFeed extends Component {
 		this.setState({ activePage: pageNumber, currentItems: currentItems })
 	}
 	render() {
-		let { newsFeed, newsFeedError, newsFeedLoaded } = this.props
+		let { newsFeed, newsFeedError, newsFeedLoaded, borderColor } = this.props
 		const { currentItems } = this.state
 
 		if (newsFeedError) {
@@ -60,7 +60,11 @@ class LoadNewsFeed extends Component {
 						<span style={{ fontSize: '0.80rem' }}>&nbsp;Impossible to fetch Finance Feed</span>
 					</div>
 					<div className='text-center justify-content-center mt-2'>
-						<Button size='sm' className='mt-2 mb-4' onClick={this.props.handleClick}>
+						<Button
+							style={{ backgroundColor: borderColor, borderColor: borderColor }}
+							size='sm'
+							className='mt-2 mb-4'
+							onClick={this.props.handleClick}>
 							{' '}
 							Try Again{' '}
 						</Button>
@@ -104,20 +108,29 @@ class LoadNewsFeed extends Component {
 						<Card.Body className='card_news_body'>
 							<Row>
 								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='text-left justify-content-left mr-xl-2'>
-									<Button className='btn-sm' onClick={() => this.filter('brandNameAsc')}>
+									<Button
+										style={{ backgroundColor: borderColor, borderColor: borderColor }}
+										className='btn-sm'
+										onClick={() => this.filter('brandNameAsc')}>
 										Brand <i className='fas fa-sort'></i>
 									</Button>
 								</Col>
 								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
 									<Row>
-										<Button className='btn-sm' onClick={() => this.filter('publishTimeAsc')}>
+										<Button
+											style={{ backgroundColor: borderColor, borderColor: borderColor }}
+											className='btn-sm'
+											onClick={() => this.filter('publishTimeAsc')}>
 											Date <i className='fas fa-sort'></i>
 										</Button>
 									</Row>
 								</Col>
 								<Col xs={3} sm={3} md={3} lg={3} xl={2}>
 									<Row className='text-left mx-auto justify-content-left'>
-										<Button className='btn-sm' onClick={() => this.filter('cityfalconScoreAsc')}>
+										<Button
+											style={{ backgroundColor: borderColor, borderColor: borderColor }}
+											className='btn-sm'
+											onClick={() => this.filter('cityfalconScoreAsc')}>
 											Score <i className='fas fa-sort'></i>
 										</Button>
 									</Row>
@@ -281,7 +294,7 @@ export default class NewsFeed extends Component {
 	}
 
 	render() {
-		let { newsFeed, newsFeedError, newsFeedLoaded } = this.props
+		let { newsFeed, newsFeedError, newsFeedLoaded, borderColor } = this.props
 
 		// INFO: newsFeed sortBy
 		newsFeed = this.sortBy(this.state.filterMethod, newsFeed)
@@ -320,7 +333,7 @@ export default class NewsFeed extends Component {
 								</div>
 							</Col>
 							<Col xs={2} sm={2} md={6} lg={6} xl={2} className=''>
-								<Button className='btn-sm' type='submit' value='Submit'>
+								<Button style={{ backgroundColor: borderColor, borderColor: borderColor }} className='btn-sm' type='submit' value='Submit'>
 									Search
 								</Button>
 							</Col>
@@ -361,6 +374,7 @@ export default class NewsFeed extends Component {
 					filterMethod={this.state.filterMethod}
 					setState={this.setState}
 					handleClick={this.handleClick}
+					borderColor={borderColor}
 				/>
 			</>
 		)

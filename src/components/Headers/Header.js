@@ -44,6 +44,7 @@ class Header extends React.Component {
 			start_at,
 			end_at,
 			active,
+			borderColor,
 		} = this.props
 		return (
 			<>
@@ -79,6 +80,7 @@ class Header extends React.Component {
 												inputCurrency={inputCurrency}
 												listCurrency={listCurrency}
 												date={date}
+												borderColor={borderColor}
 											/>
 										</Col>
 										{/* INFO: HISTORICAL CURRENCY */}
@@ -92,6 +94,7 @@ class Header extends React.Component {
 												start_at={start_at}
 												end_at={end_at}
 												active={active}
+												borderColor={borderColor}
 											/>
 										</Col>
 									</Row>

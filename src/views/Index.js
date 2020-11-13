@@ -27,31 +27,36 @@ class Index extends React.Component {
 	render() {
 		return (
 			<>
-				<Header
-					inputValue={this.props.state.inputValue}
-					outputValue={this.props.state.outputValue}
-					listCurrency={this.props.state.listCurrency}
-					valueInput={this.props.state.optionsInput.value}
-					labelInput={this.props.state.optionsInput.label}
-					valueOutput={this.props.state.optionsOutput.value}
-					labelOutput={this.props.state.optionsOutput.label}
-					onValueChangeInput={this.props.onValueChangeInput}
-					onValueChangeOutput={this.props.onValueChangeOutput}
-					onCurrencyChangeInput={this.props.onCurrencyChangeInput}
-					onCurrencyChangeOutput={this.props.onCurrencyChangeOutput}
-					reverse={this.props.reverse}
-					hasError={this.props.state.hasError}
-					infoIsLoading={this.props.state.infoIsLoading}
-					outputCurrency={this.props.state.outputCurrency}
-					inputCurrency={this.props.state.inputCurrency}
-					date={this.props.state.date}
-					isHistoryLoaded={this.props.state.isHistoryLoaded}
-					hasHistoryError={this.props.state.hasHistoryError}
-					historyPercentage={this.props.state.historyPercentage}
-					start_at={this.props.state.graphTitle.start_at}
-					end_at={this.props.state.graphTitle.end_at}
-					active={this.props.state.active}
-				/>
+				<borderColorContext.Consumer>
+					{(borderColor) => (
+						<Header
+							inputValue={this.props.state.inputValue}
+							outputValue={this.props.state.outputValue}
+							listCurrency={this.props.state.listCurrency}
+							valueInput={this.props.state.optionsInput.value}
+							labelInput={this.props.state.optionsInput.label}
+							valueOutput={this.props.state.optionsOutput.value}
+							labelOutput={this.props.state.optionsOutput.label}
+							onValueChangeInput={this.props.onValueChangeInput}
+							onValueChangeOutput={this.props.onValueChangeOutput}
+							onCurrencyChangeInput={this.props.onCurrencyChangeInput}
+							onCurrencyChangeOutput={this.props.onCurrencyChangeOutput}
+							reverse={this.props.reverse}
+							hasError={this.props.state.hasError}
+							infoIsLoading={this.props.state.infoIsLoading}
+							outputCurrency={this.props.state.outputCurrency}
+							inputCurrency={this.props.state.inputCurrency}
+							date={this.props.state.date}
+							isHistoryLoaded={this.props.state.isHistoryLoaded}
+							hasHistoryError={this.props.state.hasHistoryError}
+							historyPercentage={this.props.state.historyPercentage}
+							start_at={this.props.state.graphTitle.start_at}
+							end_at={this.props.state.graphTitle.end_at}
+							active={this.props.state.active}
+							borderColor={borderColor}
+						/>
+					)}
+				</borderColorContext.Consumer>
 				<backgroundColorContext.Consumer>
 					{(backgroundColor) => (
 						<borderColorContext.Consumer>
@@ -102,6 +107,7 @@ class Index extends React.Component {
 																inputCurrency={this.props.state.inputCurrency}
 																listCurrency={this.props.state.listCurrency}
 																setState={this.props.setState}
+																borderColor={borderColor}
 															/>
 														</Col>
 														{/* INFO: FINANCE NEWS FEED */}
@@ -119,6 +125,7 @@ class Index extends React.Component {
 																	newsFeedError={this.props.state.newsFeedError}
 																	newsFeedLoaded={this.props.state.newsFeedLoaded}
 																	getNewsFeed={this.props.getNewsFeed}
+																	borderColor={borderColor}
 																/>
 															</Card>
 														</Col>

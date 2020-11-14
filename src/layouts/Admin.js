@@ -184,7 +184,16 @@ class Admin extends React.Component {
 						/>
 						<Route
 							path='/admin/hist-graph'
-							render={(props) => <HistoricalGraph borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+							render={(props) => (
+								<HistoricalGraph
+									backgroundColor={this.state.backgroundColor}
+									borderColor={this.state.borderColor}
+									color={this.state.color}
+									pointBackgroundColor={this.state.pointBackgroundColor}
+									pointHoverBackgroundColor={this.state.pointHoverBackgroundColor}
+									{...props}
+								/>
+							)}
 						/>
 						<Route
 							path='/admin/hist-rate'

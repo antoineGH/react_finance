@@ -77,6 +77,7 @@ export default class RateGraph extends Component {
 			pointHoverBackgroundColor: props.pointHoverBackgroundColor,
 		}
 	}
+
 	// --- CLASS METHODS ---
 
 	async fetchUserSettings() {
@@ -118,7 +119,6 @@ export default class RateGraph extends Component {
 	}
 
 	handleChangeSource(selected) {
-		// INFO: IF ONE FIELD? IF TWO FIELD? IF BOTH
 		selected && this.setState({ selectedSourceCurrency: selected[0].value, active: '1M' })
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
@@ -127,7 +127,6 @@ export default class RateGraph extends Component {
 	}
 
 	handleChangeDestination(selected) {
-		// INFO: IF ONE FIELD? IF TWO FIELD? IF BOTH
 		selected && this.setState({ selectedDestCurrency: selected[0].value, active: '1M' })
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
@@ -266,10 +265,6 @@ export default class RateGraph extends Component {
 		} = this.state
 		const welcome = 'Exchange Rate Graph'
 		const message = 'Foreign Exchange Rates Graph based on current values from around the world..'
-
-		const date = new Date(Date.now())
-		const start_date = getDate(date)
-		const end_date = getDateBefore(date, 1, 'months')
 
 		return (
 			<div>

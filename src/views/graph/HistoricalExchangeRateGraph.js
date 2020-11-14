@@ -19,7 +19,7 @@ export default class HistoricalExchangeRateGraph extends Component {
 	}
 	// --- COMPONENT LIFECYCLE ---
 
-	static getDerivedStateFromProps(props, state) {
+	static getDerivedStateFromProps(props) {
 		return {
 			backgroundColor: props.backgroundColor,
 			borderColor: props.borderColor,

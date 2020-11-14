@@ -104,10 +104,6 @@ export default class RateGraph extends Component {
 		})
 	}
 
-	handleActive(active) {
-		this.setState({ active: active })
-	}
-
 	getHistoryPercentage(orderedDates, destCurrency) {
 		const orderedDatesKeys = Object.keys(orderedDates)
 		const firstKey = orderedDatesKeys[0]
@@ -123,12 +119,20 @@ export default class RateGraph extends Component {
 
 	handleChangeSource(selected) {
 		// INFO: IF ONE FIELD? IF TWO FIELD? IF BOTH
-		selected && this.setState({ selectedSourceCurrency: selected[0].value })
+		selected && this.setState({ selectedSourceCurrency: selected[0].value, active: '1M' })
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		const end_date = getDateBefore(date, 1, 'month')
+		this.getGraphInfo(end_date, start_date, selected[0].value, this.state.selectedDestCurrency)
 	}
 
 	handleChangeDestination(selected) {
 		// INFO: IF ONE FIELD? IF TWO FIELD? IF BOTH
-		selected && this.setState({ selectedDestCurrency: selected[0].value })
+		selected && this.setState({ selectedDestCurrency: selected[0].value, active: '1M' })
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		const end_date = getDateBefore(date, 1, 'month')
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, selected[0].value)
 	}
 
 	getGraphInfo(startDate, endDate, baseCurrency, destCurrency) {
@@ -186,7 +190,6 @@ export default class RateGraph extends Component {
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'years')
-		// INFO: base , dest from currency field !
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.setState({ active: '1Y' })
 	}
@@ -286,13 +289,6 @@ export default class RateGraph extends Component {
 														selectedDestCurrency &&
 														'(' + selectedSourceCurrency + ' - ' + selectedDestCurrency + ')'}
 												</h5>
-												{selectedSourceCurrency && (
-													<p className='mt-1 mb-0 text-muted text-sm'>
-														<span className='text-nowrap'>
-															1M: {end_date} <i className='fa-xs fas fa-chevron-right'></i> {start_date}
-														</span>
-													</p>
-												)}
 											</div>
 										</Row>
 

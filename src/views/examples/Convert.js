@@ -3,17 +3,15 @@ import { authFetch } from '../../auth'
 import Select from 'react-dropdown-select'
 import BarLoader from 'react-spinners/BarLoader'
 import UserHeader from 'components/Headers/UserHeader.js'
-import LineGraph from '../graph/LineGraph'
 import getDate from '../currency/utils/getDate'
 import getDateBefore from '../currency/utils/getDateBefore'
-import getDateAfter from '../currency/utils/getDateAfter'
 import fetchCurrency from '../currency/utils/fetchCurrency'
+import toCurrency from '../currency/utils/toCurrency'
 import fetchHistoryCurrency from '../currency/utils/fetchHistoryCurrency'
 import sortDate from '../currency/utils/sortDate'
-import genValues from '../currency/utils/genValues'
 import { currenciesName } from '../currency/utils/currenciesName'
 import { Col } from 'react-bootstrap'
-import { Card, CardHeader, FormGroup, Row, Container, NavItem, NavLink, Nav, CardBody, Input } from 'reactstrap'
+import { Card, CardHeader, FormGroup, Row, Container, Input } from 'reactstrap'
 import Button from 'react-bootstrap/Button'
 
 // INFO: CONVERT
@@ -27,7 +25,7 @@ export default class Convert extends Component {
 			listCurrency: [],
 			listCurrencyError: false,
 			listCurrencyLoaded: false,
-			selectedSourceCurrency: 'Default Currency',
+			selectedSourceCurrency: 'USD',
 			selectedDestCurrency: 'EUR',
 			inputValue: '1',
 			outputValue: '',
@@ -39,8 +37,9 @@ export default class Convert extends Component {
 	componentDidMount() {
 		this.fetchUserSettings()
 			.then((response) => {
-				this.setState({ selectedSourceCurrency: response.default_currency })
-				fetchCurrency(response.default_currency)
+				const selectedSourceCurrency = response.default_currency
+				this.setState({ selectedSourceCurrency: selectedSourceCurrency })
+				fetchCurrency(selectedSourceCurrency)
 					.then((response) => {
 						const listCurrency = []
 						for (const [prop, value] of Object.entries(response.rates)) {
@@ -52,14 +51,27 @@ export default class Convert extends Component {
 							})
 						}
 						this.setState({ listCurrency: listCurrency, listCurrencyLoaded: true, listCurrencyError: false })
+						const date = new Date(Date.now())
+						const start_date = getDateBefore(date, 1, 'months')
+						const end_date = getDate(date)
+
+						fetchHistoryCurrency(start_date, end_date, selectedSourceCurrency, this.state.selectedDestCurrency)
+							.then((response) => {
+								const orderedDates = sortDate(response)
+								const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
+								this.setState({ historyPercentage: historyPercentage })
+							})
+							.catch((error) => {
+								console.log(error)
+							})
 					})
 					.catch((error) => {
 						console.log(error)
-						this.setState({ listCurrencyError: true })
 					})
 			})
 			.catch((error) => {
 				console.log(error)
+				this.setState({ listCurrencyError: true })
 			})
 	}
 
@@ -90,12 +102,125 @@ export default class Convert extends Component {
 		})
 	}
 
+	setBase(selectedCurrency) {
+		this.setState({ infoIsLoading: true })
+		setTimeout(() => {
+			fetchCurrency(selectedCurrency)
+				.then((response) => {
+					this.setState({ date: response.date })
+					const currencies = []
+					for (const [prop, value] of Object.entries(response.rates)) {
+						const currencyName = '(' + currenciesName[prop] + ')'
+						currencies.push({
+							value: prop,
+							label: `${prop} ${currencyName}`,
+							rate: value,
+						})
+					}
+					this.setState({
+						listCurrency: currencies,
+						isLoaded: true,
+						hasError: false,
+						infoIsLoading: false,
+					})
+					if (this.state.inputValue && this.state.outputCurrency) {
+						this.setState({
+							outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+						})
+					}
+				})
+				.catch((error) => {
+					this.setState({ hasError: true, infoIsLoading: false })
+				})
+		}, 2000)
+	}
+
 	handleChangeSource(selected) {
 		selected && this.setState({ selectedSourceCurrency: selected[0].value })
+		this.setBase(selected[0].value)
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		const end_date = getDateBefore(date, 1, 'months')
+
+		fetchHistoryCurrency(end_date, start_date, selected[0].value, this.state.selectedDestCurrency)
+			.then((response) => {
+				console.log(response)
+				const orderedDates = sortDate(response)
+				const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
+				this.setState({
+					historyPercentage: historyPercentage,
+					// outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, this.state.listCurrency),
+				})
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}
 
 	handleChangeDestination(selected) {
 		selected && this.setState({ selectedDestCurrency: selected[0].value })
+		const date = new Date(Date.now())
+		const start_date = getDate(date)
+		const end_date = getDateBefore(date, 1, 'months')
+		fetchHistoryCurrency(end_date, start_date, this.state.selectedSourceCurrency, selected[0].value)
+			.then((response) => {
+				console.log(response)
+				const orderedDates = sortDate(response)
+				const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
+				this.setState({
+					historyPercentage: historyPercentage,
+					outputValue: toCurrency(this.state.inputValue, selected[0].value, this.state.listCurrency),
+				})
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	}
+
+	getHistoryPercentage(orderedDates, destCurrency) {
+		const orderedDatesKeys = Object.keys(orderedDates)
+		const firstKey = orderedDatesKeys[0]
+		const lastKey = orderedDatesKeys[orderedDatesKeys.length - 1]
+		const t0 = orderedDates[firstKey][destCurrency]
+		const t1 = orderedDates[lastKey][destCurrency]
+		let historyPercentage = ((t1 - t0) / t0) * 100
+		historyPercentage = Math.round(historyPercentage * 10000) / 10000
+		return historyPercentage
+	}
+
+	getListExchange(startDate, endDate, baseCurrency, listCurrency) {
+		this.setState({ listCurrencyError: false, listCurrencyLoaded: false })
+		const items = 33
+		for (let i = 0; i < items - 1; i++) {
+			const destCurrency = listCurrency[i]['value']
+			if (destCurrency === baseCurrency) continue
+			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)
+				.then((response) => {
+					const orderedDates = sortDate(response)
+					const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency)
+					const keyEndDate = Object.keys(orderedDates)[orderedDates.length]
+					const rate = orderedDates[keyEndDate][destCurrency]
+
+					this.setState({
+						listCurrencyHistory: [
+							...this.state.listCurrencyHistory,
+							{
+								baseCurrency: baseCurrency,
+								destCurrency: destCurrency,
+								rate: rate,
+								historyPercentage: historyPercentage,
+							},
+						],
+					})
+					if (this.state.listCurrencyHistory.length === items - 2) {
+						this.setState({ listCurrencyLoaded: true })
+					}
+				})
+				.catch((error) => {
+					this.setState({ listCurrencyError: true })
+					console.log(error)
+				})
+		}
 	}
 
 	reverse() {
@@ -130,7 +255,6 @@ export default class Convert extends Component {
 											</div>
 											<Col className='text-right' xs='4'>
 												<Button
-													// size='sm'
 													className='reverse'
 													style={{ backgroundColor: borderColor, borderColor: borderColor }}
 													onClick={this.reverse}>

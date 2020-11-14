@@ -232,12 +232,12 @@ class Sidebar extends React.Component {
 										}}
 										onClick={() => this.handleChange('orange')}></Button>
 									<Button
-										className='mb-1 squared_button'
+										className=' ml-1 mb-1 squared_button'
 										style={{
-											background: 'linear-gradient(to right, #614385, #516395)',
+											background: 'linear-gradient(to right, #ddd6f3, #faaca8)',
 											border: 0,
 										}}
-										onClick={() => this.handleChange('purple')}></Button>
+										onClick={() => this.handleChange('pink')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{

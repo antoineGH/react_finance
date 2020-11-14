@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { authFetch } from '../../auth'
 import Select from 'react-dropdown-select'
+import BarLoader from 'react-spinners/BarLoader'
 import UserHeader from 'components/Headers/UserHeader.js'
 import LineGraph from '../graph/LineGraph'
 import getDate from '../currency/utils/getDate'
@@ -432,6 +433,9 @@ export default class RateGraph extends Component {
 											</Row>
 										</CardHeader>
 										<CardBody>
+											<div className='text-center justify-content-center mt-3'>
+												<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
+											</div>
 											<div className='chart'></div>
 										</CardBody>
 									</Card>

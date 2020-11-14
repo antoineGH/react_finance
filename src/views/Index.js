@@ -52,6 +52,7 @@ class Index extends React.Component {
 					end_at={this.props.state.graphTitle.end_at}
 					active={this.props.state.active}
 					color={color}
+					borderColor={borderColor}
 				/>
 
 				<Container className='mt--7' fluid>

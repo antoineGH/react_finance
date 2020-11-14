@@ -27,7 +27,7 @@ function LoadHistoricalPercentage(props) {
 		return (
 			<>
 				<h2 className='h2 mb-0 mt-2' style={{ fontWeight: '650', fontSize: '1.5rem' }}>
-					{inputCurrency} on {outputCurrency}
+					{inputCurrency} per {outputCurrency}
 				</h2>
 				{historyPercentage >= 0 ? (
 					<>

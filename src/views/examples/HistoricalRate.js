@@ -95,9 +95,9 @@ class LoadHistoricalExchangeRate extends Component {
 		if (!listCurrencyHistoryLoaded || this.state.currentItems === undefined) {
 			return (
 				<>
-					<div className='text-center justify-content-center mb-4'>
+					<div className='text-center justify-content-center mb-4 mt-2'>
 						<BarLoader
-							css='display: flex; margin-top: 25px; justify-content: center; margin-left:auto; margin-right:auto;'
+							css='display: flex; margin-top: 45px; justify-content: center; margin-left:auto; margin-right:auto;'
 							color={'#2E3030'}
 							size={5}
 						/>

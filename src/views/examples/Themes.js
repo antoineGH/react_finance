@@ -1,4 +1,11 @@
 export const themes = {
+	pink: {
+		header: 'linear-gradient(to right, #faaca8 , #ddd6f3)',
+		backgroundColor: 'rgba(250, 172, 168, 0.1)',
+		borderColor: 'rgb(250, 172, 168)',
+		pointBackgroundColor: 'rgb(250, 172, 168)',
+		pointHoverBackgroundColor: 'rgb(250, 172, 168)',
+	},
 	blue: {
 		header: 'linear-gradient(to right, #2193b0, #6dd5ed)',
 		backgroundColor: 'rgba(33, 147, 176, 0.1)',

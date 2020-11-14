@@ -36,12 +36,13 @@ export default class FinanceFeed extends Component {
 	}
 
 	render() {
+		const { color, borderColor } = this.props
 		const welcome = 'Finance Feed'
 		const message = 'Our currency converter calculator will convert your money based on current values from around the world.'
 
 		return (
 			<div>
-				<UserHeader welcome={welcome} message={message} />
+				<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 				<p>FinanceFeed</p>
 			</div>
 		)

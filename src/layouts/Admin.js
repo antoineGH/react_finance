@@ -4,17 +4,16 @@ import { Container } from 'reactstrap'
 import AdminNavbar from 'components/Navbars/AdminNavbar.js'
 import AdminFooter from 'components/Footers/AdminFooter.js'
 import Sidebar from 'components/Sidebar/Sidebar.js'
-import {
-	StyleContext,
-	backgroundColorContext,
-	borderColorContext,
-	pointBackgroundColorContext,
-	pointHoverBackgroundColorContext,
-} from '../views/examples/StyleContext'
-
 import routes from 'routes.js'
 import { authFetch } from 'auth'
 import { themes } from '../views/examples/Themes'
+import Currency from '../views/currency/Currency'
+import Profile from '../views/examples/Profile'
+import Convert from '../views/examples/Convert'
+import RateGraph from '../views/examples/RateGraph'
+import HistoricalGraph from '../views/examples/HistoricalGraph'
+import HistoricalRate from '../views/examples/HistoricalRate'
+import FinanceFeed from '../views/examples/FinanceFeed'
 
 class Admin extends React.Component {
 	constructor(props) {
@@ -149,26 +148,50 @@ class Admin extends React.Component {
 						imgAlt: 'Logo',
 					}}
 				/>{' '}
-				<StyleContext.Provider value={this.state.color}>
-					<backgroundColorContext.Provider value={this.state.backgroundColor}>
-						<borderColorContext.Provider value={this.state.borderColor}>
-							<pointBackgroundColorContext.Provider value={this.state.pointBackgroundColor}>
-								<pointHoverBackgroundColorContext.Provider value={this.state.pointHoverBackgroundColor}>
-									<div className='main-content' ref='mainContent'>
-										<AdminNavbar {...this.props} brandText={this.getBrandText(this.props.location.pathname)} />
-										<Switch>
-											{this.getRoutes(routes)}
-											<Redirect from='*' to='/admin/index' />
-										</Switch>
-										<Container fluid>
-											<AdminFooter />
-										</Container>
-									</div>
-								</pointHoverBackgroundColorContext.Provider>
-							</pointBackgroundColorContext.Provider>
-						</borderColorContext.Provider>
-					</backgroundColorContext.Provider>
-				</StyleContext.Provider>
+				<div className='main-content' ref='mainContent'>
+					<AdminNavbar {...this.props} brandText={this.getBrandText(this.props.location.pathname)} />
+					<Switch>
+						<Route
+							path='/admin/index'
+							render={(props) => (
+								<Currency
+									color={this.state.color}
+									backgroundColor={this.state.backgroundColor}
+									borderColor={this.state.borderColor}
+									pointBackgroundColor={this.state.pointBackgroundColor}
+									pointHoverBackgroundColor={this.state.pointHoverBackgroundColor}
+									{...props}
+								/>
+							)}
+						/>
+						<Route
+							path='/admin/user-profile'
+							render={(props) => <Profile borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+						/>
+						<Route path='/admin/convert' render={(props) => <Convert borderColor={this.state.borderColor} color={this.state.color} {...props} />} />
+						<Route
+							path='/admin/rate-graph'
+							render={(props) => <RateGraph borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+						/>
+						<Route
+							path='/admin/hist-graph'
+							render={(props) => <HistoricalGraph borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+						/>
+						<Route
+							path='/admin/hist-rate'
+							render={(props) => <HistoricalRate borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+						/>
+						<Route
+							path='/admin/finance-feed'
+							render={(props) => <FinanceFeed borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+						/>
+						{this.getRoutes(routes)}
+						<Redirect from='*' to='/admin/index' />
+					</Switch>
+					<Container fluid>
+						<AdminFooter />
+					</Container>
+				</div>
 			</>
 		)
 	}

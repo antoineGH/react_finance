@@ -9,7 +9,7 @@ import Select from 'react-dropdown-select'
 import fetchCurrency from '../currency/utils/fetchCurrency'
 import { currenciesName } from '../currency/utils/currenciesName'
 
-export default function Profile() {
+export default function Profile(props) {
 	const [email, setEmail] = useState('')
 	const [first_name, setFirstName] = useState('')
 	const [last_name, setLastName] = useState('')
@@ -315,16 +315,14 @@ export default function Profile() {
 		})
 	}
 
+	const { color, borderColor } = props
 	const current_user = localStorage.username
 	const welcome = `Hello ${first_name}.`
 	const message = 'This is your profile page. You can see and edit your information.'
-	const background = {
-		color: 'linear-gradient(to right, #141e30, #243b55)',
-	}
 
 	return (
 		<>
-			<UserHeader welcome={welcome} message={message} background={background} />
+			<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 			{/* Page content */}
 			<Container className='mt--7' fluid>
 				<Row>

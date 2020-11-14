@@ -2,7 +2,6 @@ import React from 'react'
 import HistoryPercentage from '../../views/currency/HistoricalPercentage'
 import InformationCurrency from '../../views/currency/InformationCurrency'
 import InputField from '../../views/currency/InputField'
-import { StyleContext } from '../../views/examples/StyleContext'
 
 import { Container, Row, Col } from 'reactstrap'
 
@@ -45,64 +44,61 @@ class Header extends React.Component {
 			end_at,
 			active,
 			borderColor,
+			color,
 		} = this.props
 		return (
 			<>
-				<StyleContext.Consumer>
-					{(color) => (
-						<div style={{ background: color }} className='header pb-8 pt-5 pt-md-8'>
-							<Container fluid>
-								<div className='header-body'>
-									<Row>
-										{/* INFO: INPUT FIELD */}
-										<Col lg='12' xl='6'>
-											<InputField
-												inputValue={inputValue}
-												outputValue={outputValue}
-												listCurrency={listCurrency}
-												valueInput={valueInput}
-												labelInput={labelInput}
-												valueOutput={valueOutput}
-												labelOutput={labelOutput}
-												onValueChangeInput={onValueChangeInput}
-												onValueChangeOutput={onValueChangeOutput}
-												onCurrencyChangeInput={onCurrencyChangeInput}
-												onCurrencyChangeOutput={onCurrencyChangeOutput}
-												reverse={reverse}
-											/>
-										</Col>
-										{/* INFO: INFORMATION CURRENCY FIELD */}
-										<Col lg='6' xl='3' className='mt-4 mt-xl-0'>
-											<InformationCurrency
-												hasError={hasError}
-												infoIsLoading={infoIsLoading}
-												outputCurrency={outputCurrency}
-												inputCurrency={inputCurrency}
-												listCurrency={listCurrency}
-												date={date}
-												borderColor={borderColor}
-											/>
-										</Col>
-										{/* INFO: HISTORICAL CURRENCY */}
-										<Col lg='6' xl='3' className='mt-3 mt-xl-0'>
-											<HistoryPercentage
-												isHistoryLoaded={isHistoryLoaded}
-												hasHistoryError={hasHistoryError}
-												outputCurrency={outputCurrency}
-												inputCurrency={inputCurrency}
-												historyPercentage={historyPercentage}
-												start_at={start_at}
-												end_at={end_at}
-												active={active}
-												borderColor={borderColor}
-											/>
-										</Col>
-									</Row>
-								</div>
-							</Container>
+				<div style={{ background: color }} className='header pb-8 pt-5 pt-md-8'>
+					<Container fluid>
+						<div className='header-body'>
+							<Row>
+								{/* INFO: INPUT FIELD */}
+								<Col lg='12' xl='6'>
+									<InputField
+										inputValue={inputValue}
+										outputValue={outputValue}
+										listCurrency={listCurrency}
+										valueInput={valueInput}
+										labelInput={labelInput}
+										valueOutput={valueOutput}
+										labelOutput={labelOutput}
+										onValueChangeInput={onValueChangeInput}
+										onValueChangeOutput={onValueChangeOutput}
+										onCurrencyChangeInput={onCurrencyChangeInput}
+										onCurrencyChangeOutput={onCurrencyChangeOutput}
+										reverse={reverse}
+									/>
+								</Col>
+								{/* INFO: INFORMATION CURRENCY FIELD */}
+								<Col lg='6' xl='3' className='mt-4 mt-xl-0'>
+									<InformationCurrency
+										hasError={hasError}
+										infoIsLoading={infoIsLoading}
+										outputCurrency={outputCurrency}
+										inputCurrency={inputCurrency}
+										listCurrency={listCurrency}
+										date={date}
+										borderColor={borderColor}
+									/>
+								</Col>
+								{/* INFO: HISTORICAL CURRENCY */}
+								<Col lg='6' xl='3' className='mt-3 mt-xl-0'>
+									<HistoryPercentage
+										isHistoryLoaded={isHistoryLoaded}
+										hasHistoryError={hasHistoryError}
+										outputCurrency={outputCurrency}
+										inputCurrency={inputCurrency}
+										historyPercentage={historyPercentage}
+										start_at={start_at}
+										end_at={end_at}
+										active={active}
+										borderColor={borderColor}
+									/>
+								</Col>
+							</Row>
 						</div>
-					)}
-				</StyleContext.Consumer>
+					</Container>
+				</div>
 			</>
 		)
 	}

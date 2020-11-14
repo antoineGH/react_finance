@@ -465,6 +465,8 @@ export default class Currency extends Component {
 	}
 
 	render() {
+		const { color, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
+
 		if (this.state.hasError) {
 			return (
 				<Container>
@@ -508,6 +510,11 @@ export default class Currency extends Component {
 						setActive={this.setActive}
 						getListExchange={this.getListExchange}
 						setState={this.setState}
+						color={color}
+						backgroundColor={backgroundColor}
+						borderColor={borderColor}
+						pointBackgroundColor={pointBackgroundColor}
+						pointHoverBackgroundColor={pointHoverBackgroundColor}
 					/>
 				</>
 			)

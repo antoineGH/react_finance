@@ -18,12 +18,22 @@ export default class RateGraph extends Component {
 	// --- CLASS CONSTRUCTOR ---
 	constructor(props) {
 		super(props)
+		this.getYear = this.getYear.bind(this)
+		this.getSixMonths = this.getSixMonths.bind(this)
+		this.getThreeMonths = this.getThreeMonths.bind(this)
+		this.getMonth = this.getMonth.bind(this)
+		this.getWeek = this.getWeek.bind(this)
 		this.state = {
 			listCurrency: [],
 			listCurrencyError: false,
 			listCurrencyLoaded: false,
 			selectedSourceCurrency: 'Default Currency',
 			selectedDestCurrency: 'EUR',
+			graphLoaded: false,
+			graphError: false,
+			graphValues: {},
+			graphLegend: {},
+			graphTitle: {},
 			style: {},
 		}
 	}
@@ -44,6 +54,10 @@ export default class RateGraph extends Component {
 						})
 					}
 					this.setState({ listCurrency: listCurrency, listCurrencyLoaded: true, listCurrencyError: false })
+					const date = new Date(Date.now())
+					const start_date = getDate(date)
+					const end_date = getDateBefore(date, 1, 'months')
+					this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 				})
 				.catch((error) => {
 					console.log(error)
@@ -90,6 +104,19 @@ export default class RateGraph extends Component {
 
 	handleActive(active) {
 		this.props.setActive(active)
+	}
+
+	getHistoryPercentage(orderedDates, destCurrency) {
+		const orderedDatesKeys = Object.keys(orderedDates)
+		const firstKey = orderedDatesKeys[0]
+		const lastKey = orderedDatesKeys[orderedDatesKeys.length - 1]
+		const t0 = orderedDates[firstKey][destCurrency]
+		const t1 = orderedDates[lastKey][destCurrency]
+
+		// Formula Historical Evolution % = ((t1 - t0) / t0) * 100
+		let historyPercentage = ((t1 - t0) / t0) * 100
+		historyPercentage = Math.round(historyPercentage * 10000) / 10000
+		return historyPercentage
 	}
 
 	handleChangeSource(selected) {
@@ -156,7 +183,7 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'years')
 		// INFO: base , dest from currency field !
-		this.props.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.handleActive('1Y')
 	}
 
@@ -175,7 +202,7 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		let end_date = getDateBefore(date, 6, 'months')
 		end_date = getDateAfter(end_date, 2, 'days')
-		this.props.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.handleActive('6M')
 	}
 
@@ -184,7 +211,7 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		let end_date = getDateBefore(date, 3, 'months')
 		end_date = getDateAfter(end_date, 2, 'days')
-		this.props.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.handleActive('3M')
 	}
 
@@ -192,7 +219,7 @@ export default class RateGraph extends Component {
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
-		this.props.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.handleActive('1M')
 	}
 
@@ -210,7 +237,7 @@ export default class RateGraph extends Component {
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 9, 'days')
-		this.props.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.handleActive('1W')
 	}
 

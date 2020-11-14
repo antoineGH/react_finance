@@ -25,15 +25,6 @@ export default class ExhangeRateGraph extends Component {
 
 	// --- COMPONENT LIFECYCLE ---
 
-	static getDerivedStateFromProps(props, state) {
-		return {
-			backgroundColor: props.backgroundColor,
-			borderColor: props.borderColor,
-			pointBackgroundColor: props.pointBackgroundColor,
-			pointHoverBackgroundColor: props.pointHoverBackgroundColor,
-		}
-	}
-
 	componentDidMount() {
 		this.createMockData()
 		this.setState({
@@ -42,6 +33,15 @@ export default class ExhangeRateGraph extends Component {
 			pointBackgroundColor: this.props.pointBackgroundColor,
 			pointHoverBackgroundColor: this.props.pointHoverBackgroundColor,
 		})
+	}
+
+	static getDerivedStateFromProps(props) {
+		return {
+			backgroundColor: props.backgroundColor,
+			borderColor: props.borderColor,
+			pointBackgroundColor: props.pointBackgroundColor,
+			pointHoverBackgroundColor: props.pointHoverBackgroundColor,
+		}
 	}
 
 	// --- CLASS METHODS ---

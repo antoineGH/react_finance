@@ -171,7 +171,16 @@ class Admin extends React.Component {
 						<Route path='/admin/convert' render={(props) => <Convert borderColor={this.state.borderColor} color={this.state.color} {...props} />} />
 						<Route
 							path='/admin/rate-graph'
-							render={(props) => <RateGraph borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+							render={(props) => (
+								<RateGraph
+									backgroundColor={this.state.backgroundColor}
+									borderColor={this.state.borderColor}
+									color={this.state.color}
+									pointBackgroundColor={this.state.pointBackgroundColor}
+									pointHoverBackgroundColor={this.state.pointHoverBackgroundColor}
+									{...props}
+								/>
+							)}
 						/>
 						<Route
 							path='/admin/hist-graph'

@@ -156,7 +156,9 @@ class LoadHistoricalExchangeRate extends Component {
 								const rate = Math.round(listCurrency.rate * 1000) / 1000
 								return (
 									<tr key={count} className='card_news'>
-										<td style={{ fontWeight: 600 }}>{listCurrency.destCurrency}</td>
+										<td style={{ fontWeight: 600 }}>
+											{listCurrency.destCurrency} ({listCurrency.destCurrencyLabel})
+										</td>
 										<td>{rate}</td>
 										<td>
 											{listCurrency.historyPercentage >= 0 ? (
@@ -182,6 +184,7 @@ export default class HistoricalRate extends Component {
 	// --- CLASS CONSTRUCTOR ---
 	constructor(props) {
 		super(props)
+		this.filter = this.filter.bind(this)
 		this.state = {
 			listCurrency: [],
 			listCurrencyError: false,
@@ -275,17 +278,18 @@ export default class HistoricalRate extends Component {
 							{
 								baseCurrency: baseCurrency,
 								destCurrency: destCurrency,
+								destCurrencyLabel: currenciesName[destCurrency],
 								rate: rate,
 								historyPercentage: historyPercentage,
 							},
 						],
 					})
 					if (this.state.listCurrencyHistory.length === items - 2) {
-						this.setState({ listCurrencyLoaded: true })
+						this.setState({ listCurrencyHistoryLoaded: true })
 					}
 				})
 				.catch((error) => {
-					this.setState({ listCurrencyError: true })
+					this.setState({ listCurrencyHistoryError: true })
 				})
 		}
 	}
@@ -410,7 +414,7 @@ export default class HistoricalRate extends Component {
 
 		// INFO: listCurrencyHistory search - if state.search filter the newsfeed array on conditional => string (title or description) include substring (state.search)
 		if (this.state.search !== '') {
-			listCurrencyHistory = listCurrencyHistory.filter((newarr) => newarr.destCurrency.toLowerCase().includes(this.state.search.toLowerCase()))
+			listCurrencyHistory = listCurrencyHistory.filter((newarr) => newarr.destCurrencyLabel.toLowerCase().includes(this.state.search.toLowerCase()))
 		}
 
 		return (
@@ -418,84 +422,86 @@ export default class HistoricalRate extends Component {
 				<UserHeader welcome={welcome} message={message} color={color} />
 				<br />
 				{/* User settings */}
-				<h6 className='heading-small text-muted mb-4 ml-4'>User settings</h6>
 				<div className='pl-lg-4'>
-					<Row>
+					<Row style={{ width: '100%' }}>
 						<Col lg='3'>
-							<FormGroup>
-								<label className='form-control-label' htmlFor='input-username'>
-									Select Currency
-								</label>
-								<Select
-									key={new Date().getTime()}
-									options={listCurrency}
-									values={[
-										{
-											label: selectedCurrency + ' (' + currenciesName[selectedCurrency] + ')',
-											value: selectedCurrency,
-										},
-									]}
-									onChange={(selected) => this.handleChange(selected)}
-									keepSelectedInList={true}
-									dropdownHandle={true}
-									closeOnSelect={true}
-									clearable={false}
-									loading={listCurrencyLoaded ? false : true}
-									disabled={listCurrencyError ? true : false}
-									style={{ borderRadius: '.25rem' }}
-								/>
-							</FormGroup>
-						</Col>
-					</Row>
-					<Row>
-						<Card className='shadow'>
-							<CardHeader className='border-0'>
-								<Row className='align-items-center'>
-									<div className='col'>
-										<h5 className='text-uppercase text-muted mb-0 card-title'>
-											Historical Exchange Rate {selectedCurrency && 'From ' + selectedCurrency}
-										</h5>
-										{selectedCurrency && (
-											<p className='mt-1 mb-0 text-muted text-sm'>
-												<span className='text-nowrap'>
-													1M: {end_date} <i className='fa-xs fas fa-chevron-right'></i> {start_date}
-												</span>
-											</p>
-										)}
-									</div>
-								</Row>
-							</CardHeader>
-							<Col xs={10} sm={7} md={6} lg={6} xl={6} className='mx-lg-1 mb-2'>
-								{/* INFO: Form Filter */}
-								<Form noValidate className='justify-content-left text-left ml-1'>
-									<div className='form-group has-search'>
-										<span className='form-control-feedback'>
-											<i className='fas fa-filter'></i>
-										</span>
-										<Form.Control
-											className='form_filter'
-											size='sm'
-											type='text'
-											id='search'
-											placeholder='Filter Currencies'
-											value={this.state.search}
-											onChange={(e) => this.setState({ search: e.currentTarget.value })}
+							<Card className='shadow'>
+								<CardHeader className='border-0'>
+									<Row className='align-items-center'>
+										<div className='col'>
+											<h5 className='text-uppercase text-muted mb-0 card-title'>
+												Historical Exchange Rate {selectedCurrency && 'From ' + selectedCurrency}
+											</h5>
+											{selectedCurrency && (
+												<p className='mt-1 mb-0 text-muted text-sm'>
+													<span className='text-nowrap'>
+														1M: {end_date} <i className='fa-xs fas fa-chevron-right'></i> {start_date}
+													</span>
+												</p>
+											)}
+										</div>
+									</Row>
+
+									<FormGroup className='mt-4'>
+										<label className='form-control-label' htmlFor='input-username'>
+											Select Currency
+										</label>
+										<Select
+											key={new Date().getTime()}
+											options={listCurrency}
+											values={[
+												{
+													label: selectedCurrency + ' (' + currenciesName[selectedCurrency] + ')',
+													value: selectedCurrency,
+												},
+											]}
+											onChange={(selected) => this.handleChange(selected)}
+											keepSelectedInList={true}
+											dropdownHandle={true}
+											closeOnSelect={true}
+											clearable={false}
+											loading={listCurrencyLoaded ? false : true}
+											disabled={listCurrencyError ? true : false}
+											style={{ borderRadius: '.25rem' }}
 										/>
-									</div>
-								</Form>
-							</Col>
-							<LoadHistoricalExchangeRate
-								listCurrencyHistory={listCurrencyHistory}
-								listCurrencyHistoryLoaded={listCurrencyHistoryLoaded}
-								listCurrencyHistoryError={listCurrencyHistoryError}
-								inputCurrency={selectedCurrency}
-								handleClick={this.handleClick}
-								filter={this.filter}
-								stateFilterMethod={this.state.filterMethod}
-								setState={this.setState}
-								borderColor={borderColor}
-							/>
-						</Card>
+									</FormGroup>
+								</CardHeader>
+							</Card>
+						</Col>
+						<Col lg='6'>
+							<Card className='shadow'>
+								<Col xs={10} sm={7} md={6} lg={6} xl={6} className='mx-lg-1 mb-2'>
+									{/* INFO: Form Filter */}
+									<Form noValidate className='justify-content-left text-left ml-1 mt-4'>
+										<div className='form-group has-search'>
+											<span className='form-control-feedback'>
+												<i className='fas fa-filter'></i>
+											</span>
+											<Form.Control
+												className='form_filter'
+												size='sm'
+												type='text'
+												id='search'
+												placeholder='Filter Currencies'
+												value={this.state.search}
+												onChange={(e) => this.setState({ search: e.currentTarget.value })}
+											/>
+										</div>
+									</Form>
+								</Col>
+								<LoadHistoricalExchangeRate
+									listCurrencyHistory={listCurrencyHistory}
+									listCurrencyHistoryLoaded={listCurrencyHistoryLoaded}
+									listCurrencyHistoryError={listCurrencyHistoryError}
+									inputCurrency={selectedCurrency}
+									handleClick={this.handleClick}
+									filter={this.filter}
+									stateFilterMethod={this.state.filterMethod}
+									setState={this.setState}
+									borderColor={borderColor}
+								/>
+							</Card>
+						</Col>
 					</Row>
 				</div>
 			</div>

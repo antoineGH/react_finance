@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { authFetch } from '../../auth'
 import Select from 'react-dropdown-select'
 import UserHeader from 'components/Headers/UserHeader.js'
+import LineGraph from '../graph/LineGraph'
 import getDate from '../currency/utils/getDate'
 import getDateBefore from '../currency/utils/getDateBefore'
 import getDateAfter from '../currency/utils/getDateAfter'
@@ -11,7 +12,7 @@ import sortDate from '../currency/utils/sortDate'
 import genValues from '../currency/utils/genValues'
 import { currenciesName } from '../currency/utils/currenciesName'
 import { Col } from 'react-bootstrap'
-import { Card, CardHeader, FormGroup, Row, Container } from 'reactstrap'
+import { Card, CardHeader, FormGroup, Row, Container, NavItem, NavLink, Nav, CardBody } from 'reactstrap'
 
 // INFO: RATE GRAPH
 export default class RateGraph extends Component {
@@ -35,6 +36,7 @@ export default class RateGraph extends Component {
 			graphLegend: {},
 			graphTitle: {},
 			style: {},
+			active: '1M',
 		}
 	}
 	// --- COMPONENT LIFECYCLE ---
@@ -103,7 +105,7 @@ export default class RateGraph extends Component {
 	}
 
 	handleActive(active) {
-		this.props.setActive(active)
+		this.setState({ active: active })
 	}
 
 	getHistoryPercentage(orderedDates, destCurrency) {
@@ -147,10 +149,12 @@ export default class RateGraph extends Component {
 					graphTitle: graphTitle,
 					isHistoryLoaded: true,
 					historyPercentage: historyPercentage,
+					graphLoaded: true,
+					graphError: false,
 				})
 			})
 			.catch((error) => {
-				this.setState({ hasHistoryError: true })
+				this.setState({ hasHistoryError: true, graphError: true })
 			})
 	}
 
@@ -184,7 +188,7 @@ export default class RateGraph extends Component {
 		const end_date = getDateBefore(date, 1, 'years')
 		// INFO: base , dest from currency field !
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.handleActive('1Y')
+		this.setState({ active: '1Y' })
 	}
 
 	getSixMonths() {
@@ -203,7 +207,7 @@ export default class RateGraph extends Component {
 		let end_date = getDateBefore(date, 6, 'months')
 		end_date = getDateAfter(end_date, 2, 'days')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.handleActive('6M')
+		this.setState({ active: '6M' })
 	}
 
 	getThreeMonths() {
@@ -212,7 +216,7 @@ export default class RateGraph extends Component {
 		let end_date = getDateBefore(date, 3, 'months')
 		end_date = getDateAfter(end_date, 2, 'days')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.handleActive('3M')
+		this.setState({ active: '3M' })
 	}
 
 	getMonth() {
@@ -220,7 +224,7 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.handleActive('1M')
+		this.setState({ active: '1M' })
 	}
 
 	getWeek() {
@@ -238,12 +242,25 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 9, 'days')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.handleActive('1W')
+		this.setState({ active: '1W' })
 	}
 
 	render() {
-		const { color, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
-		const { listCurrency, listCurrencyError, listCurrencyLoaded, selectedSourceCurrency, selectedDestCurrency, style } = this.state
+		const { color, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
+		const {
+			graphLoaded,
+			graphError,
+			graphValues,
+			graphLegend,
+			graphTitle,
+			listCurrency,
+			listCurrencyError,
+			listCurrencyLoaded,
+			selectedSourceCurrency,
+			selectedDestCurrency,
+			style,
+			active,
+		} = this.state
 		const welcome = 'Exchange Rate Graph'
 		const message = 'Foreign Exchange Rates Graph based on current values from around the world..'
 
@@ -328,6 +345,106 @@ export default class RateGraph extends Component {
 										</FormGroup>
 									</CardHeader>
 								</Card>
+							</Col>
+							<Col className='mb-5 mb-xl-0' xl='6'>
+								{selectedSourceCurrency && selectedDestCurrency && graphLoaded && !graphError ? (
+									<Card className='bg-gradient-default shadow'>
+										<CardHeader className='bg-transparent'>
+											<Row className='align-items-center'>
+												<div className='col-12 col-lg-6'>
+													<h5 className='text-uppercase text-muted mb-0 card-title'>
+														Exchange Rate ({graphTitle.base} - {graphTitle.dest})
+													</h5>
+													<p className='mt-1 mb-0 text-muted text-sm'>
+														<span className='text-nowrap'>
+															{active}: {graphTitle.start_at} <i className='fa-xs fas fa-chevron-right'></i> {graphTitle.end_at}
+														</span>
+													</p>
+												</div>
+												<div className='col-12 col-lg-6 mt-4 mt-xl-0'>
+													<Nav className='justify-content-end' pills>
+														<NavItem>
+															<NavLink
+																style={active === '1W' ? { backgroundColor: borderColor, color: 'white' } : {}}
+																onClick={this.getWeek}
+																href='#'>
+																<span className='d-none d-md-block'>1W</span>
+																<span className='d-md-none'>1W</span>
+															</NavLink>
+														</NavItem>
+														<NavItem>
+															<NavLink
+																style={active === '1M' ? { backgroundColor: borderColor, color: 'white' } : {}}
+																onClick={this.getMonth}
+																href='#'>
+																<span className='d-none d-md-block'>1M</span>
+																<span className='d-md-none'>1M</span>
+															</NavLink>
+														</NavItem>
+														<NavItem>
+															<NavLink
+																style={active === '3M' ? { backgroundColor: borderColor, color: 'white' } : {}}
+																onClick={this.getThreeMonths}
+																href='#'>
+																<span className='d-none d-md-block'>3M</span>
+																<span className='d-md-none'>3M</span>
+															</NavLink>
+														</NavItem>
+														<NavItem>
+															<NavLink
+																style={active === '6M' ? { backgroundColor: borderColor, color: 'white' } : {}}
+																onClick={this.getSixMonths}
+																href='#'>
+																<span className='d-none d-md-block'>6M</span>
+																<span className='d-md-none'>6M</span>
+															</NavLink>
+														</NavItem>
+														<NavItem>
+															<NavLink
+																style={active === '1Y' ? { backgroundColor: borderColor, color: 'white' } : {}}
+																onClick={this.getYear}
+																href='#'>
+																<span className='d-none d-md-block'>1Y</span>
+																<span className='d-md-none'>1Y</span>
+															</NavLink>
+														</NavItem>
+													</Nav>
+												</div>
+											</Row>
+										</CardHeader>
+										<CardBody>
+											<div className='chart'>
+												<LineGraph
+													graphValues={graphValues}
+													graphLegend={graphLegend}
+													graphTitle={graphTitle}
+													style={style}
+													backgroundColor={backgroundColor}
+													borderColor={borderColor}
+													pointBackgroundColor={pointBackgroundColor}
+													pointHoverBackgroundColor={pointHoverBackgroundColor}
+												/>
+											</div>
+										</CardBody>
+									</Card>
+								) : (
+									<Card className='bg-gradient-default shadow'>
+										<CardHeader className='bg-transparent'>
+											<Row className='align-items-center'>
+												<div className='col'>
+													<h5 className='text-uppercase text-muted mb-0 card-title'>Exchange Rate</h5>
+													<p className='mt-1 mb-0 text-muted text-sm'>
+														<span className='text-nowrap'>Period</span>
+													</p>
+													<span style={{ fontSize: '0.80rem' }}></span>
+												</div>
+											</Row>
+										</CardHeader>
+										<CardBody>
+											<div className='chart'></div>
+										</CardBody>
+									</Card>
+								)}
 							</Col>
 						</Row>
 					</div>

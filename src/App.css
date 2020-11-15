@@ -1,5 +1,12 @@
 /* ---- Main Theme Design  ---- */
 
+.decoration-input {
+	/* height: calc(1.5em + 0rem); */
+	color: white;
+	font-size: 0.85rem;
+	height: 2.1rem;
+}
+
 .form-control-input-profile {
 	height: calc(1.5em + 1.2rem);
 }

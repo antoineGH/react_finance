@@ -11,7 +11,7 @@ import fetchHistoryCurrency from '../currency/utils/fetchHistoryCurrency'
 import sortDate from '../currency/utils/sortDate'
 import { currenciesName } from '../currency/utils/currenciesName'
 import { Col } from 'react-bootstrap'
-import { Card, CardHeader, FormGroup, Row, Container, Input } from 'reactstrap'
+import { Card, CardHeader, FormGroup, Row, Container, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 import Button from 'react-bootstrap/Button'
 
 // INFO: CONVERT
@@ -50,7 +50,12 @@ export default class Convert extends Component {
 								rate: value,
 							})
 						}
-						this.setState({ listCurrency: listCurrency, listCurrencyLoaded: true, listCurrencyError: false })
+						this.setState({
+							listCurrency: listCurrency,
+							listCurrencyLoaded: true,
+							listCurrencyError: false,
+							outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, listCurrency),
+						})
 						const date = new Date(Date.now())
 						const start_date = getDateBefore(date, 1, 'months')
 						const end_date = getDate(date)
@@ -122,12 +127,8 @@ export default class Convert extends Component {
 						isLoaded: true,
 						hasError: false,
 						infoIsLoading: false,
+						outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, currencies),
 					})
-					if (this.state.inputValue && this.state.outputCurrency) {
-						this.setState({
-							outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
-						})
-					}
 				})
 				.catch((error) => {
 					this.setState({ hasError: true, infoIsLoading: false })
@@ -144,7 +145,6 @@ export default class Convert extends Component {
 
 		fetchHistoryCurrency(end_date, start_date, selected[0].value, this.state.selectedDestCurrency)
 			.then((response) => {
-				console.log(response)
 				const orderedDates = sortDate(response)
 				const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
 				this.setState({
@@ -255,6 +255,7 @@ export default class Convert extends Component {
 											</div>
 											<Col className='text-right' xs='4'>
 												<Button
+													size='sm'
 													className='reverse'
 													style={{ backgroundColor: borderColor, borderColor: borderColor }}
 													onClick={this.reverse}>
@@ -268,12 +269,20 @@ export default class Convert extends Component {
 													<label className='form-control-label' htmlFor='input-username'>
 														Input Value
 													</label>
-													<Input
-														className='inputValue form-control-input'
-														type='text'
-														value={this.state.inputValue}
-														onChange={(e) => this.setState({ inputValue: e.currentTarget.value })}
-													/>
+													<InputGroup>
+														<InputGroupAddon addonType='prepend'>
+															<InputGroupText style={{ backgroundColor: borderColor }} className='decoration-input'>
+																{this.state.selectedSourceCurrency}
+															</InputGroupText>
+														</InputGroupAddon>
+														<Input
+															className='inputValue form-control-input'
+															style={{ paddingLeft: '0.85rem' }}
+															type='text'
+															value={this.state.inputValue}
+															onChange={(e) => this.setState({ inputValue: e.currentTarget.value })}
+														/>
+													</InputGroup>
 												</FormGroup>
 											</Col>
 											<Col lg='8'>
@@ -309,12 +318,20 @@ export default class Convert extends Component {
 													<label className='form-control-label' htmlFor='input-username'>
 														Output Value
 													</label>
-													<Input
-														className='inputValue form-control-input'
-														type='text'
-														value={this.state.outputValue}
-														onChange={(e) => this.setState({ outputValue: e.currentTarget.value })}
-													/>
+													<InputGroup>
+														<InputGroupAddon addonType='prepend'>
+															<InputGroupText style={{ backgroundColor: borderColor }} className='decoration-input'>
+																{this.state.selectedDestCurrency}
+															</InputGroupText>
+														</InputGroupAddon>
+														<Input
+															className='inputValue form-control-input'
+															style={{ paddingLeft: '0.85rem' }}
+															type='text'
+															value={this.state.outputValue}
+															onChange={(e) => this.setState({ outputValue: e.currentTarget.value })}
+														/>
+													</InputGroup>
 												</FormGroup>
 											</Col>
 											<Col lg='8'>

@@ -85,44 +85,51 @@ export default class Currency extends Component {
 
 	// --- COMPONENT LIFECYCLE ---
 	componentDidMount() {
-		fetchCurrency('USD')
+		this.fetchUserSettings()
 			.then((response) => {
-				this.setState({ date: response.date })
-				const currencies = []
-				for (const [prop, value] of Object.entries(response.rates)) {
-					const currencyName = '(' + currenciesName[prop] + ')'
-					currencies.push({
-						value: prop,
-						label: `${prop} ${currencyName}`,
-						rate: value,
-					})
-				}
-				const date = new Date(Date.now())
-				const start_date = getDate(date)
-				const end_date = getDateBefore(date, 1, 'months')
-
-				this.getListExchange(start_date, end_date, 'USD', currencies)
+				const defaultCurrency = response.default_currency
 				this.setState({
-					listCurrency: currencies,
-					isLoaded: true,
-					hasError: false,
+					inputCurrency: defaultCurrency,
+					optionsInput: { value: defaultCurrency, label: defaultCurrency + ' (' + currenciesName[defaultCurrency] + ')' },
 				})
-				if (this.state.inputValue && this.state.outputCurrency) {
-					this.setState({
-						outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+				fetchCurrency(defaultCurrency)
+					.then((response) => {
+						this.setState({ date: response.date })
+						const currencies = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							currencies.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
+						const date = new Date(Date.now())
+						const start_date = getDate(date)
+						const end_date = getDateBefore(date, 1, 'months')
+
+						this.getListExchange(start_date, end_date, this.state.inputCurrency, currencies)
+						this.setState({
+							listCurrency: currencies,
+							isLoaded: true,
+							hasError: false,
+						})
+						if (this.state.inputValue && this.state.outputCurrency) {
+							this.setState({
+								outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+							})
+						}
+						this.getGraphInfo(end_date, start_date, this.state.inputCurrency, 'EUR')
+						this.getHistoryGraphInfo(end_date, this.state.inputCurrency, 'EUR')
+						this.getNewsFeed()
 					})
-				}
+					.catch((error) => {
+						this.setState({ hasError: true })
+					})
 			})
 			.catch((error) => {
-				this.setState({ hasError: true })
+				console.log(error)
 			})
-
-		const date = new Date(Date.now())
-		const start_date = getDate(date)
-		const end_date = getDateBefore(date, 1, 'months')
-		this.getGraphInfo(end_date, start_date, 'USD', 'EUR')
-		this.getHistoryGraphInfo(end_date, 'USD', 'EUR')
-		this.getNewsFeed()
 	}
 
 	// --- CLASS METHODS ---
@@ -223,20 +230,19 @@ export default class Currency extends Component {
 	// Get News Feed
 	getNewsFeed(interests) {
 		this.setState({ newsFeedError: false, newsFeedLoaded: false })
-		// TODO: Disabled FetchNewsFeed
-		// if (!interests) {
-		// 	interests = ['Apple', 'Tesla', 'Microsoft']
-		// 	fetchNewsFeed('cityfalcon', interests)
-		// 		.then((response) => {
-		// 			// const stories = response.stories.slice(0, 20)
-		// 			const stories = response.stories
-		// 			this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: stories })
-		// 		})
-		// 		.catch((error) => {
-		// 			this.setState({ newsFeedError: true })
-		// 		})
-		// 	return
-		// }
+		if (!interests) {
+			interests = ['Apple', 'Tesla', 'Microsoft']
+			fetchNewsFeed('cityfalcon', interests)
+				.then((response) => {
+					// const stories = response.stories.slice(0, 20)
+					const stories = response.stories
+					this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: stories })
+				})
+				.catch((error) => {
+					this.setState({ newsFeedError: true })
+				})
+			return
+		}
 
 		Promise.all([fetchNewsFeed('cityfalcon', interests), fetchNewsFeed('tickers', interests)])
 			.then((response) => {

@@ -7,6 +7,5 @@
 			"request": "attach"
 		}
 	],
-	"prettier.proseWrap": "never",
-	"prettier.printWidth": 160
+	"prettier.proseWrap": "never"
 }

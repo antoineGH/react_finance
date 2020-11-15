@@ -1,21 +1,84 @@
 import React, { useState } from 'react'
-import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import {
+	Button,
+	Card,
+	CardBody,
+	FormGroup,
+	Form,
+	Input,
+	InputGroupAddon,
+	InputGroupText,
+	InputGroup,
+	Col,
+} from 'reactstrap'
 import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 
 export default function Register() {
-	const [email, setEmail] = useState('')
-	const [first_name, setFirstName] = useState('')
-	const [last_name, setLastName] = useState('')
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
-	const [confirmPassword, setConfirmPassword] = useState('')
+	// const [email, setEmail] = useState('')
+	// const [first_name, setFirstName] = useState('')
+	// const [last_name, setLastName] = useState('')
+	// const [username, setUsername] = useState('')
+	// const [password, setPassword] = useState('')
+	// const [confirmPassword, setConfirmPassword] = useState('')
 	const [messageModal, setMessageModal] = useState('')
 	const [iconModal, setIconModal] = useState('')
 	const [smShow, setSmShow] = useState(false)
 	const history = useHistory()
 
-	async function createUser() {
+	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
+	const regexNoSpecial = /^[a-zA-Z0-9.]{6,30}$/
+	const validationSchema = Yup.object({
+		username: Yup.string()
+			.min(6, 'Username too short')
+			.max(20, 'Username too long')
+			.matches(regexNoSpecial, 'Username should not contain special characters')
+			.required('Username Required'),
+		email: Yup.string()
+			.min(6, 'Email too short')
+			.max(30, 'Email too long')
+			.email('Invalid email')
+			.required('Email Required'),
+		password: Yup.string()
+			.min(6, 'Password too short')
+			.max(24, 'Password too long')
+			// .matches(regexPassword, 'Password should be a mix of 6 characters and numbers')
+			.required('Password Required'),
+		confirm_password: Yup.string()
+			.min(6, 'Password too short')
+			.max(24, 'Password too long')
+			.oneOf([Yup.ref('password'), null], 'Passwords must match')
+			.required('Password Required'),
+		first_name: Yup.string()
+			.min(2, 'First name too short')
+			.max(12, 'First name too long')
+			.matches(regexNoSpecial, 'Username should not contain special characters')
+			.required('First name Required'),
+		last_name: Yup.string()
+			.min(2, 'Last name too short')
+			.max(12, 'Last name too long')
+			.matches(regexNoSpecial, 'Username should not contain special characters')
+			.required('Last name Required'),
+	})
+
+	const { handleSubmit, handleChange, handleBlur, values, touched, errors } = useFormik({
+		initialValues: {
+			username: '',
+			email: '',
+			password: '',
+			confirm_password: '',
+			first_name: '',
+			last_name: '',
+		},
+		validationSchema,
+		onSubmit(values) {
+			handleRegister(values)
+		},
+	})
+
+	async function createUser(username, email, password, first_name, last_name) {
 		const user = { username, email, password, first_name, last_name }
 		user.key = username
 
@@ -43,9 +106,13 @@ export default function Register() {
 		})
 	}
 
-	function handleClick(e) {
-		e.preventDefault()
-		createUser()
+	function handleRegister(values) {
+		const username = values.username.toLowerCase()
+		const email = values.email.toLowerCase()
+		const password = values.password
+		const first_name = values.first_name.toLowerCase()
+		const last_name = values.last_name.toLowerCase()
+		createUser(username, email, password, first_name, last_name)
 			.then((response) => {
 				setSmShow(true)
 				setMessageModal('Successfully Registered')
@@ -69,7 +136,7 @@ export default function Register() {
 						<div className='text-center text-muted mb-4'>
 							<small>Sign up with credentials</small>
 						</div>
-						<Form role='form'>
+						<Form role='form' onSubmit={handleSubmit}>
 							<FormGroup>
 								<InputGroup className='input-group-alternative mb-3'>
 									<InputGroupAddon addonType='prepend'>
@@ -77,8 +144,19 @@ export default function Register() {
 											<i className='far fa-id-card'></i>
 										</InputGroupText>
 									</InputGroupAddon>
-									<Input placeholder='First Name' type='text' value={first_name} onChange={(e) => setFirstName(e.target.value)} />
+									<Input
+										id='first_name'
+										name='first_name'
+										placeholder='First Name'
+										type='text'
+										onBlur={handleBlur}
+										value={values.first_name}
+										onChange={handleChange}
+									/>
 								</InputGroup>
+								{errors.first_name && touched.first_name && (
+									<div className='error_field'>{errors.first_name}</div>
+								)}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative mb-3'>
@@ -87,8 +165,19 @@ export default function Register() {
 											<i className='far fa-id-card'></i>
 										</InputGroupText>
 									</InputGroupAddon>
-									<Input placeholder='Last Name' type='text' value={last_name} onChange={(e) => setLastName(e.target.value)} />
+									<Input
+										id='last_name'
+										name='last_name'
+										placeholder='Last Name'
+										type='text'
+										onBlur={handleBlur}
+										value={values.last_name}
+										onChange={handleChange}
+									/>
 								</InputGroup>
+								{errors.last_name && touched.last_name && (
+									<div className='error_field'>{errors.last_name}</div>
+								)}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative mb-3'>
@@ -97,8 +186,19 @@ export default function Register() {
 											<i className='fas fa-envelope'></i>
 										</InputGroupText>
 									</InputGroupAddon>
-									<Input placeholder='Email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+									<Input
+										id='email'
+										name='email'
+										placeholder='Email'
+										type='email'
+										onBlur={handleBlur}
+										value={values.email}
+										onChange={handleChange}
+									/>
 								</InputGroup>
+								{errors.email && touched.email && (
+									<div className='error_field'>{errors.email}</div>
+								)}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative mb-3'>
@@ -107,18 +207,19 @@ export default function Register() {
 											<i className='fas fa-user-circle'></i>
 										</InputGroupText>
 									</InputGroupAddon>
-									<Input placeholder='Username' type='text' value={username} onChange={(e) => setUsername(e.target.value)} />
+									<Input
+										id='username'
+										name='username'
+										placeholder='Username'
+										type='text'
+										onBlur={handleBlur}
+										value={values.username}
+										onChange={handleChange}
+									/>
 								</InputGroup>
-							</FormGroup>
-							<FormGroup>
-								<InputGroup className='input-group-alternative'>
-									<InputGroupAddon addonType='prepend'>
-										<InputGroupText>
-											<i className='fas fa-unlock-alt'></i>
-										</InputGroupText>
-									</InputGroupAddon>
-									<Input placeholder='Password' type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-								</InputGroup>
+								{errors.username && touched.username && (
+									<div className='error_field'>{errors.username}</div>
+								)}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative'>
@@ -128,15 +229,42 @@ export default function Register() {
 										</InputGroupText>
 									</InputGroupAddon>
 									<Input
-										placeholder='Confirm Password'
+										id='password'
+										name='password'
+										placeholder='Password'
 										type='password'
-										value={confirmPassword}
-										onChange={(e) => setConfirmPassword(e.target.value)}
+										onBlur={handleBlur}
+										value={values.password}
+										onChange={handleChange}
 									/>
 								</InputGroup>
+								{errors.password && touched.password && (
+									<div className='error_field'>{errors.password}</div>
+								)}
+							</FormGroup>
+							<FormGroup>
+								<InputGroup className='input-group-alternative'>
+									<InputGroupAddon addonType='prepend'>
+										<InputGroupText>
+											<i className='fas fa-unlock-alt'></i>
+										</InputGroupText>
+									</InputGroupAddon>
+									<Input
+										id='confirm_password'
+										name='confirm_password'
+										placeholder='Confirm Password'
+										type='password'
+										onBlur={handleBlur}
+										value={values.confirmPassword}
+										onChange={handleChange}
+									/>
+								</InputGroup>
+								{errors.confirm_password && touched.confirm_password && (
+									<div className='error_field'>{errors.confirm_password}</div>
+								)}
 							</FormGroup>
 							<div className='text-center'>
-								<Button onClick={handleClick} className='mt-4' color='primary' type='button'>
+								<Button className='mt-4' color='primary' type='submit'>
 									Sign Up
 								</Button>
 							</div>
@@ -144,7 +272,11 @@ export default function Register() {
 					</CardBody>
 				</Card>
 			</Col>
-			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
+			<Modal
+				size='sm'
+				show={smShow}
+				onHide={() => setSmShow(false)}
+				aria-labelledby='example-modal-sizes-title-sm'>
 				<Modal.Header closeButton>
 					<Modal.Title id='example-modal-sizes-title-sm'>
 						{iconModal}

@@ -1,18 +1,55 @@
 import React, { useState } from 'react'
 import { login } from '../../auth'
-import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import {
+	Button,
+	Card,
+	CardBody,
+	FormGroup,
+	Form,
+	Input,
+	InputGroupAddon,
+	InputGroupText,
+	InputGroup,
+	Col,
+} from 'reactstrap'
 import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 
 export default function Login() {
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
 	const [messageModal, setMessageModal] = useState('')
 	const [iconModal, setIconModal] = useState('')
 	const [smShow, setSmShow] = useState(false)
 	const history = useHistory()
 
-	async function requestLogin() {
+	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
+	const regexNoSpecial = /^[a-zA-Z0-9.]{6,30}$/
+	const validationSchema = Yup.object({
+		username: Yup.string()
+			.min(6, 'Username too short')
+			.max(20, 'Username too long')
+			.matches(regexNoSpecial, "Username doesn't contain special characters")
+			.required('Required'),
+		password: Yup.string()
+			.min(6, 'Password too short')
+			.max(12, 'Password too long')
+			.matches(regexPassword, 'Password should be a mix of 6 characters and numbers')
+			.required('Required'),
+	})
+
+	const { handleSubmit, handleChange, handleBlur, values, touched, errors } = useFormik({
+		initialValues: {
+			username: '',
+			password: '',
+		},
+		validationSchema,
+		onSubmit(values) {
+			handleLogin(values)
+		},
+	})
+
+	async function requestLogin(username, password) {
 		const user = { username, password }
 		const response = await fetch('http://localhost:5000/api/login', {
 			method: 'POST',
@@ -38,8 +75,10 @@ export default function Login() {
 		})
 	}
 
-	function handleClick(e) {
-		requestLogin()
+	function handleLogin(values) {
+		const username = values.username.toLowerCase()
+		const password = values.password
+		requestLogin(username, password)
 			.then((response) => {
 				if (response.access_token) {
 					login(response)
@@ -63,7 +102,7 @@ export default function Login() {
 						<div className='text-center text-muted mb-4'>
 							<small>Sign in with credentials</small>
 						</div>
-						<Form role='form'>
+						<Form role='form' onSubmit={handleSubmit}>
 							<FormGroup className='mb-3'>
 								<InputGroup className='input-group-alternative'>
 									<InputGroupAddon addonType='prepend'>
@@ -71,8 +110,19 @@ export default function Login() {
 											<i className='fas fa-user-circle'></i>
 										</InputGroupText>
 									</InputGroupAddon>
-									<Input placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} type='text' />
+									<Input
+										id='username'
+										name='username'
+										type='text'
+										placeholder='Username'
+										onBlur={handleBlur}
+										value={values.username}
+										onChange={handleChange}
+									/>
 								</InputGroup>
+								{errors.username && touched.username && (
+									<div className='error_field'>{errors.username}</div>
+								)}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative'>
@@ -81,17 +131,23 @@ export default function Login() {
 											<i className='fas fa-unlock-alt'></i>
 										</InputGroupText>
 									</InputGroupAddon>
-									<Input placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} type='password' />
+									<Input
+										id='password'
+										name='password'
+										type='password'
+										placeholder='Password'
+										onBlur={handleBlur}
+										value={values.password}
+										onChange={handleChange}
+									/>
 								</InputGroup>
+								{errors.password && touched.password && (
+									<div className='error_field'>{errors.password}</div>
+								)}
 							</FormGroup>
-							<div className='custom-control custom-control-alternative custom-checkbox'>
-								<input className='custom-control-input' id=' customCheckLogin' type='checkbox' />
-								<label className='custom-control-label' htmlFor=' customCheckLogin'>
-									<span className='text-muted'>Remember me</span>
-								</label>
-							</div>
 							<div className='text-center'>
-								<Button onClick={handleClick} className='my-4' color='primary' type='button'>
+								{/* <Button onClick={handleClick} className='my-4' color='primary' type='button'> */}
+								<Button className='my-4' color='primary' type='submit'>
 									Sign in
 								</Button>
 							</div>
@@ -99,7 +155,11 @@ export default function Login() {
 					</CardBody>
 				</Card>
 			</Col>
-			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
+			<Modal
+				size='sm'
+				show={smShow}
+				onHide={() => setSmShow(false)}
+				aria-labelledby='example-modal-sizes-title-sm'>
 				<Modal.Header closeButton>
 					<Modal.Title id='example-modal-sizes-title-sm'>
 						{iconModal}

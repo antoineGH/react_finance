@@ -270,7 +270,7 @@ export default class Convert extends Component {
 			<>
 				<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 				{/* User settings */}
-				<Row className='pl-lg-4 mt--7'>
+				<Row className='pl-lg-4 mt--7 ml-3'>
 					<Col xs='12' lg='5'>
 						<Card className='shadow'>
 							<CardHeader className='border-0'>

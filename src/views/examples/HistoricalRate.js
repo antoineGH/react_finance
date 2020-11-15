@@ -426,7 +426,11 @@ export default class HistoricalRate extends Component {
 
 		// INFO: listCurrencyHistory search - if state.search filter the newsfeed array on conditional => string (title or description) include substring (state.search)
 		if (this.state.search !== '') {
-			listCurrencyHistory = listCurrencyHistory.filter((newarr) => newarr.destCurrencyLabel.toLowerCase().includes(this.state.search.toLowerCase()))
+			listCurrencyHistory = listCurrencyHistory.filter(
+				(newarr) =>
+					newarr.destCurrency.toLowerCase().includes(this.state.search.toLowerCase()) ||
+					newarr.destCurrencyLabel.toLowerCase().includes(this.state.search.toLowerCase())
+			)
 		}
 
 		return (

@@ -93,8 +93,8 @@ class LoadNewsFeed extends Component {
 			return (
 				<>
 					{/* INFO: Pagination */}
-					<Row className='text-left ml-2 mt-md-0 mt-4'>
-						<Col className='mt-4 justify-content-left'>
+					<Row className='text-left  ml-2 mt-md-0 mt-lg-4'>
+						<Col className='mt-3 mt-lg-4 justify-content-left'>
 							<Pagination
 								hideFirstLastPages
 								pageRangeDisplayed={10}
@@ -104,6 +104,7 @@ class LoadNewsFeed extends Component {
 								onChange={this.handlePageChange.bind(this)}
 								itemClass='page-item'
 								linkClass='page-link'
+								className='pagination'
 							/>
 						</Col>
 					</Row>
@@ -402,21 +403,20 @@ export default class FinanceFeed extends Component {
 				/>
 				<Container className='mt--7' fluid>
 					{/* User settings */}
-					<div className='pl-lg-4'>
-						<Row style={{ width: '100%' }}>
-							<Col lg='12'>
-								<Card className='shadow'>
-									<CardHeader className='border-0'>
-										<Row className='align-items-center'>
-											<div className='col'>
-												<h5 className='text-uppercase text-muted mb-0 card-title'>
-													News Feed
-												</h5>
-											</div>
-										</Row>
-									</CardHeader>
-									{/* INFO: Form Search */}
-									{/* <Col
+					<Row>
+						<Col lg='12'>
+							<Card className='shadow'>
+								<CardHeader className='border-0'>
+									<Row className='align-items-center'>
+										<div className='col'>
+											<h5 className='text-uppercase text-muted mb-0 card-title'>
+												News Feed
+											</h5>
+										</div>
+									</Row>
+								</CardHeader>
+								{/* INFO: Form Search */}
+								{/* <Col
 										xs={10}
 										sm={8}
 										md={6}
@@ -486,51 +486,44 @@ export default class FinanceFeed extends Component {
 											</p>
 										</Col>
 									</Row> */}
-									{/* INFO: Form Filter */}
-									<Col
-										xs={10}
-										sm={8}
-										md={6}
-										lg={6}
-										xl={3}
-										className='mx-lg-1 mb-1'>
-										<Form
-											noValidate
-											className='justify-content-left text-left mb-1 ml-1'>
-											<div className='form-group has-search'>
-												<span className='form-control-feedback'>
-													<i className='fas fa-filter'></i>
-												</span>
-												<Form.Control
-													className='form_filter'
-													size='sm'
-													type='text'
-													id='search'
-													placeholder='Filter Articles'
-													value={this.state.search}
-													onChange={(e) =>
-														this.setState({
-															search: e.currentTarget.value,
-														})
-													}
-												/>
-											</div>
-										</Form>
-									</Col>
-									<LoadNewsFeed
-										newsFeedError={newsFeedError}
-										newsFeedLoaded={newsFeedLoaded}
-										newsFeed={newsFeed}
-										filter={this.filter}
-										filterMethod={this.state.filterMethod}
-										setState={this.setState}
-										handleClick={this.handleClick}
-										borderColor={borderColor}
-									/>
-								</Card>
-							</Col>
-						</Row>
-					</div>
+								{/* INFO: Form Filter */}
+								<Col xs={10} sm={8} md={6} lg={6} xl={3} className='mx-lg-1 mb-1'>
+									<Form
+										noValidate
+										className='justify-content-left text-left mb-1 ml-1'>
+										<div className='form-group has-search'>
+											<span className='form-control-feedback'>
+												<i className='fas fa-filter'></i>
+											</span>
+											<Form.Control
+												className='form_filter'
+												size='sm'
+												type='text'
+												id='search'
+												placeholder='Filter Articles'
+												value={this.state.search}
+												onChange={(e) =>
+													this.setState({
+														search: e.currentTarget.value,
+													})
+												}
+											/>
+										</div>
+									</Form>
+								</Col>
+								<LoadNewsFeed
+									newsFeedError={newsFeedError}
+									newsFeedLoaded={newsFeedLoaded}
+									newsFeed={newsFeed}
+									filter={this.filter}
+									filterMethod={this.state.filterMethod}
+									setState={this.setState}
+									handleClick={this.handleClick}
+									borderColor={borderColor}
+								/>
+							</Card>
+						</Col>
+					</Row>
 				</Container>
 			</>
 		)

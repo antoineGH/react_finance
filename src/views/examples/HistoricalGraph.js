@@ -268,7 +268,7 @@ export default class HistoricalGraph extends Component {
 					<Row className='justify-content-center justify-content-lg-start'>
 						{/* User settings */}
 						<Row style={{ width: '100%' }}>
-							<Col xs='12' lg='3'>
+							<Col lg='12' xl='3'>
 								<Card className='shadow'>
 									<CardHeader className='border-0'>
 										<Row className='align-items-center'>
@@ -352,7 +352,7 @@ export default class HistoricalGraph extends Component {
 									</CardHeader>
 								</Card>
 							</Col>
-							<Col className='mb-5 mb-xl-0 mt-4 mt-xl-0' xl='6'>
+							<Col className='mb-5 mb-xl-0 mt-4 mt-xl-0' xl='9'>
 								{selectedSourceCurrency &&
 								selectedDestCurrency &&
 								graphLoaded &&

@@ -1,5 +1,9 @@
 /* ---- Main Theme Design  ---- */
 
+.pagination {
+	overflow: auto;
+}
+
 .error_field_profile {
 	color: red;
 	font-size: 0.82rem;

@@ -91,8 +91,8 @@ class LoadNewsFeed extends Component {
 			return (
 				<>
 					{/* INFO: Pagination */}
-					<Row className='text-left  ml-2 mt-md-0 mt-4'>
-						<Col className='mt-4 justify-content-left'>
+					<Row className='text-left  ml-2 mt-md-0 mt-lg-4'>
+						<Col className='mt-3 mt-lg-4 justify-content-left'>
 							<Pagination
 								hideFirstLastPages
 								pageRangeDisplayed={10}
@@ -102,6 +102,7 @@ class LoadNewsFeed extends Component {
 								onChange={this.handlePageChange.bind(this)}
 								itemClass='page-item'
 								linkClass='page-link'
+								className='pagination'
 							/>
 						</Col>
 					</Row>

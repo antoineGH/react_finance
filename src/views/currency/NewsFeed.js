@@ -57,7 +57,9 @@ class LoadNewsFeed extends Component {
 			return (
 				<>
 					<div className='text-center justify-content-center mt-4'>
-						<span style={{ fontSize: '0.80rem' }}>&nbsp;Impossible to fetch Finance Feed</span>
+						<span style={{ fontSize: '0.80rem' }}>
+							&nbsp;Impossible to fetch Finance Feed
+						</span>
 					</div>
 					<div className='text-center justify-content-center mt-2'>
 						<Button
@@ -107,18 +109,36 @@ class LoadNewsFeed extends Component {
 					<Card className='card_filter text-center justify-content-center mx-auto mb-1 mt-md-1 mt-1 border-0'>
 						<Card.Body className='card_news_body'>
 							<Row>
-								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='text-left justify-content-left mr-xl-2'>
+								<Col
+									xs={3}
+									sm={3}
+									md={3}
+									lg={3}
+									xl={1}
+									className='text-left justify-content-left mr-xl-2'>
 									<Button
-										style={{ backgroundColor: borderColor, borderColor: borderColor }}
+										style={{
+											backgroundColor: borderColor,
+											borderColor: borderColor,
+										}}
 										className='btn-sm'
 										onClick={() => this.filter('brandNameAsc')}>
 										Brand <i className='fas fa-sort'></i>
 									</Button>
 								</Col>
-								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
+								<Col
+									xs={3}
+									sm={3}
+									md={3}
+									lg={3}
+									xl={1}
+									className='mb-2 text-left justify-content-left mr-xl-2'>
 									<Row>
 										<Button
-											style={{ backgroundColor: borderColor, borderColor: borderColor }}
+											style={{
+												backgroundColor: borderColor,
+												borderColor: borderColor,
+											}}
 											className='btn-sm'
 											onClick={() => this.filter('publishTimeAsc')}>
 											Date <i className='fas fa-sort'></i>
@@ -128,7 +148,10 @@ class LoadNewsFeed extends Component {
 								<Col xs={3} sm={3} md={3} lg={3} xl={2}>
 									<Row className='text-left mx-auto justify-content-left'>
 										<Button
-											style={{ backgroundColor: borderColor, borderColor: borderColor }}
+											style={{
+												backgroundColor: borderColor,
+												borderColor: borderColor,
+											}}
 											className='btn-sm'
 											onClick={() => this.filter('cityfalconScoreAsc')}>
 											Score <i className='fas fa-sort'></i>
@@ -142,7 +165,9 @@ class LoadNewsFeed extends Component {
 						<>
 							<Row className='text-left justify-content-left ml-2 mt-md-0 mt-3'>
 								<Col>
-									<p style={{ color: 'black', fontSize: '0.8rem' }}>No results, please refine your research to assets or tickers</p>
+									<p style={{ color: 'black', fontSize: '0.8rem' }}>
+										No results, please refine your research to assets or tickers
+									</p>
 								</Col>
 							</Row>
 						</>
@@ -150,29 +175,55 @@ class LoadNewsFeed extends Component {
 					{/* INFO: newsFeed cards */}
 					{currentItems.map((info) => {
 						return (
-							<Card key={info.uuid} className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>
+							<Card
+								key={info.uuid}
+								className='card_news text-center justify-content-center mx-auto mb-1'
+								style={{ width: '98%' }}>
 								<Card.Body className='card_news_body'>
 									<Row>
-										<Col xs={2} sm={2} md={2} lg={2} xl={1} className='text-left justify-content-left mr-3 mr-xl-2'>
-											<img src={info.source.imageUrls.thumb} alt={info.source.brandName} />
+										<Col
+											xs={2}
+											sm={2}
+											md={2}
+											lg={2}
+											xl={1}
+											className='text-left justify-content-left mr-3 mr-xl-2'>
+											<img
+												src={info.source.imageUrls.thumb}
+												alt={info.source.brandName}
+											/>
 										</Col>
-										<Col xs={8} sm={8} md={8} lg={8} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
+										<Col
+											xs={8}
+											sm={8}
+											md={8}
+											lg={8}
+											xl={1}
+											className='mb-2 text-left justify-content-left mr-xl-2'>
 											<Row>
-												<a href={`https://${info.source.name}`} style={{ fontSize: '0.7rem' }}>
+												<a
+													href={`https://${info.source.name}`}
+													style={{ fontSize: '0.7rem' }}>
 													{info.source.brandName}
 												</a>
 											</Row>
-											<Row style={{ fontSize: '0.7rem', marginTop: '-1%' }} className='text-muted '>
+											<Row
+												style={{ fontSize: '0.7rem', marginTop: '-1%' }}
+												className='text-muted '>
 												{info.publishTime.slice(0, 10)}
 											</Row>
 										</Col>
 										<Col xs={12} sm={12} md={12} lg={12} xl={9}>
 											<Row className='text-left mx-auto justify-content-left'>
-												<a style={{ color: 'black', fontSize: '0.8rem' }} href={info.url}>
+												<a
+													style={{ color: 'black', fontSize: '0.8rem' }}
+													href={info.url}>
 													{info.title}
 												</a>
 											</Row>
-											<Row className='text-left mx-auto justify-content-left' style={{ fontSize: '0.7rem' }}>
+											<Row
+												className='text-left mx-auto justify-content-left'
+												style={{ fontSize: '0.7rem' }}>
 												{info.description}
 											</Row>
 										</Col>
@@ -311,8 +362,8 @@ export default class NewsFeed extends Component {
 		}
 		return (
 			<>
-				<Col xs={10} sm={8} md={6} lg={6} xl={8} className='mx-lg-1 mb-1 mt-1'>
-					{/* INFO: Form Search */}
+				{/* INFO: Form Search */}
+				{/* <Col xs={10} sm={8} md={6} lg={6} xl={8} className='mx-lg-1 mb-1 mt-1'>
 					<Form className='justify-content-left text-left ml-1' onSubmit={this.handleSubmit}>
 						<Row>
 							<Col xs={9} sm={8} md={6} lg={6} xl={5}>
@@ -346,7 +397,7 @@ export default class NewsFeed extends Component {
 							Search tickers e.g. BTC, TSLA or assets e.g. Bitcoin, Tesla (Comma separated).
 						</p>
 					</Col>
-				</Row>
+				</Row> */}
 				{/* INFO: Form Filter */}
 				<Col xs={10} sm={8} md={6} lg={6} xl={3} className='mx-lg-1 mb-1 mt-1'>
 					<Form noValidate className='justify-content-left text-left mb-1 ml-1'>

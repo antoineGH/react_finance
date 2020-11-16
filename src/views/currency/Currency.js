@@ -24,7 +24,9 @@ import { authFetch } from '../../auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+// eslint-disable-next-line
 import fetchNewsFeed from './utils/fetchNewsFeed'
+import { news } from './utils/newsFeedJson'
 library.add(fas)
 
 export default class Currency extends Component {
@@ -67,7 +69,20 @@ export default class Currency extends Component {
 			isGraphHistoryLoaded: false,
 			hasGraphHistoryError: false,
 
-			graphHistoryLegend: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+			graphHistoryLegend: [
+				'Jan',
+				'Feb',
+				'Mar',
+				'Apr',
+				'May',
+				'June',
+				'July',
+				'Aug',
+				'Sept',
+				'Oct',
+				'Nov',
+				'Dec',
+			],
 			graphHistoryValue: [],
 
 			graphLegend: {},
@@ -90,7 +105,10 @@ export default class Currency extends Component {
 				const defaultCurrency = response.default_currency
 				this.setState({
 					inputCurrency: defaultCurrency,
-					optionsInput: { value: defaultCurrency, label: defaultCurrency + ' (' + currenciesName[defaultCurrency] + ')' },
+					optionsInput: {
+						value: defaultCurrency,
+						label: defaultCurrency + ' (' + currenciesName[defaultCurrency] + ')',
+					},
 				})
 				fetchCurrency(defaultCurrency)
 					.then((response) => {
@@ -108,7 +126,12 @@ export default class Currency extends Component {
 						const start_date = getDate(date)
 						const end_date = getDateBefore(date, 1, 'months')
 
-						this.getListExchange(start_date, end_date, this.state.inputCurrency, currencies)
+						this.getListExchange(
+							start_date,
+							end_date,
+							this.state.inputCurrency,
+							currencies
+						)
 						this.setState({
 							listCurrency: currencies,
 							isLoaded: true,
@@ -116,7 +139,11 @@ export default class Currency extends Component {
 						})
 						if (this.state.inputValue && this.state.outputCurrency) {
 							this.setState({
-								outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+								outputValue: toCurrency(
+									this.state.inputValue,
+									this.state.outputCurrency,
+									currencies
+								),
 							})
 						}
 						this.getGraphInfo(end_date, start_date, this.state.inputCurrency, 'EUR')
@@ -217,7 +244,11 @@ export default class Currency extends Component {
 					})
 					if (this.state.inputValue && this.state.outputCurrency) {
 						this.setState({
-							outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+							outputValue: toCurrency(
+								this.state.inputValue,
+								this.state.outputCurrency,
+								currencies
+							),
 						})
 					}
 				})
@@ -229,48 +260,49 @@ export default class Currency extends Component {
 
 	// Get News Feed
 	getNewsFeed(interests) {
-		this.setState({ newsFeedError: false, newsFeedLoaded: false })
-		if (!interests) {
-			interests = ['Apple', 'Tesla', 'Microsoft']
-			fetchNewsFeed('cityfalcon', interests)
-				.then((response) => {
-					// const stories = response.stories.slice(0, 20)
-					const stories = response.stories
-					this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: stories })
-				})
-				.catch((error) => {
-					this.setState({ newsFeedError: true })
-				})
-			return
-		}
-
-		Promise.all([fetchNewsFeed('cityfalcon', interests), fetchNewsFeed('tickers', interests)])
-			.then((response) => {
-				const storiesInterest = response[0].stories
-				const storiesTickers = response[1].stories
-				const stories = storiesInterest.concat(storiesTickers)
-				console.log(stories)
-				let flags = [],
-					storiesUnique = []
-				for (let i = 0; i < stories.length; i++) {
-					if (flags[stories[i].uuid]) continue
-					flags[stories[i].uuid] = true
-					const obj = {
-						uuid: stories[i].uuid,
-						publishTime: stories[i].publishTime,
-						cityfalconScore: stories[i].cityfalconScore,
-						title: stories[i].title,
-						description: stories[i].description,
-						source: stories[i].source,
-					}
-					storiesUnique.push(obj)
-				}
-				console.log(storiesUnique)
-				this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: storiesUnique })
-			})
-			.catch((error) => {
-				this.setState({ newsFeedError: true })
-			})
+		// INFO: GET NEWS FEED HARDCODED
+		this.setState({ newsFeed: news, newsFeedLoaded: true, newsFeedError: false })
+		// INFO: GET NEWS FEED API
+		// this.setState({ newsFeedError: false, newsFeedLoaded: false })
+		// if (!interests) {
+		// 	interests = ['Apple', 'Tesla', 'Microsoft']
+		// 	fetchNewsFeed('cityfalcon', interests)
+		// 		.then((response) => {
+		// 			const stories = response.stories
+		// 			this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: stories })
+		// 		})
+		// 		.catch((error) => {
+		// 			this.setState({ newsFeedError: true })
+		// 		})
+		// 	return
+		// }
+		// Promise.all([fetchNewsFeed('cityfalcon', interests), fetchNewsFeed('tickers', interests)])
+		// 	.then((response) => {
+		// 		const storiesInterest = response[0].stories
+		// 		const storiesTickers = response[1].stories
+		// 		const stories = storiesInterest.concat(storiesTickers)
+		// 		console.log(stories)
+		// 		let flags = [],
+		// 			storiesUnique = []
+		// 		for (let i = 0; i < stories.length; i++) {
+		// 			if (flags[stories[i].uuid]) continue
+		// 			flags[stories[i].uuid] = true
+		// 			const obj = {
+		// 				uuid: stories[i].uuid,
+		// 				publishTime: stories[i].publishTime,
+		// 				cityfalconScore: stories[i].cityfalconScore,
+		// 				title: stories[i].title,
+		// 				description: stories[i].description,
+		// 				source: stories[i].source,
+		// 			}
+		// 			storiesUnique.push(obj)
+		// 		}
+		// 		console.log(storiesUnique)
+		// 		this.setState({ newsFeedError: false, newsFeedLoaded: true, newsFeed: storiesUnique })
+		// 	})
+		// 	.catch((error) => {
+		// 		this.setState({ newsFeedError: true })
+		// 	})
 	}
 
 	// Get Graph Info
@@ -398,7 +430,11 @@ export default class Currency extends Component {
 
 			if (this.state.inputValue && this.state.inputCurrency) {
 				this.setState({
-					outputValue: toCurrency(this.state.inputValue, selectedCurrency, this.state.listCurrency),
+					outputValue: toCurrency(
+						this.state.inputValue,
+						selectedCurrency,
+						this.state.listCurrency
+					),
 				})
 			}
 		}
@@ -471,7 +507,13 @@ export default class Currency extends Component {
 	}
 
 	render() {
-		const { color, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
+		const {
+			color,
+			backgroundColor,
+			borderColor,
+			pointBackgroundColor,
+			pointHoverBackgroundColor,
+		} = this.props
 
 		if (this.state.hasError) {
 			return (

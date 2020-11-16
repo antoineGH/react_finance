@@ -1,98 +1,137 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Card, CardHeader, CardBody, FormGroup, Form, Input, Container, Row, Col } from 'reactstrap'
-import UserHeader from 'components/Headers/UserHeader.js'
+import React, { useState } from 'react'
 import { authFetch, logout } from '../../auth'
-import moment from 'moment'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 import Select from 'react-dropdown-select'
-import fetchCurrency from '../currency/utils/fetchCurrency'
 import { currenciesName } from '../currency/utils/currenciesName'
+import {
+	Button,
+	Card,
+	CardHeader,
+	CardBody,
+	FormGroup,
+	Form,
+	Input,
+	Container,
+	Row,
+	Col,
+} from 'reactstrap'
 
 export default function Profile(props) {
-	const [email, setEmail] = useState('')
-	const [first_name, setFirstName] = useState('')
-	const [last_name, setLastName] = useState('')
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
-	const [confirmPassword, setConfirmPassword] = useState('')
-	const [birthday, setBirthday] = useState('')
-	const [age, setAge] = useState('')
-	const [position, setPosition] = useState('')
-	const [education, setEducation] = useState('')
-	const [aboutMe, setAboutMe] = useState('')
-	const [address, setAddress] = useState('')
-	const [city, setCity] = useState('')
-	const [postcode, setPostcode] = useState('')
-	const [country, setCountry] = useState('')
-	const [profilePicture, setProfilePicture] = useState('')
-
 	const [messageModal, setMessageModal] = useState('')
 	const [iconModal, setIconModal] = useState('')
 	const [smShow, setSmShow] = useState(false)
-
 	const [show, setShow] = useState(false)
-
-	const [listCurrencyError, setListCurrencyError] = useState([])
-	const [listCurrencyLoaded, setListCurrencyLoaded] = useState([])
-	const [listCurrency, setListCurrency] = useState([])
-	const [selectedCurrency, setSelectedCurrency] = useState('Default Currency')
-	const [selectedDBCurrency, setSelectedDBCurrency] = useState('')
 
 	const handleShow = () => setShow(true)
 	const handleClose = () => setShow(false)
 
 	const history = useHistory()
 
-	async function fetchUserInfo() {
-		const response = await authFetch('http://localhost:5000/api/user', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-		let responseJson = undefined
-		let errorJson = undefined
+	const {
+		username,
+		first_name,
+		last_name,
+		email,
+		birthday,
+		age,
+		position,
+		education,
+		aboutMe,
+		address,
+		city,
+		postcode,
+		country,
+		profilePicture,
+		current_user,
+		selectedCurrency,
+		selectedDBCurrency,
+		listCurrency,
+		listCurrencyLoaded,
+		listCurrencyError,
+	} = props
 
-		if (response.ok) {
-			responseJson = await response.json()
-		} else {
-			if (response.status === 400) {
-				errorJson = await response.json()
-			}
-			if (response.status === 401) {
-				errorJson = await response.json()
-			}
-		}
-		return new Promise((resolve, reject) => {
-			responseJson ? resolve(responseJson) : reject(errorJson.message)
-		})
-	}
+	const regexChar = /^[a-zA-Z ]*$/
+	const regexCharInteger = /^[A-Za-z0-9 ]*$/
+	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
+	const validationSchema = Yup.object({
+		selectedCurrency: Yup.string(),
+		password: Yup.string()
+			.min(6, 'Password too short')
+			.max(24, 'Password too long')
+			.matches(regexPassword, 'Password should be a mix of 6 characters and numbers'),
+		confirm_password: Yup.string()
+			.min(6, 'Password too short')
+			.max(24, 'Password too long')
+			.oneOf([Yup.ref('password'), null], 'Passwords must match'),
+		first_name: Yup.string()
+			.min(2, 'First name too short')
+			.max(15, 'First name too long')
+			.matches(regexChar, 'Username should not contain special characters or numbers')
+			.required('First name Required'),
+		last_name: Yup.string()
+			.min(2, 'Last name too short')
+			.max(15, 'Last name too long')
+			.matches(regexChar, 'Username should not contain special characters or numbers')
+			.required('Last name Required'),
+		position: Yup.string()
+			.min(2, 'Position too short')
+			.max(50, 'Position too long')
+			.matches(regexCharInteger, 'Position should not contain special characters'),
+		education: Yup.string()
+			.min(2, 'Education too short')
+			.max(50, 'Education too long')
+			.matches(regexCharInteger, 'Education should not contain special characters'),
+		birthday: Yup.string().min(2, 'Last name too short').max(12, 'Last name too long'),
+		about_me: Yup.string()
+			.min(2, 'About Me too short')
+			.max(120, 'About Me too long')
+			.matches(regexCharInteger, 'About Me should not contain special characters'),
+		address: Yup.string()
+			.min(2, 'Address too short')
+			.max(100, 'Address too long')
+			.matches(regexCharInteger, 'Address should not contain special characters'),
+		city: Yup.string()
+			.min(2, 'City too short')
+			.max(40, 'City too long')
+			.matches(regexChar, 'City should not contain special characters or numbers'),
+		postcode: Yup.number()
+			.integer('Postcode not valid')
+			.positive('Postcode not valid')
+			.min(1, 'Postcode too short')
+			.max(1000000, 'Postcode too long'),
+		country: Yup.string()
+			.min(2, 'Country too short')
+			.max(15, 'Country too long')
+			.matches(regexChar, 'Country should not contain special characters or numbers'),
+	})
 
-	async function fetchUserSettings() {
-		const response = await authFetch('http://localhost:5000/api/user/setting', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-		let responseJson = undefined
-		let errorJson = undefined
-
-		if (response.ok) {
-			responseJson = await response.json()
-		} else {
-			if (response.status === 400) {
-				errorJson = await response.json()
-			}
-			if (response.status === 401) {
-				errorJson = await response.json()
-			}
-		}
-		return new Promise((resolve, reject) => {
-			responseJson ? resolve(responseJson) : reject(errorJson.message)
-		})
-	}
+	const { handleSubmit, handleChange, handleBlur, values, touched, errors } = useFormik({
+		initialValues: {
+			selectedCurrency: selectedCurrency,
+			username: username,
+			email: email,
+			password: '',
+			confirm_password: '',
+			first_name: first_name,
+			last_name: last_name,
+			position: position,
+			education: education,
+			birthday: birthday,
+			about_me: aboutMe,
+			address: address,
+			city: city,
+			postcode: postcode,
+			country: country,
+			profilePicture: profilePicture,
+		},
+		validationSchema,
+		onSubmit(values) {
+			handleUpdate(values)
+		},
+	})
 
 	async function requestDelete() {
 		const response = await authFetch('http://localhost:5000/api/user', {
@@ -119,16 +158,26 @@ export default function Profile(props) {
 		})
 	}
 
-	async function requestUpdate() {
+	async function requestUpdate(
+		password,
+		first_name,
+		last_name,
+		position,
+		education,
+		birthday,
+		aboutMe,
+		address,
+		city,
+		postcode,
+		country
+	) {
 		const user = {
-			username,
-			email,
 			password,
 			first_name,
 			last_name,
-			birthday,
 			position,
 			education,
+			birthday,
 			aboutMe,
 			address,
 			city,
@@ -137,7 +186,6 @@ export default function Profile(props) {
 			profilePicture,
 		}
 		user.key = username
-
 		const response = await authFetch('http://localhost:5000/api/user', {
 			method: 'PUT',
 			headers: {
@@ -163,65 +211,22 @@ export default function Profile(props) {
 		})
 	}
 
-	useEffect(() => {
-		let mounted = true
-		fetchCurrency('USD')
-			.then((response) => {
-				const currencies = []
-				for (const [prop, value] of Object.entries(response.rates)) {
-					const currencyName = '(' + currenciesName[prop] + ')'
-					currencies.push({
-						value: prop,
-						label: `${prop} ${currencyName}`,
-						rate: value,
-					})
-				}
-				setListCurrency(currencies)
-			})
-			.catch((error) => {
-				setListCurrencyError(true)
-			})
-		fetchUserSettings()
-			.then((response) => {
-				if (mounted) {
-					setSelectedCurrency(response.default_currency)
-					setSelectedDBCurrency(response.default_currency)
-					setListCurrencyLoaded(false)
-					setListCurrencyError(false)
-				}
-			})
-			.catch((error) => {
-				console.log(error)
-			})
-		fetchUserInfo()
-			.then((response) => {
-				if (mounted) {
-					setEmail(response.user.email)
-					setFirstName(toTitleCase(response.user.first_name))
-					setLastName(toTitleCase(response.user.last_name))
-					setUsername(response.user.username)
-					setBirthday(response.user.birthdate)
-					setAboutMe(response.user.about_me)
-					setPosition(response.user.position)
-					setEducation(response.user.education)
-					setAddress(toTitleCase(response.user.address))
-					setCity(toTitleCase(response.user.city))
-					setPostcode(response.user.postcode)
-					setCountry(toTitleCase(response.user.country))
-					setProfilePicture(response.user.profile_picture)
-					setAge(calculateAge(response.user.birthdate))
-				}
-			})
-			.catch((error) => {})
+	function handleUpdate(values) {
+		const selectedCurrency = values.selectedCurrency
+		const password = values.password
+		const first_name = values.first_name
+		const last_name = values.last_name
+		const position = values.position
+		const education = values.education
+		const birthday = values.birthday
+		const about_me = values.about_me
+		const address = values.address
+		const city = values.city
+		const postcode = values.postcode
+		const country = values.country
 
-		return function cleanup() {
-			mounted = false
-		}
-	}, [])
-
-	function handleClick(e) {
 		if (selectedCurrency !== selectedDBCurrency) {
-			updateCurrencyChange()
+			updateCurrencyChange(selectedCurrency)
 				.then((response) => {
 					console.log(response)
 				})
@@ -229,7 +234,19 @@ export default function Profile(props) {
 					console.log(error)
 				})
 		}
-		requestUpdate()
+		requestUpdate(
+			password,
+			first_name,
+			last_name,
+			position,
+			education,
+			birthday,
+			about_me,
+			address,
+			city,
+			postcode,
+			country
+		)
 			.then((response) => {
 				setSmShow(true)
 				setMessageModal(response.message)
@@ -264,30 +281,12 @@ export default function Profile(props) {
 			})
 	}
 
-	function calculateAge(birthdate) {
-		const day = birthdate.slice(0, 2)
-		const month = birthdate.slice(2, 4)
-		const year = birthdate.slice(4, birthdate.length)
-		birthdate = `${year}-${month}-${day}`
-		return moment().diff(birthdate, 'years')
-	}
-
-	function toTitleCase(str) {
-		return str
-			.toLowerCase()
-			.split(' ')
-			.map(function (word) {
-				return word.charAt(0).toUpperCase() + word.slice(1)
-			})
-			.join(' ')
-	}
-
-	function handleChange(selected) {
-		selected && setSelectedCurrency(selected[0].value)
+	function handleChangeSelected(selected) {
+		selected && props.setSelectedCurrency(selected[0].value)
 		return
 	}
 
-	async function updateCurrencyChange() {
+	async function updateCurrencyChange(selectedCurrency) {
 		const settings = { default_currency: selectedCurrency }
 
 		const response = await authFetch('http://localhost:5000/api/user/setting', {
@@ -315,14 +314,8 @@ export default function Profile(props) {
 		})
 	}
 
-	const { color, borderColor } = props
-	const current_user = localStorage.username
-	const welcome = `Hello ${first_name}.`
-	const message = 'This is your profile page. You can see and edit your information.'
-
 	return (
 		<>
-			<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 			{/* Page content */}
 			<Container className='mt--7' fluid>
 				<Row>
@@ -349,12 +342,16 @@ export default function Profile(props) {
 							<CardBody className='pt-0 pt-md-4 mt-5'>
 								<div className='text-center mt-5'>
 									<h3>
-										{first_name !== '' ? first_name : 'First Name'} {last_name !== '' ? last_name : 'Last Name'}
-										<span className='font-weight-light'>, {birthday !== '' ? age : 'Age'}</span>
+										{first_name !== '' ? first_name : 'First Name'}{' '}
+										{last_name !== '' ? last_name : 'Last Name'}
+										<span className='font-weight-light'>
+											, {birthday !== '' ? age : 'Age'}
+										</span>
 									</h3>
 									<div className='h5 font-weight-300'>
 										<i className='ni location_pin mr-2' />
-										{address !== '' ? address + ', ' : 'Address'} {city && city + ', '} {postcode && postcode + ', '}{' '}
+										{address !== '' ? address + ', ' : 'Address'}{' '}
+										{city && city + ', '} {postcode && postcode + ', '}{' '}
 										{country && country + '.'}
 									</div>
 									<div className='h5 mt-4'>
@@ -380,7 +377,11 @@ export default function Profile(props) {
 										<h3 className='mb-0'>My account</h3>
 									</Col>
 									<Col className='text-right' xs='4'>
-										<Button color='primary' href='#pablo' onClick={handleClick} size='sm'>
+										<Button
+											onClick={handleSubmit}
+											color='primary'
+											type='submit'
+											size='sm'>
 											Update Profile
 										</Button>
 										<Button
@@ -402,7 +403,9 @@ export default function Profile(props) {
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-username'>
+													<label
+														className='form-control-label'
+														htmlFor='input-username'>
 														Default Currency
 													</label>
 													<Select
@@ -410,11 +413,19 @@ export default function Profile(props) {
 														options={listCurrency}
 														values={[
 															{
-																label: selectedCurrency + ' (' + currenciesName[selectedCurrency] + ')',
+																label:
+																	selectedCurrency +
+																	' (' +
+																	currenciesName[
+																		selectedCurrency
+																	] +
+																	')',
 																value: selectedCurrency,
 															},
 														]}
-														onChange={(selected) => handleChange(selected)}
+														onChange={(selected) =>
+															handleChangeSelected(selected)
+														}
 														keepSelectedInList={true}
 														dropdownHandle={true}
 														closeOnSelect={true}
@@ -429,18 +440,21 @@ export default function Profile(props) {
 									</div>
 
 									{/* User information */}
-									<h6 className='heading-small text-muted mb-4'>User information</h6>
+									<h6 className='heading-small text-muted mb-4'>
+										User information
+									</h6>
 									<div className='pl-lg-4'>
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-username'>
+													<label
+														className='form-control-label'
+														htmlFor='input-username'>
 														Username
 													</label>
 													<Input
 														readOnly
 														value={username}
-														onChange={(e) => setUsername(e.target.value)}
 														className='form-control-input-profile'
 														id='input-username'
 														placeholder='Username'
@@ -450,13 +464,14 @@ export default function Profile(props) {
 											</Col>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-email'>
+													<label
+														className='form-control-label'
+														htmlFor='input-email'>
 														Email address
 													</label>
 													<Input
 														readOnly
 														value={email}
-														onChange={(e) => setEmail(e.target.value)}
 														className='form-control-input-profile'
 														id='input-email'
 														placeholder='Email'
@@ -468,132 +483,202 @@ export default function Profile(props) {
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-password'>
+													<label
+														className='form-control-label'
+														htmlFor='input-password'>
 														Password
 													</label>
 													<Input
-														value={password}
-														onChange={(e) => setPassword(e.target.value)}
-														className='form-control-input-profile'
-														id='input-password'
+														id='password'
+														name='password'
 														placeholder='Password'
 														type='password'
+														onBlur={handleBlur}
+														value={values.password}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.password && touched.password && (
+														<div className='error_field_profile'>
+															{errors.password}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-confirm-password'>
+													<label
+														className='form-control-label'
+														htmlFor='input-confirm-password'>
 														Confirm Password
 													</label>
 													<Input
-														value={confirmPassword}
-														onChange={(e) => setConfirmPassword(e.target.value)}
-														className='form-control-input-profile'
-														id='input-confirm-password'
+														id='confirm_password'
+														name='confirm_password'
 														placeholder='Confirm Password'
 														type='password'
+														onBlur={handleBlur}
+														value={values.confirm_password}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.confirm_password &&
+														touched.confirm_password && (
+															<div className='error_field_profile'>
+																{errors.confirm_password}
+															</div>
+														)}
 												</FormGroup>
 											</Col>
 										</Row>
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-first-name'>
+													<label
+														className='form-control-label'
+														htmlFor='input-first-name'>
 														First name
 													</label>
 													<Input
-														value={first_name}
-														onChange={(e) => setFirstName(e.target.value)}
-														className='form-control-input-profile'
-														id='input-first-name'
-														placeholder='First name'
+														id='first_name'
+														name='first_name'
+														placeholder='First Name'
 														type='text'
+														onBlur={handleBlur}
+														value={values.first_name}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.first_name && touched.first_name && (
+														<div className='error_field_profile'>
+															{errors.first_name}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-last-name'>
+													<label
+														className='form-control-label'
+														htmlFor='input-last-name'>
 														Last name
 													</label>
 													<Input
-														value={last_name}
-														onChange={(e) => setLastName(e.target.value)}
-														className='form-control-input-profile'
-														id='input-last-name'
-														placeholder='Last name'
+														id='last_name'
+														name='last_name'
+														placeholder='Last Name'
 														type='text'
+														onBlur={handleBlur}
+														value={values.last_name}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.last_name && touched.last_name && (
+														<div className='error_field_profile'>
+															{errors.last_name}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 										</Row>
 									</div>
 									<hr className='my-4' />
 									{/* Personal Information */}
-									<h6 className='heading-small text-muted mb-4'>Personal Information</h6>
+									<h6 className='heading-small text-muted mb-4'>
+										Personal Information
+									</h6>
 									<div className='pl-lg-4'>
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-position'>
+													<label
+														className='form-control-label'
+														htmlFor='input-position'>
 														Position
 													</label>
 													<Input
-														value={position}
-														onChange={(e) => setPosition(e.target.value)}
-														className='form-control-input-profile'
-														id='input-position'
+														id='position'
+														name='position'
 														placeholder='Position'
 														type='text'
+														onBlur={handleBlur}
+														value={values.position}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.position && touched.position && (
+														<div className='error_field_profile'>
+															{errors.position}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-education'>
+													<label
+														className='form-control-label'
+														htmlFor='input-education'>
 														Education
 													</label>
 													<Input
-														value={education}
-														onChange={(e) => setEducation(e.target.value)}
-														className='form-control-input-profile'
-														id='input-education'
+														id='education'
+														name='education'
 														placeholder='Education'
 														type='text'
+														onBlur={handleBlur}
+														value={values.education}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.education && touched.education && (
+														<div className='error_field_profile'>
+															{errors.education}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 										</Row>
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-birthday'>
+													<label
+														className='form-control-label'
+														htmlFor='input-birthday'>
 														Birthday
 													</label>
 													<Input
-														value={birthday}
-														onChange={(e) => setBirthday(e.target.value)}
-														className='form-control-input-profile'
-														id='input-birthday'
+														id='birthday'
+														name='birthday'
 														placeholder='Birthday'
 														type='text'
+														onBlur={handleBlur}
+														value={values.birthday}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.birthday && touched.birthday && (
+														<div className='error_field_profile'>
+															{errors.birthday}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 											<Col lg='6'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-profilePicture'>
+													<label
+														className='form-control-label'
+														htmlFor='input-profilePicture'>
 														Profile Picture
 													</label>
 													<Input
-														value={profilePicture}
-														onChange={(e) => setProfilePicture(e.target.value)}
-														className='form-control-input-profile'
-														id='input-profilePicture'
+														id='profilePicture'
+														name='profilePicture'
 														placeholder='Profile Picture'
 														type='text'
+														onBlur={handleBlur}
+														value={values.profilePicture}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
 												</FormGroup>
 											</Col>
@@ -601,88 +686,138 @@ export default function Profile(props) {
 										<Row>
 											<Col lg='12'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-aboutMee'>
+													<label
+														className='form-control-label'
+														htmlFor='input-aboutMee'>
 														About Me
 													</label>
 													<Input
-														style={{ resize: 'none', padding: '.50rem' }}
+														style={{
+															resize: 'none',
+															padding: '.50rem',
+														}}
+														id='about_me'
+														name='about_me'
+														placeholder='About Me'
 														type='textarea'
 														rows={3}
-														value={aboutMe}
-														onChange={(e) => setAboutMe(e.target.value)}
+														onBlur={handleBlur}
+														value={values.about_me}
+														onChange={handleChange}
 														className='form-control-input-profile'
-														id='input-aboutMe'
-														placeholder='About Me'
 													/>
+													{errors.about_me && touched.about_me && (
+														<div className='error_field_profile'>
+															{errors.about_me}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 										</Row>
 									</div>
 									<hr className='my-4' />
 									{/* Address */}
-									<h6 className='heading-small text-muted mb-4'>Contact information</h6>
+									<h6 className='heading-small text-muted mb-4'>
+										Contact information
+									</h6>
 									<div className='pl-lg-4'>
 										<Row>
 											<Col md='12'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-address'>
+													<label
+														className='form-control-label'
+														htmlFor='input-address'>
 														Address
 													</label>
 													<Input
-														value={address}
-														onChange={(e) => setAddress(e.target.value)}
-														className='form-control-input-profile'
-														id='input-address'
-														placeholder='Home Address'
+														id='address'
+														name='address'
+														placeholder='Address'
 														type='text'
+														onBlur={handleBlur}
+														value={values.address}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.address && touched.address && (
+														<div className='error_field_profile'>
+															{errors.address}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 										</Row>
 										<Row>
 											<Col lg='4'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-city'>
+													<label
+														className='form-control-label'
+														htmlFor='input-city'>
 														City
 													</label>
 													<Input
-														value={city}
-														onChange={(e) => setCity(e.target.value)}
-														className='form-control-input-profile'
-														id='input-city'
+														id='city'
+														name='city'
 														placeholder='City'
 														type='text'
+														onBlur={handleBlur}
+														value={values.city}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.city && touched.city && (
+														<div className='error_field_profile'>
+															{errors.city}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 											<Col lg='4'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-country'>
+													<label
+														className='form-control-label'
+														htmlFor='input-country'>
 														Postal code
 													</label>
 													<Input
-														value={postcode}
-														onChange={(e) => setPostcode(e.target.value)}
-														className='form-control-input-profile'
-														id='input-postal-code'
-														placeholder='Postal code'
+														id='postcode'
+														name='postcode'
+														placeholder='Post Code'
 														type='number'
+														onBlur={handleBlur}
+														value={values.postcode}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.postcode && touched.postcode && (
+														<div className='error_field_profile'>
+															{errors.postcode}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 											<Col lg='4'>
 												<FormGroup>
-													<label className='form-control-label' htmlFor='input-country'>
+													<label
+														className='form-control-label'
+														htmlFor='input-country'>
 														Country
 													</label>
 													<Input
-														value={country}
-														onChange={(e) => setCountry(e.target.value)}
-														className='form-control-input-profile'
-														id='input-country'
+														id='country'
+														name='country'
 														placeholder='Country'
 														type='text'
+														onBlur={handleBlur}
+														value={values.country}
+														onChange={handleChange}
+														className='form-control-input-profile'
 													/>
+													{errors.country && touched.country && (
+														<div className='error_field_profile'>
+															{errors.country}
+														</div>
+													)}
 												</FormGroup>
 											</Col>
 										</Row>
@@ -693,7 +828,11 @@ export default function Profile(props) {
 					</Col>
 				</Row>
 			</Container>
-			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
+			<Modal
+				size='sm'
+				show={smShow}
+				onHide={() => setSmShow(false)}
+				aria-labelledby='example-modal-sizes-title-sm'>
 				<Modal.Header closeButton>
 					<Modal.Title id='example-modal-sizes-title-sm'>
 						{iconModal}
@@ -703,9 +842,15 @@ export default function Profile(props) {
 				</Modal.Header>
 			</Modal>
 
-			<Modal size='sm' show={show} onHide={handleClose} aria-labelledby='example-modal-sizes-title-sm'>
+			<Modal
+				size='sm'
+				show={show}
+				onHide={handleClose}
+				aria-labelledby='example-modal-sizes-title-sm'>
 				<Modal.Header closeButton>
-					<Modal.Title id='example-modal-sizes-title-sm'>Confirm Account Deletion ?</Modal.Title>
+					<Modal.Title id='example-modal-sizes-title-sm'>
+						Confirm Account Deletion ?
+					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body style={{ marginTop: '-7%' }}>
 					<Button variant='secondary' onClick={handleClose}>

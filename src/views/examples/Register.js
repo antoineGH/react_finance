@@ -17,12 +17,6 @@ import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 
 export default function Register() {
-	// const [email, setEmail] = useState('')
-	// const [first_name, setFirstName] = useState('')
-	// const [last_name, setLastName] = useState('')
-	// const [username, setUsername] = useState('')
-	// const [password, setPassword] = useState('')
-	// const [confirmPassword, setConfirmPassword] = useState('')
 	const [messageModal, setMessageModal] = useState('')
 	const [iconModal, setIconModal] = useState('')
 	const [smShow, setSmShow] = useState(false)
@@ -44,7 +38,7 @@ export default function Register() {
 		password: Yup.string()
 			.min(6, 'Password too short')
 			.max(24, 'Password too long')
-			// .matches(regexPassword, 'Password should be a mix of 6 characters and numbers')
+			.matches(regexPassword, 'Password should be a mix of 6 characters and numbers')
 			.required('Password Required'),
 		confirm_password: Yup.string()
 			.min(6, 'Password too short')

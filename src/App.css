@@ -1,5 +1,12 @@
 /* ---- Main Theme Design  ---- */
 
+.error_field_profile {
+	color: red;
+	font-size: 0.82rem;
+	margin-top: 1%;
+	margin-left: 3%;
+}
+
 .error_field {
 	color: red;
 	font-size: 0.82rem;

@@ -8,12 +8,12 @@ import routes from 'routes.js'
 import { authFetch } from 'auth'
 import { themes } from '../views/examples/Themes'
 import Currency from '../views/currency/Currency'
-import Profile from '../views/examples/Profile'
 import Convert from '../views/examples/Convert'
 import RateGraph from '../views/examples/RateGraph'
 import HistoricalGraph from '../views/examples/HistoricalGraph'
 import HistoricalRate from '../views/examples/HistoricalRate'
 import FinanceFeed from '../views/examples/FinanceFeed'
+import LoadUserSettings from '../views/examples/LoadUserSettings'
 
 class Admin extends React.Component {
 	constructor(props) {
@@ -120,7 +120,14 @@ class Admin extends React.Component {
 	getRoutes = (routes) => {
 		return routes.map((prop, key) => {
 			if (prop.layout === '/admin') {
-				return <Route path={prop.layout + prop.path} component={prop.component} key={key} color={this.state.color} />
+				return (
+					<Route
+						path={prop.layout + prop.path}
+						component={prop.component}
+						key={key}
+						color={this.state.color}
+					/>
+				)
 			} else {
 				return null
 			}
@@ -149,7 +156,10 @@ class Admin extends React.Component {
 					}}
 				/>{' '}
 				<div className='main-content' ref='mainContent'>
-					<AdminNavbar {...this.props} brandText={this.getBrandText(this.props.location.pathname)} />
+					<AdminNavbar
+						{...this.props}
+						brandText={this.getBrandText(this.props.location.pathname)}
+					/>
 					<Switch>
 						<Route
 							path='/admin/index'
@@ -166,9 +176,25 @@ class Admin extends React.Component {
 						/>
 						<Route
 							path='/admin/user-profile'
-							render={(props) => <Profile borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+							// render={(props) => <Profile borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+							render={(props) => (
+								<LoadUserSettings
+									borderColor={this.state.borderColor}
+									color={this.state.color}
+									{...props}
+								/>
+							)}
 						/>
-						<Route path='/admin/convert' render={(props) => <Convert borderColor={this.state.borderColor} color={this.state.color} {...props} />} />
+						<Route
+							path='/admin/convert'
+							render={(props) => (
+								<Convert
+									borderColor={this.state.borderColor}
+									color={this.state.color}
+									{...props}
+								/>
+							)}
+						/>
 						<Route
 							path='/admin/rate-graph'
 							render={(props) => (
@@ -197,11 +223,23 @@ class Admin extends React.Component {
 						/>
 						<Route
 							path='/admin/hist-rate'
-							render={(props) => <HistoricalRate borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+							render={(props) => (
+								<HistoricalRate
+									borderColor={this.state.borderColor}
+									color={this.state.color}
+									{...props}
+								/>
+							)}
 						/>
 						<Route
 							path='/admin/finance-feed'
-							render={(props) => <FinanceFeed borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+							render={(props) => (
+								<FinanceFeed
+									borderColor={this.state.borderColor}
+									color={this.state.color}
+									{...props}
+								/>
+							)}
 						/>
 						{this.getRoutes(routes)}
 						<Redirect from='*' to='/admin/index' />

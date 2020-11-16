@@ -352,7 +352,7 @@ export default class HistoricalGraph extends Component {
 									</CardHeader>
 								</Card>
 							</Col>
-							<Col className='mb-5 mb-xl-0' xl='6'>
+							<Col className='mb-5 mb-xl-0 mt-4 mt-xl-0' xl='6'>
 								{selectedSourceCurrency &&
 								selectedDestCurrency &&
 								graphLoaded &&

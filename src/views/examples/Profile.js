@@ -371,10 +371,10 @@ export default function Profile(props) {
 						<Card className='bg-secondary shadow'>
 							<CardHeader className='bg-white border-0'>
 								<Row className='align-items-center'>
-									<Col xs='8'>
+									<Col xs='6'>
 										<h3 className='mb-0'>My account</h3>
 									</Col>
-									<Col className='text-right' xs='4'>
+									<Col className='text-right' xs='6'>
 										<Button
 											onClick={handleSubmit}
 											color='primary'
@@ -383,7 +383,7 @@ export default function Profile(props) {
 											Update Profile
 										</Button>
 										<Button
-											className='mt-xl-0 mr-xl-0 mt-lg-0 mt-1 mr-1'
+											className='mt-xl-0 mr-xl-0 mt-lg-0 mt-1 text-center justify-content-center'
 											color='danger'
 											href='#pablo'
 											onClick={deleteConfirmation}

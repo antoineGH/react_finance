@@ -20,16 +20,6 @@ import {
 } from 'reactstrap'
 
 export default function Profile(props) {
-	const [messageModal, setMessageModal] = useState('')
-	const [iconModal, setIconModal] = useState('')
-	const [smShow, setSmShow] = useState(false)
-	const [show, setShow] = useState(false)
-
-	const handleShow = () => setShow(true)
-	const handleClose = () => setShow(false)
-
-	const history = useHistory()
-
 	const {
 		username,
 		first_name,
@@ -46,18 +36,28 @@ export default function Profile(props) {
 		country,
 		profilePicture,
 		current_user,
-		selectedCurrency,
+		selectedCurrencyProp,
 		selectedDBCurrency,
 		listCurrency,
 		listCurrencyLoaded,
 		listCurrencyError,
 	} = props
 
+	const [messageModal, setMessageModal] = useState('')
+	const [iconModal, setIconModal] = useState('')
+	const [smShow, setSmShow] = useState(false)
+	const [show, setShow] = useState(false)
+	const [selectedCurrency, setSelectedCurrency] = useState(selectedCurrencyProp)
+
+	const handleShow = () => setShow(true)
+	const handleClose = () => setShow(false)
+
+	const history = useHistory()
+
 	const regexChar = /^[a-zA-Z ]*$/
 	const regexCharInteger = /^[A-Za-z0-9 ]*$/
 	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
 	const validationSchema = Yup.object({
-		selectedCurrency: Yup.string(),
 		password: Yup.string()
 			.min(6, 'Password too short')
 			.max(24, 'Password too long')
@@ -110,7 +110,6 @@ export default function Profile(props) {
 
 	const { handleSubmit, handleChange, handleBlur, values, touched, errors } = useFormik({
 		initialValues: {
-			selectedCurrency: selectedCurrency,
 			username: username,
 			email: email,
 			password: '',
@@ -212,7 +211,6 @@ export default function Profile(props) {
 	}
 
 	function handleUpdate(values) {
-		const selectedCurrency = values.selectedCurrency
 		const password = values.password
 		const first_name = values.first_name
 		const last_name = values.last_name
@@ -282,7 +280,7 @@ export default function Profile(props) {
 	}
 
 	function handleChangeSelected(selected) {
-		selected && props.setSelectedCurrency(selected[0].value)
+		selected && setSelectedCurrency(selected[0].value)
 		return
 	}
 

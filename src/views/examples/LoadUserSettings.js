@@ -120,21 +120,8 @@ export default function LoadUserSettings(props) {
 			.catch((error) => {
 				setListCurrencyError(true)
 			})
-		fetchUserSettings()
-			.then((response) => {
-				if (mounted) {
-					setSelectedCurrency(response.default_currency)
-					setSelectedDBCurrency(response.default_currency)
-					setListCurrencyLoaded(false)
-					setListCurrencyError(false)
-				}
-			})
-			.catch((error) => {
-				console.log(error)
-			})
 		fetchUserInfo()
 			.then((response) => {
-				console.log(response)
 				if (mounted) {
 					setEmail(response.user.email)
 					setFirstName(toTitleCase(response.user.first_name))
@@ -150,7 +137,20 @@ export default function LoadUserSettings(props) {
 					setCountry(toTitleCase(response.user.country))
 					setProfilePicture(response.user.profile_picture)
 					setAge(calculateAge(response.user.birthdate))
-					setIsLoaded(true)
+					fetchUserSettings()
+						.then((response) => {
+							console.log(response)
+							if (mounted) {
+								setSelectedCurrency(response.default_currency)
+								setSelectedDBCurrency(response.default_currency)
+								setListCurrencyLoaded(false)
+								setListCurrencyError(false)
+								setIsLoaded(true)
+							}
+						})
+						.catch((error) => {
+							setHasError(true)
+						})
 				}
 			})
 			.catch((error) => {
@@ -211,7 +211,7 @@ export default function LoadUserSettings(props) {
 					color={props.color}
 					borderColor={props.borderColor}
 					current_user={current_user}
-					selectedCurrency={selectedCurrency}
+					selectedCurrencyProp={selectedCurrency}
 					selectedDBCurrency={selectedDBCurrency}
 					listCurrency={listCurrency}
 					listCurrencyLoaded={listCurrencyLoaded}

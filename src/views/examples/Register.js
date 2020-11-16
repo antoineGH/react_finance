@@ -23,7 +23,7 @@ export default function Register() {
 	const history = useHistory()
 
 	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
-	const regexNoSpecial = /^[a-zA-Z0-9.]{6,30}$/
+	const regexNoSpecial = /^[a-zA-Z. ]*$/
 	const validationSchema = Yup.object({
 		username: Yup.string()
 			.min(6, 'Username too short')

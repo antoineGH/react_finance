@@ -44,7 +44,7 @@ var routes = [
 	{
 		path: '/convert',
 		name: 'Convert',
-		icon: 'fas fa-wallet text-brown',
+		icon: 'fas fa-wallet text-yellow',
 		component: Convert,
 		layout: '/admin',
 		action: undefined,

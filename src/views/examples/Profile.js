@@ -6,18 +6,7 @@ import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 import Select from 'react-dropdown-select'
 import { currenciesName } from '../currency/utils/currenciesName'
-import {
-	Button,
-	Card,
-	CardHeader,
-	CardBody,
-	FormGroup,
-	Form,
-	Input,
-	Container,
-	Row,
-	Col,
-} from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, FormGroup, FormText, Form, Input, Container, Row, Col } from 'reactstrap'
 
 export default function Profile(props) {
 	const {
@@ -34,7 +23,6 @@ export default function Profile(props) {
 		city,
 		postcode,
 		country,
-		profilePicture,
 		current_user,
 		selectedCurrencyProp,
 		selectedDBCurrency,
@@ -57,7 +45,11 @@ export default function Profile(props) {
 	const regexChar = /^[a-zA-Z ]*$/
 	const regexCharInteger = /^[A-Za-z0-9 ]*$/
 	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
+	const supported_format = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png']
 	const validationSchema = Yup.object({
+		profile_picture: Yup.mixed()
+			.test('fileSize', 'File is too large', (value) => !value || value.size <= 2500000)
+			.test('fileType', 'Format is wrong', (value) => !value || supported_format.includes(value.type)),
 		password: Yup.string()
 			.min(6, 'Password too short')
 			.max(24, 'Password too long')
@@ -93,22 +85,15 @@ export default function Profile(props) {
 			.min(2, 'Address too short')
 			.max(100, 'Address too long')
 			.matches(regexCharInteger, 'Address should not contain special characters'),
-		city: Yup.string()
-			.min(2, 'City too short')
-			.max(40, 'City too long')
-			.matches(regexChar, 'City should not contain special characters or numbers'),
-		postcode: Yup.number()
-			.integer('Postcode not valid')
-			.positive('Postcode not valid')
-			.min(1, 'Postcode too short')
-			.max(1000000, 'Postcode too long'),
+		city: Yup.string().min(2, 'City too short').max(40, 'City too long').matches(regexChar, 'City should not contain special characters or numbers'),
+		postcode: Yup.number().integer('Postcode not valid').positive('Postcode not valid').min(1, 'Postcode too short').max(1000000, 'Postcode too long'),
 		country: Yup.string()
 			.min(2, 'Country too short')
 			.max(15, 'Country too long')
 			.matches(regexChar, 'Country should not contain special characters or numbers'),
 	})
 
-	const { handleSubmit, handleChange, handleBlur, values, touched, errors } = useFormik({
+	const { handleSubmit, handleChange, handleBlur, setFieldValue, values, touched, errors } = useFormik({
 		initialValues: {
 			username: username,
 			email: email,
@@ -124,7 +109,7 @@ export default function Profile(props) {
 			city: city,
 			postcode: postcode,
 			country: country,
-			profilePicture: profilePicture,
+			profilePicture: '',
 		},
 		validationSchema,
 		onSubmit(values) {
@@ -157,19 +142,91 @@ export default function Profile(props) {
 		})
 	}
 
-	async function requestUpdate(
-		password,
-		first_name,
-		last_name,
-		position,
-		education,
-		birthday,
-		aboutMe,
-		address,
-		city,
-		postcode,
-		country
-	) {
+	async function uploadUnsignedCloudinary(values) {
+		const cloudName = 'dgr9lcyrm'
+		const uploadPreset = 'cg4aqc9y'
+		const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`
+
+		let data = new FormData()
+		data.append('file', values.profile_picture)
+		data.append('upload_preset', uploadPreset)
+
+		const response = await fetch(url, {
+			method: 'POST',
+			body: data,
+		})
+		const responseJson = await response.json()
+
+		return new Promise((resolve, reject) => {
+			responseJson ? resolve(responseJson) : reject()
+		})
+	}
+
+	function handleUpdate(values) {
+		const password = values.password
+		const first_name = values.first_name
+		const last_name = values.last_name
+		const position = values.position
+		const education = values.education
+		const birthday = values.birthday
+		const about_me = values.about_me
+		const address = values.address
+		const city = values.city
+		const postcode = values.postcode
+		const country = values.country
+		const profile_picture = values.profile_picture
+
+		// Check if defaultCurrency has changed
+		if (selectedCurrency !== selectedDBCurrency) {
+			updateCurrencyChange(selectedCurrency)
+				.then((response) => {
+					console.log(response)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		}
+
+		// Check if profilePicture has been added
+		if (profile_picture !== undefined) {
+			uploadUnsignedCloudinary(values)
+				.then((response) => {
+					console.log(response.url)
+					const image_url = response.url
+					requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country, image_url)
+						.then((response) => {
+							setSmShow(true)
+							setMessageModal(response.message)
+							setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
+							// window.location.reload()
+						})
+						.catch((error) => {
+							setSmShow(true)
+							setMessageModal(error.message)
+							setIconModal(<i style={{ color: 'red' }} className='fas fa-exclamation-circle'></i>)
+						})
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		}
+
+		requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country)
+			.then((response) => {
+				setSmShow(true)
+				setMessageModal(response.message)
+				setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
+				// window.location.reload()
+			})
+			.catch((error) => {
+				setSmShow(true)
+				setMessageModal(error.message)
+				setIconModal(<i style={{ color: 'red' }} className='fas fa-exclamation-circle'></i>)
+			})
+	}
+
+	async function requestUpdate(password, first_name, last_name, position, education, birthday, aboutMe, address, city, postcode, country, url = '') {
+		console.log(url)
 		const user = {
 			password,
 			first_name,
@@ -182,8 +239,9 @@ export default function Profile(props) {
 			city,
 			postcode,
 			country,
-			profilePicture,
+			profile_picture: url,
 		}
+		console.log(user)
 		user.key = username
 		const response = await authFetch('http://localhost:5000/api/user', {
 			method: 'PUT',
@@ -208,54 +266,6 @@ export default function Profile(props) {
 		return new Promise((resolve, reject) => {
 			responseJson ? resolve(responseJson) : reject(errorJson.message)
 		})
-	}
-
-	function handleUpdate(values) {
-		const password = values.password
-		const first_name = values.first_name
-		const last_name = values.last_name
-		const position = values.position
-		const education = values.education
-		const birthday = values.birthday
-		const about_me = values.about_me
-		const address = values.address
-		const city = values.city
-		const postcode = values.postcode
-		const country = values.country
-
-		if (selectedCurrency !== selectedDBCurrency) {
-			updateCurrencyChange(selectedCurrency)
-				.then((response) => {
-					console.log(response)
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		}
-		requestUpdate(
-			password,
-			first_name,
-			last_name,
-			position,
-			education,
-			birthday,
-			about_me,
-			address,
-			city,
-			postcode,
-			country
-		)
-			.then((response) => {
-				setSmShow(true)
-				setMessageModal(response.message)
-				setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
-				window.location.reload()
-			})
-			.catch((error) => {
-				setSmShow(true)
-				setMessageModal(error.message)
-				setIconModal(<i style={{ color: 'red' }} className='fas fa-exclamation-circle'></i>)
-			})
 	}
 
 	function deleteConfirmation() {
@@ -340,16 +350,12 @@ export default function Profile(props) {
 							<CardBody className='pt-0 pt-md-4 mt-5'>
 								<div className='text-center mt-5'>
 									<h3>
-										{first_name !== '' ? first_name : 'First Name'}{' '}
-										{last_name !== '' ? last_name : 'Last Name'}
-										<span className='font-weight-light'>
-											, {birthday !== '' ? age : 'Age'}
-										</span>
+										{first_name !== '' ? first_name : 'First Name'} {last_name !== '' ? last_name : 'Last Name'}
+										<span className='font-weight-light'>, {birthday !== '' ? age : 'Age'}</span>
 									</h3>
 									<div className='h5 font-weight-300'>
 										<i className='ni location_pin mr-2' />
-										{address !== '' ? address + ', ' : 'Address'}{' '}
-										{city && city + ', '} {postcode && postcode + ', '}{' '}
+										{address !== '' ? address + ', ' : 'Address'} {city && city + ', '} {postcode && postcode + ', '}{' '}
 										{country && country + '.'}
 									</div>
 									<div className='h5 mt-4'>
@@ -375,11 +381,7 @@ export default function Profile(props) {
 										<h3 className='mb-0'>My account</h3>
 									</Col>
 									<Col className='text-right' xs='6'>
-										<Button
-											onClick={handleSubmit}
-											color='primary'
-											type='submit'
-											size='sm'>
+										<Button onClick={handleSubmit} color='primary' type='submit' size='sm'>
 											Update Profile
 										</Button>
 										<Button
@@ -401,9 +403,7 @@ export default function Profile(props) {
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-username'>
+													<label className='form-control-label' htmlFor='input-username'>
 														Default Currency
 													</label>
 													<Select
@@ -411,19 +411,11 @@ export default function Profile(props) {
 														options={listCurrency}
 														values={[
 															{
-																label:
-																	selectedCurrency +
-																	' (' +
-																	currenciesName[
-																		selectedCurrency
-																	] +
-																	')',
+																label: selectedCurrency + ' (' + currenciesName[selectedCurrency] + ')',
 																value: selectedCurrency,
 															},
 														]}
-														onChange={(selected) =>
-															handleChangeSelected(selected)
-														}
+														onChange={(selected) => handleChangeSelected(selected)}
 														keepSelectedInList={true}
 														dropdownHandle={true}
 														closeOnSelect={true}
@@ -438,16 +430,12 @@ export default function Profile(props) {
 									</div>
 
 									{/* User information */}
-									<h6 className='heading-small text-muted mb-4'>
-										User information
-									</h6>
+									<h6 className='heading-small text-muted mb-4'>User information</h6>
 									<div className='pl-lg-4'>
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-username'>
+													<label className='form-control-label' htmlFor='input-username'>
 														Username
 													</label>
 													<Input
@@ -462,9 +450,7 @@ export default function Profile(props) {
 											</Col>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-email'>
+													<label className='form-control-label' htmlFor='input-email'>
 														Email address
 													</label>
 													<Input
@@ -481,9 +467,7 @@ export default function Profile(props) {
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-password'>
+													<label className='form-control-label' htmlFor='input-password'>
 														Password
 													</label>
 													<Input
@@ -496,18 +480,12 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.password && touched.password && (
-														<div className='error_field_profile'>
-															{errors.password}
-														</div>
-													)}
+													{errors.password && touched.password && <div className='error_field_profile'>{errors.password}</div>}
 												</FormGroup>
 											</Col>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-confirm-password'>
+													<label className='form-control-label' htmlFor='input-confirm-password'>
 														Confirm Password
 													</label>
 													<Input
@@ -520,21 +498,16 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.confirm_password &&
-														touched.confirm_password && (
-															<div className='error_field_profile'>
-																{errors.confirm_password}
-															</div>
-														)}
+													{errors.confirm_password && touched.confirm_password && (
+														<div className='error_field_profile'>{errors.confirm_password}</div>
+													)}
 												</FormGroup>
 											</Col>
 										</Row>
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-first-name'>
+													<label className='form-control-label' htmlFor='input-first-name'>
 														First name
 													</label>
 													<Input
@@ -547,18 +520,12 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.first_name && touched.first_name && (
-														<div className='error_field_profile'>
-															{errors.first_name}
-														</div>
-													)}
+													{errors.first_name && touched.first_name && <div className='error_field_profile'>{errors.first_name}</div>}
 												</FormGroup>
 											</Col>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-last-name'>
+													<label className='form-control-label' htmlFor='input-last-name'>
 														Last name
 													</label>
 													<Input
@@ -571,27 +538,19 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.last_name && touched.last_name && (
-														<div className='error_field_profile'>
-															{errors.last_name}
-														</div>
-													)}
+													{errors.last_name && touched.last_name && <div className='error_field_profile'>{errors.last_name}</div>}
 												</FormGroup>
 											</Col>
 										</Row>
 									</div>
 									<hr className='my-4' />
 									{/* Personal Information */}
-									<h6 className='heading-small text-muted mb-4'>
-										Personal Information
-									</h6>
+									<h6 className='heading-small text-muted mb-4'>Personal Information</h6>
 									<div className='pl-lg-4'>
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-position'>
+													<label className='form-control-label' htmlFor='input-position'>
 														Position
 													</label>
 													<Input
@@ -604,18 +563,12 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.position && touched.position && (
-														<div className='error_field_profile'>
-															{errors.position}
-														</div>
-													)}
+													{errors.position && touched.position && <div className='error_field_profile'>{errors.position}</div>}
 												</FormGroup>
 											</Col>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-education'>
+													<label className='form-control-label' htmlFor='input-education'>
 														Education
 													</label>
 													<Input
@@ -628,20 +581,14 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.education && touched.education && (
-														<div className='error_field_profile'>
-															{errors.education}
-														</div>
-													)}
+													{errors.education && touched.education && <div className='error_field_profile'>{errors.education}</div>}
 												</FormGroup>
 											</Col>
 										</Row>
 										<Row>
 											<Col lg='6'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-birthday'>
+													<label className='form-control-label' htmlFor='input-birthday'>
 														Birthday
 													</label>
 													<Input
@@ -654,39 +601,35 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.birthday && touched.birthday && (
-														<div className='error_field_profile'>
-															{errors.birthday}
-														</div>
-													)}
+													{errors.birthday && touched.birthday && <div className='error_field_profile'>{errors.birthday}</div>}
 												</FormGroup>
 											</Col>
 											<Col lg='6'>
+												{/* upload picture */}
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-profilePicture'>
-														Profile Picture
+													<label className='form-control-label' htmlFor='input-birthday'>
+														Profile picture
 													</label>
 													<Input
 														id='profilePicture'
 														name='profilePicture'
-														placeholder='Profile Picture'
-														type='text'
+														type='file'
 														onBlur={handleBlur}
-														value={values.profilePicture}
-														onChange={handleChange}
-														className='form-control-input-profile'
+														onChange={(event) => {
+															setFieldValue('profile_picture', event.currentTarget.files[0])
+														}}
 													/>
+													<FormText color='muted'>Supported format .png .jpg .jpeg (maximum size: 1Mo).</FormText>
+													{errors.profile_picture && touched.profile_picture && (
+														<div className='error_field'>{errors.profile_picture}</div>
+													)}
 												</FormGroup>
 											</Col>
 										</Row>
 										<Row>
 											<Col lg='12'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-aboutMee'>
+													<label className='form-control-label' htmlFor='input-aboutMee'>
 														About Me
 													</label>
 													<Input
@@ -704,27 +647,19 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.about_me && touched.about_me && (
-														<div className='error_field_profile'>
-															{errors.about_me}
-														</div>
-													)}
+													{errors.about_me && touched.about_me && <div className='error_field_profile'>{errors.about_me}</div>}
 												</FormGroup>
 											</Col>
 										</Row>
 									</div>
 									<hr className='my-4' />
 									{/* Address */}
-									<h6 className='heading-small text-muted mb-4'>
-										Contact information
-									</h6>
+									<h6 className='heading-small text-muted mb-4'>Contact information</h6>
 									<div className='pl-lg-4'>
 										<Row>
 											<Col md='12'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-address'>
+													<label className='form-control-label' htmlFor='input-address'>
 														Address
 													</label>
 													<Input
@@ -737,20 +672,14 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.address && touched.address && (
-														<div className='error_field_profile'>
-															{errors.address}
-														</div>
-													)}
+													{errors.address && touched.address && <div className='error_field_profile'>{errors.address}</div>}
 												</FormGroup>
 											</Col>
 										</Row>
 										<Row>
 											<Col lg='4'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-city'>
+													<label className='form-control-label' htmlFor='input-city'>
 														City
 													</label>
 													<Input
@@ -763,18 +692,12 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.city && touched.city && (
-														<div className='error_field_profile'>
-															{errors.city}
-														</div>
-													)}
+													{errors.city && touched.city && <div className='error_field_profile'>{errors.city}</div>}
 												</FormGroup>
 											</Col>
 											<Col lg='4'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-country'>
+													<label className='form-control-label' htmlFor='input-country'>
 														Postal code
 													</label>
 													<Input
@@ -787,18 +710,12 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.postcode && touched.postcode && (
-														<div className='error_field_profile'>
-															{errors.postcode}
-														</div>
-													)}
+													{errors.postcode && touched.postcode && <div className='error_field_profile'>{errors.postcode}</div>}
 												</FormGroup>
 											</Col>
 											<Col lg='4'>
 												<FormGroup>
-													<label
-														className='form-control-label'
-														htmlFor='input-country'>
+													<label className='form-control-label' htmlFor='input-country'>
 														Country
 													</label>
 													<Input
@@ -811,11 +728,7 @@ export default function Profile(props) {
 														onChange={handleChange}
 														className='form-control-input-profile'
 													/>
-													{errors.country && touched.country && (
-														<div className='error_field_profile'>
-															{errors.country}
-														</div>
-													)}
+													{errors.country && touched.country && <div className='error_field_profile'>{errors.country}</div>}
 												</FormGroup>
 											</Col>
 										</Row>
@@ -826,11 +739,7 @@ export default function Profile(props) {
 					</Col>
 				</Row>
 			</Container>
-			<Modal
-				size='sm'
-				show={smShow}
-				onHide={() => setSmShow(false)}
-				aria-labelledby='example-modal-sizes-title-sm'>
+			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
 				<Modal.Header closeButton>
 					<Modal.Title id='example-modal-sizes-title-sm'>
 						{iconModal}
@@ -840,15 +749,9 @@ export default function Profile(props) {
 				</Modal.Header>
 			</Modal>
 
-			<Modal
-				size='sm'
-				show={show}
-				onHide={handleClose}
-				aria-labelledby='example-modal-sizes-title-sm'>
+			<Modal size='sm' show={show} onHide={handleClose} aria-labelledby='example-modal-sizes-title-sm'>
 				<Modal.Header closeButton>
-					<Modal.Title id='example-modal-sizes-title-sm'>
-						Confirm Account Deletion ?
-					</Modal.Title>
+					<Modal.Title id='example-modal-sizes-title-sm'>Confirm Account Deletion ?</Modal.Title>
 				</Modal.Header>
 				<Modal.Body style={{ marginTop: '-7%' }}>
 					<Button variant='secondary' onClick={handleClose}>

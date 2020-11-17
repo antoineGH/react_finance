@@ -146,7 +146,6 @@ export default function Login() {
 								)}
 							</FormGroup>
 							<div className='text-center'>
-								{/* <Button onClick={handleClick} className='my-4' color='primary' type='button'> */}
 								<Button className='my-4' color='primary' type='submit'>
 									Sign in
 								</Button>

@@ -69,7 +69,7 @@
 		"react-scripts": "^3.4.4",
 		"react-spinners": "^0.9.0",
 		"react-token-auth": "^1.1.7",
-		"reactstrap": "8.4.1",
+		"reactstrap": "^8.4.1",
 		"yup": "^0.29.3"
 	},
 	"devDependencies": {

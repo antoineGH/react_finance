@@ -353,7 +353,7 @@ export default class Convert extends Component {
 				{/* User settings */}
 				<Container className='mt--7' fluid>
 					<Row className='justify-content-center justify-content-lg-start'>
-						<Col xs='12' lg='5'>
+						<Col lg='12' xl='12'>
 							<Card className='shadow'>
 								<CardHeader className='border-0'>
 									<Row className='align-items-center'>
@@ -371,14 +371,14 @@ export default class Convert extends Component {
 										</div>
 										<Col className='text-right' xs='4'>
 											<Button
-												size='sm'
+												size='md'
 												className='reverse'
 												style={{
 													backgroundColor: borderColor,
 													borderColor: borderColor,
 												}}
 												onClick={this.reverse}>
-												<i className='fas fa-random'></i>
+												<i className='fas fa-random fa-lg'></i>
 											</Button>
 										</Col>
 									</Row>
@@ -413,7 +413,7 @@ export default class Convert extends Component {
 												</InputGroup>
 											</FormGroup>
 										</Col>
-										<Col lg='8'>
+										<Col lg='8' xl='4'>
 											<FormGroup>
 												<label
 													className='form-control-label'
@@ -482,7 +482,7 @@ export default class Convert extends Component {
 												</InputGroup>
 											</FormGroup>
 										</Col>
-										<Col lg='8'>
+										<Col lg='8' xl='4'>
 											<FormGroup>
 												<label
 													className='form-control-label'
@@ -522,7 +522,7 @@ export default class Convert extends Component {
 								</CardHeader>
 							</Card>
 						</Col>
-						<Col lg='4' xl='2' className='mt-4 mt-xl-0'>
+						<Col lg='6' xl='6' className='mt-4'>
 							<InformationCurrency
 								hasError={listCurrencyError}
 								infoIsLoading={!listCurrencyLoaded}
@@ -533,7 +533,7 @@ export default class Convert extends Component {
 								borderColor={borderColor}
 							/>
 						</Col>
-						<Col lg='4' xl='2' className='mt-4 mt-xl-0'>
+						<Col lg='6' xl='6' className='mt-4'>
 							<HistoryPercentage
 								isHistoryLoaded={listCurrencyLoaded}
 								hasHistoryError={listCurrencyError}

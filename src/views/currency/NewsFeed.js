@@ -91,7 +91,7 @@ class LoadNewsFeed extends Component {
 			return (
 				<>
 					{/* INFO: Pagination */}
-					<Row className='text-left  ml-2 mt-md-0 mt-lg-4'>
+					<Row className='text-left  ml-2 mt-md-0'>
 						<Col className='mt-3 mt-lg-4 justify-content-left'>
 							<Pagination
 								hideFirstLastPages

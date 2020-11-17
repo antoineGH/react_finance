@@ -15,6 +15,8 @@ import './App.css'
 
 export default function App() {
 	const [logged] = useAuth()
+	const token = JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH_KEY'))
+	console.log(token.access_token)
 	return (
 		<div className='App'>
 			<BrowserRouter>

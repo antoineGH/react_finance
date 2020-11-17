@@ -139,7 +139,6 @@ export default function LoadUserSettings(props) {
 					setAge(calculateAge(response.user.birthdate))
 					fetchUserSettings()
 						.then((response) => {
-							console.log(response)
 							if (mounted) {
 								setSelectedCurrency(response.default_currency)
 								setSelectedDBCurrency(response.default_currency)
@@ -168,12 +167,7 @@ export default function LoadUserSettings(props) {
 
 	return (
 		<>
-			<UserHeader
-				welcome={welcome}
-				message={message}
-				color={props.color}
-				borderColor={props.borderColor}
-			/>
+			<UserHeader welcome={welcome} message={message} color={props.color} borderColor={props.borderColor} />
 			{hasError && (
 				<Container>
 					<div className='error_data'>Impossible to fetch data, try again later.</div>

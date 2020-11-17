@@ -2,16 +2,7 @@ import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { logout } from '../../auth'
 import Modal from 'react-bootstrap/Modal'
-import {
-	DropdownMenu,
-	DropdownItem,
-	UncontrolledDropdown,
-	DropdownToggle,
-	Navbar,
-	Nav,
-	Container,
-	Media,
-} from 'reactstrap'
+import { DropdownMenu, DropdownItem, UncontrolledDropdown, DropdownToggle, Navbar, Nav, Container, Media } from 'reactstrap'
 
 export default function AdminNavbar({ brandText }) {
 	const [messageModal, setMessageModal] = useState('')
@@ -34,9 +25,7 @@ export default function AdminNavbar({ brandText }) {
 		<>
 			<Navbar className='navbar-top navbar-dark' expand='md' id='navbar-main'>
 				<Container fluid>
-					<Link
-						className='h4 mb-0 text-white text-uppercase d-none d-lg-inline-block'
-						to='/'>
+					<Link className='h4 mb-0 text-white text-uppercase d-none d-lg-inline-block' to='/'>
 						{brandText}
 					</Link>
 					<Nav className='align-items-center d-none d-md-flex' navbar>
@@ -54,9 +43,7 @@ export default function AdminNavbar({ brandText }) {
 										/>
 									</span>
 									<Media className='ml-2 d-none d-lg-block'>
-										<span className='mb-0 text-sm font-weight-bold'>
-											{localStorage.username}
-										</span>
+										<span className='mb-0 text-sm font-weight-bold'>{localStorage.username}</span>
 									</Media>
 								</Media>
 							</DropdownToggle>
@@ -79,11 +66,7 @@ export default function AdminNavbar({ brandText }) {
 					</Nav>
 				</Container>
 			</Navbar>
-			<Modal
-				size='sm'
-				show={smShow}
-				onHide={() => setSmShow(false)}
-				aria-labelledby='example-modal-sizes-title-sm'>
+			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
 				<Modal.Header closeButton>
 					<Modal.Title id='example-modal-sizes-title-sm'>
 						{iconModal}

@@ -29,6 +29,7 @@ export default function Profile(props) {
 		listCurrency,
 		listCurrencyLoaded,
 		listCurrencyError,
+		profilePicture,
 	} = props
 
 	const [messageModal, setMessageModal] = useState('')
@@ -77,10 +78,7 @@ export default function Profile(props) {
 			.max(50, 'Education too long')
 			.matches(regexCharInteger, 'Education should not contain special characters'),
 		birthday: Yup.string().min(2, 'Last name too short').max(12, 'Last name too long'),
-		about_me: Yup.string()
-			.min(2, 'About Me too short')
-			.max(120, 'About Me too long')
-			.matches(regexCharInteger, 'About Me should not contain special characters'),
+		about_me: Yup.string().min(2, 'About Me too short').max(120, 'About Me too long'),
 		address: Yup.string()
 			.min(2, 'Address too short')
 			.max(100, 'Address too long')
@@ -198,7 +196,9 @@ export default function Profile(props) {
 							setSmShow(true)
 							setMessageModal(response.message)
 							setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
-							// window.location.reload()
+							setTimeout(() => {
+								window.location.reload()
+							}, 1500)
 						})
 						.catch((error) => {
 							setSmShow(true)
@@ -226,7 +226,6 @@ export default function Profile(props) {
 	}
 
 	async function requestUpdate(password, first_name, last_name, position, education, birthday, aboutMe, address, city, postcode, country, url = '') {
-		console.log(url)
 		const user = {
 			password,
 			first_name,
@@ -241,7 +240,6 @@ export default function Profile(props) {
 			country,
 			profile_picture: url,
 		}
-		console.log(user)
 		user.key = username
 		const response = await authFetch('http://localhost:5000/api/user', {
 			method: 'PUT',
@@ -335,11 +333,7 @@ export default function Profile(props) {
 										<img
 											alt='...'
 											className='rounded-circle'
-											src={
-												current_user === 'antoine.ratat'
-													? require('assets/img/theme/antoine.jpg')
-													: require('assets/img/theme/default.jpg')
-											}
+											src={profilePicture === 'default.jpg' ? require('assets/img/theme/default.jpg') : profilePicture}
 										/>
 									</div>
 								</Col>

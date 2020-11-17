@@ -2,18 +2,7 @@ import React, { useState } from 'react'
 import { login } from '../../auth'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import {
-	Button,
-	Card,
-	CardBody,
-	FormGroup,
-	Form,
-	Input,
-	InputGroupAddon,
-	InputGroupText,
-	InputGroup,
-	Col,
-} from 'reactstrap'
+import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
 import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 
@@ -120,9 +109,7 @@ export default function Login() {
 										onChange={handleChange}
 									/>
 								</InputGroup>
-								{errors.username && touched.username && (
-									<div className='error_field'>{errors.username}</div>
-								)}
+								{errors.username && touched.username && <div className='error_field'>{errors.username}</div>}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative'>
@@ -141,9 +128,7 @@ export default function Login() {
 										onChange={handleChange}
 									/>
 								</InputGroup>
-								{errors.password && touched.password && (
-									<div className='error_field'>{errors.password}</div>
-								)}
+								{errors.password && touched.password && <div className='error_field'>{errors.password}</div>}
 							</FormGroup>
 							<div className='text-center'>
 								<Button className='my-4' color='primary' type='submit'>
@@ -154,11 +139,7 @@ export default function Login() {
 					</CardBody>
 				</Card>
 			</Col>
-			<Modal
-				size='sm'
-				show={smShow}
-				onHide={() => setSmShow(false)}
-				aria-labelledby='example-modal-sizes-title-sm'>
+			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
 				<Modal.Header closeButton>
 					<Modal.Title id='example-modal-sizes-title-sm'>
 						{iconModal}

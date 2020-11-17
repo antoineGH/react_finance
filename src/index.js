@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
+import jwt_decode from 'jwt-decode'
 
 import 'assets/plugins/nucleo/css/nucleo.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
@@ -15,8 +16,12 @@ import './App.css'
 
 export default function App() {
 	const [logged] = useAuth()
-	const token = JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH_KEY'))
-	console.log(token.access_token)
+
+	if (logged) {
+		const token = JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH_KEY')).access_token
+		const decoded = jwt_decode(token).user_claims
+		const { id, username, email, first_name, last_name } = decoded
+	}
 	return (
 		<div className='App'>
 			<BrowserRouter>

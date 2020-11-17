@@ -68,11 +68,7 @@ class Sidebar extends React.Component {
 			if (prop.name !== 'Login' && prop.name !== 'Register' && prop.name !== 'My Profile') {
 				return (
 					<NavItem key={key}>
-						<NavLink
-							to={prop.layout + prop.path}
-							tag={NavLinkRRD}
-							onClick={() => this.handleClick(prop.action)}
-							activeClassName='active'>
+						<NavLink to={prop.layout + prop.path} tag={NavLinkRRD} onClick={() => this.handleClick(prop.action)} activeClassName='active'>
 							<i className={prop.icon} />
 							{prop.name}
 						</NavLink>
@@ -94,7 +90,7 @@ class Sidebar extends React.Component {
 	}
 
 	render() {
-		const { routes, logo } = this.props
+		const { routes, logo, userInfo } = this.props
 		let navbarBrandProps
 		if (logo && logo.innerLink) {
 			navbarBrandProps = {
@@ -109,26 +105,16 @@ class Sidebar extends React.Component {
 		}
 		return (
 			<>
-				<Navbar
-					className='navbar-vertical fixed-left navbar-light bg-white'
-					expand='md'
-					id='sidenav-main'>
+				<Navbar className='navbar-vertical fixed-left navbar-light bg-white' expand='md' id='sidenav-main'>
 					<Container fluid>
 						{/* Toggler */}
-						<button
-							className='navbar-toggler'
-							type='button'
-							onClick={this.toggleCollapse}>
+						<button className='navbar-toggler' type='button' onClick={this.toggleCollapse}>
 							<span className='navbar-toggler-icon' />
 						</button>
 						{/* Brand */}
 						{logo ? (
 							<NavbarBrand className='pt-0' {...navbarBrandProps}>
-								<img
-									alt={logo.imgAlt}
-									className='navbar-brand-img'
-									src={logo.imgSrc}
-								/>
+								<img alt={logo.imgAlt} className='navbar-brand-img' src={logo.imgSrc} />
 							</NavbarBrand>
 						) : null}
 
@@ -140,7 +126,11 @@ class Sidebar extends React.Component {
 										<span className='avatar avatar-sm rounded-circle'>
 											<img
 												alt='...'
-												src={require('assets/img/theme/default.jpg')}
+												src={
+													userInfo.profile_picture === '' || userInfo.profile_picture === 'default.jpg'
+														? require('assets/img/theme/default.jpg')
+														: userInfo.profile_picture
+												}
 											/>
 										</span>
 									</Media>
@@ -184,10 +174,7 @@ class Sidebar extends React.Component {
 										</Col>
 									) : null}
 									<Col className='collapse-close' xs='6'>
-										<button
-											className='navbar-toggler'
-											type='button'
-											onClick={this.toggleCollapse}>
+										<button className='navbar-toggler' type='button' onClick={this.toggleCollapse}>
 											<span />
 											<span />
 										</button>
@@ -197,12 +184,7 @@ class Sidebar extends React.Component {
 							{/* Form */}
 							<Form className='mt-4 mb-3 d-md-none'>
 								<InputGroup className='input-group-rounded input-group-merge'>
-									<Input
-										aria-label='Search'
-										className='form-control-rounded form-control-prepended'
-										placeholder='Search'
-										type='search'
-									/>
+									<Input aria-label='Search' className='form-control-rounded form-control-prepended' placeholder='Search' type='search' />
 									<InputGroupAddon addonType='prepend'>
 										<InputGroupText>
 											<span className='fa fa-search' />
@@ -219,48 +201,42 @@ class Sidebar extends React.Component {
 									<Button
 										className=' ml-1 mb-1 squared_button'
 										style={{
-											background:
-												'linear-gradient(to right, #2193b0, #6dd5ed)',
+											background: 'linear-gradient(to right, #2193b0, #6dd5ed)',
 											border: 0,
 										}}
 										onClick={() => this.handleChange('blue')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
-											background:
-												'linear-gradient(to right, #42275a, #734b6d)',
+											background: 'linear-gradient(to right, #42275a, #734b6d)',
 											border: 0,
 										}}
 										onClick={() => this.handleChange('mauve')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
-											background:
-												'linear-gradient(to right, #eb3349, #f45c43)',
+											background: 'linear-gradient(to right, #eb3349, #f45c43)',
 											border: 0,
 										}}
 										onClick={() => this.handleChange('orange')}></Button>
 									<Button
 										className=' ml-1 mb-1 squared_button'
 										style={{
-											background:
-												'linear-gradient(to right, #ddd6f3, #faaca8)',
+											background: 'linear-gradient(to right, #ddd6f3, #faaca8)',
 											border: 0,
 										}}
 										onClick={() => this.handleChange('pink')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
-											background:
-												'linear-gradient(to right, #000428, #004e92)',
+											background: 'linear-gradient(to right, #000428, #004e92)',
 											border: 0,
 										}}
 										onClick={() => this.handleChange('royal')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
-											background:
-												'linear-gradient(to right, #141e30, #243b55)',
+											background: 'linear-gradient(to right, #141e30, #243b55)',
 											border: 0,
 										}}
 										onClick={() => this.handleChange('grey')}></Button>

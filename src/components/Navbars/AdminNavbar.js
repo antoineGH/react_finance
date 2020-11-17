@@ -4,7 +4,7 @@ import { logout } from '../../auth'
 import Modal from 'react-bootstrap/Modal'
 import { DropdownMenu, DropdownItem, UncontrolledDropdown, DropdownToggle, Navbar, Nav, Container, Media } from 'reactstrap'
 
-export default function AdminNavbar({ brandText }) {
+export default function AdminNavbar({ brandText, userInfo }) {
 	const [messageModal, setMessageModal] = useState('')
 	const [iconModal, setIconModal] = useState('')
 	const [smShow, setSmShow] = useState(false)
@@ -36,14 +36,14 @@ export default function AdminNavbar({ brandText }) {
 										<img
 											alt='...'
 											src={
-												localStorage.username === 'antoine.ratat'
-													? require('assets/img/theme/antoine.jpg')
-													: require('assets/img/theme/default.jpg')
+												userInfo.profile_picture === '' || userInfo.profile_picture === 'default.jpg'
+													? require('assets/img/theme/default.jpg')
+													: userInfo.profile_picture
 											}
 										/>
 									</span>
 									<Media className='ml-2 d-none d-lg-block'>
-										<span className='mb-0 text-sm font-weight-bold'>{localStorage.username}</span>
+										<span className='mb-0 text-sm font-weight-bold'>{userInfo.username}</span>
 									</Media>
 								</Media>
 							</DropdownToggle>

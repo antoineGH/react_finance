@@ -16,17 +16,17 @@ import './App.css'
 
 export default function App() {
 	const [logged] = useAuth()
+	let decoded = ''
 
 	if (logged) {
 		const token = JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH_KEY')).access_token
-		const decoded = jwt_decode(token).user_claims
-		const { id, username, email, first_name, last_name } = decoded
+		decoded = jwt_decode(token).user_claims
 	}
 	return (
 		<div className='App'>
 			<BrowserRouter>
 				<Switch>
-					{logged && <AdminLayout />}
+					{logged && <AdminLayout userInfo={decoded} />}
 					{!logged && <AuthLayout />}
 					<Redirect from='/' to='/admin/index' />
 				</Switch>

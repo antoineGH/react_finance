@@ -216,7 +216,9 @@ export default function Profile(props) {
 				setSmShow(true)
 				setMessageModal(response.message)
 				setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
-				// window.location.reload()
+				setTimeout(() => {
+					window.location.reload()
+				}, 1500)
 			})
 			.catch((error) => {
 				setSmShow(true)
@@ -333,7 +335,11 @@ export default function Profile(props) {
 										<img
 											alt='...'
 											className='rounded-circle'
-											src={profilePicture === 'default.jpg' ? require('assets/img/theme/default.jpg') : profilePicture}
+											src={
+												profilePicture === '' || profilePicture === 'default.jpg'
+													? require('assets/img/theme/default.jpg')
+													: profilePicture
+											}
 										/>
 									</div>
 								</Col>

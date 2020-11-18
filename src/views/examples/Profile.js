@@ -23,7 +23,6 @@ export default function Profile(props) {
 		city,
 		postcode,
 		country,
-		current_user,
 		selectedCurrencyProp,
 		selectedDBCurrency,
 		listCurrency,
@@ -189,8 +188,8 @@ export default function Profile(props) {
 		if (profile_picture !== undefined) {
 			uploadUnsignedCloudinary(values)
 				.then((response) => {
-					console.log(response.url)
-					const image_url = response.url
+					let image_url = response.url
+					image_url = toThumbmail(image_url)
 					requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country, image_url)
 						.then((response) => {
 							setSmShow(true)
@@ -320,6 +319,12 @@ export default function Profile(props) {
 		return new Promise((resolve, reject) => {
 			responseJson ? resolve(responseJson) : reject(errorJson.message)
 		})
+	}
+
+	function toThumbmail(url) {
+		var arr = url.split('/')
+		arr[6] = 'c_fill,h_180,w_180'
+		return arr.join('/')
 	}
 
 	return (
@@ -612,6 +617,7 @@ export default function Profile(props) {
 													</label>
 													<Input
 														id='profilePicture'
+														bsSize='sm'
 														name='profilePicture'
 														type='file'
 														onBlur={handleBlur}

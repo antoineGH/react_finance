@@ -12,6 +12,9 @@ import AuthLayout from 'layouts/Auth.js'
 
 import { useAuth } from './auth'
 
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import './App.css'
 
 export default function App() {
@@ -22,8 +25,56 @@ export default function App() {
 		const token = JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH_KEY')).access_token
 		decoded = jwt_decode(token).user_claims
 	}
+
+	// function handleToast() {
+	// 	toast.success('Message', {
+	// 		className: 'Toastify__progress-bar_success',
+	// 		position: 'top-right',
+	// 		autoClose: 5000,
+	// 		hideProgressBar: false,
+	// 		closeOnClick: true,
+	// 		pauseOnHover: true,
+	// 		draggable: true,
+	// 		progress: undefined,
+	// 	})
+
+	// 	toast.error('Message', {
+	// 		className: 'Toastify__progress-bar_success',
+	// 		position: 'top-right',
+	// 		autoClose: 5000,
+	// 		hideProgressBar: false,
+	// 		closeOnClick: true,
+	// 		pauseOnHover: true,
+	// 		draggable: true,
+	// 		progress: undefined,
+	// 	})
+
+	// 	toast.warning('Message', {
+	// 		className: 'Toastify__progress-bar_success',
+	// 		position: 'top-right',
+	// 		autoClose: 5000,
+	// 		hideProgressBar: false,
+	// 		closeOnClick: true,
+	// 		pauseOnHover: true,
+	// 		draggable: true,
+	// 		progress: undefined,
+	// 	})
+	// }
+
 	return (
 		<div className='App'>
+			<ToastContainer
+				position='top-right'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+			<ToastContainer />
 			<BrowserRouter>
 				<Switch>
 					{logged && <AdminLayout userInfo={decoded} />}

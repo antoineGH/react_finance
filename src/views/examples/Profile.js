@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 import Select from 'react-dropdown-select'
 import { currenciesName } from '../currency/utils/currenciesName'
+import { toast } from 'react-toastify'
 import { Button, Card, CardHeader, CardBody, FormGroup, FormText, Form, Input, Container, Row, Col } from 'reactstrap'
 
 export default function Profile(props) {

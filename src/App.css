@@ -1,5 +1,27 @@
 /* ---- Main Theme Design  ---- */
 
+.Toastify__toast {
+	background: white;
+	color: #32325d;
+	padding: 1.25rem;
+	border-radius: 2%;
+}
+
+.Toastify__progress-bar {
+	height: 7px;
+	background-color: rgba(60, 192, 8, 0.7);
+}
+
+.Toastify__progress-bar--error {
+	height: 7px;
+	background-color: rgba(192, 8, 8, 0.7);
+}
+
+.Toastify__progress-bar--warning {
+	height: 7px;
+	background-color: rgba(219, 235, 0, 0.7);
+}
+
 .pagination {
 	overflow: auto;
 }
@@ -329,32 +351,28 @@
 
 @font-face {
 	font-family: 'poppinsbold';
-	src: url('./fonts/poppins-bold-webfont.woff2') format('woff2'),
-		url('./fonts/poppins-bold-webfont.woff') format('woff');
+	src: url('./fonts/poppins-bold-webfont.woff2') format('woff2'), url('./fonts/poppins-bold-webfont.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'poppinsmedium';
-	src: url('./fonts/poppins-medium-webfont.woff2') format('woff2'),
-		url('./fonts/poppins-medium-webfont.woff') format('woff');
+	src: url('./fonts/poppins-medium-webfont.woff2') format('woff2'), url('./fonts/poppins-medium-webfont.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'poppinssemibold';
-	src: url('./fonts/poppins-semibold-webfont.woff2') format('woff2'),
-		url('./fonts/poppins-semibold-webfont.woff') format('woff');
+	src: url('./fonts/poppins-semibold-webfont.woff2') format('woff2'), url('./fonts/poppins-semibold-webfont.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'poppinsregular';
-	src: url('./fonts/poppins-regular-webfont.woff2') format('woff2'),
-		url('./fonts/poppins-regular-webfont.woff') format('woff');
+	src: url('./fonts/poppins-regular-webfont.woff2') format('woff2'), url('./fonts/poppins-regular-webfont.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 }

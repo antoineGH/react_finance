@@ -6,10 +6,9 @@ import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputG
 import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import toastMessage from '../currency/utils/toastMessage'
 
 export default function Login() {
-	const [messageModal, setMessageModal] = useState('')
-	const [iconModal, setIconModal] = useState('')
 	const [smShow, setSmShow] = useState(false)
 	const history = useHistory()
 
@@ -95,9 +94,7 @@ export default function Login() {
 				}
 			})
 			.catch((error) => {
-				setSmShow(true)
-				setMessageModal(error.message)
-				setIconModal(<i style={{ color: 'red' }} className='fas fa-exclamation-circle'></i>)
+				toastMessage(error.message, 'error', 3500)
 			})
 	}
 
@@ -157,15 +154,6 @@ export default function Login() {
 					</CardBody>
 				</Card>
 			</Col>
-			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
-				<Modal.Header closeButton>
-					<Modal.Title id='example-modal-sizes-title-sm'>
-						{iconModal}
-						{'  '}
-						{messageModal}
-					</Modal.Title>
-				</Modal.Header>
-			</Modal>
 		</>
 	)
 }

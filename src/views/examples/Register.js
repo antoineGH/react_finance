@@ -1,25 +1,13 @@
 import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import {
-	Button,
-	Card,
-	CardBody,
-	FormGroup,
-	Form,
-	Input,
-	InputGroupAddon,
-	InputGroupText,
-	InputGroup,
-	Col,
-} from 'reactstrap'
+import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
 import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import toastMessage from '../currency/utils/toastMessage'
 
 export default function Register() {
-	const [messageModal, setMessageModal] = useState('')
-	const [iconModal, setIconModal] = useState('')
-	const [smShow, setSmShow] = useState(false)
 	const history = useHistory()
 
 	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
@@ -30,11 +18,7 @@ export default function Register() {
 			.max(20, 'Username too long')
 			.matches(regexNoSpecial, 'Username should not contain special characters')
 			.required('Username Required'),
-		email: Yup.string()
-			.min(6, 'Email too short')
-			.max(30, 'Email too long')
-			.email('Invalid email')
-			.required('Email Required'),
+		email: Yup.string().min(6, 'Email too short').max(30, 'Email too long').email('Invalid email').required('Email Required'),
 		password: Yup.string()
 			.min(6, 'Password too short')
 			.max(24, 'Password too long')
@@ -108,17 +92,26 @@ export default function Register() {
 		const last_name = values.last_name.toLowerCase()
 		createUser(username, email, password, first_name, last_name)
 			.then((response) => {
-				setSmShow(true)
-				setMessageModal('Successfully Registered')
-				setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
-				setTimeout(() => {
-					history.push('/auth/login')
-				}, 750)
+				const message = (
+					<p>
+						<i class='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Successfully registered as <span style={{ fontWeight: 600 }}>{username}</span>
+					</p>
+				)
+				toast.success(message, {
+					className: 'Toastify__progress-bar_success',
+					position: 'top-right',
+					delay: 600,
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				})
+				history.push('/auth/login')
 			})
 			.catch((error) => {
-				setSmShow(true)
-				setMessageModal(error.message)
-				setIconModal(<i style={{ color: 'red' }} className='fas fa-exclamation-circle'></i>)
+				toastMessage(error.message, 'error', 3500)
 			})
 	}
 
@@ -148,9 +141,7 @@ export default function Register() {
 										onChange={handleChange}
 									/>
 								</InputGroup>
-								{errors.first_name && touched.first_name && (
-									<div className='error_field'>{errors.first_name}</div>
-								)}
+								{errors.first_name && touched.first_name && <div className='error_field'>{errors.first_name}</div>}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative mb-3'>
@@ -169,9 +160,7 @@ export default function Register() {
 										onChange={handleChange}
 									/>
 								</InputGroup>
-								{errors.last_name && touched.last_name && (
-									<div className='error_field'>{errors.last_name}</div>
-								)}
+								{errors.last_name && touched.last_name && <div className='error_field'>{errors.last_name}</div>}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative mb-3'>
@@ -190,9 +179,7 @@ export default function Register() {
 										onChange={handleChange}
 									/>
 								</InputGroup>
-								{errors.email && touched.email && (
-									<div className='error_field'>{errors.email}</div>
-								)}
+								{errors.email && touched.email && <div className='error_field'>{errors.email}</div>}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative mb-3'>
@@ -211,9 +198,7 @@ export default function Register() {
 										onChange={handleChange}
 									/>
 								</InputGroup>
-								{errors.username && touched.username && (
-									<div className='error_field'>{errors.username}</div>
-								)}
+								{errors.username && touched.username && <div className='error_field'>{errors.username}</div>}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative'>
@@ -232,9 +217,7 @@ export default function Register() {
 										onChange={handleChange}
 									/>
 								</InputGroup>
-								{errors.password && touched.password && (
-									<div className='error_field'>{errors.password}</div>
-								)}
+								{errors.password && touched.password && <div className='error_field'>{errors.password}</div>}
 							</FormGroup>
 							<FormGroup>
 								<InputGroup className='input-group-alternative'>
@@ -253,9 +236,7 @@ export default function Register() {
 										onChange={handleChange}
 									/>
 								</InputGroup>
-								{errors.confirm_password && touched.confirm_password && (
-									<div className='error_field'>{errors.confirm_password}</div>
-								)}
+								{errors.confirm_password && touched.confirm_password && <div className='error_field'>{errors.confirm_password}</div>}
 							</FormGroup>
 							<div className='text-center'>
 								<Button className='mt-4' color='primary' type='submit'>
@@ -266,19 +247,6 @@ export default function Register() {
 					</CardBody>
 				</Card>
 			</Col>
-			<Modal
-				size='sm'
-				show={smShow}
-				onHide={() => setSmShow(false)}
-				aria-labelledby='example-modal-sizes-title-sm'>
-				<Modal.Header closeButton>
-					<Modal.Title id='example-modal-sizes-title-sm'>
-						{iconModal}
-						{'  '}
-						{messageModal}
-					</Modal.Title>
-				</Modal.Header>
-			</Modal>
 		</>
 	)
 }

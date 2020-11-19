@@ -1,14 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { logout } from '../../auth'
-import Modal from 'react-bootstrap/Modal'
 import { toast } from 'react-toastify'
 import { DropdownMenu, DropdownItem, UncontrolledDropdown, DropdownToggle, Navbar, Nav, Container, Media } from 'reactstrap'
 
 export default function AdminNavbar({ brandText, userInfo }) {
-	const [messageModal, setMessageModal] = useState('')
-	const [iconModal, setIconModal] = useState('')
-	const [smShow, setSmShow] = useState(false)
 	const history = useHistory()
 
 	function disconnect() {
@@ -17,7 +13,6 @@ export default function AdminNavbar({ brandText, userInfo }) {
 				<i class='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged out
 			</p>
 		)
-
 		toast.success(message, {
 			className: 'Toastify__progress-bar_success',
 			position: 'top-right',
@@ -30,12 +25,7 @@ export default function AdminNavbar({ brandText, userInfo }) {
 		})
 		logout()
 		localStorage.removeItem('username')
-		setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
-		setMessageModal('Successfully Logged out')
-		setSmShow(true)
-		setTimeout(() => {
-			history.push('/auth/login')
-		}, 750)
+		history.push('/auth/login')
 	}
 
 	return (
@@ -83,15 +73,6 @@ export default function AdminNavbar({ brandText, userInfo }) {
 					</Nav>
 				</Container>
 			</Navbar>
-			<Modal size='sm' show={smShow} onHide={() => setSmShow(false)} aria-labelledby='example-modal-sizes-title-sm'>
-				<Modal.Header closeButton>
-					<Modal.Title id='example-modal-sizes-title-sm'>
-						{iconModal}
-						{'  '}
-						{messageModal}
-					</Modal.Title>
-				</Modal.Header>
-			</Modal>
 		</>
 	)
 }

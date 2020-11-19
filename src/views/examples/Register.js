@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
-import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import toastMessage from '../currency/utils/toastMessage'
+import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
 
 export default function Register() {
 	const history = useHistory()

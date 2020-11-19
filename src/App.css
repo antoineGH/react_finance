@@ -3,9 +3,12 @@
 .Toastify__toast {
 	background: white;
 	color: #32325d;
-	padding: 1.25rem;
 	border-radius: 2%;
 	font-size: 0.85rem;
+	padding-top: 1rem;
+	padding-bottom: -0.5rem;
+	padding-left: 1.25rem;
+	padding-right: 1.25rem;
 }
 
 .Toastify__progress-bar {

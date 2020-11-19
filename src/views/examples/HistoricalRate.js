@@ -12,6 +12,7 @@ import fetchHistoryCurrency from '../currency/utils/fetchHistoryCurrency'
 import { currenciesName } from '../currency/utils/currenciesName'
 import { Button, Col, Form } from 'react-bootstrap'
 import { Table, Card, CardHeader, FormGroup, Row, Container } from 'reactstrap'
+import toastMessage from '../currency/utils/toastMessage'
 
 // INFO: LOAD FUNCTION
 class LoadHistoricalExchangeRate extends Component {
@@ -63,30 +64,17 @@ class LoadHistoricalExchangeRate extends Component {
 	}
 
 	render() {
-		const {
-			listCurrencyHistory,
-			listCurrencyHistoryLoaded,
-			listCurrencyHistoryError,
-			inputCurrency,
-			handleClick,
-			borderColor,
-		} = this.props
+		const { listCurrencyHistory, listCurrencyHistoryLoaded, listCurrencyHistoryError, inputCurrency, handleClick, borderColor } = this.props
 		const { currentItems } = this.state
 
 		if (listCurrencyHistoryError) {
 			return (
 				<>
 					<div className='text-center justify-content-center'>
-						<span style={{ fontSize: '0.80rem' }}>
-							&nbsp;Impossible to fetch Historical Exchange Rate
-						</span>
+						<span style={{ fontSize: '0.80rem' }}>&nbsp;Impossible to fetch Historical Exchange Rate</span>
 					</div>
 					<div className='text-center justify-content-center mt-2'>
-						<Button
-							style={{ backgroundColor: borderColor, borderColor: borderColor }}
-							size='sm'
-							className='mt-2 mb-4'
-							onClick={handleClick}>
+						<Button style={{ backgroundColor: borderColor, borderColor: borderColor }} size='sm' className='mt-2 mb-4' onClick={handleClick}>
 							{' '}
 							Try Again{' '}
 						</Button>
@@ -190,12 +178,10 @@ class LoadHistoricalExchangeRate extends Component {
 								return (
 									<tr key={count} className='card_news'>
 										<td style={{ fontWeight: 600 }}>
-											{listCurrency.baseCurrency} (
-											{listCurrency.baseCurrencyLabel})
+											{listCurrency.baseCurrency} ({listCurrency.baseCurrencyLabel})
 										</td>
 										<td style={{ fontWeight: 600 }}>
-											{listCurrency.destCurrency} (
-											{listCurrency.destCurrencyLabel})
+											{listCurrency.destCurrency} ({listCurrency.destCurrencyLabel})
 										</td>
 										<td>{rate}</td>
 										<td>
@@ -254,12 +240,7 @@ export default class HistoricalRate extends Component {
 					const date = new Date(Date.now())
 					const start_date = getDate(date)
 					const end_date = getDateBefore(date, 1, 'months')
-					this.getListExchange(
-						start_date,
-						end_date,
-						this.state.selectedCurrency,
-						listCurrency
-					)
+					this.getListExchange(start_date, end_date, this.state.selectedCurrency, listCurrency)
 					this.setState({
 						listCurrency: listCurrency,
 						listCurrencyError: false,
@@ -269,7 +250,7 @@ export default class HistoricalRate extends Component {
 					})
 				})
 				.catch((error) => {
-					console.log(error)
+					toastMessage('Impossible to load Historical Rate', 'error', 3500)
 					this.setState({ listCurrencyError: true, listCurrencyHistoryError: true })
 				})
 		})
@@ -477,15 +458,12 @@ export default class HistoricalRate extends Component {
 									<Row className='align-items-center'>
 										<div className='col'>
 											<h5 className='text-uppercase text-muted mb-0 card-title'>
-												Historical Exchange Rate{' '}
-												{selectedCurrency && 'From ' + selectedCurrency}
+												Historical Exchange Rate {selectedCurrency && 'From ' + selectedCurrency}
 											</h5>
 											{selectedCurrency && (
 												<p className='mt-1 mb-0 text-muted text-sm'>
 													<span className='text-nowrap'>
-														1M: {end_date}{' '}
-														<i className='fa-xs fas fa-chevron-right'></i>{' '}
-														{start_date}
+														1M: {end_date} <i className='fa-xs fas fa-chevron-right'></i> {start_date}
 													</span>
 												</p>
 											)}
@@ -493,9 +471,7 @@ export default class HistoricalRate extends Component {
 									</Row>
 
 									<FormGroup className='mt-4'>
-										<label
-											className='form-control-label'
-											htmlFor='input-username'>
+										<label className='form-control-label' htmlFor='input-username'>
 											Select Currency
 										</label>
 										<Select
@@ -503,11 +479,7 @@ export default class HistoricalRate extends Component {
 											options={listCurrency}
 											values={[
 												{
-													label:
-														selectedCurrency +
-														' (' +
-														currenciesName[selectedCurrency] +
-														')',
+													label: selectedCurrency + ' (' + currenciesName[selectedCurrency] + ')',
 													value: selectedCurrency,
 												},
 											]}
@@ -528,9 +500,7 @@ export default class HistoricalRate extends Component {
 							<Card className='shadow'>
 								<Col xs={10} sm={7} md={6} lg={6} xl={6} className='mx-lg-1 mb-2'>
 									{/* INFO: Form Filter */}
-									<Form
-										noValidate
-										className='justify-content-left text-left ml-1 mt-4'>
+									<Form noValidate className='justify-content-left text-left ml-1 mt-4'>
 										<div className='form-group has-search'>
 											<span className='form-control-feedback'>
 												<i className='fas fa-filter'></i>
@@ -542,9 +512,7 @@ export default class HistoricalRate extends Component {
 												id='search'
 												placeholder='Filter Currencies'
 												value={this.state.search}
-												onChange={(e) =>
-													this.setState({ search: e.currentTarget.value })
-												}
+												onChange={(e) => this.setState({ search: e.currentTarget.value })}
 											/>
 										</div>
 									</Form>

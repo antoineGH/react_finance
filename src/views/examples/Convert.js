@@ -11,19 +11,9 @@ import toCurrency from '../currency/utils/toCurrency'
 import fromCurrency from '../currency/utils/fromCurrency'
 import fetchHistoryCurrency from '../currency/utils/fetchHistoryCurrency'
 import sortDate from '../currency/utils/sortDate'
+import toastMessage from '../currency/utils/toastMessage'
 import { currenciesName } from '../currency/utils/currenciesName'
-import {
-	Card,
-	CardHeader,
-	FormGroup,
-	Row,
-	Input,
-	InputGroup,
-	InputGroupAddon,
-	InputGroupText,
-	Container,
-	Col,
-} from 'reactstrap'
+import { Card, CardHeader, FormGroup, Row, Input, InputGroup, InputGroupAddon, InputGroupText, Container, Col } from 'reactstrap'
 import Button from 'react-bootstrap/Button'
 
 // INFO: CONVERT
@@ -66,40 +56,28 @@ export default class Convert extends Component {
 							listCurrency: listCurrency,
 							listCurrencyLoaded: true,
 							listCurrencyError: false,
-							outputValue: toCurrency(
-								this.state.inputValue,
-								this.state.selectedDestCurrency,
-								listCurrency
-							),
+							outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, listCurrency),
 						})
 						const date = new Date(Date.now())
 						const start_date = getDateBefore(date, 1, 'months')
 						const end_date = getDate(date)
 
-						fetchHistoryCurrency(
-							start_date,
-							end_date,
-							selectedSourceCurrency,
-							this.state.selectedDestCurrency
-						)
+						fetchHistoryCurrency(start_date, end_date, selectedSourceCurrency, this.state.selectedDestCurrency)
 							.then((response) => {
 								const orderedDates = sortDate(response)
-								const historyPercentage = this.getHistoryPercentage(
-									orderedDates,
-									this.state.selectedDestCurrency
-								)
+								const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
 								this.setState({ historyPercentage: historyPercentage })
 							})
 							.catch((error) => {
-								console.log(error)
+								toastMessage('Impossible to fetch currency history', 'error', 3500)
 							})
 					})
 					.catch((error) => {
-						console.log(error)
+						toastMessage('Impossible to fetch currency', 'error', 3500)
 					})
 			})
 			.catch((error) => {
-				console.log(error)
+				toastMessage('Impossible to fetch user settings', 'error', 3500)
 				this.setState({ listCurrencyError: true })
 			})
 	}
@@ -150,11 +128,7 @@ export default class Convert extends Component {
 						listCurrency: currencies,
 						listCurrencyLoaded: true,
 						listCurrencyError: false,
-						outputValue: toCurrency(
-							this.state.inputValue,
-							this.state.selectedDestCurrency,
-							currencies
-						),
+						outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, currencies),
 					})
 				})
 				.catch((error) => {
@@ -170,25 +144,16 @@ export default class Convert extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
 
-		fetchHistoryCurrency(
-			end_date,
-			start_date,
-			selected[0].value,
-			this.state.selectedDestCurrency
-		)
+		fetchHistoryCurrency(end_date, start_date, selected[0].value, this.state.selectedDestCurrency)
 			.then((response) => {
 				const orderedDates = sortDate(response)
-				const historyPercentage = this.getHistoryPercentage(
-					orderedDates,
-					this.state.selectedDestCurrency
-				)
+				const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
 				this.setState({
 					historyPercentage: historyPercentage,
-					// outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, this.state.listCurrency),
 				})
 			})
 			.catch((error) => {
-				console.log(error)
+				toastMessage('Impossible to fetch currency history', 'error', 3500)
 			})
 	}
 
@@ -197,51 +162,31 @@ export default class Convert extends Component {
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
-		fetchHistoryCurrency(
-			end_date,
-			start_date,
-			this.state.selectedSourceCurrency,
-			selected[0].value
-		)
+		fetchHistoryCurrency(end_date, start_date, this.state.selectedSourceCurrency, selected[0].value)
 			.then((response) => {
 				const orderedDates = sortDate(response)
-				const historyPercentage = this.getHistoryPercentage(
-					orderedDates,
-					this.state.selectedDestCurrency
-				)
+				const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
 				this.setState({
 					historyPercentage: historyPercentage,
-					outputValue: toCurrency(
-						this.state.inputValue,
-						selected[0].value,
-						this.state.listCurrency
-					),
+					outputValue: toCurrency(this.state.inputValue, selected[0].value, this.state.listCurrency),
 				})
 			})
 			.catch((error) => {
-				console.log(error)
+				toastMessage('Impossible to change destination currency', 'error', 3500)
 			})
 	}
 
 	handleValueInputChange(value) {
 		this.setState({
 			inputValue: value,
-			outputValue: toCurrency(
-				value,
-				this.state.selectedDestCurrency,
-				this.state.listCurrency
-			),
+			outputValue: toCurrency(value, this.state.selectedDestCurrency, this.state.listCurrency),
 		})
 	}
 
 	handleValueOutputChange(value) {
 		this.setState({
 			outputValue: value,
-			inputValue: fromCurrency(
-				value,
-				this.state.selectedDestCurrency,
-				this.state.listCurrency
-			),
+			inputValue: fromCurrency(value, this.state.selectedDestCurrency, this.state.listCurrency),
 		})
 	}
 
@@ -286,7 +231,7 @@ export default class Convert extends Component {
 				})
 				.catch((error) => {
 					this.setState({ listCurrencyError: true })
-					console.log(error)
+					toastMessage('Impossible to set initial state', 'error', 3500)
 				})
 		}
 	}
@@ -304,52 +249,31 @@ export default class Convert extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
 		this.setState({ listCurrencyHistory: [] })
-		fetchHistoryCurrency(
-			end_date,
-			start_date,
-			this.state.selectedDestCurrency,
-			this.state.selectedSourceCurrency
-		)
+		fetchHistoryCurrency(end_date, start_date, this.state.selectedDestCurrency, this.state.selectedSourceCurrency)
 			.then((response) => {
 				const orderedDates = sortDate(response)
-				const historyPercentage = this.getHistoryPercentage(
-					orderedDates,
-					selectedSourceCurrency
-				)
+				const historyPercentage = this.getHistoryPercentage(orderedDates, selectedSourceCurrency)
 				this.setState({
 					historyPercentage: historyPercentage,
 				})
 			})
 			.catch((error) => {
-				console.log(error)
+				toastMessage('Impossible to fetch currency history', 'error', 3500)
 			})
 	}
 
 	render() {
 		const { color, borderColor } = this.props
-		const {
-			listCurrency,
-			listCurrencyError,
-			listCurrencyLoaded,
-			selectedSourceCurrency,
-			selectedDestCurrency,
-			historyPercentage,
-		} = this.state
+		const { listCurrency, listCurrencyError, listCurrencyLoaded, selectedSourceCurrency, selectedDestCurrency, historyPercentage } = this.state
 		const welcome = 'Convert Currency'
-		const message =
-			'Our currency converter calculator will convert your money based on current values from around the world.'
+		const message = 'Our currency converter calculator will convert your money based on current values from around the world.'
 		const date = new Date(Date.now())
 		const start_date = getDateBefore(date, 1, 'months')
 		const end_date = getDate(date)
 
 		return (
 			<>
-				<UserHeader
-					welcome={welcome}
-					message={message}
-					color={color}
-					borderColor={borderColor}
-				/>
+				<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 				{/* User settings */}
 				<Container className='mt--7' fluid>
 					<Row className='justify-content-center justify-content-lg-start'>
@@ -362,11 +286,7 @@ export default class Convert extends Component {
 												Convert Currency{' '}
 												{selectedSourceCurrency &&
 													selectedDestCurrency &&
-													'(' +
-														selectedSourceCurrency +
-														' - ' +
-														selectedDestCurrency +
-														')'}
+													'(' + selectedSourceCurrency + ' - ' + selectedDestCurrency + ')'}
 											</h5>
 										</div>
 										<Col className='text-right' xs='4'>
@@ -385,17 +305,12 @@ export default class Convert extends Component {
 									<Row className='align-items-center'>
 										<Col lg='3'>
 											<FormGroup>
-												<label
-													className='form-control-label'
-													style={{ fontSize: '0.70rem' }}
-													htmlFor='input-username'>
+												<label className='form-control-label' style={{ fontSize: '0.70rem' }} htmlFor='input-username'>
 													Input Value
 												</label>
 												<InputGroup>
 													<InputGroupAddon addonType='prepend'>
-														<InputGroupText
-															style={{ backgroundColor: borderColor }}
-															className='decoration-input'>
+														<InputGroupText style={{ backgroundColor: borderColor }} className='decoration-input'>
 															{this.state.selectedSourceCurrency}
 														</InputGroupText>
 													</InputGroupAddon>
@@ -404,21 +319,14 @@ export default class Convert extends Component {
 														style={{ paddingLeft: '0.85rem' }}
 														type='text'
 														value={this.state.inputValue}
-														onChange={(e) =>
-															this.handleValueInputChange(
-																e.currentTarget.value
-															)
-														}
+														onChange={(e) => this.handleValueInputChange(e.currentTarget.value)}
 													/>
 												</InputGroup>
 											</FormGroup>
 										</Col>
 										<Col lg='8' xl='4'>
 											<FormGroup>
-												<label
-													className='form-control-label'
-													style={{ fontSize: '0.70rem' }}
-													htmlFor='input-username'>
+												<label className='form-control-label' style={{ fontSize: '0.70rem' }} htmlFor='input-username'>
 													Select Source Currency
 												</label>
 												<Select
@@ -426,19 +334,11 @@ export default class Convert extends Component {
 													options={listCurrency}
 													values={[
 														{
-															label:
-																selectedSourceCurrency +
-																' (' +
-																currenciesName[
-																	selectedSourceCurrency
-																] +
-																')',
+															label: selectedSourceCurrency + ' (' + currenciesName[selectedSourceCurrency] + ')',
 															value: selectedSourceCurrency,
 														},
 													]}
-													onChange={(selected) =>
-														this.handleChangeSource(selected)
-													}
+													onChange={(selected) => this.handleChangeSource(selected)}
 													keepSelectedInList={true}
 													dropdownHandle={true}
 													closeOnSelect={true}
@@ -454,17 +354,12 @@ export default class Convert extends Component {
 									<Row className='align-items-center'>
 										<Col lg='3'>
 											<FormGroup>
-												<label
-													className='form-control-label'
-													style={{ fontSize: '0.70rem' }}
-													htmlFor='input-username'>
+												<label className='form-control-label' style={{ fontSize: '0.70rem' }} htmlFor='input-username'>
 													Output Value
 												</label>
 												<InputGroup>
 													<InputGroupAddon addonType='prepend'>
-														<InputGroupText
-															style={{ backgroundColor: borderColor }}
-															className='decoration-input'>
+														<InputGroupText style={{ backgroundColor: borderColor }} className='decoration-input'>
 															{this.state.selectedDestCurrency}
 														</InputGroupText>
 													</InputGroupAddon>
@@ -473,21 +368,14 @@ export default class Convert extends Component {
 														style={{ paddingLeft: '0.85rem' }}
 														type='text'
 														value={this.state.outputValue}
-														onChange={(e) =>
-															this.handleValueOutputChange(
-																e.currentTarget.value
-															)
-														}
+														onChange={(e) => this.handleValueOutputChange(e.currentTarget.value)}
 													/>
 												</InputGroup>
 											</FormGroup>
 										</Col>
 										<Col lg='8' xl='4'>
 											<FormGroup>
-												<label
-													className='form-control-label'
-													style={{ fontSize: '0.70rem' }}
-													htmlFor='input-username'>
+												<label className='form-control-label' style={{ fontSize: '0.70rem' }} htmlFor='input-username'>
 													Select Destination Currency
 												</label>
 												<Select
@@ -495,19 +383,11 @@ export default class Convert extends Component {
 													options={listCurrency}
 													values={[
 														{
-															label:
-																selectedDestCurrency +
-																' (' +
-																currenciesName[
-																	selectedDestCurrency
-																] +
-																')',
+															label: selectedDestCurrency + ' (' + currenciesName[selectedDestCurrency] + ')',
 															value: selectedDestCurrency,
 														},
 													]}
-													onChange={(selected) =>
-														this.handleChangeDestination(selected)
-													}
+													onChange={(selected) => this.handleChangeDestination(selected)}
 													keepSelectedInList={true}
 													dropdownHandle={true}
 													closeOnSelect={true}

@@ -13,6 +13,7 @@ import getMonth from '../currency/utils/getMonth'
 import { currenciesName } from '../currency/utils/currenciesName'
 import { Button } from 'react-bootstrap'
 import { Col, Card, CardHeader, FormGroup, Row, Container, CardBody } from 'reactstrap'
+import toastMessage from '../currency/utils/toastMessage'
 
 // INFO: HISTORICAL GRAPH
 export default class HistoricalGraph extends Component {
@@ -72,14 +73,10 @@ export default class HistoricalGraph extends Component {
 						listCurrencyError: false,
 					})
 
-					this.getHistoryGraphInfo(
-						end_date,
-						this.state.selectedSourceCurrency,
-						this.state.selectedDestCurrency
-					)
+					this.getHistoryGraphInfo(end_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 				})
 				.catch((error) => {
-					console.log(error)
+					toastMessage('Impossible to load Historical Graph', 'error', 3500)
 					this.setState({ listCurrencyError: true })
 				})
 		})
@@ -133,20 +130,7 @@ export default class HistoricalGraph extends Component {
 	getHistoryGraphInfo(endDate, baseCurrency, destCurrency) {
 		const graphHistoryDates = []
 		const graphHistoryValue = []
-		const graphHistoryLegend = [
-			'Jan',
-			'Feb',
-			'Mar',
-			'Apr',
-			'May',
-			'June',
-			'July',
-			'Aug',
-			'Sept',
-			'Oct',
-			'Nov',
-			'Dec',
-		]
+		const graphHistoryLegend = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 
 		// Array with date interval of 1 month from endDate to graphHistoryLegend.length (12 months)
 		for (let i = 0; i <= graphHistoryLegend.length; i++) {
@@ -232,13 +216,7 @@ export default class HistoricalGraph extends Component {
 	}
 
 	render() {
-		const {
-			color,
-			backgroundColor,
-			borderColor,
-			pointBackgroundColor,
-			pointHoverBackgroundColor,
-		} = this.props
+		const { color, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
 		const {
 			graphLoaded,
 			graphError,
@@ -254,16 +232,10 @@ export default class HistoricalGraph extends Component {
 		} = this.state
 
 		const welcome = 'Historical Exchange Rate Graph'
-		const message =
-			'Historical Foreign Exchange Rates Graph based on current values from around the world.'
+		const message = 'Historical Foreign Exchange Rates Graph based on current values from around the world.'
 		return (
 			<div>
-				<UserHeader
-					welcome={welcome}
-					message={message}
-					color={color}
-					borderColor={borderColor}
-				/>
+				<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 				<Container className='mt--7' fluid>
 					<Row className='justify-content-center justify-content-lg-start'>
 						{/* User settings */}
@@ -277,19 +249,13 @@ export default class HistoricalGraph extends Component {
 													Historical Rate Graph{' '}
 													{selectedSourceCurrency &&
 														selectedDestCurrency &&
-														'(' +
-															selectedSourceCurrency +
-															' - ' +
-															selectedDestCurrency +
-															')'}
+														'(' + selectedSourceCurrency + ' - ' + selectedDestCurrency + ')'}
 												</h5>
 											</div>
 										</Row>
 
 										<FormGroup className='mt-4'>
-											<label
-												className='form-control-label'
-												htmlFor='input-username'>
+											<label className='form-control-label' htmlFor='input-username'>
 												Select Source Currency
 											</label>
 											<Select
@@ -297,17 +263,11 @@ export default class HistoricalGraph extends Component {
 												options={listCurrency}
 												values={[
 													{
-														label:
-															selectedSourceCurrency +
-															' (' +
-															currenciesName[selectedSourceCurrency] +
-															')',
+														label: selectedSourceCurrency + ' (' + currenciesName[selectedSourceCurrency] + ')',
 														value: selectedSourceCurrency,
 													},
 												]}
-												onChange={(selected) =>
-													this.handleChangeSource(selected)
-												}
+												onChange={(selected) => this.handleChangeSource(selected)}
 												keepSelectedInList={true}
 												dropdownHandle={true}
 												closeOnSelect={true}
@@ -319,9 +279,7 @@ export default class HistoricalGraph extends Component {
 										</FormGroup>
 
 										<FormGroup className='mt-4'>
-											<label
-												className='form-control-label'
-												htmlFor='input-username'>
+											<label className='form-control-label' htmlFor='input-username'>
 												Select Destination Currency
 											</label>
 											<Select
@@ -329,17 +287,11 @@ export default class HistoricalGraph extends Component {
 												options={listCurrency}
 												values={[
 													{
-														label:
-															selectedDestCurrency +
-															' (' +
-															currenciesName[selectedDestCurrency] +
-															')',
+														label: selectedDestCurrency + ' (' + currenciesName[selectedDestCurrency] + ')',
 														value: selectedDestCurrency,
 													},
 												]}
-												onChange={(selected) =>
-													this.handleChangeDestination(selected)
-												}
+												onChange={(selected) => this.handleChangeDestination(selected)}
 												keepSelectedInList={true}
 												dropdownHandle={true}
 												closeOnSelect={true}
@@ -353,27 +305,17 @@ export default class HistoricalGraph extends Component {
 								</Card>
 							</Col>
 							<Col className='mb-5 mb-xl-0 mt-4 mt-xl-0' xl='9'>
-								{selectedSourceCurrency &&
-								selectedDestCurrency &&
-								graphLoaded &&
-								!graphError ? (
+								{selectedSourceCurrency && selectedDestCurrency && graphLoaded && !graphError ? (
 									<Card className='shadow'>
 										<CardHeader className='bg-transparent'>
 											<Row className='align-items-center'>
 												<div className='col'>
 													<h5 className='text-uppercase text-muted mb-0 card-title'>
-														Historical Exchange Rate ({graphTitle.base}{' '}
-														- {graphTitle.dest})
+														Historical Exchange Rate ({graphTitle.base} - {graphTitle.dest})
 													</h5>
 													<p className='mt-1 mb-0 text-muted text-sm'>
 														<span className='text-nowrap'>
-															1Y:{' '}
-															{getDateBefore(
-																graphTitle.end_at,
-																1,
-																'years'
-															)}{' '}
-															<i className='fa-xs fas fa-chevron-right'></i>{' '}
+															1Y: {getDateBefore(graphTitle.end_at, 1, 'years')} <i className='fa-xs fas fa-chevron-right'></i>{' '}
 															{graphTitle.end_at}
 														</span>
 													</p>
@@ -408,9 +350,7 @@ export default class HistoricalGraph extends Component {
 													backgroundColor={backgroundColor}
 													borderColor={borderColor}
 													pointBackgroundColor={pointBackgroundColor}
-													pointHoverBackgroundColor={
-														pointHoverBackgroundColor
-													}
+													pointHoverBackgroundColor={pointHoverBackgroundColor}
 													reload={this.state.reload}
 												/>
 											</div>
@@ -421,9 +361,7 @@ export default class HistoricalGraph extends Component {
 										<CardHeader className='bg-transparent'>
 											<Row className='align-items-center'>
 												<div className='col'>
-													<h5 className='text-uppercase text-muted mb-0 card-title'>
-														Historical Exchange Rate
-													</h5>
+													<h5 className='text-uppercase text-muted mb-0 card-title'>Historical Exchange Rate</h5>
 													<p className='mt-1 mb-0 text-muted text-sm'>
 														<span className='text-nowrap'>Period</span>
 													</p>
@@ -450,11 +388,7 @@ export default class HistoricalGraph extends Component {
 										<CardBody>
 											{/* Chart */}
 											<div className='text-center justify-content-center mt-3'>
-												<BarLoader
-													css='display: flex; justify-content: center;'
-													color={'#2E3030'}
-													size={15}
-												/>
+												<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
 											</div>
 											<div className='chart'></div>
 										</CardBody>

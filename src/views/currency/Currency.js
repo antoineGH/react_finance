@@ -14,6 +14,10 @@ import getDate from './utils/getDate'
 import getDateBefore from './utils/getDateBefore'
 import fetchHistoryCurrency from './utils/fetchHistoryCurrency'
 import getMonth from './utils/getMonth'
+import { news } from './utils/newsFeedJson'
+import toastMessage from './utils/toastMessage'
+// eslint-disable-next-line
+import fetchNewsFeed from './utils/fetchNewsFeed'
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -24,9 +28,6 @@ import { authFetch } from '../../auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-// eslint-disable-next-line
-import fetchNewsFeed from './utils/fetchNewsFeed'
-import { news } from './utils/newsFeedJson'
 library.add(fas)
 
 export default class Currency extends Component {
@@ -69,20 +70,7 @@ export default class Currency extends Component {
 			isGraphHistoryLoaded: false,
 			hasGraphHistoryError: false,
 
-			graphHistoryLegend: [
-				'Jan',
-				'Feb',
-				'Mar',
-				'Apr',
-				'May',
-				'June',
-				'July',
-				'Aug',
-				'Sept',
-				'Oct',
-				'Nov',
-				'Dec',
-			],
+			graphHistoryLegend: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
 			graphHistoryValue: [],
 
 			graphLegend: {},
@@ -126,12 +114,7 @@ export default class Currency extends Component {
 						const start_date = getDate(date)
 						const end_date = getDateBefore(date, 1, 'months')
 
-						this.getListExchange(
-							start_date,
-							end_date,
-							this.state.inputCurrency,
-							currencies
-						)
+						this.getListExchange(start_date, end_date, this.state.inputCurrency, currencies)
 						this.setState({
 							listCurrency: currencies,
 							isLoaded: true,
@@ -139,11 +122,7 @@ export default class Currency extends Component {
 						})
 						if (this.state.inputValue && this.state.outputCurrency) {
 							this.setState({
-								outputValue: toCurrency(
-									this.state.inputValue,
-									this.state.outputCurrency,
-									currencies
-								),
+								outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
 							})
 						}
 						this.getGraphInfo(end_date, start_date, this.state.inputCurrency, 'EUR')
@@ -155,7 +134,7 @@ export default class Currency extends Component {
 					})
 			})
 			.catch((error) => {
-				console.log(error)
+				toastMessage('Impossible to fetch information', 'error', 3500)
 			})
 	}
 
@@ -244,11 +223,7 @@ export default class Currency extends Component {
 					})
 					if (this.state.inputValue && this.state.outputCurrency) {
 						this.setState({
-							outputValue: toCurrency(
-								this.state.inputValue,
-								this.state.outputCurrency,
-								currencies
-							),
+							outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
 						})
 					}
 				})
@@ -430,11 +405,7 @@ export default class Currency extends Component {
 
 			if (this.state.inputValue && this.state.inputCurrency) {
 				this.setState({
-					outputValue: toCurrency(
-						this.state.inputValue,
-						selectedCurrency,
-						this.state.listCurrency
-					),
+					outputValue: toCurrency(this.state.inputValue, selectedCurrency, this.state.listCurrency),
 				})
 			}
 		}
@@ -507,13 +478,7 @@ export default class Currency extends Component {
 	}
 
 	render() {
-		const {
-			color,
-			backgroundColor,
-			borderColor,
-			pointBackgroundColor,
-			pointHoverBackgroundColor,
-		} = this.props
+		const { color, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
 
 		if (this.state.hasError) {
 			return (

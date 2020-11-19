@@ -14,6 +14,9 @@ import HistoricalGraph from '../views/examples/HistoricalGraph'
 import HistoricalRate from '../views/examples/HistoricalRate'
 import FinanceFeed from '../views/examples/FinanceFeed'
 import LoadUserSettings from '../views/examples/LoadUserSettings'
+import Button from 'react-bootstrap/Button'
+import { toast } from 'react-toastify'
+import toastMessage from '../views/currency/utils/toastMessage'
 
 class Admin extends React.Component {
 	constructor(props) {
@@ -40,7 +43,7 @@ class Admin extends React.Component {
 				})
 			})
 			.catch((error) => {
-				console.log(error)
+				toastMessage('Impossible to get Theme Color', 'error', 3500)
 			})
 	}
 
@@ -110,10 +113,30 @@ class Admin extends React.Component {
 
 		this.updateColor(color)
 			.then((response) => {
-				console.log(response.message)
+				const message = (
+					<p>
+						<Button
+							className='mb-1 squared_button'
+							style={{
+								background: themes[color].header,
+								border: 0,
+							}}></Button>
+						&nbsp;&nbsp;&nbsp;Theme Changed to <span style={{ fontWeight: '600' }}>{color}</span>&nbsp;&nbsp;
+					</p>
+				)
+				toast.success(message, {
+					className: 'Toastify__progress-bar_success',
+					position: 'top-right',
+					autoClose: 3500,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				})
 			})
 			.catch((error) => {
-				console.log(error)
+				toastMessage("Can't update Theme", 'error', 3500)
 			})
 	}
 

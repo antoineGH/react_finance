@@ -12,18 +12,9 @@ import fetchHistoryCurrency from '../currency/utils/fetchHistoryCurrency'
 import sortDate from '../currency/utils/sortDate'
 import genValues from '../currency/utils/genValues'
 import { currenciesName } from '../currency/utils/currenciesName'
+import toastMessage from '../currency/utils/toastMessage'
 import { Col } from 'react-bootstrap'
-import {
-	Card,
-	CardHeader,
-	FormGroup,
-	Row,
-	Container,
-	NavItem,
-	NavLink,
-	Nav,
-	CardBody,
-} from 'reactstrap'
+import { Card, CardHeader, FormGroup, Row, Container, NavItem, NavLink, Nav, CardBody } from 'reactstrap'
 
 // INFO: RATE GRAPH
 export default class RateGraph extends Component {
@@ -74,15 +65,10 @@ export default class RateGraph extends Component {
 					const date = new Date(Date.now())
 					const start_date = getDate(date)
 					const end_date = getDateBefore(date, 1, 'months')
-					this.getGraphInfo(
-						end_date,
-						start_date,
-						this.state.selectedSourceCurrency,
-						this.state.selectedDestCurrency
-					)
+					this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 				})
 				.catch((error) => {
-					console.log(error)
+					toastMessage('Impossible to load Exchange Rate Graph', 'error', 3500)
 					this.setState({ listCurrencyError: true })
 				})
 		})
@@ -151,12 +137,7 @@ export default class RateGraph extends Component {
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'month')
-		this.getGraphInfo(
-			end_date,
-			start_date,
-			this.state.selectedSourceCurrency,
-			selected[0].value
-		)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, selected[0].value)
 	}
 
 	getGraphInfo(startDate, endDate, baseCurrency, destCurrency) {
@@ -214,12 +195,7 @@ export default class RateGraph extends Component {
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'years')
-		this.getGraphInfo(
-			end_date,
-			start_date,
-			this.state.selectedSourceCurrency,
-			this.state.selectedDestCurrency
-		)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.setState({ active: '1Y' })
 	}
 
@@ -238,12 +214,7 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		let end_date = getDateBefore(date, 6, 'months')
 		end_date = getDateAfter(end_date, 2, 'days')
-		this.getGraphInfo(
-			end_date,
-			start_date,
-			this.state.selectedSourceCurrency,
-			this.state.selectedDestCurrency
-		)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.setState({ active: '6M' })
 	}
 
@@ -252,12 +223,7 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		let end_date = getDateBefore(date, 3, 'months')
 		end_date = getDateAfter(end_date, 2, 'days')
-		this.getGraphInfo(
-			end_date,
-			start_date,
-			this.state.selectedSourceCurrency,
-			this.state.selectedDestCurrency
-		)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.setState({ active: '3M' })
 	}
 
@@ -265,12 +231,7 @@ export default class RateGraph extends Component {
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
-		this.getGraphInfo(
-			end_date,
-			start_date,
-			this.state.selectedSourceCurrency,
-			this.state.selectedDestCurrency
-		)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.setState({ active: '1M' })
 	}
 
@@ -288,23 +249,12 @@ export default class RateGraph extends Component {
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 9, 'days')
-		this.getGraphInfo(
-			end_date,
-			start_date,
-			this.state.selectedSourceCurrency,
-			this.state.selectedDestCurrency
-		)
+		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.setState({ active: '1W' })
 	}
 
 	render() {
-		const {
-			color,
-			backgroundColor,
-			borderColor,
-			pointBackgroundColor,
-			pointHoverBackgroundColor,
-		} = this.props
+		const { color, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
 		const {
 			graphLoaded,
 			graphError,
@@ -320,17 +270,11 @@ export default class RateGraph extends Component {
 			active,
 		} = this.state
 		const welcome = 'Exchange Rate Graph'
-		const message =
-			'Foreign Exchange Rates Graph based on current values from around the world..'
+		const message = 'Foreign Exchange Rates Graph based on current values from around the world..'
 
 		return (
 			<div>
-				<UserHeader
-					welcome={welcome}
-					message={message}
-					color={color}
-					borderColor={borderColor}
-				/>
+				<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 				<Container className='mt--7' fluid>
 					{/* User settings */}
 					<Row>
@@ -343,19 +287,13 @@ export default class RateGraph extends Component {
 												Exchange Rate Graph{' '}
 												{selectedSourceCurrency &&
 													selectedDestCurrency &&
-													'(' +
-														selectedSourceCurrency +
-														' - ' +
-														selectedDestCurrency +
-														')'}
+													'(' + selectedSourceCurrency + ' - ' + selectedDestCurrency + ')'}
 											</h5>
 										</div>
 									</Row>
 
 									<FormGroup className='mt-4'>
-										<label
-											className='form-control-label'
-											htmlFor='input-username'>
+										<label className='form-control-label' htmlFor='input-username'>
 											Select Source Currency
 										</label>
 										<Select
@@ -363,17 +301,11 @@ export default class RateGraph extends Component {
 											options={listCurrency}
 											values={[
 												{
-													label:
-														selectedSourceCurrency +
-														' (' +
-														currenciesName[selectedSourceCurrency] +
-														')',
+													label: selectedSourceCurrency + ' (' + currenciesName[selectedSourceCurrency] + ')',
 													value: selectedSourceCurrency,
 												},
 											]}
-											onChange={(selected) =>
-												this.handleChangeSource(selected)
-											}
+											onChange={(selected) => this.handleChangeSource(selected)}
 											keepSelectedInList={true}
 											dropdownHandle={true}
 											closeOnSelect={true}
@@ -385,9 +317,7 @@ export default class RateGraph extends Component {
 									</FormGroup>
 
 									<FormGroup className='mt-4'>
-										<label
-											className='form-control-label'
-											htmlFor='input-username'>
+										<label className='form-control-label' htmlFor='input-username'>
 											Select Destination Currency
 										</label>
 										<Select
@@ -395,17 +325,11 @@ export default class RateGraph extends Component {
 											options={listCurrency}
 											values={[
 												{
-													label:
-														selectedDestCurrency +
-														' (' +
-														currenciesName[selectedDestCurrency] +
-														')',
+													label: selectedDestCurrency + ' (' + currenciesName[selectedDestCurrency] + ')',
 													value: selectedDestCurrency,
 												},
 											]}
-											onChange={(selected) =>
-												this.handleChangeDestination(selected)
-											}
+											onChange={(selected) => this.handleChangeDestination(selected)}
 											keepSelectedInList={true}
 											dropdownHandle={true}
 											closeOnSelect={true}
@@ -419,23 +343,17 @@ export default class RateGraph extends Component {
 							</Card>
 						</Col>
 						<Col className='mb-5 mb-xl-0 mt-4 mt-xl-0' lg='12' xl='9'>
-							{selectedSourceCurrency &&
-							selectedDestCurrency &&
-							graphLoaded &&
-							!graphError ? (
+							{selectedSourceCurrency && selectedDestCurrency && graphLoaded && !graphError ? (
 								<Card className='bg-gradient-default shadow'>
 									<CardHeader className='bg-transparent'>
 										<Row className='align-items-center'>
 											<div className='col-12 col-lg-6'>
 												<h5 className='text-uppercase text-muted mb-0 card-title'>
-													Exchange Rate ({graphTitle.base} -{' '}
-													{graphTitle.dest})
+													Exchange Rate ({graphTitle.base} - {graphTitle.dest})
 												</h5>
 												<p className='mt-1 mb-0 text-muted text-sm'>
 													<span className='text-nowrap'>
-														{active}: {graphTitle.start_at}{' '}
-														<i className='fa-xs fas fa-chevron-right'></i>{' '}
-														{graphTitle.end_at}
+														{active}: {graphTitle.start_at} <i className='fa-xs fas fa-chevron-right'></i> {graphTitle.end_at}
 													</span>
 												</p>
 											</div>
@@ -453,9 +371,7 @@ export default class RateGraph extends Component {
 															}
 															onClick={this.getWeek}
 															href='#'>
-															<span className='d-none d-md-block'>
-																1W
-															</span>
+															<span className='d-none d-md-block'>1W</span>
 															<span className='d-md-none'>1W</span>
 														</NavLink>
 													</NavItem>
@@ -471,9 +387,7 @@ export default class RateGraph extends Component {
 															}
 															onClick={this.getMonth}
 															href='#'>
-															<span className='d-none d-md-block'>
-																1M
-															</span>
+															<span className='d-none d-md-block'>1M</span>
 															<span className='d-md-none'>1M</span>
 														</NavLink>
 													</NavItem>
@@ -489,9 +403,7 @@ export default class RateGraph extends Component {
 															}
 															onClick={this.getThreeMonths}
 															href='#'>
-															<span className='d-none d-md-block'>
-																3M
-															</span>
+															<span className='d-none d-md-block'>3M</span>
 															<span className='d-md-none'>3M</span>
 														</NavLink>
 													</NavItem>
@@ -507,9 +419,7 @@ export default class RateGraph extends Component {
 															}
 															onClick={this.getSixMonths}
 															href='#'>
-															<span className='d-none d-md-block'>
-																6M
-															</span>
+															<span className='d-none d-md-block'>6M</span>
 															<span className='d-md-none'>6M</span>
 														</NavLink>
 													</NavItem>
@@ -525,9 +435,7 @@ export default class RateGraph extends Component {
 															}
 															onClick={this.getYear}
 															href='#'>
-															<span className='d-none d-md-block'>
-																1Y
-															</span>
+															<span className='d-none d-md-block'>1Y</span>
 															<span className='d-md-none'>1Y</span>
 														</NavLink>
 													</NavItem>
@@ -545,9 +453,7 @@ export default class RateGraph extends Component {
 												backgroundColor={backgroundColor}
 												borderColor={borderColor}
 												pointBackgroundColor={pointBackgroundColor}
-												pointHoverBackgroundColor={
-													pointHoverBackgroundColor
-												}
+												pointHoverBackgroundColor={pointHoverBackgroundColor}
 											/>
 										</div>
 									</CardBody>
@@ -557,9 +463,7 @@ export default class RateGraph extends Component {
 									<CardHeader className='bg-transparent'>
 										<Row className='align-items-center'>
 											<div className='col'>
-												<h5 className='text-uppercase text-muted mb-0 card-title'>
-													Exchange Rate
-												</h5>
+												<h5 className='text-uppercase text-muted mb-0 card-title'>Exchange Rate</h5>
 												<p className='mt-1 mb-0 text-muted text-sm'>
 													<span className='text-nowrap'>Period</span>
 												</p>
@@ -569,11 +473,7 @@ export default class RateGraph extends Component {
 									</CardHeader>
 									<CardBody>
 										<div className='text-center justify-content-center mt-3'>
-											<BarLoader
-												css='display: flex; justify-content: center;'
-												color={'#2E3030'}
-												size={15}
-											/>
+											<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
 										</div>
 										<div className='chart'></div>
 									</CardBody>

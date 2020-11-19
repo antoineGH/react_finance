@@ -352,6 +352,7 @@ export default class Currency extends Component {
 				outputValue: '',
 				optionsInput: { value: '', label: '' },
 			})
+			toastMessage('Please select input currency', 'warning', 3500)
 			return
 		}
 		this.setState({
@@ -385,6 +386,7 @@ export default class Currency extends Component {
 				outputValue: '',
 				optionsOutput: { value: '', label: '' },
 			})
+			toastMessage('Please select output currency', 'warning', 3500)
 		} else {
 			this.setState({
 				outputCurrency: selectedCurrency,
@@ -476,6 +478,8 @@ export default class Currency extends Component {
 		historyPercentage = Math.round(historyPercentage * 10000) / 10000
 		return historyPercentage
 	}
+
+	// Toastify!
 
 	render() {
 		const { color, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props

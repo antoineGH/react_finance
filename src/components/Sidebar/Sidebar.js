@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink as NavLinkRRD, Link } from 'react-router-dom'
 import { logout } from '../../auth'
 import { themes } from '../../views/examples/Themes'
+import { toast } from 'react-toastify'
 import { PropTypes } from 'prop-types'
 import {
 	Collapse,
@@ -52,6 +53,22 @@ class Sidebar extends React.Component {
 	handleClick = (action) => {
 		this.closeCollapse()
 		if (action) {
+			const message = (
+				<p>
+					<i class='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged out
+				</p>
+			)
+
+			toast.success(message, {
+				className: 'Toastify__progress-bar_success',
+				position: 'top-right',
+				autoClose: 3500,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			})
 			logout()
 			localStorage.removeItem('username')
 		}

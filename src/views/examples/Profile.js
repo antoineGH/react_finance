@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
 import Select from 'react-dropdown-select'
 import { currenciesName } from '../currency/utils/currenciesName'
-import { toast } from 'react-toastify'
+import toastMessage from '../currency/utils/toastMessage'
 import { Button, Card, CardHeader, CardBody, FormGroup, FormText, Form, Input, Container, Row, Col } from 'reactstrap'
 
 export default function Profile(props) {
@@ -178,10 +178,10 @@ export default function Profile(props) {
 		if (selectedCurrency !== selectedDBCurrency) {
 			updateCurrencyChange(selectedCurrency)
 				.then((response) => {
-					console.log(response)
+					toastMessage('Default currency Updated', 'success', 2000)
 				})
 				.catch((error) => {
-					console.log(error)
+					toastMessage("Can't update currency", 'error', 2000)
 				})
 		}
 
@@ -189,42 +189,35 @@ export default function Profile(props) {
 		if (profile_picture !== undefined) {
 			uploadUnsignedCloudinary(values)
 				.then((response) => {
+					toastMessage('Picture Updated', 'success', 2000)
 					let image_url = response.url
 					image_url = toThumbmail(image_url)
 					requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country, image_url)
 						.then((response) => {
-							setSmShow(true)
-							setMessageModal(response.message)
-							setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
+							toastMessage(response.message, 'success', 2000)
 							setTimeout(() => {
 								window.location.reload()
-							}, 1500)
+							}, 2000)
 						})
 						.catch((error) => {
-							setSmShow(true)
-							setMessageModal(error.message)
-							setIconModal(<i style={{ color: 'red' }} className='fas fa-exclamation-circle'></i>)
+							toastMessage(error.message, 'error', 5000)
 						})
 				})
 				.catch((error) => {
-					console.log(error)
+					toastMessage(error.message, 'error', 5000)
+				})
+		} else {
+			requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country)
+				.then((response) => {
+					toastMessage(response.message, 'success', 2000)
+					setTimeout(() => {
+						window.location.reload()
+					}, 2000)
+				})
+				.catch((error) => {
+					toastMessage(error.message, 'error', 5000)
 				})
 		}
-
-		requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country)
-			.then((response) => {
-				setSmShow(true)
-				setMessageModal(response.message)
-				setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)
-				setTimeout(() => {
-					window.location.reload()
-				}, 1500)
-			})
-			.catch((error) => {
-				setSmShow(true)
-				setMessageModal(error.message)
-				setIconModal(<i style={{ color: 'red' }} className='fas fa-exclamation-circle'></i>)
-			})
 	}
 
 	async function requestUpdate(password, first_name, last_name, position, education, birthday, aboutMe, address, city, postcode, country, url = '') {
@@ -278,9 +271,10 @@ export default function Profile(props) {
 			.then((response) => {
 				logout()
 				localStorage.removeItem('username')
+				toastMessage('Account Deleted', 'success', 3000)
 				setTimeout(() => {
 					history.push('/auth/login')
-				}, 750)
+				}, 2000)
 			})
 			.catch((error) => {
 				setSmShow(true)

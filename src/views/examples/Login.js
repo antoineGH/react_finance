@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
 import Modal from 'react-bootstrap/Modal'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export default function Login() {
 	const [messageModal, setMessageModal] = useState('')
@@ -73,6 +74,23 @@ export default function Login() {
 					login(response)
 					localStorage.setItem('username', response.username)
 					localStorage.setItem('smShow', true)
+					const message = (
+						<p>
+							<i class='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged in as <span style={{ fontWeight: 600 }}>{response.username}</span>
+						</p>
+					)
+
+					toast.success(message, {
+						className: 'Toastify__progress-bar_success',
+						position: 'top-right',
+						delay: 600,
+						autoClose: 5000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					})
 					history.push('/')
 				}
 			})

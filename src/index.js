@@ -12,7 +12,7 @@ import AuthLayout from 'layouts/Auth.js'
 
 import { useAuth } from './auth'
 
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import './App.css'

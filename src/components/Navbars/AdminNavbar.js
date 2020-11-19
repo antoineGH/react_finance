@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { logout } from '../../auth'
 import Modal from 'react-bootstrap/Modal'
+import { toast } from 'react-toastify'
 import { DropdownMenu, DropdownItem, UncontrolledDropdown, DropdownToggle, Navbar, Nav, Container, Media } from 'reactstrap'
 
 export default function AdminNavbar({ brandText, userInfo }) {
@@ -11,6 +12,22 @@ export default function AdminNavbar({ brandText, userInfo }) {
 	const history = useHistory()
 
 	function disconnect() {
+		const message = (
+			<p>
+				<i class='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged out
+			</p>
+		)
+
+		toast.success(message, {
+			className: 'Toastify__progress-bar_success',
+			position: 'top-right',
+			autoClose: 3500,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+		})
 		logout()
 		localStorage.removeItem('username')
 		setIconModal(<i style={{ color: 'green' }} className='fas fa-check-circle'></i>)

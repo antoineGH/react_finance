@@ -117,7 +117,7 @@ export default function Profile(props) {
 	})
 
 	async function requestDelete() {
-		const response = await authFetch('http://localhost:5000/api/user', {
+		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -237,7 +237,7 @@ export default function Profile(props) {
 			profile_picture: url,
 		}
 		user.key = username
-		const response = await authFetch('http://localhost:5000/api/user', {
+		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -292,7 +292,7 @@ export default function Profile(props) {
 	async function updateCurrencyChange(selectedCurrency) {
 		const settings = { default_currency: selectedCurrency }
 
-		const response = await authFetch('http://localhost:5000/api/user/setting', {
+		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user/setting', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',

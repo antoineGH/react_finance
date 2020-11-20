@@ -54,7 +54,7 @@ class Admin extends React.Component {
 	}
 
 	async getColor() {
-		const response = await authFetch('http://localhost:5000/api/user/setting', {
+		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user/setting', {
 			method: 'GET',
 			headers: {
 				'Content-type': 'application/json',
@@ -80,7 +80,7 @@ class Admin extends React.Component {
 			color,
 		}
 
-		const response = await authFetch('http://localhost:5000/api/user/setting', {
+		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user/setting', {
 			method: 'PUT',
 			headers: {
 				'Content-type': 'application/json',

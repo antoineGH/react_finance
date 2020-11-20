@@ -33,7 +33,7 @@ export default function LoadUserSettings(props) {
 	const [selectedDBCurrency, setSelectedDBCurrency] = useState('')
 
 	async function fetchUserInfo() {
-		const response = await authFetch('http://localhost:5000/api/user', {
+		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export default function LoadUserSettings(props) {
 	}
 
 	async function fetchUserSettings() {
-		const response = await authFetch('http://localhost:5000/api/user/setting', {
+		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user/setting', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

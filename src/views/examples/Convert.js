@@ -85,7 +85,7 @@ export default class Convert extends Component {
 	// --- CLASS METHODS ---
 
 	async fetchUserSettings() {
-		const response = await authFetch('http://localhost:5000/api/user/setting', {
+		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user/setting', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

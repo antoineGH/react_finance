@@ -38,7 +38,7 @@ export default function Login() {
 
 	async function requestLogin(username, password) {
 		const user = { username, password }
-		const response = await fetch('http://localhost:5000/api/login', {
+		const response = await fetch('https://flask-finance-api.herokuapp.com/api/login', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

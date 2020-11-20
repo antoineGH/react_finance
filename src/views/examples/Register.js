@@ -59,7 +59,7 @@ export default function Register() {
 		const user = { username, email, password, first_name, last_name }
 		user.key = username
 
-		const response = await fetch('http://localhost:5000/api/users', {
+		const response = await fetch('https://flask-finance-api.herokuapp.com/api/users', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

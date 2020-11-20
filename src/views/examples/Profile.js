@@ -30,6 +30,7 @@ export default function Profile(props) {
 		listCurrencyLoaded,
 		listCurrencyError,
 		profilePicture,
+		borderColor,
 	} = props
 
 	const [messageModal, setMessageModal] = useState('')
@@ -381,12 +382,16 @@ export default function Profile(props) {
 										<h3 className='mb-0'>My account</h3>
 									</Col>
 									<Col className='text-right' xs='6'>
-										<Button onClick={handleSubmit} color='primary' type='submit' size='sm'>
+										<Button
+											onClick={handleSubmit}
+											style={{ backgroundColor: borderColor, borderColor: borderColor, color: 'white' }}
+											type='submit'
+											size='sm'>
 											Update Profile
 										</Button>
 										<Button
 											className='mt-xl-0 mr-xl-0 mt-lg-0 mt-1 text-center justify-content-center'
-											color='danger'
+											color='secondary'
 											href='#pablo'
 											onClick={deleteConfirmation}
 											size='sm'>

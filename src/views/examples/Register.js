@@ -110,7 +110,7 @@ export default function Register() {
 				history.push('/auth/login')
 			})
 			.catch((error) => {
-				toastMessage(error.message, 'error', 3500)
+				toastMessage(error, 'error', 3500)
 			})
 	}
 

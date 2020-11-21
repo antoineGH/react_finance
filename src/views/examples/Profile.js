@@ -201,11 +201,11 @@ export default function Profile(props) {
 							}, 2000)
 						})
 						.catch((error) => {
-							toastMessage(error.message, 'error', 5000)
+							toastMessage(error, 'error', 5000)
 						})
 				})
 				.catch((error) => {
-					toastMessage(error.message, 'error', 5000)
+					toastMessage(error, 'error', 5000)
 				})
 		} else {
 			requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country)
@@ -216,7 +216,7 @@ export default function Profile(props) {
 					}, 2000)
 				})
 				.catch((error) => {
-					toastMessage(error.message, 'error', 5000)
+					toastMessage(error, 'error', 5000)
 				})
 		}
 	}

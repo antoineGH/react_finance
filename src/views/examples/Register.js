@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import toastMessage from '../currency/utils/toastMessage'
 import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
+import { Helmet } from 'react-helmet'
 
 export default function Register() {
 	const history = useHistory()
@@ -116,6 +117,9 @@ export default function Register() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Financial - Register</title>
+			</Helmet>
 			<Col lg='6' md='8'>
 				<Card className='bg-secondary shadow border-0'>
 					<CardBody className='px-lg-5 py-lg-5'>

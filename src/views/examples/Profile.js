@@ -8,6 +8,7 @@ import Select from 'react-dropdown-select'
 import { currenciesName } from '../currency/utils/currenciesName'
 import toastMessage from '../currency/utils/toastMessage'
 import { Button, Card, CardHeader, CardBody, FormGroup, FormText, Form, Input, Container, Row, Col } from 'reactstrap'
+import { Helmet } from 'react-helmet'
 
 export default function Profile(props) {
 	const {
@@ -334,6 +335,9 @@ export default function Profile(props) {
 
 	return (
 		<>
+			<Helmet>
+				<title>Financial - Profile</title>
+			</Helmet>
 			{/* Page content */}
 			<Container className='mt--7' fluid>
 				<Row>

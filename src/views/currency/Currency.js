@@ -16,6 +16,7 @@ import fetchHistoryCurrency from './utils/fetchHistoryCurrency'
 import getMonth from './utils/getMonth'
 import { news } from './utils/newsFeedJson'
 import toastMessage from './utils/toastMessage'
+import { Helmet } from 'react-helmet'
 // eslint-disable-next-line
 import fetchNewsFeed from './utils/fetchNewsFeed'
 
@@ -487,6 +488,9 @@ export default class Currency extends Component {
 		if (this.state.hasError) {
 			return (
 				<Container>
+					<Helmet>
+						<title>Financial - Error</title>
+					</Helmet>
 					<div className='error_data'>
 						<FontAwesomeIcon className='mt-1 mr-1' size='lg' icon={['fas', 'times']} />
 						Impossible to fetch data, try again later.
@@ -499,6 +503,9 @@ export default class Currency extends Component {
 			return (
 				<>
 					<Row>
+						<Helmet>
+							<title>Financial - Loading</title>
+						</Helmet>
 						<Col xs={12} sm={12} md={12} lg={12}>
 							<div className='mt-5'>
 								<BarLoader
@@ -514,6 +521,9 @@ export default class Currency extends Component {
 		} else {
 			return (
 				<>
+					<Helmet>
+						<title>Financial - Dashboard</title>
+					</Helmet>
 					<Index
 						state={this.state}
 						onValueChangeInput={this.handleValueInputChange}

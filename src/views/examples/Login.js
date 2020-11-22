@@ -6,6 +6,7 @@ import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputG
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import toastMessage from '../currency/utils/toastMessage'
+import { Helmet } from 'react-helmet'
 
 export default function Login() {
 	const history = useHistory()
@@ -96,6 +97,9 @@ export default function Login() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Financial - Login</title>
+			</Helmet>
 			<Col lg='5' md='7'>
 				<Card className='bg-secondary shadow border-0'>
 					<CardBody className='px-lg-5 py-lg-5'>

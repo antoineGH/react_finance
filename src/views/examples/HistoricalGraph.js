@@ -14,6 +14,7 @@ import { currenciesName } from '../currency/utils/currenciesName'
 import { Button } from 'react-bootstrap'
 import { Col, Card, CardHeader, FormGroup, Row, Container, CardBody } from 'reactstrap'
 import toastMessage from '../currency/utils/toastMessage'
+import { Helmet } from 'react-helmet'
 
 // INFO: HISTORICAL GRAPH
 export default class HistoricalGraph extends Component {
@@ -235,6 +236,9 @@ export default class HistoricalGraph extends Component {
 		const message = 'Historical Foreign Exchange Rates Graph based on current values from around the world.'
 		return (
 			<div>
+				<Helmet>
+					<title>Financial - Historical Graph</title>
+				</Helmet>
 				<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 				<Container className='mt--7' fluid>
 					<Row className='justify-content-center justify-content-lg-start'>

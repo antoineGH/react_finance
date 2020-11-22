@@ -13,6 +13,7 @@ import { currenciesName } from '../currency/utils/currenciesName'
 import { Button, Col, Form } from 'react-bootstrap'
 import { Table, Card, CardHeader, FormGroup, Row, Container } from 'reactstrap'
 import toastMessage from '../currency/utils/toastMessage'
+import { Helmet } from 'react-helmet'
 
 // INFO: LOAD FUNCTION
 class LoadHistoricalExchangeRate extends Component {
@@ -448,6 +449,9 @@ export default class HistoricalRate extends Component {
 
 		return (
 			<div>
+				<Helmet>
+					<title>Financial - Historical Rate</title>
+				</Helmet>
 				<UserHeader welcome={welcome} message={message} color={color} />
 				<Container className='mt--7' fluid>
 					{/* User settings */}

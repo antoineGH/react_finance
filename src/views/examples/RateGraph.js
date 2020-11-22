@@ -15,6 +15,7 @@ import { currenciesName } from '../currency/utils/currenciesName'
 import toastMessage from '../currency/utils/toastMessage'
 import { Col } from 'react-bootstrap'
 import { Card, CardHeader, FormGroup, Row, Container, NavItem, NavLink, Nav, CardBody } from 'reactstrap'
+import { Helmet } from 'react-helmet'
 
 // INFO: RATE GRAPH
 export default class RateGraph extends Component {
@@ -274,6 +275,9 @@ export default class RateGraph extends Component {
 
 		return (
 			<div>
+				<Helmet>
+					<title>Financial - Exchange Rate Graph</title>
+				</Helmet>
 				<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 				<Container className='mt--7' fluid>
 					{/* User settings */}

@@ -15,6 +15,7 @@ import toastMessage from '../currency/utils/toastMessage'
 import { currenciesName } from '../currency/utils/currenciesName'
 import { Card, CardHeader, FormGroup, Row, Input, InputGroup, InputGroupAddon, InputGroupText, Container, Col } from 'reactstrap'
 import Button from 'react-bootstrap/Button'
+import { Helmet } from 'react-helmet'
 
 // INFO: CONVERT
 export default class Convert extends Component {
@@ -273,6 +274,9 @@ export default class Convert extends Component {
 
 		return (
 			<>
+				<Helmet>
+					<title>Financial - Convert</title>
+				</Helmet>
 				<UserHeader welcome={welcome} message={message} color={color} borderColor={borderColor} />
 				{/* User settings */}
 				<Container className='mt--7' fluid>

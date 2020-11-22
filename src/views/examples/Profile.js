@@ -625,6 +625,7 @@ export default function Profile(props) {
 														Profile picture
 													</label>
 													<Input
+														style={{ overflow: 'hidden' }}
 														id='profilePicture'
 														bsSize='sm'
 														name='profilePicture'

@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import toastMessage from '../currency/utils/toastMessage'
-import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
+import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col, Row } from 'reactstrap'
 import { Helmet } from 'react-helmet'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 export default function Register() {
 	const history = useHistory()
+
+	const [isDisabled, setIsDisabled] = useState(false)
 
 	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
 	const regexNoSpecial = /^[a-zA-Z. ]*$/
@@ -85,6 +88,7 @@ export default function Register() {
 	}
 
 	function handleRegister(values) {
+		setIsDisabled(true)
 		const username = values.username.toLowerCase()
 		const email = values.email.toLowerCase()
 		const password = values.password
@@ -112,6 +116,7 @@ export default function Register() {
 			})
 			.catch((error) => {
 				toastMessage(error, 'error', 3500)
+				setIsDisabled(false)
 			})
 	}
 
@@ -242,11 +247,20 @@ export default function Register() {
 								{errors.confirm_password && touched.confirm_password && <div className='error_field'>{errors.confirm_password}</div>}
 							</FormGroup>
 							<div className='text-center'>
-								<Button className='mt-4' color='primary' type='submit'>
-									Sign Up
+								<Button className='mt-1 mb-3' color='primary' type='submit' disabled={isDisabled}>
+									Sign Up {isDisabled && <ClipLoader css='margin-bottom: -4%; margin-left: 5%' color={'white'} size={15} />}
 								</Button>
 							</div>
 						</Form>
+						<Row className='mt-3'>
+							<Col className='text-right' xs='6'>
+								<a className='text-light' href='#login' onClick={() => history.push('/auth/login')}>
+									<small style={{ color: 'rgba(83,103,125,0.75)' }}>
+										Already have an account ? <span style={{ color: 'rgba(36, 91, 185, 1)' }}>Sign in</span>
+									</small>
+								</a>
+							</Col>
+						</Row>
 					</CardBody>
 				</Card>
 			</Col>

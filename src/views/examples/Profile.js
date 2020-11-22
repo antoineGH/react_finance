@@ -9,6 +9,7 @@ import { currenciesName } from '../currency/utils/currenciesName'
 import toastMessage from '../currency/utils/toastMessage'
 import { Button, Card, CardHeader, CardBody, FormGroup, FormText, Form, Input, Container, Row, Col } from 'reactstrap'
 import { Helmet } from 'react-helmet'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 export default function Profile(props) {
 	const {
@@ -40,6 +41,7 @@ export default function Profile(props) {
 	const [show, setShow] = useState(false)
 	const [selectedCurrency, setSelectedCurrency] = useState(selectedCurrencyProp)
 	const [myProfilePicture, setMyProfilePicture] = useState(profilePicture)
+	const [isDisabled, setIsDisabled] = useState(false)
 
 	const handleShow = () => setShow(true)
 	const handleClose = () => setShow(false)
@@ -177,6 +179,8 @@ export default function Profile(props) {
 		const country = values.country
 		const profile_picture = values.profile_picture
 
+		setIsDisabled(true)
+
 		// Check if defaultCurrency has changed
 		if (selectedCurrency !== selectedDBCurrency) {
 			updateCurrencyChange(selectedCurrency)
@@ -185,6 +189,7 @@ export default function Profile(props) {
 				})
 				.catch((error) => {
 					toastMessage("Can't update currency", 'error', 2000)
+					setIsDisabled(false)
 				})
 		}
 
@@ -201,21 +206,26 @@ export default function Profile(props) {
 							toastMessage(response.message, 'success', 2000)
 							updateProfilePicture(image_url)
 							setMyProfilePicture(image_url)
+							setIsDisabled(false)
 						})
 						.catch((error) => {
 							toastMessage(error, 'error', 5000)
+							setIsDisabled(false)
 						})
 				})
 				.catch((error) => {
 					toastMessage(error, 'error', 5000)
+					setIsDisabled(false)
 				})
 		} else {
 			requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country)
 				.then((response) => {
 					toastMessage(response.message, 'success', 2000)
+					setIsDisabled(false)
 				})
 				.catch((error) => {
 					toastMessage(error, 'error', 5000)
+					setIsDisabled(false)
 				})
 		}
 	}
@@ -399,13 +409,13 @@ export default function Profile(props) {
 											onClick={handleSubmit}
 											style={{ backgroundColor: borderColor, borderColor: borderColor, color: 'white' }}
 											type='submit'
-											size='sm'>
-											Update Profile
+											size='sm'
+											disabled={isDisabled}>
+											Update Profile {isDisabled && <ClipLoader css='margin-bottom: -3%; margin-left: 5%' color={'white'} size={15} />}
 										</Button>
 										<Button
 											className='mt-xl-0 mr-xl-0 mt-lg-0 mt-1 text-center justify-content-center'
 											color='secondary'
-											href='#pablo'
 											onClick={deleteConfirmation}
 											size='sm'>
 											Delete Account

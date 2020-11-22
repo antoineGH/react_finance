@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { login } from '../../auth'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap'
+import { Button, Card, CardBody, FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col, Row } from 'reactstrap'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import toastMessage from '../currency/utils/toastMessage'
 import { Helmet } from 'react-helmet'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 export default function Login() {
 	const history = useHistory()
+
+	const [isDisabled, setIsDisabled] = useState(false)
 
 	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
 	const regexNoSpecial = /^[a-zA-Z. ]*$/
@@ -64,6 +67,7 @@ export default function Login() {
 	}
 
 	function handleLogin(values) {
+		setIsDisabled(true)
 		const username = values.username.toLowerCase()
 		const password = values.password
 		requestLogin(username, password)
@@ -92,6 +96,7 @@ export default function Login() {
 			})
 			.catch((error) => {
 				toastMessage(error.message, 'error', 3500)
+				setIsDisabled(false)
 			})
 	}
 
@@ -146,11 +151,23 @@ export default function Login() {
 								{errors.password && touched.password && <div className='error_field'>{errors.password}</div>}
 							</FormGroup>
 							<div className='text-center'>
-								<Button className='my-4' color='primary' type='submit'>
-									Sign in
+								<Button className='mt-1 mb-4' color='primary' type='submit' disabled={isDisabled}>
+									Sign in {isDisabled && <ClipLoader css='margin-bottom: -4%; margin-left: 5%' color={'white'} size={15} />}
 								</Button>
 							</div>
 						</Form>
+						<Row className='mt-3'>
+							<Col className='text-right' xs='6'>
+								<a className='text-light' href='#register' onClick={() => history.push('/auth/register')}>
+									<small style={{ color: 'rgba(36, 91, 185, 1)' }}>Create Account</small>
+								</a>
+							</Col>
+							<Col xs='6'>
+								<a className='text-light' href='#forgot' onClick={() => history.push('/auth/forgot')}>
+									<small style={{ color: 'rgba(36, 91, 185, 1)' }}>Forgot password?</small>
+								</a>
+							</Col>
+						</Row>
 					</CardBody>
 				</Card>
 			</Col>

@@ -172,6 +172,7 @@ class Admin extends React.Component {
 				<Sidebar
 					{...this.props}
 					changeColor={this.changeColor}
+					profile_picture={this.state.profile_picture}
 					routes={routes}
 					logo={{
 						innerLink: '/admin/index',

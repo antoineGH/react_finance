@@ -109,7 +109,7 @@ class Sidebar extends React.Component {
 	}
 
 	render() {
-		const { routes, logo, userInfo } = this.props
+		const { routes, logo, userInfo, profile_picture } = this.props
 		let navbarBrandProps
 		if (logo && logo.innerLink) {
 			navbarBrandProps = {
@@ -146,7 +146,11 @@ class Sidebar extends React.Component {
 											<img
 												alt='...'
 												src={
-													userInfo.profile_picture === '' || userInfo.profile_picture === 'default.jpg'
+													profile_picture
+														? profile_picture
+														: localStorage.getItem('profile_picture')
+														? localStorage.getItem('profile_picture')
+														: userInfo.profile_picture === '' || userInfo.profile_picture === 'default.jpg'
 														? require('assets/img/theme/default.jpg')
 														: userInfo.profile_picture
 												}

@@ -26,41 +26,6 @@ export default function App() {
 		decoded = jwt_decode(token).user_claims
 	}
 
-	// function handleToast() {
-	// 	toast.success('Message', {
-	// 		className: 'Toastify__progress-bar_success',
-	// 		position: 'top-right',
-	// 		autoClose: 5000,
-	// 		hideProgressBar: false,
-	// 		closeOnClick: true,
-	// 		pauseOnHover: true,
-	// 		draggable: true,
-	// 		progress: undefined,
-	// 	})
-
-	// 	toast.error('Message', {
-	// 		className: 'Toastify__progress-bar_success',
-	// 		position: 'top-right',
-	// 		autoClose: 5000,
-	// 		hideProgressBar: false,
-	// 		closeOnClick: true,
-	// 		pauseOnHover: true,
-	// 		draggable: true,
-	// 		progress: undefined,
-	// 	})
-
-	// 	toast.warning('Message', {
-	// 		className: 'Toastify__progress-bar_success',
-	// 		position: 'top-right',
-	// 		autoClose: 5000,
-	// 		hideProgressBar: false,
-	// 		closeOnClick: true,
-	// 		pauseOnHover: true,
-	// 		draggable: true,
-	// 		progress: undefined,
-	// 	})
-	// }
-
 	return (
 		<div className='App'>
 			<ToastContainer

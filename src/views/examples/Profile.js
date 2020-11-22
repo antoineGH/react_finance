@@ -193,6 +193,7 @@ export default function Profile(props) {
 					toastMessage('Picture Updated', 'success', 2000)
 					let image_url = response.url
 					image_url = toThumbmail(image_url)
+					image_url = toHttps(image_url)
 					requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country, image_url)
 						.then((response) => {
 							toastMessage(response.message, 'success', 2000)
@@ -237,6 +238,8 @@ export default function Profile(props) {
 			profile_picture: url,
 		}
 		user.key = username
+		let responseJson = undefined
+		let errorJson = undefined
 		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user', {
 			method: 'PUT',
 			headers: {
@@ -244,8 +247,6 @@ export default function Profile(props) {
 			},
 			body: JSON.stringify(user),
 		})
-		let responseJson = undefined
-		let errorJson = undefined
 		if (response.ok) {
 			responseJson = await response.json()
 		} else {
@@ -318,8 +319,15 @@ export default function Profile(props) {
 	}
 
 	function toThumbmail(url) {
+		console.log(url)
 		var arr = url.split('/')
 		arr[6] = 'c_fill,h_180,w_180'
+		return arr.join('/')
+	}
+
+	function toHttps(url) {
+		var arr = url.split('/')
+		arr[0] = 'https:'
 		return arr.join('/')
 	}
 

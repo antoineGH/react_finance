@@ -26,6 +26,22 @@ export default function App() {
 		decoded = jwt_decode(token).user_claims
 	}
 
+	function allStorage() {
+		var archive = [],
+			keys = Object.keys(localStorage),
+			i = 0,
+			key
+
+		for (; (key = keys[i]); i++) {
+			archive.push(key + '=' + localStorage.getItem(key))
+		}
+
+		return archive
+	}
+
+	// localStorage.clear()
+	console.log(allStorage())
+
 	return (
 		<div className='App'>
 			<ToastContainer

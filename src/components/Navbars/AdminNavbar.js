@@ -4,13 +4,13 @@ import { logout } from '../../auth'
 import { toast } from 'react-toastify'
 import { DropdownMenu, DropdownItem, UncontrolledDropdown, DropdownToggle, Navbar, Nav, Container, Media } from 'reactstrap'
 
-export default function AdminNavbar({ brandText, userInfo }) {
+export default function AdminNavbar({ brandText, userInfo, profile_picture }) {
 	const history = useHistory()
 
 	function disconnect() {
 		const message = (
 			<p>
-				<i class='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged out
+				<i className='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged out
 			</p>
 		)
 		toast.success(message, {
@@ -25,6 +25,7 @@ export default function AdminNavbar({ brandText, userInfo }) {
 		})
 		logout()
 		localStorage.removeItem('username')
+		localStorage.removeItem('profile_picture')
 		history.push('/auth/login')
 	}
 
@@ -43,7 +44,11 @@ export default function AdminNavbar({ brandText, userInfo }) {
 										<img
 											alt='...'
 											src={
-												userInfo.profile_picture === '' || userInfo.profile_picture === 'default.jpg'
+												profile_picture
+													? profile_picture
+													: localStorage.getItem('profile_picture')
+													? localStorage.getItem('profile_picture')
+													: userInfo.profile_picture === '' || userInfo.profile_picture === 'default.jpg'
 													? require('assets/img/theme/default.jpg')
 													: userInfo.profile_picture
 											}

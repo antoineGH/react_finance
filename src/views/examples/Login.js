@@ -69,11 +69,9 @@ export default function Login() {
 			.then((response) => {
 				if (response.access_token) {
 					login(response)
-					localStorage.setItem('username', response.username)
-					localStorage.setItem('smShow', true)
 					const message = (
 						<p>
-							<i class='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged in as <span style={{ fontWeight: 600 }}>{response.username}</span>
+							<i className='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged in as <span style={{ fontWeight: 600 }}>{response.username}</span>
 						</p>
 					)
 

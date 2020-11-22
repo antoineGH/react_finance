@@ -38,6 +38,7 @@ export default function Profile(props) {
 	const [smShow, setSmShow] = useState(false)
 	const [show, setShow] = useState(false)
 	const [selectedCurrency, setSelectedCurrency] = useState(selectedCurrencyProp)
+	const [myProfilePicture, setMyProfilePicture] = useState(profilePicture)
 
 	const handleShow = () => setShow(true)
 	const handleClose = () => setShow(false)
@@ -197,9 +198,8 @@ export default function Profile(props) {
 					requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country, image_url)
 						.then((response) => {
 							toastMessage(response.message, 'success', 2000)
-							setTimeout(() => {
-								window.location.reload()
-							}, 2000)
+							updateProfilePicture(image_url)
+							setMyProfilePicture(image_url)
 						})
 						.catch((error) => {
 							toastMessage(error, 'error', 5000)
@@ -212,9 +212,6 @@ export default function Profile(props) {
 			requestUpdate(password, first_name, last_name, position, education, birthday, about_me, address, city, postcode, country)
 				.then((response) => {
 					toastMessage(response.message, 'success', 2000)
-					setTimeout(() => {
-						window.location.reload()
-					}, 2000)
 				})
 				.catch((error) => {
 					toastMessage(error, 'error', 5000)
@@ -331,6 +328,10 @@ export default function Profile(props) {
 		return arr.join('/')
 	}
 
+	function updateProfilePicture(url) {
+		props.updateProfilePicture(url)
+	}
+
 	return (
 		<>
 			{/* Page content */}
@@ -345,9 +346,9 @@ export default function Profile(props) {
 											alt='...'
 											className='rounded-circle'
 											src={
-												profilePicture === '' || profilePicture === 'default.jpg'
+												myProfilePicture === '' || myProfilePicture === 'default.jpg'
 													? require('assets/img/theme/default.jpg')
-													: profilePicture
+													: myProfilePicture
 											}
 										/>
 									</div>
@@ -359,24 +360,24 @@ export default function Profile(props) {
 							<CardBody className='pt-0 pt-md-4 mt-5'>
 								<div className='text-center mt-5'>
 									<h3>
-										{first_name !== '' ? first_name : 'First Name'} {last_name !== '' ? last_name : 'Last Name'}
+										{first_name !== '' ? values.first_name : 'First Name'} {last_name !== '' ? values.last_name : 'Last Name'}
 										<span className='font-weight-light'>, {birthday !== '' ? age : 'Age'}</span>
 									</h3>
 									<div className='h5 font-weight-300'>
 										<i className='ni location_pin mr-2' />
-										{address !== '' ? address + ', ' : 'Address'} {city && city + ', '} {postcode && postcode + ', '}{' '}
-										{country && country + '.'}
+										{address !== '' ? values.address + ', ' : 'Address'} {city && values.city + ', '} {postcode && values.postcode + ', '}{' '}
+										{country && values.country + '.'}
 									</div>
 									<div className='h5 mt-4'>
 										<i className='ni business_briefcase-24 mr-2' />
-										{position !== '' ? position : 'Position'}
+										{position !== '' ? values.position : 'Position'}
 									</div>
 									<div>
 										<i className='ni education_hat mr-2' />
-										{education !== '' ? education : 'Education'}
+										{education !== '' ? values.education : 'Education'}
 									</div>
 									<hr className='my-4' />
-									{aboutMe}
+									{values.about_me}
 								</div>
 							</CardBody>
 						</Card>

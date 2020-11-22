@@ -163,7 +163,6 @@ export default function LoadUserSettings(props) {
 
 	const welcome = `Hello ${first_name}.`
 	const message = 'This is your profile page. You can see and edit your information.'
-	const current_user = localStorage.username
 
 	return (
 		<>
@@ -204,13 +203,13 @@ export default function LoadUserSettings(props) {
 					profilePicture={profilePicture}
 					color={props.color}
 					borderColor={props.borderColor}
-					current_user={current_user}
 					selectedCurrencyProp={selectedCurrency}
 					selectedDBCurrency={selectedDBCurrency}
 					listCurrency={listCurrency}
 					listCurrencyLoaded={listCurrencyLoaded}
 					listCurrencyError={listCurrencyError}
 					setSelectedCurrency={setSelectedCurrency}
+					updateProfilePicture={props.updateProfilePicture}
 				/>
 			)}
 		</>

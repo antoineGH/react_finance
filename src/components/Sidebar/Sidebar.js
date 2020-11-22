@@ -71,12 +71,14 @@ class Sidebar extends React.Component {
 			})
 			logout()
 			localStorage.removeItem('username')
+			localStorage.removeItem('profile_picture')
 		}
 	}
 
 	disconnect() {
 		logout()
 		localStorage.removeItem('username')
+		localStorage.removeItem('profile_picture')
 	}
 
 	// creates the links that appear in the left menu / Sidebar

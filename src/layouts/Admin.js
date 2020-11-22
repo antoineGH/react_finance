@@ -22,12 +22,14 @@ class Admin extends React.Component {
 	constructor(props) {
 		super(props)
 		this.changeColor = this.changeColor.bind(this)
+		this.updateProfilePicture = this.updateProfilePicture.bind(this)
 		this.state = {
 			color: localStorage.color,
 			backgroundColor: localStorage.backgroundColor,
 			borderColor: localStorage.borderColor,
 			pointBackgroundColor: localStorage.pointBackgroundColor,
 			pointHoverBackgroundColor: localStorage.pointHoverBackgroundColor,
+			profile_picture: '',
 		}
 	}
 
@@ -159,6 +161,11 @@ class Admin extends React.Component {
 		return 'Brand'
 	}
 
+	updateProfilePicture(url) {
+		this.setState({ profile_picture: url })
+		localStorage.setItem('profile_picture', url)
+	}
+
 	render() {
 		return (
 			<>
@@ -173,7 +180,7 @@ class Admin extends React.Component {
 					}}
 				/>{' '}
 				<div className='main-content' ref='mainContent'>
-					<AdminNavbar {...this.props} brandText={this.getBrandText(this.props.location.pathname)} />
+					<AdminNavbar {...this.props} brandText={this.getBrandText(this.props.location.pathname)} profile_picture={this.state.profile_picture} />
 					<Switch>
 						<Route
 							path='/admin/index'
@@ -190,7 +197,14 @@ class Admin extends React.Component {
 						/>
 						<Route
 							path='/admin/user-profile'
-							render={(props) => <LoadUserSettings borderColor={this.state.borderColor} color={this.state.color} {...props} />}
+							render={(props) => (
+								<LoadUserSettings
+									borderColor={this.state.borderColor}
+									color={this.state.color}
+									updateProfilePicture={this.updateProfilePicture}
+									{...props}
+								/>
+							)}
 						/>
 						<Route path='/admin/convert' render={(props) => <Convert borderColor={this.state.borderColor} color={this.state.color} {...props} />} />
 						<Route

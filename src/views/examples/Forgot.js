@@ -7,7 +7,7 @@ import toastMessage from '../currency/utils/toastMessage'
 import { Helmet } from 'react-helmet'
 import ClipLoader from 'react-spinners/ClipLoader'
 
-export default function Login() {
+export default function Forgot() {
 	const [seconds, setSeconds] = useState(0)
 	const [isActive, setIsActive] = useState(false)
 
@@ -21,6 +21,7 @@ export default function Login() {
 		},
 		validationSchema,
 		onSubmit(values) {
+			// BUG: SET TO 60
 			setSeconds(5)
 			setIsActive(true)
 			handleReset(values)
@@ -97,7 +98,7 @@ export default function Login() {
 	return (
 		<>
 			<Helmet>
-				<title>Financial - Reset Password</title>
+				<title>Financial - Forgot Password</title>
 			</Helmet>
 			<Col lg='5' md='7'>
 				<Card className='bg-secondary shadow border-0'>

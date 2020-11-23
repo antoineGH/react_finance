@@ -1,5 +1,9 @@
 /* ---- Main Theme Design  ---- */
 
+.forgot_password {
+	color: black;
+}
+
 .Toastify__toast {
 	background: white;
 	color: #32325d;

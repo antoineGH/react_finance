@@ -110,7 +110,6 @@ export default function Reset() {
 					<CardBody className='px-lg-5 py-lg-5'>
 						<div className='text-center text-muted mb-4'>
 							<small>Set you new password</small>
-							{token && <p>{token}</p>}
 						</div>
 						<Form role='form' onSubmit={handleSubmit}>
 							<FormGroup>

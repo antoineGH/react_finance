@@ -21,8 +21,7 @@ export default function Forgot() {
 		},
 		validationSchema,
 		onSubmit(values) {
-			// BUG: SET TO 60
-			setSeconds(5)
+			setSeconds(60)
 			setIsActive(true)
 			handleReset(values)
 		},
@@ -44,7 +43,7 @@ export default function Forgot() {
 	}, [isActive, seconds])
 
 	async function requestReset(email) {
-		const response = await fetch('http://localhost:5000/api/reset', {
+		const response = await fetch('https://flask-finance-api.herokuapp.com/api/reset', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

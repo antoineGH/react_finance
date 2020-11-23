@@ -2,6 +2,8 @@ import Profile from 'views/examples/Profile.js'
 import Currency from './views/currency/Currency'
 import Register from 'views/examples/Register.js'
 import Login from 'views/examples/Login.js'
+import Forgot from 'views/examples/Forgot.js'
+import Reset from 'views/examples/Reset.js'
 import Convert from 'views/examples/Convert.js'
 import RateGraph from 'views/examples/RateGraph.js'
 import HistoricalGraph from 'views/examples/HistoricalGraph.js'
@@ -30,6 +32,22 @@ var routes = [
 		name: 'Login',
 		icon: 'fas fa-unlock-alt text-info',
 		component: Login,
+		layout: '/auth',
+		action: undefined,
+	},
+	{
+		path: '/forgot',
+		name: 'Forgot',
+		icon: 'fas fa-unlock-alt text-info',
+		component: Forgot,
+		layout: '/auth',
+		action: undefined,
+	},
+	{
+		path: '/reset/:token',
+		name: 'Reset',
+		icon: 'fas fa-unlock-alt text-info',
+		component: Reset,
 		layout: '/auth',
 		action: undefined,
 	},

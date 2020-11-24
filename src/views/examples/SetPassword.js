@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { useParams } from 'react-router-dom'
 
-export default function Reset() {
+export default function SetPassword() {
 	const [isDisabled, setIsDisabled] = useState(false)
 	const history = useHistory()
 	let { token } = useParams()
@@ -103,13 +103,13 @@ export default function Reset() {
 	return (
 		<>
 			<Helmet>
-				<title>Financial - Reset Password</title>
+				<title>Financial - Set Password</title>
 			</Helmet>
 			<Col lg='5' md='7'>
 				<Card className='bg-secondary shadow border-0'>
 					<CardBody className='px-lg-5 py-lg-5'>
 						<div className='text-center text-muted mb-4'>
-							<small>Set you new password</small>
+							<small>Choose your password</small>
 						</div>
 						<Form role='form' onSubmit={handleSubmit}>
 							<FormGroup>
@@ -152,7 +152,7 @@ export default function Reset() {
 							</FormGroup>
 							<div className='text-center'>
 								<Button className='mt-1 mb-4' color='primary' type='submit' disabled={isDisabled}>
-									Reset Password
+									Set Password
 									{isDisabled && <ClipLoader css='margin-bottom: -2%; margin-left: 5%' color={'white'} size={15} />}
 								</Button>
 							</div>

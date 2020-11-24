@@ -4,6 +4,7 @@ import Register from 'views/examples/Register.js'
 import Login from 'views/examples/Login.js'
 import Forgot from 'views/examples/Forgot.js'
 import Reset from 'views/examples/Reset.js'
+import SetPassword from 'views/examples/SetPassword.js'
 import Convert from 'views/examples/Convert.js'
 import RateGraph from 'views/examples/RateGraph.js'
 import HistoricalGraph from 'views/examples/HistoricalGraph.js'
@@ -48,6 +49,14 @@ var routes = [
 		name: 'Reset',
 		icon: 'fas fa-unlock-alt text-info',
 		component: Reset,
+		layout: '/auth',
+		action: undefined,
+	},
+	{
+		path: '/set/:token',
+		name: 'SetPassword',
+		icon: 'fas fa-unlock-alt text-info',
+		component: SetPassword,
 		layout: '/auth',
 		action: undefined,
 	},

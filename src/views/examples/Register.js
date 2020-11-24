@@ -13,7 +13,6 @@ export default function Register() {
 
 	const [isDisabled, setIsDisabled] = useState(false)
 
-	const regexPassword = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,24}$/
 	const regexNoSpecial = /^[a-zA-Z. ]*$/
 	const validationSchema = Yup.object({
 		username: Yup.string()
@@ -22,16 +21,6 @@ export default function Register() {
 			.matches(regexNoSpecial, 'Username should not contain special characters')
 			.required('Username Required'),
 		email: Yup.string().min(6, 'Email too short').max(30, 'Email too long').email('Invalid email').required('Email Required'),
-		password: Yup.string()
-			.min(6, 'Password too short')
-			.max(24, 'Password too long')
-			.matches(regexPassword, 'Password should be a mix of 6 characters and numbers')
-			.required('Password Required'),
-		confirm_password: Yup.string()
-			.min(6, 'Password too short')
-			.max(24, 'Password too long')
-			.oneOf([Yup.ref('password'), null], 'Passwords must match')
-			.required('Password Required'),
 		first_name: Yup.string()
 			.min(2, 'First name too short')
 			.max(12, 'First name too long')
@@ -48,8 +37,6 @@ export default function Register() {
 		initialValues: {
 			username: '',
 			email: '',
-			password: '',
-			confirm_password: '',
 			first_name: '',
 			last_name: '',
 		},
@@ -59,11 +46,12 @@ export default function Register() {
 		},
 	})
 
-	async function createUser(username, email, password, first_name, last_name) {
-		const user = { username, email, password, first_name, last_name }
+	async function createUser(username, email, first_name, last_name) {
+		const user = { username, email, first_name, last_name }
 		user.key = username
 
-		const response = await fetch('https://flask-finance-api.herokuapp.com/api/users', {
+		// const response = await fetch('https://flask-finance-api.herokuapp.com/api/users', {
+		const response = await fetch('https://flask-finance-api.herokuapp.com/apiregister', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -91,21 +79,35 @@ export default function Register() {
 		setIsDisabled(true)
 		const username = values.username.toLowerCase()
 		const email = values.email.toLowerCase()
-		const password = values.password
 		const first_name = values.first_name.toLowerCase()
 		const last_name = values.last_name.toLowerCase()
-		createUser(username, email, password, first_name, last_name)
+		createUser(username, email, first_name, last_name)
 			.then((response) => {
-				const message = (
+				let message = (
 					<p>
-						<i class='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Successfully registered as <span style={{ fontWeight: 600 }}>{username}</span>
+						<i className='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Successfully registered as <span style={{ fontWeight: 600 }}>{username}</span>
 					</p>
 				)
 				toast.success(message, {
 					className: 'Toastify__progress-bar_success',
 					position: 'top-right',
-					delay: 600,
-					autoClose: 5000,
+					autoClose: 6000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				})
+				message = (
+					<p>
+						<i className='fas fa-envelope'></i>&nbsp;&nbsp;&nbsp;Activate your account on <span style={{ fontWeight: 600 }}>{email}</span>
+					</p>
+				)
+				toast.success(message, {
+					className: 'Toastify__progress-bar_success',
+					position: 'top-right',
+					delay: 200,
+					autoClose: 6000,
 					hideProgressBar: false,
 					closeOnClick: true,
 					pauseOnHover: true,
@@ -115,7 +117,8 @@ export default function Register() {
 				history.push('/auth/login')
 			})
 			.catch((error) => {
-				toastMessage(error, 'error', 3500)
+				console.log(error)
+				toastMessage(error.message, 'error', 3500)
 				setIsDisabled(false)
 			})
 	}
@@ -207,44 +210,6 @@ export default function Register() {
 									/>
 								</InputGroup>
 								{errors.username && touched.username && <div className='error_field'>{errors.username}</div>}
-							</FormGroup>
-							<FormGroup>
-								<InputGroup className='input-group-alternative'>
-									<InputGroupAddon addonType='prepend'>
-										<InputGroupText>
-											<i className='fas fa-unlock-alt'></i>
-										</InputGroupText>
-									</InputGroupAddon>
-									<Input
-										id='password'
-										name='password'
-										placeholder='Password'
-										type='password'
-										onBlur={handleBlur}
-										value={values.password}
-										onChange={handleChange}
-									/>
-								</InputGroup>
-								{errors.password && touched.password && <div className='error_field'>{errors.password}</div>}
-							</FormGroup>
-							<FormGroup>
-								<InputGroup className='input-group-alternative'>
-									<InputGroupAddon addonType='prepend'>
-										<InputGroupText>
-											<i className='fas fa-unlock-alt'></i>
-										</InputGroupText>
-									</InputGroupAddon>
-									<Input
-										id='confirm_password'
-										name='confirm_password'
-										placeholder='Confirm Password'
-										type='password'
-										onBlur={handleBlur}
-										value={values.confirmPassword}
-										onChange={handleChange}
-									/>
-								</InputGroup>
-								{errors.confirm_password && touched.confirm_password && <div className='error_field'>{errors.confirm_password}</div>}
 							</FormGroup>
 							<div className='text-center'>
 								<Button className='mt-1 mb-3' color='primary' type='submit' disabled={isDisabled}>

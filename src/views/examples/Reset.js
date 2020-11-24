@@ -97,6 +97,7 @@ export default function Reset() {
 			.catch((error) => {
 				toastMessage('Token is either invalid or expired', 'error', 3500)
 				setIsDisabled(false)
+				history.push('/auth/register')
 			})
 	}
 

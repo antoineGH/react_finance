@@ -14,7 +14,7 @@ import genValues from '../currency/utils/genValues'
 import { currenciesName } from '../currency/utils/currenciesName'
 import toastMessage from '../currency/utils/toastMessage'
 import { Col } from 'react-bootstrap'
-import { Card, CardHeader, FormGroup, Row, Container, NavItem, NavLink, Nav, CardBody } from 'reactstrap'
+import { Card, CardHeader, FormGroup, Row, Container, NavItem, NavLink, Nav, CardBody, Button } from 'reactstrap'
 import { Helmet } from 'react-helmet'
 
 // INFO: RATE GRAPH
@@ -27,6 +27,7 @@ export default class RateGraph extends Component {
 		this.getThreeMonths = this.getThreeMonths.bind(this)
 		this.getMonth = this.getMonth.bind(this)
 		this.getWeek = this.getWeek.bind(this)
+		this.handleClick = this.handleClick.bind(this)
 		this.state = {
 			listCurrency: [],
 			listCurrencyError: false,
@@ -45,34 +46,39 @@ export default class RateGraph extends Component {
 	// --- COMPONENT LIFECYCLE ---
 
 	componentDidMount() {
-		this.fetchUserSettings().then((response) => {
-			this.setState({ selectedSourceCurrency: response.default_currency })
-			fetchCurrency(response.default_currency)
-				.then((response) => {
-					const listCurrency = []
-					for (const [prop, value] of Object.entries(response.rates)) {
-						const currencyName = '(' + currenciesName[prop] + ')'
-						listCurrency.push({
-							value: prop,
-							label: `${prop} ${currencyName}`,
-							rate: value,
+		this.fetchUserSettings()
+			.then((response) => {
+				this.setState({ selectedSourceCurrency: response.default_currency })
+				fetchCurrency(response.default_currency)
+					.then((response) => {
+						const listCurrency = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							listCurrency.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
+						this.setState({
+							listCurrency: listCurrency,
+							listCurrencyLoaded: true,
+							listCurrencyError: false,
 						})
-					}
-					this.setState({
-						listCurrency: listCurrency,
-						listCurrencyLoaded: true,
-						listCurrencyError: false,
+						const date = new Date(Date.now())
+						const start_date = getDate(date)
+						const end_date = getDateBefore(date, 1, 'months')
+						this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 					})
-					const date = new Date(Date.now())
-					const start_date = getDate(date)
-					const end_date = getDateBefore(date, 1, 'months')
-					this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-				})
-				.catch((error) => {
-					toastMessage('Impossible to load Exchange Rate Graph', 'error', 3500)
-					this.setState({ listCurrencyError: true })
-				})
-		})
+					.catch((error) => {
+						toastMessage('Impossible to load Exchange Rate Graph', 'error', 3500)
+						this.setState({ listCurrencyError: true })
+					})
+			})
+			.catch((error) => {
+				toastMessage('Service not available, Try Again', 'error', 3500)
+				this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
+			})
 		this.createMockData()
 	}
 
@@ -252,6 +258,45 @@ export default class RateGraph extends Component {
 		const end_date = getDateBefore(date, 9, 'days')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 		this.setState({ active: '1W' })
+	}
+
+	handleClick() {
+		this.setState({ graphError: false, listCurrencyLoaded: false })
+		this.fetchUserSettings()
+			.then((response) => {
+				this.setState({ selectedSourceCurrency: response.default_currency })
+				fetchCurrency(response.default_currency)
+					.then((response) => {
+						toastMessage('Service Available', 'success', 3500)
+						const listCurrency = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							listCurrency.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
+						this.setState({
+							listCurrency: listCurrency,
+							listCurrencyLoaded: true,
+							listCurrencyError: false,
+						})
+						const date = new Date(Date.now())
+						const start_date = getDate(date)
+						const end_date = getDateBefore(date, 1, 'months')
+						this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
+					})
+					.catch((error) => {
+						toastMessage('Impossible to load Exchange Rate Graph', 'error', 3500)
+						this.setState({ listCurrencyError: true })
+					})
+			})
+			.catch((error) => {
+				toastMessage('Service not available, Try Again', 'error', 3500)
+				this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
+			})
+		this.createMockData()
 	}
 
 	render() {
@@ -468,19 +513,37 @@ export default class RateGraph extends Component {
 										<Row className='align-items-center'>
 											<div className='col'>
 												<h5 className='text-uppercase text-muted mb-0 card-title'>Exchange Rate</h5>
-												<p className='mt-1 mb-0 text-muted text-sm'>
-													<span className='text-nowrap'>Period</span>
-												</p>
 												<span style={{ fontSize: '0.80rem' }}></span>
 											</div>
 										</Row>
+										{graphError && (
+											<>
+												<div className='text-left justify-content-left'>
+													<span style={{ fontSize: '0.80rem' }}>
+														&nbsp;
+														<br />
+														<p className='mt-1 mb-2'>Impossible to fetch Exchange Rate Graph</p>
+													</span>
+												</div>
+												<Button
+													style={{ backgroundColor: borderColor, borderColor: borderColor, color: 'white' }}
+													size='sm'
+													className='mt-2 mb-4 mt-2'
+													onClick={this.handleClick}>
+													{' '}
+													Try Again{' '}
+												</Button>
+											</>
+										)}
 									</CardHeader>
-									<CardBody>
-										<div className='text-center justify-content-center mt-3'>
-											<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
-										</div>
-										<div className='chart'></div>
-									</CardBody>
+									{!listCurrencyLoaded && (
+										<CardBody>
+											<div className='text-center justify-content-center mt-3'>
+												<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
+											</div>
+											<div className='chart'></div>
+										</CardBody>
+									)}
 								</Card>
 							)}
 						</Col>

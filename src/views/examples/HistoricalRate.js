@@ -79,14 +79,12 @@ class LoadHistoricalExchangeRate extends Component {
 		if (listCurrencyHistoryError || listCurrencyError) {
 			return (
 				<>
-					<div className='text-center justify-content-center'>
+					<div className='text-left justify-content-left ml-4'>
 						<span style={{ fontSize: '0.80rem' }}>
 							&nbsp;
 							<br />
-							<p className='mt-3 mb-2'>Impossible to fetch Historical Exchange Rate</p>
+							<p className='mt-4 mb-2'>Impossible to fetch Historical Exchange Rate</p>
 						</span>
-					</div>
-					<div className='text-center justify-content-center mt-2'>
 						<Button style={{ backgroundColor: borderColor, borderColor: borderColor }} size='sm' className='mt-2 mb-4' onClick={handleClick}>
 							{' '}
 							Try Again{' '}
@@ -271,7 +269,7 @@ export default class HistoricalRate extends Component {
 					})
 			})
 			.catch((error) => {
-				toastMessage('Impossible to load Default Currency', 'error', 3500)
+				toastMessage('Service not available, Try Again', 'error', 3500)
 				this.setState({ listCurrencyError: true, listCurrencyHistoryError: true, listCurrencyLoaded: true })
 			})
 	}
@@ -369,6 +367,7 @@ export default class HistoricalRate extends Component {
 				this.setState({ selectedCurrency: response.default_currency })
 				fetchCurrency(response.default_currency)
 					.then((response) => {
+						toastMessage('Service Available', 'success', 3500)
 						console.log(response)
 						const listCurrency = []
 						for (const [prop, value] of Object.entries(response.rates)) {
@@ -397,7 +396,7 @@ export default class HistoricalRate extends Component {
 					})
 			})
 			.catch((error) => {
-				toastMessage('Impossible to load Default Currency', 'error', 3500)
+				toastMessage('Service not available, Try Again', 'error', 3500)
 				this.setState({ listCurrencyError: true, listCurrencyHistoryError: true, listCurrencyLoaded: true })
 			})
 	}

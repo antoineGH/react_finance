@@ -84,7 +84,7 @@ export default class HistoricalGraph extends Component {
 					})
 			})
 			.catch((error) => {
-				toastMessage('Impossible to load Default Currency', 'error', 3500)
+				toastMessage('Service not available, Try Again', 'error', 3500)
 				this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
 			})
 		this.createMockData()
@@ -241,6 +241,7 @@ export default class HistoricalGraph extends Component {
 				})
 				fetchCurrency(response.default_currency)
 					.then((response) => {
+						toastMessage('Service Available', 'success', 3500)
 						const listCurrency = []
 						for (const [prop, value] of Object.entries(response.rates)) {
 							const currencyName = '(' + currenciesName[prop] + ')'
@@ -264,7 +265,7 @@ export default class HistoricalGraph extends Component {
 					})
 			})
 			.catch((error) => {
-				toastMessage('Impossible to load Default Currency', 'error', 3500)
+				toastMessage('Service not available, Try Again', 'error', 3500)
 				this.setState({ graphError: true, listCurrencyLoaded: true })
 			})
 		this.createMockData()
@@ -423,13 +424,15 @@ export default class HistoricalGraph extends Component {
 													<span style={{ fontSize: '0.80rem' }}></span>
 												</div>
 											</Row>
-											<div
-												className='text-right col-12'
-												style={{
-													// marginTop: '-5%',
-													marginBottom: '2%',
-												}}>
-												{graphError && (
+											{graphError && (
+												<>
+													<div className='text-left justify-content-left'>
+														<span style={{ fontSize: '0.80rem' }}>
+															&nbsp;
+															<br />
+															<p className='mt-1 mb-2'>Impossible to fetch Historical Exchange Graph</p>
+														</span>
+													</div>
 													<Button
 														style={{ backgroundColor: borderColor, borderColor: borderColor }}
 														size='sm'
@@ -438,8 +441,8 @@ export default class HistoricalGraph extends Component {
 														{' '}
 														Try Again{' '}
 													</Button>
-												)}
-											</div>
+												</>
+											)}
 										</CardHeader>
 										{!listCurrencyLoaded && (
 											<CardBody>

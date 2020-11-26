@@ -79,7 +79,7 @@ export default class Convert extends Component {
 					})
 			})
 			.catch((error) => {
-				toastMessage('Impossible to fetch user settings', 'error', 3500)
+				toastMessage('Service not available, Try Again', 'error', 3500)
 				this.setState({ listCurrencyError: true })
 			})
 	}
@@ -293,6 +293,7 @@ export default class Convert extends Component {
 
 						fetchHistoryCurrency(start_date, end_date, selectedSourceCurrency, this.state.selectedDestCurrency)
 							.then((response) => {
+								toastMessage('Service Available', 'success', 3500)
 								const orderedDates = sortDate(response)
 								const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
 								this.setState({ historyPercentage: historyPercentage })
@@ -306,7 +307,7 @@ export default class Convert extends Component {
 					})
 			})
 			.catch((error) => {
-				toastMessage('Impossible to fetch user settings', 'error', 3500)
+				toastMessage('Service not available, Try Again', 'error', 3500)
 				this.setState({ listCurrencyError: true, listCurrencyLoaded: true })
 			})
 	}

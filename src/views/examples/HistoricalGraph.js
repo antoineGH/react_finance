@@ -23,6 +23,7 @@ export default class HistoricalGraph extends Component {
 	constructor(props) {
 		super(props)
 		this.handleReload = this.handleReload.bind(this)
+		this.handleClick = this.handleClick.bind(this)
 		this.state = {
 			listCurrency: [],
 			listCurrencyError: false,
@@ -43,44 +44,49 @@ export default class HistoricalGraph extends Component {
 	// --- COMPONENT LIFECYCLE ---
 
 	componentDidMount() {
-		this.fetchUserSettings().then((response) => {
-			const date = new Date(Date.now())
-			const start_date = getDate(date)
-			const end_date = getDateBefore(date, 1, 'months')
-			const graphTitle = {
-				base: this.state.selectedSourceCurrency,
-				dest: this.state.selectedDestCurrency,
-				start_at: start_date,
-				end_at: end_date,
-			}
-			this.setState({
-				selectedSourceCurrency: response.default_currency,
-				graphTitle: graphTitle,
-			})
-			fetchCurrency(response.default_currency)
-				.then((response) => {
-					const listCurrency = []
-					for (const [prop, value] of Object.entries(response.rates)) {
-						const currencyName = '(' + currenciesName[prop] + ')'
-						listCurrency.push({
-							value: prop,
-							label: `${prop} ${currencyName}`,
-							rate: value,
+		this.fetchUserSettings()
+			.then((response) => {
+				const date = new Date(Date.now())
+				const start_date = getDate(date)
+				const end_date = getDateBefore(date, 1, 'months')
+				const graphTitle = {
+					base: this.state.selectedSourceCurrency,
+					dest: this.state.selectedDestCurrency,
+					start_at: start_date,
+					end_at: end_date,
+				}
+				this.setState({
+					selectedSourceCurrency: response.default_currency,
+					graphTitle: graphTitle,
+				})
+				fetchCurrency(response.default_currency)
+					.then((response) => {
+						const listCurrency = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							listCurrency.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
+						this.setState({
+							listCurrency: listCurrency,
+							listCurrencyLoaded: true,
+							listCurrencyError: false,
 						})
-					}
-					this.setState({
-						listCurrency: listCurrency,
-						listCurrencyLoaded: true,
-						listCurrencyError: false,
-					})
 
-					this.getHistoryGraphInfo(end_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-				})
-				.catch((error) => {
-					toastMessage('Impossible to load Historical Graph', 'error', 3500)
-					this.setState({ listCurrencyError: true })
-				})
-		})
+						this.getHistoryGraphInfo(end_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
+					})
+					.catch((error) => {
+						toastMessage('Impossible to load Historical Graph', 'error', 3500)
+						this.setState({ listCurrencyError: true })
+					})
+			})
+			.catch((error) => {
+				toastMessage('Impossible to load Default Currency', 'error', 3500)
+				this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
+			})
 		this.createMockData()
 	}
 
@@ -216,6 +222,54 @@ export default class HistoricalGraph extends Component {
 		this.setState({ reload: reload })
 	}
 
+	handleClick() {
+		this.setState({ graphError: false, graphLoaded: false, listCurrencyLoaded: false })
+		this.fetchUserSettings()
+			.then((response) => {
+				const date = new Date(Date.now())
+				const start_date = getDate(date)
+				const end_date = getDateBefore(date, 1, 'months')
+				const graphTitle = {
+					base: this.state.selectedSourceCurrency,
+					dest: this.state.selectedDestCurrency,
+					start_at: start_date,
+					end_at: end_date,
+				}
+				this.setState({
+					selectedSourceCurrency: response.default_currency,
+					graphTitle: graphTitle,
+				})
+				fetchCurrency(response.default_currency)
+					.then((response) => {
+						const listCurrency = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							listCurrency.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
+						this.setState({
+							listCurrency: listCurrency,
+							listCurrencyLoaded: true,
+							listCurrencyError: false,
+						})
+
+						this.getHistoryGraphInfo(end_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
+					})
+					.catch((error) => {
+						toastMessage('Impossible to load Historical Graph', 'error', 3500)
+						this.setState({ listCurrencyError: true })
+					})
+			})
+			.catch((error) => {
+				toastMessage('Impossible to load Default Currency', 'error', 3500)
+				this.setState({ graphError: true, listCurrencyLoaded: true })
+			})
+		this.createMockData()
+	}
+
 	render() {
 		const { color, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
 		const {
@@ -329,7 +383,7 @@ export default class HistoricalGraph extends Component {
 											<div
 												className='text-right col-12'
 												style={{
-													marginTop: '-5%',
+													marginTop: '-3%',
 													marginBottom: '2%',
 												}}>
 												<Button
@@ -366,36 +420,36 @@ export default class HistoricalGraph extends Component {
 											<Row className='align-items-center'>
 												<div className='col'>
 													<h5 className='text-uppercase text-muted mb-0 card-title'>Historical Exchange Rate</h5>
-													<p className='mt-1 mb-0 text-muted text-sm'>
-														<span className='text-nowrap'>Period</span>
-													</p>
 													<span style={{ fontSize: '0.80rem' }}></span>
 												</div>
 											</Row>
 											<div
 												className='text-right col-12'
 												style={{
-													marginTop: '-5%',
+													// marginTop: '-5%',
 													marginBottom: '2%',
 												}}>
-												<Button
-													style={{
-														backgroundColor: borderColor,
-														color: 'white',
-													}}
-													size='sm'
-													onClick={this.handleReload}>
-													<i className='fas fa-sync-alt'></i>
-												</Button>
+												{graphError && (
+													<Button
+														style={{ backgroundColor: borderColor, borderColor: borderColor }}
+														size='sm'
+														className='mt-2 mb-4'
+														onClick={this.handleClick}>
+														{' '}
+														Try Again{' '}
+													</Button>
+												)}
 											</div>
 										</CardHeader>
-										<CardBody>
-											{/* Chart */}
-											<div className='text-center justify-content-center mt-3'>
-												<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
-											</div>
-											<div className='chart'></div>
-										</CardBody>
+										{!listCurrencyLoaded && (
+											<CardBody>
+												{/* Chart */}
+												<div className='text-center justify-content-center mt-3'>
+													<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
+												</div>
+												<div className='chart'></div>
+											</CardBody>
+										)}
 									</Card>
 								)}
 							</Col>

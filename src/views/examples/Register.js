@@ -50,7 +50,6 @@ export default function Register() {
 		const user = { username, email, first_name, last_name }
 		user.key = username
 
-		// const response = await fetch('https://flask-finance-api.herokuapp.com/api/users', {
 		const response = await fetch('https://flask-finance-api.herokuapp.com/api/register', {
 			method: 'POST',
 			headers: {
@@ -117,7 +116,9 @@ export default function Register() {
 				history.push('/auth/login')
 			})
 			.catch((error) => {
-				console.log(error)
+				if (error.message === 'Failed to fetch') {
+					error.message = 'Service not available, Try Again'
+				}
 				toastMessage(error.message, 'error', 3500)
 				setIsDisabled(false)
 			})

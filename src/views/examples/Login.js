@@ -95,6 +95,9 @@ export default function Login() {
 				}
 			})
 			.catch((error) => {
+				if (error.message === 'Failed to fetch') {
+					error.message = 'Service not available, Try Again'
+				}
 				toastMessage(error.message, 'error', 3500)
 				setIsDisabled(false)
 			})

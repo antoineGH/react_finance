@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import UserHeader from 'components/Headers/UserHeader.js'
 import { authFetch } from '../../auth'
 import fetchCurrency from '../currency/utils/fetchCurrency'
+import toastMessage from '../currency/utils/toastMessage'
 import { currenciesName } from '../currency/utils/currenciesName'
 import Profile from './Profile'
 import BarLoader from 'react-spinners/BarLoader'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 import moment from 'moment'
 
 export default function LoadUserSettings(props) {
@@ -31,6 +32,8 @@ export default function LoadUserSettings(props) {
 	const [listCurrency, setListCurrency] = useState([])
 	const [selectedCurrency, setSelectedCurrency] = useState('Default Currency')
 	const [selectedDBCurrency, setSelectedDBCurrency] = useState('')
+
+	const { borderColor } = props
 
 	async function fetchUserInfo() {
 		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/user', {
@@ -154,12 +157,78 @@ export default function LoadUserSettings(props) {
 			})
 			.catch((error) => {
 				setHasError(true)
+				toastMessage('Service not available, Try Again', 'error', 3500)
 			})
 
 		return function cleanup() {
 			mounted = false
 		}
 	}, [])
+
+	function handleClick() {
+		setHasError(false)
+		setIsLoaded(false)
+		let mounted = true
+		fetchCurrency('USD')
+			.then((response) => {
+				const currencies = []
+				for (const [prop, value] of Object.entries(response.rates)) {
+					const currencyName = '(' + currenciesName[prop] + ')'
+					currencies.push({
+						value: prop,
+						label: `${prop} ${currencyName}`,
+						rate: value,
+					})
+				}
+				if (mounted) {
+					setListCurrency(currencies)
+				}
+			})
+			.catch((error) => {
+				setListCurrencyError(true)
+			})
+		fetchUserInfo()
+			.then((response) => {
+				if (mounted) {
+					setEmail(response.user.email)
+					setFirstName(toTitleCase(response.user.first_name))
+					setLastName(toTitleCase(response.user.last_name))
+					setUsername(response.user.username)
+					setBirthday(response.user.birthdate)
+					setAboutMe(response.user.about_me)
+					setPosition(response.user.position)
+					setEducation(response.user.education)
+					setAddress(toTitleCase(response.user.address))
+					setCity(toTitleCase(response.user.city))
+					setPostcode(response.user.postcode)
+					setCountry(toTitleCase(response.user.country))
+					setProfilePicture(response.user.profile_picture)
+					setAge(calculateAge(response.user.birthdate))
+					fetchUserSettings()
+						.then((response) => {
+							if (mounted) {
+								toastMessage('Service Available', 'success', 3500)
+								setSelectedCurrency(response.default_currency)
+								setSelectedDBCurrency(response.default_currency)
+								setListCurrencyLoaded(false)
+								setListCurrencyError(false)
+								setIsLoaded(true)
+							}
+						})
+						.catch((error) => {
+							setHasError(true)
+						})
+				}
+			})
+			.catch((error) => {
+				setHasError(true)
+				toastMessage('Service not available, Try Again', 'error', 3500)
+			})
+
+		return function cleanup() {
+			mounted = false
+		}
+	}
 
 	const welcome = `Hello ${first_name}.`
 	const message = 'This is your profile page. You can see and edit your information.'
@@ -169,10 +238,20 @@ export default function LoadUserSettings(props) {
 			<UserHeader welcome={welcome} message={message} color={props.color} borderColor={props.borderColor} />
 			{hasError && (
 				<Container>
-					<div className='error_data'>Impossible to fetch data, try again later.</div>
+					<div className='text-center justify-content-center ml-4'>
+						<span style={{ fontSize: '0.80rem' }}>
+							&nbsp;
+							<br />
+							<p className='mt-4 mb-2'>Impossible to fetch Profile information</p>
+						</span>
+						<Button style={{ backgroundColor: borderColor, borderColor: borderColor }} size='sm' className='mt-2 mb-4' onClick={handleClick}>
+							{' '}
+							Try Again{' '}
+						</Button>
+					</div>
 				</Container>
 			)}
-			{!isLoaded && (
+			{!isLoaded && !hasError && (
 				<Row>
 					<Col xs={12} sm={12} md={12} lg={12}>
 						<div className='mt-5'>

@@ -375,21 +375,27 @@ export default function Profile(props) {
 								<div className='text-center mt-5'>
 									<h3>
 										{first_name !== '' ? values.first_name : 'First Name'} {last_name !== '' ? values.last_name : 'Last Name'}
-										<span className='font-weight-light'>, {birthday !== '' ? age : 'Age'}</span>
+										<span className='font-weight-light'> {birthday !== '' && ', ' + age}</span>
 									</h3>
+
 									<div className='h5 font-weight-300'>
 										<i className='ni location_pin mr-2' />
-										{address !== '' ? values.address + ', ' : 'Address'} {city && values.city + ', '} {postcode && values.postcode + ', '}{' '}
+										{address !== '' && values.address + ', '} {city && values.city + ', '} {postcode && values.postcode + ', '}{' '}
 										{country && values.country + '.'}
 									</div>
-									<div className='h5 mt-4'>
-										<i className='ni business_briefcase-24 mr-2' />
-										{position !== '' ? values.position : 'Position'}
-									</div>
-									<div>
-										<i className='ni education_hat mr-2' />
-										{education !== '' ? values.education : 'Education'}
-									</div>
+
+									{position !== '' && (
+										<div className='h5 mt-4'>
+											<i className='ni business_briefcase-24 mr-2' />
+											{values.position}
+										</div>
+									)}
+									{education !== '' && (
+										<div>
+											<i className='ni education_hat mr-2' />
+											{values.education}
+										</div>
+									)}
 									<hr className='my-4' />
 									{values.about_me}
 								</div>

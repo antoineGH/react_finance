@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
 
 import 'assets/plugins/nucleo/css/nucleo.css'
@@ -14,6 +14,7 @@ import { useAuth } from './auth'
 
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Error from './views/examples/Error'
 
 import './App.css'
 
@@ -42,6 +43,7 @@ export default function App() {
 			<ToastContainer />
 			<BrowserRouter>
 				<Switch>
+					<Route path='/error' component={Error} />
 					{logged && <AdminLayout userInfo={decoded} />}
 					{!logged && <AuthLayout />}
 					<Redirect from='/' to='/admin/index' />

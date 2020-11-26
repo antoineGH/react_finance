@@ -4,6 +4,8 @@ import Index from '../Index'
 
 import BarLoader from 'react-spinners/BarLoader'
 
+import { withRouter } from 'react-router-dom'
+
 import fetchCurrency from './utils/fetchCurrency'
 import toCurrency from './utils/toCurrency'
 import fromCurrency from './utils/fromCurrency'
@@ -26,12 +28,14 @@ import Col from 'react-bootstrap/Col'
 
 import { authFetch } from '../../auth'
 
+import Button from 'react-bootstrap/Button'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 library.add(fas)
 
-export default class Currency extends Component {
+export class Currency extends Component {
 	// --- CLASS CONSTRUCTOR ---
 
 	constructor(props) {
@@ -136,6 +140,9 @@ export default class Currency extends Component {
 			})
 			.catch((error) => {
 				toastMessage('Impossible to fetch information', 'error', 3500)
+				this.props.history.push({
+					pathname: `/error`,
+				})
 			})
 	}
 
@@ -480,6 +487,13 @@ export default class Currency extends Component {
 		return historyPercentage
 	}
 
+	// Test Push
+	routingFunction = (param) => {
+		this.props.history.push({
+			pathname: `/admin/error`,
+		})
+	}
+
 	// Toastify!
 
 	render() {
@@ -543,8 +557,11 @@ export default class Currency extends Component {
 						pointBackgroundColor={pointBackgroundColor}
 						pointHoverBackgroundColor={pointHoverBackgroundColor}
 					/>
+					<Button onClick={this.routingFunction}>Test</Button>
 				</>
 			)
 		}
 	}
 }
+
+export default withRouter(Currency)

@@ -65,14 +65,26 @@ class LoadHistoricalExchangeRate extends Component {
 	}
 
 	render() {
-		const { listCurrencyHistory, listCurrencyHistoryLoaded, listCurrencyHistoryError, inputCurrency, handleClick, borderColor } = this.props
+		const {
+			listCurrencyHistory,
+			listCurrencyHistoryLoaded,
+			listCurrencyHistoryError,
+			listCurrencyError,
+			inputCurrency,
+			handleClick,
+			borderColor,
+		} = this.props
 		const { currentItems } = this.state
 
-		if (listCurrencyHistoryError) {
+		if (listCurrencyHistoryError || listCurrencyError) {
 			return (
 				<>
 					<div className='text-center justify-content-center'>
-						<span style={{ fontSize: '0.80rem' }}>&nbsp;Impossible to fetch Historical Exchange Rate</span>
+						<span style={{ fontSize: '0.80rem' }}>
+							&nbsp;
+							<br />
+							<p className='mt-3 mb-2'>Impossible to fetch Historical Exchange Rate</p>
+						</span>
 					</div>
 					<div className='text-center justify-content-center mt-2'>
 						<Button style={{ backgroundColor: borderColor, borderColor: borderColor }} size='sm' className='mt-2 mb-4' onClick={handleClick}>
@@ -210,6 +222,7 @@ export default class HistoricalRate extends Component {
 	constructor(props) {
 		super(props)
 		this.filter = this.filter.bind(this)
+		this.handleClick = this.handleClick.bind(this)
 		this.state = {
 			listCurrency: [],
 			listCurrencyError: false,
@@ -225,36 +238,42 @@ export default class HistoricalRate extends Component {
 	// --- COMPONENT LIFECYCLE ---
 
 	componentDidMount() {
-		this.fetchUserSettings().then((response) => {
-			this.setState({ selectedCurrency: response.default_currency })
-			fetchCurrency(response.default_currency)
-				.then((response) => {
-					const listCurrency = []
-					for (const [prop, value] of Object.entries(response.rates)) {
-						const currencyName = '(' + currenciesName[prop] + ')'
-						listCurrency.push({
-							value: prop,
-							label: `${prop} ${currencyName}`,
-							rate: value,
+		this.fetchUserSettings()
+			.then((response) => {
+				this.setState({ selectedCurrency: response.default_currency })
+				fetchCurrency(response.default_currency)
+					.then((response) => {
+						console.log(response)
+						const listCurrency = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							listCurrency.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
+						const date = new Date(Date.now())
+						const start_date = getDate(date)
+						const end_date = getDateBefore(date, 1, 'months')
+						this.getListExchange(start_date, end_date, this.state.selectedCurrency, listCurrency)
+						this.setState({
+							listCurrency: listCurrency,
+							listCurrencyError: false,
+							listCurrencyLoaded: true,
+							listCurrencyHistoryError: false,
+							listCurrencyHistoryLoaded: true,
 						})
-					}
-					const date = new Date(Date.now())
-					const start_date = getDate(date)
-					const end_date = getDateBefore(date, 1, 'months')
-					this.getListExchange(start_date, end_date, this.state.selectedCurrency, listCurrency)
-					this.setState({
-						listCurrency: listCurrency,
-						listCurrencyError: false,
-						listCurrencyLoaded: true,
-						listCurrencyHistoryError: false,
-						listCurrencyHistoryLoaded: true,
 					})
-				})
-				.catch((error) => {
-					toastMessage('Impossible to load Historical Rate', 'error', 3500)
-					this.setState({ listCurrencyError: true, listCurrencyHistoryError: true })
-				})
-		})
+					.catch((error) => {
+						toastMessage('Impossible to load Historical Rate', 'error', 3500)
+						this.setState({ listCurrencyError: true, listCurrencyHistoryError: true })
+					})
+			})
+			.catch((error) => {
+				toastMessage('Impossible to load Default Currency', 'error', 3500)
+				this.setState({ listCurrencyError: true, listCurrencyHistoryError: true, listCurrencyLoaded: true })
+			})
 	}
 
 	// --- CLASS METHODS ---
@@ -341,6 +360,46 @@ export default class HistoricalRate extends Component {
 		this.setState({ listCurrencyHistory: [] })
 		this.getListExchange(start_date, end_date, selected[0].value, this.state.listCurrency)
 		this.filter = this.filter.bind(this)
+	}
+
+	handleClick() {
+		this.setState({ listCurrencyError: false, listCurrencyLoaded: false, listCurrencyHistoryError: false, listCurrencyHistoryLoaded: false })
+		this.fetchUserSettings()
+			.then((response) => {
+				this.setState({ selectedCurrency: response.default_currency })
+				fetchCurrency(response.default_currency)
+					.then((response) => {
+						console.log(response)
+						const listCurrency = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							listCurrency.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
+						const date = new Date(Date.now())
+						const start_date = getDate(date)
+						const end_date = getDateBefore(date, 1, 'months')
+						this.getListExchange(start_date, end_date, this.state.selectedCurrency, listCurrency)
+						this.setState({
+							listCurrency: listCurrency,
+							listCurrencyError: false,
+							listCurrencyLoaded: true,
+							listCurrencyHistoryError: false,
+							listCurrencyHistoryLoaded: true,
+						})
+					})
+					.catch((error) => {
+						toastMessage('Impossible to load Historical Rate', 'error', 3500)
+						this.setState({ listCurrencyError: true, listCurrencyHistoryError: true })
+					})
+			})
+			.catch((error) => {
+				toastMessage('Impossible to load Default Currency', 'error', 3500)
+				this.setState({ listCurrencyError: true, listCurrencyHistoryError: true, listCurrencyLoaded: true })
+			})
 	}
 
 	filter(filterMethod) {
@@ -525,6 +584,7 @@ export default class HistoricalRate extends Component {
 									listCurrencyHistory={listCurrencyHistory}
 									listCurrencyHistoryLoaded={listCurrencyHistoryLoaded}
 									listCurrencyHistoryError={listCurrencyHistoryError}
+									listCurrencyError={listCurrencyError}
 									inputCurrency={selectedCurrency}
 									handleClick={this.handleClick}
 									filter={this.filter}

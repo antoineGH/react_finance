@@ -76,7 +76,7 @@ export default function SetPassword() {
 			.then((response) => {
 				const message = (
 					<p>
-						<i className='fas fa-unlock-alt'></i>&nbsp;&nbsp;&nbsp;Password successfully reset{' '}
+						<i className='fas fa-unlock-alt'></i>&nbsp;&nbsp;&nbsp;Password successfully set{' '}
 					</p>
 				)
 				toast.success(message, {

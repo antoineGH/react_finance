@@ -55,7 +55,7 @@ class Sidebar extends React.Component {
 		if (action) {
 			const message = (
 				<p>
-					<i class='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged out
+					<i className='fas fa-user'></i>&nbsp;&nbsp;&nbsp;Logged out
 				</p>
 			)
 
@@ -84,7 +84,14 @@ class Sidebar extends React.Component {
 	// creates the links that appear in the left menu / Sidebar
 	createLinks = (routes) => {
 		return routes.map((prop, key) => {
-			if (prop.name !== 'Login' && prop.name !== 'Register' && prop.name !== 'My Profile') {
+			if (
+				prop.name !== 'Login' &&
+				prop.name !== 'Register' &&
+				prop.name !== 'My Profile' &&
+				prop.name !== 'Forgot' &&
+				prop.name !== 'Reset' &&
+				prop.name !== 'SetPassword'
+			) {
 				return (
 					<NavItem key={key}>
 						<NavLink to={prop.layout + prop.path} tag={NavLinkRRD} onClick={() => this.handleClick(prop.action)} activeClassName='active'>

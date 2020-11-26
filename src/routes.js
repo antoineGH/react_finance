@@ -10,6 +10,7 @@ import RateGraph from 'views/examples/RateGraph.js'
 import HistoricalGraph from 'views/examples/HistoricalGraph.js'
 import HistoricalRate from 'views/examples/HistoricalRate.js'
 import FinanceFeed from 'views/examples/FinanceFeed.js'
+import Error from 'views/examples/Error.js'
 
 var routes = [
 	{

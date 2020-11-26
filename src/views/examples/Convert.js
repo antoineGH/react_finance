@@ -24,6 +24,7 @@ export default class Convert extends Component {
 	constructor(props) {
 		super(props)
 		this.reverse = this.reverse.bind(this)
+		this.handleClick = this.handleClick.bind(this)
 		this.state = {
 			listCurrency: [],
 			listCurrencyError: false,
@@ -263,6 +264,53 @@ export default class Convert extends Component {
 			})
 	}
 
+	handleClick() {
+		this.setState({ listCurrencyError: false, listCurrencyLoaded: false })
+		this.fetchUserSettings()
+			.then((response) => {
+				const selectedSourceCurrency = response.default_currency
+				this.setState({ selectedSourceCurrency: selectedSourceCurrency })
+				fetchCurrency(selectedSourceCurrency)
+					.then((response) => {
+						const listCurrency = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							listCurrency.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
+						this.setState({
+							listCurrency: listCurrency,
+							listCurrencyLoaded: true,
+							listCurrencyError: false,
+							outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, listCurrency),
+						})
+						const date = new Date(Date.now())
+						const start_date = getDateBefore(date, 1, 'months')
+						const end_date = getDate(date)
+
+						fetchHistoryCurrency(start_date, end_date, selectedSourceCurrency, this.state.selectedDestCurrency)
+							.then((response) => {
+								const orderedDates = sortDate(response)
+								const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
+								this.setState({ historyPercentage: historyPercentage })
+							})
+							.catch((error) => {
+								toastMessage('Impossible to fetch currency history', 'error', 3500)
+							})
+					})
+					.catch((error) => {
+						toastMessage('Impossible to fetch currency', 'error', 3500)
+					})
+			})
+			.catch((error) => {
+				toastMessage('Impossible to fetch user settings', 'error', 3500)
+				this.setState({ listCurrencyError: true, listCurrencyLoaded: true })
+			})
+	}
+
 	render() {
 		const { color, borderColor } = this.props
 		const { listCurrency, listCurrencyError, listCurrencyLoaded, selectedSourceCurrency, selectedDestCurrency, historyPercentage } = this.state
@@ -294,6 +342,18 @@ export default class Convert extends Component {
 											</h5>
 										</div>
 										<Col className='text-right' xs='4'>
+											{listCurrencyError && (
+												<Button
+													size='md'
+													className='reverse'
+													style={{
+														backgroundColor: borderColor,
+														borderColor: borderColor,
+													}}
+													onClick={this.handleClick}>
+													Try Again
+												</Button>
+											)}
 											<Button
 												size='md'
 												className='reverse'

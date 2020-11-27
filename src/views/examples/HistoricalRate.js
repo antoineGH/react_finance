@@ -241,7 +241,6 @@ export default class HistoricalRate extends Component {
 				this.setState({ selectedCurrency: response.default_currency })
 				fetchCurrency(response.default_currency)
 					.then((response) => {
-						console.log(response)
 						const listCurrency = []
 						for (const [prop, value] of Object.entries(response.rates)) {
 							const currencyName = '(' + currenciesName[prop] + ')'

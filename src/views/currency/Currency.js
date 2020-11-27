@@ -5,6 +5,7 @@ import Index from '../Index'
 import BarLoader from 'react-spinners/BarLoader'
 
 import { withRouter } from 'react-router-dom'
+import UserHeader from '../../components/Headers/UserHeader'
 
 import fetchCurrency from './utils/fetchCurrency'
 import toCurrency from './utils/toCurrency'
@@ -25,15 +26,10 @@ import fetchNewsFeed from './utils/fetchNewsFeed'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
+import { Card, CardBody, CardHeader } from 'reactstrap'
 
 import { authFetch } from '../../auth'
-
-import Button from 'react-bootstrap/Button'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-library.add(fas)
 
 export class Currency extends Component {
 	// --- CLASS CONSTRUCTOR ---
@@ -47,6 +43,7 @@ export class Currency extends Component {
 		this.getGraphInfo = this.getGraphInfo.bind(this)
 		this.getNewsFeed = this.getNewsFeed.bind(this)
 		this.setActive = this.setActive.bind(this)
+		this.handleClick = this.handleClick.bind(this)
 		this.reverse = this.reverse.bind(this)
 		this.setState = this.setState.bind(this)
 		this.state = {
@@ -139,10 +136,8 @@ export class Currency extends Component {
 					})
 			})
 			.catch((error) => {
-				toastMessage('Impossible to fetch information', 'error', 3500)
-				this.props.history.push({
-					pathname: `/error`,
-				})
+				toastMessage('Service not available, Try Again', 'error', 3500)
+				this.setState({ hasError: true, isLoaded: true })
 			})
 	}
 
@@ -487,29 +482,108 @@ export class Currency extends Component {
 		return historyPercentage
 	}
 
-	// Test Push
-	routingFunction = (param) => {
-		this.props.history.push({
-			pathname: `/admin/error`,
-		})
-	}
+	handleClick() {
+		this.setState({ hasError: false, isLoaded: false })
+		this.fetchUserSettings()
+			.then((response) => {
+				const defaultCurrency = response.default_currency
+				this.setState({
+					inputCurrency: defaultCurrency,
+					optionsInput: {
+						value: defaultCurrency,
+						label: defaultCurrency + ' (' + currenciesName[defaultCurrency] + ')',
+					},
+				})
+				fetchCurrency(defaultCurrency)
+					.then((response) => {
+						toastMessage('Service Available', 'success', 3500)
+						this.setState({ date: response.date })
+						const currencies = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							currencies.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
+						const date = new Date(Date.now())
+						const start_date = getDate(date)
+						const end_date = getDateBefore(date, 1, 'months')
 
-	// Toastify!
+						this.getListExchange(start_date, end_date, this.state.inputCurrency, currencies)
+						this.setState({
+							listCurrency: currencies,
+							isLoaded: true,
+							hasError: false,
+						})
+						if (this.state.inputValue && this.state.outputCurrency) {
+							this.setState({
+								outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+							})
+						}
+						this.getGraphInfo(end_date, start_date, this.state.inputCurrency, 'EUR')
+						this.getHistoryGraphInfo(end_date, this.state.inputCurrency, 'EUR')
+						this.getNewsFeed()
+					})
+					.catch((error) => {
+						this.setState({ hasError: true })
+					})
+			})
+			.catch((error) => {
+				toastMessage('Service not available, Try Again', 'error', 3500)
+				this.setState({ hasError: true, isLoaded: true })
+			})
+	}
 
 	render() {
 		const { color, backgroundColor, borderColor, pointBackgroundColor, pointHoverBackgroundColor } = this.props
 
 		if (this.state.hasError) {
 			return (
-				<Container>
+				<>
 					<Helmet>
 						<title>Financial - Error</title>
 					</Helmet>
-					<div className='error_data'>
-						<FontAwesomeIcon className='mt-1 mr-1' size='lg' icon={['fas', 'times']} />
-						Impossible to fetch data, try again later.
-					</div>
-				</Container>
+					<UserHeader welcome={'Dashboard'} message={'Check latest rates and track recent news.'} color={color} borderColor={borderColor} />
+					<Container className='mt--7' fluid>
+						<Card className='shadow'>
+							<CardHeader className='bg-transparent'>
+								<Row className='align-items-center'>
+									<div className='col'>
+										<h5 className='text-uppercase text-muted mb-0 card-title'>Dashboard Financial</h5>
+										<span style={{ fontSize: '0.80rem' }}></span>
+									</div>
+								</Row>
+
+								<div className='text-left justify-content-left'>
+									<span style={{ fontSize: '0.80rem' }}>
+										&nbsp;
+										<br />
+										<p className='mt-1 mb-2'>Impossible to fetch Dashboard Information</p>
+									</span>
+								</div>
+								<Button
+									style={{ backgroundColor: borderColor, borderColor: borderColor }}
+									size='sm'
+									className='mt-2 mb-4 ml-1'
+									onClick={this.handleClick}>
+									{' '}
+									Try Again{' '}
+								</Button>
+							</CardHeader>
+							{!this.state.isLoaded && (
+								<CardBody>
+									{/* Chart */}
+									<div className='text-center justify-content-center mt-3'>
+										<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
+									</div>
+									<div className='chart'></div>
+								</CardBody>
+							)}
+						</Card>
+					</Container>
+				</>
 			)
 		}
 

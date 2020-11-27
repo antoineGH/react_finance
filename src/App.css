@@ -1,5 +1,9 @@
 /* ---- Main Theme Design  ---- */
 
+.bg-gradient-default {
+	background: white !important;
+}
+
 .forgot_password {
 	color: black;
 }
@@ -150,10 +154,6 @@
 
 .bg-gradient-info {
 	background: linear-gradient(to right, #141e30, #243b55) !important;
-}
-
-.bg-gradient-default {
-	background: white !important;
 }
 
 .btn-primary {

@@ -20,7 +20,7 @@ class UserHeader extends React.Component {
 						backgroundSize: 'cover',
 						backgroundPosition: 'center top',
 					}}>
-					<span className='mask bg-gradient-default opacity-1' />
+					<span className='mask  opacity-1' />
 					<Container className='d-flex align-items-center' fluid>
 						<Row>
 							<Col lg='12' md='12'>

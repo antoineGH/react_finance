@@ -628,7 +628,6 @@ export default class Currency extends Component {
 						pointBackgroundColor={pointBackgroundColor}
 						pointHoverBackgroundColor={pointHoverBackgroundColor}
 					/>
-					<Button onClick={this.routingFunction}>Test</Button>
 				</>
 			)
 		}

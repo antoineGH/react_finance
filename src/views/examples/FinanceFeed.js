@@ -114,7 +114,7 @@ class LoadNewsFeed extends Component {
 					<Card className='card_filter text-center justify-content-center mx-auto mb-1 mt-md-1 mt-1 border-0'>
 						<Card.Body className='card_news_body'>
 							<Row>
-								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='text-left justify-content-left mr-xl-2 ml-2'>
+								<Col xs={3} sm={3} md={3} lg={2} xl={1} className='text-left justify-content-left mr-xl-2 ml-xl-3'>
 									<Button
 										style={{
 											backgroundColor: borderColor,
@@ -125,7 +125,13 @@ class LoadNewsFeed extends Component {
 										Brand <i className='fas fa-sort'></i>
 									</Button>
 								</Col>
-								<Col xs={3} sm={3} md={3} lg={3} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
+								<Col
+									xs={3}
+									sm={3}
+									md={3}
+									lg={3}
+									xl={1}
+									className='mb-2 text-left justify-content-left offset-1 offset-md-2 offset-xl-1 mr-xl-2'>
 									<Row>
 										<Button
 											style={{
@@ -139,7 +145,7 @@ class LoadNewsFeed extends Component {
 									</Row>
 								</Col>
 								<Col xs={3} sm={3} md={3} lg={3} xl={2}>
-									<Row className='text-left mx-auto justify-content-left'>
+									<Row className='text-left mx-auto justify-content-left offset-xl-6'>
 										<Button
 											style={{
 												backgroundColor: borderColor,
@@ -169,10 +175,23 @@ class LoadNewsFeed extends Component {
 							<Card key={info.uuid} className='card_news text-center justify-content-center mx-auto mb-1' style={{ width: '98%' }}>
 								<Card.Body className='card_news_body'>
 									<Row>
-										<Col xs={2} sm={2} md={2} lg={2} xl={1} className='text-left justify-content-left mr-3 mr-xl-2'>
-											<img src={info.source.imageUrls.thumb} alt={info.source.brandName} />
+										<Col
+											xs={5}
+											sm={3}
+											md={5}
+											lg={3}
+											xl={2}
+											className='text-left justify-content-left mr-3 mr-xl-2 my-auto'
+											style={{ fontSize: '0.8rem' }}>
+											{info.source.brandName}
 										</Col>
-										<Col xs={8} sm={8} md={8} lg={8} xl={1} className='mb-2 text-left justify-content-left mr-xl-2'>
+										<Col
+											xs={6}
+											sm={8}
+											md={5}
+											lg={6}
+											xl={1}
+											className='offset-lg-1 offset-xl-0 mb-2 text-left justify-content-left  my-auto'>
 											<Row>
 												<a href={`https://${info.source.name}`} style={{ fontSize: '0.7rem' }}>
 													{info.source.brandName}
@@ -182,7 +201,7 @@ class LoadNewsFeed extends Component {
 												{info.publishTime.slice(0, 10)}
 											</Row>
 										</Col>
-										<Col xs={12} sm={12} md={12} lg={12} xl={9}>
+										<Col xs={12} sm={12} md={12} lg={12} xl={8}>
 											<Row className='text-left mx-auto justify-content-left'>
 												<a style={{ color: 'black', fontSize: '0.8rem' }} href={info.url}>
 													{info.title}

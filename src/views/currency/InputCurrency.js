@@ -34,7 +34,7 @@ export default class InputCurrency extends Component {
 				keepSelectedInList={true}
 				dropdownHandle={true}
 				closeOnSelect={true}
-				clearable={true}
+				clearable={false}
 				// Manage Loading Currencies in Dropdown.
 				loading={listCurrency ? false : true}
 				disabled={listCurrency ? false : true}

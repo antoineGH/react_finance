@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 
 import Index from '../Index'
-
 import BarLoader from 'react-spinners/BarLoader'
-
-import { withRouter } from 'react-router-dom'
 import UserHeader from '../../components/Headers/UserHeader'
 
 import fetchCurrency from './utils/fetchCurrency'
@@ -31,7 +28,7 @@ import { Card, CardBody, CardHeader } from 'reactstrap'
 
 import { authFetch } from '../../auth'
 
-export class Currency extends Component {
+export default class Currency extends Component {
 	// --- CLASS CONSTRUCTOR ---
 
 	constructor(props) {
@@ -637,5 +634,3 @@ export class Currency extends Component {
 		}
 	}
 }
-
-export default withRouter(Currency)

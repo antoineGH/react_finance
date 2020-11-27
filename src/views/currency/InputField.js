@@ -29,6 +29,7 @@ export default class InputField extends Component {
 			onCurrencyChangeInput,
 			onCurrencyChangeOutput,
 			reverse,
+			borderColor,
 		} = this.props
 
 		return (
@@ -37,16 +38,28 @@ export default class InputField extends Component {
 					<CardBody>
 						<Row className='vertical-center reverse_div mt-1'>
 							<Col lg='10' xl='10'>
+								<div className='col'>
+									<h5 className='text-uppercase text-muted mb-0 card-title'>
+										Convert Currency {valueInput && valueOutput && '(' + valueInput + ' - ' + valueOutput + ')'}
+									</h5>
+								</div>
 								<Row>
 									<Col lg='3' xl='4'>
-										<div className='inputValue'>
+										<div className='inputValue mt-2'>
 											{' '}
-											<InputValue inputValue={inputValue} onValueChange={onValueChangeInput} />
+											<InputValue
+												inputValue={inputValue}
+												inputCurrency={valueInput}
+												onValueChange={onValueChangeInput}
+												borderColor={borderColor}
+											/>
 										</div>
 									</Col>
 									<Col lg='9' xl='8'>
-										<div className='inputCurrency'>
-											{' '}
+										<div className='inputCurrency mt-1'>
+											<label className='form-control-label' style={{ fontSize: '0.70rem' }} htmlFor='input-username'>
+												Select Source Currency
+											</label>
 											{listCurrency && (
 												<InputCurrency
 													listCurrency={listCurrency}
@@ -60,15 +73,23 @@ export default class InputField extends Component {
 										</div>
 									</Col>
 								</Row>
-								<Row className='mt-3 mt-md-4'>
+								<Row className='mt-1'>
 									<Col lg='3' xl='4'>
 										<div className='inputValue'>
 											{' '}
-											<InputValue inputValue={outputValue} onValueChange={onValueChangeOutput} />{' '}
+											<InputValue
+												inputValue={outputValue}
+												inputCurrency={valueOutput}
+												onValueChange={onValueChangeOutput}
+												borderColor={borderColor}
+											/>{' '}
 										</div>
 									</Col>
 									<Col lg='9' xl='8'>
 										<div className='inputCurrency'>
+											<label className='form-control-label' style={{ fontSize: '0.70rem' }} htmlFor='input-username'>
+												Select Destination Currency
+											</label>
 											{listCurrency && (
 												<InputCurrency
 													listCurrency={listCurrency}
@@ -84,7 +105,14 @@ export default class InputField extends Component {
 								</Row>
 							</Col>
 							<Col lg='1' xl='1' className='mx-auto my-auto'>
-								<Button className='reverse' onClick={reverse}>
+								<Button
+									className='reverse'
+									onClick={reverse}
+									style={{
+										backgroundColor: borderColor,
+										borderColor: borderColor,
+										color: 'white',
+									}}>
 									<i className='fas fa-random'></i>
 								</Button>
 							</Col>

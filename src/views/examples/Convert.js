@@ -355,16 +355,6 @@ export default class Convert extends Component {
 													Try Again
 												</Button>
 											)}
-											<Button
-												size='md'
-												className='reverse'
-												style={{
-													backgroundColor: borderColor,
-													borderColor: borderColor,
-												}}
-												onClick={this.reverse}>
-												<i className='fas fa-random fa-lg'></i>
-											</Button>
 										</Col>
 									</Row>
 									<Row className='align-items-center'>
@@ -389,7 +379,7 @@ export default class Convert extends Component {
 												</InputGroup>
 											</FormGroup>
 										</Col>
-										<Col lg='8' xl='4'>
+										<Col lg='7' xl='4'>
 											<FormGroup>
 												<label className='form-control-label' style={{ fontSize: '0.70rem' }} htmlFor='input-username'>
 													Select Source Currency
@@ -415,7 +405,20 @@ export default class Convert extends Component {
 											</FormGroup>
 										</Col>
 									</Row>
-
+									<Row style={{ marginTop: '-1%', marginBottom: '-1%' }}>
+										<Col lg='1' xl='1' className='offset-3 offset-sm-4 mb-3 mb-md-0 offset-lg-10 offset-xl-7'>
+											<Button
+												size='md'
+												className='reverse ml-4'
+												style={{
+													backgroundColor: borderColor,
+													borderColor: borderColor,
+												}}
+												onClick={this.reverse}>
+												<i className='fas fa-random fa-md'></i>
+											</Button>
+										</Col>
+									</Row>
 									<Row className='align-items-center'>
 										<Col lg='3'>
 											<FormGroup>
@@ -438,7 +441,7 @@ export default class Convert extends Component {
 												</InputGroup>
 											</FormGroup>
 										</Col>
-										<Col lg='8' xl='4'>
+										<Col lg='7' xl='4'>
 											<FormGroup>
 												<label className='form-control-label' style={{ fontSize: '0.70rem' }} htmlFor='input-username'>
 													Select Destination Currency

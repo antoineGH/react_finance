@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Form from 'react-bootstrap/Form'
+import { FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 
 export default class InputValue extends Component {
 	constructor(props) {
@@ -13,7 +13,29 @@ export default class InputValue extends Component {
 
 	render() {
 		const value = this.props.inputValue
+		const inputCurrency = this.props.inputCurrency
+		const borderColor = this.props.borderColor
 
-		return <Form.Control className='inputValue form-control-input' type='text' value={value} onChange={this.handleChange} />
+		return (
+			<FormGroup>
+				<label className='form-control-label' style={{ fontSize: '0.70rem' }} htmlFor='input-username'>
+					Input Value
+				</label>
+				<InputGroup>
+					<InputGroupAddon addonType='prepend'>
+						<InputGroupText style={{ backgroundColor: borderColor }} className='decoration-input'>
+							{inputCurrency}
+						</InputGroupText>
+					</InputGroupAddon>
+					<Input
+						className='inputValue form-control-input'
+						style={{ paddingLeft: '0.85rem' }}
+						type='text'
+						value={value}
+						onChange={this.handleChange}
+					/>
+				</InputGroup>
+			</FormGroup>
+		)
 	}
 }

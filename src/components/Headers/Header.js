@@ -67,6 +67,7 @@ class Header extends React.Component {
 										onCurrencyChangeInput={onCurrencyChangeInput}
 										onCurrencyChangeOutput={onCurrencyChangeOutput}
 										reverse={reverse}
+										borderColor={borderColor}
 									/>
 								</Col>
 								{/* INFO: INFORMATION CURRENCY FIELD */}

@@ -22,7 +22,6 @@ import fetchNewsFeed from './utils/fetchNewsFeed'
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import { Card, CardBody, CardHeader } from 'reactstrap'
 
@@ -87,46 +86,52 @@ export default class Currency extends Component {
 
 	// --- COMPONENT LIFECYCLE ---
 	componentDidMount() {
+		this.mounted = true
 		this.fetchUserSettings()
 			.then((response) => {
 				const defaultCurrency = response.default_currency
-				this.setState({
-					inputCurrency: defaultCurrency,
-					optionsInput: {
-						value: defaultCurrency,
-						label: defaultCurrency + ' (' + currenciesName[defaultCurrency] + ')',
-					},
-				})
+				if (this.mounted) {
+					this.setState({
+						inputCurrency: defaultCurrency,
+						optionsInput: {
+							value: defaultCurrency,
+							label: defaultCurrency + ' (' + currenciesName[defaultCurrency] + ')',
+						},
+					})
+				}
 				fetchCurrency(defaultCurrency)
 					.then((response) => {
-						this.setState({ date: response.date })
-						const currencies = []
-						for (const [prop, value] of Object.entries(response.rates)) {
-							const currencyName = '(' + currenciesName[prop] + ')'
-							currencies.push({
-								value: prop,
-								label: `${prop} ${currencyName}`,
-								rate: value,
-							})
-						}
-						const date = new Date(Date.now())
-						const start_date = getDate(date)
-						const end_date = getDateBefore(date, 1, 'months')
+						if (this.mounted) {
+							this.setState({ date: response.date })
 
-						this.getListExchange(start_date, end_date, this.state.inputCurrency, currencies)
-						this.setState({
-							listCurrency: currencies,
-							isLoaded: true,
-							hasError: false,
-						})
-						if (this.state.inputValue && this.state.outputCurrency) {
+							const currencies = []
+							for (const [prop, value] of Object.entries(response.rates)) {
+								const currencyName = '(' + currenciesName[prop] + ')'
+								currencies.push({
+									value: prop,
+									label: `${prop} ${currencyName}`,
+									rate: value,
+								})
+							}
+							const date = new Date(Date.now())
+							const start_date = getDate(date)
+							const end_date = getDateBefore(date, 1, 'months')
+
+							this.getListExchange(start_date, end_date, this.state.inputCurrency, currencies)
 							this.setState({
-								outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+								listCurrency: currencies,
+								isLoaded: true,
+								hasError: false,
 							})
+							if (this.state.inputValue && this.state.outputCurrency) {
+								this.setState({
+									outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+								})
+							}
+							this.getGraphInfo(end_date, start_date, this.state.inputCurrency, 'EUR')
+							this.getHistoryGraphInfo(end_date, this.state.inputCurrency, 'EUR')
+							this.getNewsFeed()
 						}
-						this.getGraphInfo(end_date, start_date, this.state.inputCurrency, 'EUR')
-						this.getHistoryGraphInfo(end_date, this.state.inputCurrency, 'EUR')
-						this.getNewsFeed()
 					})
 					.catch((error) => {
 						this.setState({ hasError: true })
@@ -136,6 +141,10 @@ export default class Currency extends Component {
 				toastMessage('Service not available, Try Again', 'error', 3500)
 				this.setState({ hasError: true, isLoaded: true })
 			})
+	}
+
+	componentWillUnmount() {
+		this.mounted = false
 	}
 
 	// --- CLASS METHODS ---
@@ -171,6 +180,8 @@ export default class Currency extends Component {
 		for (let i = 0; i < items - 1; i++) {
 			const destCurrency = listCurrency[i]['value']
 			if (destCurrency === baseCurrency) continue
+
+			this.mounted = true
 			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)
 				.then((response) => {
 					const orderedDates = sortDate(response)
@@ -178,19 +189,21 @@ export default class Currency extends Component {
 					const keyEndDate = Object.keys(orderedDates)[orderedDates.length]
 					const rate = orderedDates[keyEndDate][destCurrency]
 
-					this.setState({
-						listCurrencyHistory: [
-							...this.state.listCurrencyHistory,
-							{
-								baseCurrency: baseCurrency,
-								destCurrency: destCurrency,
-								rate: rate,
-								historyPercentage: historyPercentage,
-							},
-						],
-					})
-					if (this.state.listCurrencyHistory.length === items - 2) {
-						this.setState({ listCurrencyLoaded: true })
+					if (this.mounted) {
+						this.setState({
+							listCurrencyHistory: [
+								...this.state.listCurrencyHistory,
+								{
+									baseCurrency: baseCurrency,
+									destCurrency: destCurrency,
+									rate: rate,
+									historyPercentage: historyPercentage,
+								},
+							],
+						})
+						if (this.state.listCurrencyHistory.length === items - 2) {
+							this.setState({ listCurrencyLoaded: true })
+						}
 					}
 				})
 				.catch((error) => {
@@ -201,36 +214,38 @@ export default class Currency extends Component {
 
 	// Set base
 	setBase(selectedCurrency) {
-		this.setState({ infoIsLoading: true })
-		setTimeout(() => {
-			fetchCurrency(selectedCurrency)
-				.then((response) => {
-					this.setState({ date: response.date })
-					const currencies = []
-					for (const [prop, value] of Object.entries(response.rates)) {
-						const currencyName = '(' + currenciesName[prop] + ')'
-						currencies.push({
-							value: prop,
-							label: `${prop} ${currencyName}`,
-							rate: value,
-						})
-					}
-					this.setState({
-						listCurrency: currencies,
-						isLoaded: true,
-						hasError: false,
-						infoIsLoading: false,
-					})
-					if (this.state.inputValue && this.state.outputCurrency) {
+		if (this.mounted) {
+			this.setState({ infoIsLoading: true })
+			setTimeout(() => {
+				fetchCurrency(selectedCurrency)
+					.then((response) => {
+						this.setState({ date: response.date })
+						const currencies = []
+						for (const [prop, value] of Object.entries(response.rates)) {
+							const currencyName = '(' + currenciesName[prop] + ')'
+							currencies.push({
+								value: prop,
+								label: `${prop} ${currencyName}`,
+								rate: value,
+							})
+						}
 						this.setState({
-							outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+							listCurrency: currencies,
+							isLoaded: true,
+							hasError: false,
+							infoIsLoading: false,
 						})
-					}
-				})
-				.catch((error) => {
-					this.setState({ hasError: true, infoIsLoading: false })
-				})
-		}, 2000)
+						if (this.state.inputValue && this.state.outputCurrency) {
+							this.setState({
+								outputValue: toCurrency(this.state.inputValue, this.state.outputCurrency, currencies),
+							})
+						}
+					})
+					.catch((error) => {
+						this.setState({ hasError: true, infoIsLoading: false })
+					})
+			}, 2000)
+		}
 	}
 
 	// Get News Feed

@@ -39,6 +39,7 @@ export default class Convert extends Component {
 	// --- COMPONENT LIFECYCLE ---
 
 	componentDidMount() {
+		this.mounted = true
 		this.fetchUserSettings()
 			.then((response) => {
 				const selectedSourceCurrency = response.default_currency
@@ -54,25 +55,29 @@ export default class Convert extends Component {
 								rate: value,
 							})
 						}
-						this.setState({
-							listCurrency: listCurrency,
-							listCurrencyLoaded: true,
-							listCurrencyError: false,
-							outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, listCurrency),
-						})
-						const date = new Date(Date.now())
-						const start_date = getDateBefore(date, 1, 'months')
-						const end_date = getDate(date)
+						if (this.mounted) {
+							this.setState({
+								listCurrency: listCurrency,
+								listCurrencyLoaded: true,
+								listCurrencyError: false,
+								outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, listCurrency),
+							})
+							const date = new Date(Date.now())
+							const start_date = getDateBefore(date, 1, 'months')
+							const end_date = getDate(date)
 
-						fetchHistoryCurrency(start_date, end_date, selectedSourceCurrency, this.state.selectedDestCurrency)
-							.then((response) => {
-								const orderedDates = sortDate(response)
-								const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
-								this.setState({ historyPercentage: historyPercentage })
-							})
-							.catch((error) => {
-								toastMessage('Impossible to fetch currency history', 'error', 3500)
-							})
+							fetchHistoryCurrency(start_date, end_date, selectedSourceCurrency, this.state.selectedDestCurrency)
+								.then((response) => {
+									const orderedDates = sortDate(response)
+									const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
+									if (this.mounted) {
+										this.setState({ historyPercentage: historyPercentage })
+									}
+								})
+								.catch((error) => {
+									toastMessage('Impossible to fetch currency history', 'error', 3500)
+								})
+						}
 					})
 					.catch((error) => {
 						toastMessage('Impossible to fetch currency', 'error', 3500)
@@ -82,6 +87,10 @@ export default class Convert extends Component {
 				toastMessage('Service not available, Try Again', 'error', 3500)
 				this.setState({ listCurrencyError: true })
 			})
+	}
+
+	componentWillUnmount() {
+		this.mounted = false
 	}
 
 	// --- CLASS METHODS ---
@@ -112,10 +121,13 @@ export default class Convert extends Component {
 	}
 
 	setBase(selectedCurrency) {
-		this.setState({ listCurrencyLoaded: false })
-		setTimeout(() => {
-			fetchCurrency(selectedCurrency)
-				.then((response) => {
+		this.mounted = true
+		if (this.mounted) {
+			this.setState({ listCurrencyLoaded: false })
+		}
+		fetchCurrency(selectedCurrency)
+			.then((response) => {
+				if (this.mounted) {
 					this.setState({ date: response.date })
 					const currencies = []
 					for (const [prop, value] of Object.entries(response.rates)) {
@@ -126,17 +138,18 @@ export default class Convert extends Component {
 							rate: value,
 						})
 					}
+
 					this.setState({
 						listCurrency: currencies,
 						listCurrencyLoaded: true,
 						listCurrencyError: false,
 						outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, currencies),
 					})
-				})
-				.catch((error) => {
-					this.setState({ listCurrencyError: true, listCurrencyLoaded: false })
-				})
-		}, 2000)
+				}
+			})
+			.catch((error) => {
+				this.setState({ listCurrencyError: true, listCurrencyLoaded: false })
+			})
 	}
 
 	handleChangeSource(selected) {
@@ -204,6 +217,7 @@ export default class Convert extends Component {
 	}
 
 	getListExchange(startDate, endDate, baseCurrency, listCurrency) {
+		this.mounted = true
 		this.setState({ listCurrencyError: false, listCurrencyLoaded: false })
 		const items = 33
 		for (let i = 0; i < items - 1; i++) {
@@ -211,24 +225,26 @@ export default class Convert extends Component {
 			if (destCurrency === baseCurrency) continue
 			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)
 				.then((response) => {
-					const orderedDates = sortDate(response)
-					const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency)
-					const keyEndDate = Object.keys(orderedDates)[orderedDates.length]
-					const rate = orderedDates[keyEndDate][destCurrency]
+					if (this.mounted) {
+						const orderedDates = sortDate(response)
+						const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency)
+						const keyEndDate = Object.keys(orderedDates)[orderedDates.length]
+						const rate = orderedDates[keyEndDate][destCurrency]
 
-					this.setState({
-						listCurrencyHistory: [
-							...this.state.listCurrencyHistory,
-							{
-								baseCurrency: baseCurrency,
-								destCurrency: destCurrency,
-								rate: rate,
-								historyPercentage: historyPercentage,
-							},
-						],
-					})
-					if (this.state.listCurrencyHistory.length === items - 2) {
-						this.setState({ listCurrencyLoaded: true })
+						this.setState({
+							listCurrencyHistory: [
+								...this.state.listCurrencyHistory,
+								{
+									baseCurrency: baseCurrency,
+									destCurrency: destCurrency,
+									rate: rate,
+									historyPercentage: historyPercentage,
+								},
+							],
+						})
+						if (this.state.listCurrencyHistory.length === items - 2) {
+							this.setState({ listCurrencyLoaded: true })
+						}
 					}
 				})
 				.catch((error) => {

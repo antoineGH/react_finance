@@ -83,7 +83,7 @@ class Header extends React.Component {
 									/>
 								</Col>
 								{/* INFO: HISTORICAL CURRENCY */}
-								<Col lg='6' xl='3' className='mt-3 mt-xl-0'>
+								<Col lg='6' xl='3' className='mt-4 mt-xl-0'>
 									<HistoryPercentage
 										isHistoryLoaded={isHistoryLoaded}
 										hasHistoryError={hasHistoryError}

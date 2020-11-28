@@ -26,29 +26,38 @@ function LoadHistoricalPercentage(props) {
 	if (historyPercentage && inputCurrency && outputCurrency) {
 		return (
 			<>
-				<h2 className='h2 mb-0 mt-2' style={{ fontWeight: '650', fontSize: '1.5rem' }}>
-					{inputCurrency} per {outputCurrency}
-				</h2>
-				{historyPercentage >= 0 ? (
-					<>
-						<span className='text-success mr-2 mt-1'>
-							<i className='fas fa-arrow-up' />
-							&nbsp;{historyPercentage}%.{' '}
-						</span>{' '}
-					</>
-				) : (
-					<>
-						<span className='text-danger mr-2'>
-							<i className='fas fa-arrow-down' />
-							&nbsp;{historyPercentage}%.
-						</span>{' '}
-					</>
-				)}
-				<p className='mb-0 text-muted text-sm mt-4'>
-					<span className='text-nowrap'>
-						{active}: {start_at} <i className='fa-xs fas fa-chevron-right'></i> {end_at}
-					</span>
-				</p>
+				<Row>
+					<Col className='mt-0 mt-xl-3'>
+						<h2 className='h2' style={{ fontWeight: '650', fontSize: '1.5rem' }}>
+							{inputCurrency} per {outputCurrency}
+						</h2>
+						{historyPercentage >= 0 ? (
+							<>
+								<span className='text-success mr-2 mt-1' style={{ fontWeight: '650', fontSize: '1.3rem' }}>
+									<i className='fas fa-arrow-up' />
+									&nbsp;{historyPercentage}%.{' '}
+								</span>{' '}
+							</>
+						) : (
+							<>
+								<span className='text-danger mr-2' style={{ fontWeight: '650', fontSize: '1.3rem' }}>
+									<i className='fas fa-arrow-down' />
+									&nbsp;{historyPercentage}%.
+								</span>{' '}
+							</>
+						)}
+					</Col>
+				</Row>
+				<Row className='mt-0 mt-xl-3'>
+					<Col>
+						<p className='text-muted text-sm mt-3'>
+							<span className='text-muted text-sm text-nowrap mt-0 mt-xl-2'>European Central Bank</span>
+							<p className='text-nowrap text-muted text-sm'>
+								{active}: {start_at} <i className='fa-xs fas fa-chevron-right'></i> {end_at}
+							</p>
+						</p>
+					</Col>
+				</Row>
 			</>
 		)
 	} else {
@@ -65,7 +74,7 @@ export default function HistoricalPercentage(props) {
 	const { isHistoryLoaded, hasHistoryError, outputCurrency, inputCurrency, historyPercentage, start_at, end_at, active, borderColor } = props
 
 	return (
-		<Card className='card-stats ' style={{ height: '100%' }}>
+		<Card className='card-stats' style={{ height: '100%' }}>
 			<CardBody>
 				<Row>
 					<div className='col'>

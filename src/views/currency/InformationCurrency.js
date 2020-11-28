@@ -34,21 +34,27 @@ function LoadInformationCurrency(props) {
 	} else {
 		return (
 			<>
-				<p style={{ fontWeight: '650', fontSize: '1rem' }} className='h2 mb-0 mt-1'>
-					1 {inputCurrency} equals
-				</p>
+				<Row>
+					<Col className='mt-0 mt-xl-3'>
+						<p style={{ fontWeight: '650', fontSize: '1.5rem' }} className='h2 mb-0 mt-1'>
+							1 {inputCurrency} equals
+						</p>
 
-				<h2 style={{ fontWeight: '650', fontSize: '1.5rem' }} className='h2 mt-0 mb-0'>
-					{toCurrency(1, outputCurrency, listCurrency)} {outputCurrency}
-				</h2>
-				<p className='mt-1 mb-0 text-muted text-sm'>
-					<span className='text-nowrap'>European Central Bank</span>
-				</p>
-				{date && (
-					<p className='mb-0 text-muted text-sm'>
-						<span className='text-nowrap'>{getDatetime(Date.parse(date))}</span>
-					</p>
-				)}
+						<h2 style={{ fontWeight: '650', fontSize: '2rem' }} className='h2 mt-0 mb-0'>
+							{toCurrency(1, outputCurrency, listCurrency)} {outputCurrency}
+						</h2>
+					</Col>
+				</Row>
+				<Row className='mt-0 mt-xl-4'>
+					<Col>
+						<span className='text-muted text-sm text-nowrap mt-0 mt-xl-2'>European Central Bank</span>
+						{date && (
+							<p className='text-muted text-sm'>
+								<span className='text-nowrap'>{getDatetime(Date.parse(date))}</span>
+							</p>
+						)}
+					</Col>
+				</Row>
 			</>
 		)
 	}

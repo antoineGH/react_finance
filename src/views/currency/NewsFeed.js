@@ -387,7 +387,7 @@ export default class NewsFeed extends Component {
 								className='form_filter'
 								size='sm'
 								type='text'
-								id='search'
+								id='filter-articles'
 								placeholder='Filter Articles'
 								value={this.state.search}
 								onChange={(e) => this.setState({ search: e.currentTarget.value })}

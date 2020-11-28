@@ -587,20 +587,33 @@ export default class Currency extends Component {
 		if (!this.state.isLoaded) {
 			return (
 				<>
-					<Row>
-						<Helmet>
-							<title>Financial - Loading</title>
-						</Helmet>
-						<Col xs={12} sm={12} md={12} lg={12}>
-							<div className='mt-5'>
-								<BarLoader
-									css='display: flex; margin-top: 45px; justify-content: center; margin-left:auto; margin-right:auto;'
-									color={'#2E3030'}
-									size={20}
-								/>
-							</div>
-						</Col>
-					</Row>
+					<Helmet>
+						<title>Financial - Loading</title>
+					</Helmet>
+					<UserHeader welcome={'Dashboard'} message={'Check latest rates and track recent news.'} color={color} borderColor={borderColor} />
+					<Container className='mt--7' fluid>
+						<Card className='shadow'>
+							<CardHeader className='bg-transparent'>
+								<Row className='align-items-center'>
+									<div className='col'>
+										<h5 className='text-uppercase text-muted mb-0 card-title'>Dashboard Financial</h5>
+										<span style={{ fontSize: '0.80rem' }}></span>
+									</div>
+								</Row>
+								<div className='text-left justify-content-left'>
+									<span style={{ fontSize: '0.80rem' }}>
+										&nbsp;
+										<br />
+										<BarLoader
+											css='display: flex; margin-top: 10px; margin-bottom: 25px; justify-content: center; margin-left:auto; margin-right:auto;'
+											color={'#2E3030'}
+											size={20}
+										/>
+									</span>
+								</div>
+							</CardHeader>
+						</Card>
+					</Container>
 				</>
 			)
 		} else {

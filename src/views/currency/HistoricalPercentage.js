@@ -50,12 +50,12 @@ function LoadHistoricalPercentage(props) {
 				</Row>
 				<Row className='mt-0 mt-xl-3'>
 					<Col>
-						<p className='text-muted text-sm mt-3'>
+						<div className='text-muted text-sm mt-3'>
 							<span className='text-muted text-sm text-nowrap mt-0 mt-xl-2'>European Central Bank</span>
 							<p className='text-nowrap text-muted text-sm'>
 								{active}: {start_at} <i className='fa-xs fas fa-chevron-right'></i> {end_at}
 							</p>
-						</p>
+						</div>
 					</Col>
 				</Row>
 			</>
@@ -94,7 +94,7 @@ export default function HistoricalPercentage(props) {
 					</div>
 					<Col className='col-auto'>
 						<div className='icon icon-shape text-white rounded-circle shadow' style={{ backgroundColor: borderColor }}>
-							<i className='fas fa-percent' />
+							<i style={{ fontSize: '0.9rem' }} className='fas fa-percent' />
 						</div>
 					</Col>
 				</Row>

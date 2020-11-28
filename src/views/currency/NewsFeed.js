@@ -44,7 +44,7 @@ class LoadNewsFeed extends Component {
 
 	handlePageChange(pageNumber) {
 		const { newsFeed } = this.props
-		const pageLimit = 10
+		const pageLimit = 11
 		const offset = (pageNumber - 1) * pageLimit
 		const currentItems = newsFeed.slice(offset, offset + pageLimit)
 		this.setState({ activePage: pageNumber, currentItems: currentItems })

@@ -43,7 +43,9 @@ export default class Convert extends Component {
 		this.fetchUserSettings()
 			.then((response) => {
 				const selectedSourceCurrency = response.default_currency
-				this.setState({ selectedSourceCurrency: selectedSourceCurrency })
+				if (this.mounted) {
+					this.setState({ selectedSourceCurrency: selectedSourceCurrency })
+				}
 				fetchCurrency(selectedSourceCurrency)
 					.then((response) => {
 						const listCurrency = []
@@ -85,7 +87,9 @@ export default class Convert extends Component {
 			})
 			.catch((error) => {
 				toastMessage('Service not available, Try Again', 'error', 3500)
-				this.setState({ listCurrencyError: true })
+				if (this.mounted) {
+					this.setState({ listCurrencyError: true })
+				}
 			})
 	}
 
@@ -129,16 +133,18 @@ export default class Convert extends Component {
 			.then((response) => {
 				if (this.mounted) {
 					this.setState({ date: response.date })
-					const currencies = []
-					for (const [prop, value] of Object.entries(response.rates)) {
-						const currencyName = '(' + currenciesName[prop] + ')'
-						currencies.push({
-							value: prop,
-							label: `${prop} ${currencyName}`,
-							rate: value,
-						})
-					}
+				}
+				const currencies = []
+				for (const [prop, value] of Object.entries(response.rates)) {
+					const currencyName = '(' + currenciesName[prop] + ')'
+					currencies.push({
+						value: prop,
+						label: `${prop} ${currencyName}`,
+						rate: value,
+					})
+				}
 
+				if (this.mounted) {
 					this.setState({
 						listCurrency: currencies,
 						listCurrencyLoaded: true,
@@ -148,7 +154,9 @@ export default class Convert extends Component {
 				}
 			})
 			.catch((error) => {
-				this.setState({ listCurrencyError: true, listCurrencyLoaded: false })
+				if (this.mounted) {
+					this.setState({ listCurrencyError: true, listCurrencyLoaded: false })
+				}
 			})
 	}
 
@@ -161,19 +169,27 @@ export default class Convert extends Component {
 
 		fetchHistoryCurrency(end_date, start_date, selected[0].value, this.state.selectedDestCurrency)
 			.then((response) => {
+				this.mounted = true
 				const orderedDates = sortDate(response)
 				const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
-				this.setState({
-					historyPercentage: historyPercentage,
-				})
+				if (this.mounted) {
+					this.setState({
+						historyPercentage: historyPercentage,
+					})
+				}
 			})
 			.catch((error) => {
-				toastMessage('Impossible to fetch currency history', 'error', 3500)
+				if (this.mounted) {
+					toastMessage('Impossible to fetch currency history', 'error', 3500)
+				}
 			})
 	}
 
 	handleChangeDestination(selected) {
-		selected && this.setState({ selectedDestCurrency: selected[0].value })
+		this.mounted = true
+		if (this.mounted) {
+			selected && this.setState({ selectedDestCurrency: selected[0].value })
+		}
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
@@ -181,10 +197,12 @@ export default class Convert extends Component {
 			.then((response) => {
 				const orderedDates = sortDate(response)
 				const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
-				this.setState({
-					historyPercentage: historyPercentage,
-					outputValue: toCurrency(this.state.inputValue, selected[0].value, this.state.listCurrency),
-				})
+				if (this.mounted) {
+					this.setState({
+						historyPercentage: historyPercentage,
+						outputValue: toCurrency(this.state.inputValue, selected[0].value, this.state.listCurrency),
+					})
+				}
 			})
 			.catch((error) => {
 				toastMessage('Impossible to change destination currency', 'error', 3500)
@@ -225,12 +243,12 @@ export default class Convert extends Component {
 			if (destCurrency === baseCurrency) continue
 			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)
 				.then((response) => {
-					if (this.mounted) {
-						const orderedDates = sortDate(response)
-						const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency)
-						const keyEndDate = Object.keys(orderedDates)[orderedDates.length]
-						const rate = orderedDates[keyEndDate][destCurrency]
+					const orderedDates = sortDate(response)
+					const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency)
+					const keyEndDate = Object.keys(orderedDates)[orderedDates.length]
+					const rate = orderedDates[keyEndDate][destCurrency]
 
+					if (this.mounted) {
 						this.setState({
 							listCurrencyHistory: [
 								...this.state.listCurrencyHistory,
@@ -248,7 +266,9 @@ export default class Convert extends Component {
 					}
 				})
 				.catch((error) => {
-					this.setState({ listCurrencyError: true })
+					if (this.mounted) {
+						this.setState({ listCurrencyError: true })
+					}
 					toastMessage('Impossible to set initial state', 'error', 3500)
 				})
 		}
@@ -267,13 +287,16 @@ export default class Convert extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
 		this.setState({ listCurrencyHistory: [] })
+		this.mounted = true
 		fetchHistoryCurrency(end_date, start_date, this.state.selectedDestCurrency, this.state.selectedSourceCurrency)
 			.then((response) => {
 				const orderedDates = sortDate(response)
 				const historyPercentage = this.getHistoryPercentage(orderedDates, selectedSourceCurrency)
-				this.setState({
-					historyPercentage: historyPercentage,
-				})
+				if (this.mounted) {
+					this.setState({
+						historyPercentage: historyPercentage,
+					})
+				}
 			})
 			.catch((error) => {
 				toastMessage('Impossible to fetch currency history', 'error', 3500)
@@ -282,10 +305,13 @@ export default class Convert extends Component {
 
 	handleClick() {
 		this.setState({ listCurrencyError: false, listCurrencyLoaded: false })
+		this.mounted = true
 		this.fetchUserSettings()
 			.then((response) => {
 				const selectedSourceCurrency = response.default_currency
-				this.setState({ selectedSourceCurrency: selectedSourceCurrency })
+				if (this.mounted) {
+					this.setState({ selectedSourceCurrency: selectedSourceCurrency })
+				}
 				fetchCurrency(selectedSourceCurrency)
 					.then((response) => {
 						const listCurrency = []
@@ -297,12 +323,14 @@ export default class Convert extends Component {
 								rate: value,
 							})
 						}
-						this.setState({
-							listCurrency: listCurrency,
-							listCurrencyLoaded: true,
-							listCurrencyError: false,
-							outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, listCurrency),
-						})
+						if (this.mounted) {
+							this.setState({
+								listCurrency: listCurrency,
+								listCurrencyLoaded: true,
+								listCurrencyError: false,
+								outputValue: toCurrency(this.state.inputValue, this.state.selectedDestCurrency, listCurrency),
+							})
+						}
 						const date = new Date(Date.now())
 						const start_date = getDateBefore(date, 1, 'months')
 						const end_date = getDate(date)
@@ -312,7 +340,9 @@ export default class Convert extends Component {
 								toastMessage('Service Available', 'success', 3500)
 								const orderedDates = sortDate(response)
 								const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
-								this.setState({ historyPercentage: historyPercentage })
+								if (this.mounted) {
+									this.setState({ historyPercentage: historyPercentage })
+								}
 							})
 							.catch((error) => {
 								toastMessage('Impossible to fetch currency history', 'error', 3500)
@@ -324,7 +354,9 @@ export default class Convert extends Component {
 			})
 			.catch((error) => {
 				toastMessage('Service not available, Try Again', 'error', 3500)
-				this.setState({ listCurrencyError: true, listCurrencyLoaded: true })
+				if (this.mounted) {
+					this.setState({ listCurrencyError: true, listCurrencyLoaded: true })
+				}
 			})
 	}
 

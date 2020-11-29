@@ -209,14 +209,26 @@ export default class HistoricalGraph extends Component {
 	}
 
 	handleChangeSource(selected) {
-		selected && this.setState({ selectedSourceCurrency: selected[0].value, active: '1M' })
+		const graphTitle = {
+			base: selected[0].value,
+			dest: this.state.graphTitle.dest,
+			start_at: this.state.graphTitle.start_at,
+			end_at: this.state.graphTitle.end_at,
+		}
+		selected && this.setState({ selectedSourceCurrency: selected[0].value, active: '1M', graphTitle: graphTitle })
 		const date = new Date(Date.now())
 		const end_date = getDateBefore(date, 1, 'month')
 		this.getHistoryGraphInfo(end_date, selected[0].value, this.state.selectedDestCurrency)
 	}
 
 	handleChangeDestination(selected) {
-		selected && this.setState({ selectedDestCurrency: selected[0].value, active: '1M' })
+		const graphTitle = {
+			base: this.state.graphTitle.base,
+			dest: selected[0].value,
+			start_at: this.state.graphTitle.start_at,
+			end_at: this.state.graphTitle.end_at,
+		}
+		selected && this.setState({ selectedDestCurrency: selected[0].value, active: '1M', graphTitle: graphTitle })
 		const date = new Date(Date.now())
 		const end_date = getDateBefore(date, 1, 'month')
 		this.getHistoryGraphInfo(end_date, this.state.selectedSourceCurrency, selected[0].value)

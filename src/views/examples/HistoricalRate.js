@@ -319,6 +319,10 @@ export default class HistoricalRate extends Component {
 		}
 		const items = 33
 		for (let i = 0; i < items - 1; i++) {
+			if (!this.mounted) return
+			if (baseCurrency === 'Default') {
+				continue
+			}
 			const destCurrency = listCurrency[i]['value']
 			if (destCurrency === baseCurrency) continue
 			fetchHistoryCurrency(endDate, startDate, baseCurrency, destCurrency)

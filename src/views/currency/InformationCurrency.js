@@ -67,7 +67,7 @@ export default function InformationCurrency(props) {
 	const { infoIsLoading, outputCurrency, inputCurrency, listCurrency, hasError, date, borderColor, cardColor } = props
 
 	return (
-		<Card className='card-stats' style={{ height: '100%', background: cardColor && cardColor }}>
+		<Card className='card-stats' style={{ height: '100%', background: cardColor && cardColor, border: 0 }}>
 			<CardBody>
 				<Row>
 					<div className='col'>

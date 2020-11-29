@@ -1,11 +1,18 @@
 export const themes = {
 	pink: {
-		header: 'linear-gradient(to right, #faaca8 , #ddd6f3)',
-		backgroundColor: 'rgba(250, 172, 168, 0.1)',
-		borderColor: 'rgb(250, 172, 168)',
-		pointBackgroundColor: 'rgb(250, 172, 168)',
-		pointHoverBackgroundColor: 'rgb(250, 172, 168)',
+		header: 'linear-gradient(to right, #FF8E88, #faaca8)',
+		backgroundColor: 'rgba(255,142,136, 0.1)',
+		borderColor: 'rgb(255,142,136)',
+		pointBackgroundColor: 'rgb(255,142,136)',
+		pointHoverBackgroundColor: 'rgb(255,142,136)',
 	},
+	// pink: {
+	// 	header: 'linear-gradient(to right, #faaca8 , #ddd6f3)',
+	// 	backgroundColor: 'rgba(250, 172, 168, 0.1)',
+	// 	borderColor: 'rgb(250, 172, 168)',
+	// 	pointBackgroundColor: 'rgb(250, 172, 168)',
+	// 	pointHoverBackgroundColor: 'rgb(250, 172, 168)',
+	// },
 	blue: {
 		header: 'linear-gradient(to right, #2193b0, #6dd5ed)',
 		backgroundColor: 'rgba(33, 147, 176, 0.1)',
@@ -35,7 +42,7 @@ export const themes = {
 		pointHoverBackgroundColor: 'rgb(97, 67, 133)',
 	},
 	royal: {
-		header: 'linear-gradient(to right, #000428 , #004e92)',
+		header: 'linear-gradient(to right, #000428 , #0C3B61)',
 		backgroundColor: 'rgba(0, 4, 40, 0.1)',
 		borderColor: 'rgb(0, 4, 40)',
 		pointBackgroundColor: 'rgb(0, 4, 40)',

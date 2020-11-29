@@ -51,7 +51,7 @@ export default class HistoricalGraph extends Component {
 				const start_date = getDate(date)
 				const end_date = getDateBefore(date, 1, 'months')
 				const graphTitle = {
-					base: this.state.selectedSourceCurrency,
+					base: response.default_currency,
 					dest: this.state.selectedDestCurrency,
 					start_at: start_date,
 					end_at: end_date,

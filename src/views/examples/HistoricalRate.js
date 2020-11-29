@@ -236,9 +236,12 @@ export default class HistoricalRate extends Component {
 	// --- COMPONENT LIFECYCLE ---
 
 	componentDidMount() {
+		this.mounted = true
 		this.fetchUserSettings()
 			.then((response) => {
-				this.setState({ selectedCurrency: response.default_currency })
+				if (this.mounted) {
+					this.setState({ selectedCurrency: response.default_currency })
+				}
 				fetchCurrency(response.default_currency)
 					.then((response) => {
 						const listCurrency = []
@@ -254,23 +257,33 @@ export default class HistoricalRate extends Component {
 						const start_date = getDate(date)
 						const end_date = getDateBefore(date, 1, 'months')
 						this.getListExchange(start_date, end_date, this.state.selectedCurrency, listCurrency)
-						this.setState({
-							listCurrency: listCurrency,
-							listCurrencyError: false,
-							listCurrencyLoaded: true,
-							listCurrencyHistoryError: false,
-							listCurrencyHistoryLoaded: true,
-						})
+						if (this.mounted) {
+							this.setState({
+								listCurrency: listCurrency,
+								listCurrencyError: false,
+								listCurrencyLoaded: true,
+								listCurrencyHistoryError: false,
+								listCurrencyHistoryLoaded: true,
+							})
+						}
 					})
 					.catch((error) => {
 						toastMessage('Impossible to load Historical Rate', 'error', 3500)
-						this.setState({ listCurrencyError: true, listCurrencyHistoryError: true })
+						if (this.mounted) {
+							this.setState({ listCurrencyError: true, listCurrencyHistoryError: true })
+						}
 					})
 			})
 			.catch((error) => {
 				toastMessage('Service not available, Try Again', 'error', 3500)
-				this.setState({ listCurrencyError: true, listCurrencyHistoryError: true, listCurrencyLoaded: true })
+				if (this.mounted) {
+					this.setState({ listCurrencyError: true, listCurrencyHistoryError: true, listCurrencyLoaded: true })
+				}
 			})
+	}
+
+	componentWillUnmount() {
+		this.mounted = false
 	}
 
 	// --- CLASS METHODS ---
@@ -301,7 +314,10 @@ export default class HistoricalRate extends Component {
 	}
 
 	getListExchange(startDate, endDate, baseCurrency, listCurrency) {
-		this.setState({ listCurrencyHistoryError: false, listCurrencyHistoryLoaded: false })
+		this.mounted = true
+		if (this.mounted) {
+			this.setState({ listCurrencyHistoryError: false, listCurrencyHistoryLoaded: false })
+		}
 		const items = 33
 		for (let i = 0; i < items - 1; i++) {
 			const destCurrency = listCurrency[i]['value']
@@ -313,25 +329,31 @@ export default class HistoricalRate extends Component {
 					const keyEndDate = Object.keys(orderedDates)[orderedDates.length]
 					const rate = orderedDates[keyEndDate][destCurrency]
 
-					this.setState({
-						listCurrencyHistory: [
-							...this.state.listCurrencyHistory,
-							{
-								baseCurrency: baseCurrency,
-								baseCurrencyLabel: currenciesName[baseCurrency],
-								destCurrency: destCurrency,
-								destCurrencyLabel: currenciesName[destCurrency],
-								rate: rate,
-								historyPercentage: historyPercentage,
-							},
-						],
-					})
+					if (this.mounted) {
+						this.setState({
+							listCurrencyHistory: [
+								...this.state.listCurrencyHistory,
+								{
+									baseCurrency: baseCurrency,
+									baseCurrencyLabel: currenciesName[baseCurrency],
+									destCurrency: destCurrency,
+									destCurrencyLabel: currenciesName[destCurrency],
+									rate: rate,
+									historyPercentage: historyPercentage,
+								},
+							],
+						})
+					}
 					if (this.state.listCurrencyHistory.length === items - 2) {
-						this.setState({ listCurrencyHistoryLoaded: true })
+						if (this.mounted) {
+							this.setState({ listCurrencyHistoryLoaded: true })
+						}
 					}
 				})
 				.catch((error) => {
-					this.setState({ listCurrencyHistoryError: true })
+					if (this.mounted) {
+						this.setState({ listCurrencyHistoryError: true })
+					}
 				})
 		}
 	}
@@ -361,13 +383,15 @@ export default class HistoricalRate extends Component {
 
 	handleClick() {
 		this.setState({ listCurrencyError: false, listCurrencyLoaded: false, listCurrencyHistoryError: false, listCurrencyHistoryLoaded: false })
+		this.mounted = true
 		this.fetchUserSettings()
 			.then((response) => {
-				this.setState({ selectedCurrency: response.default_currency })
+				if (this.mounted) {
+					this.setState({ selectedCurrency: response.default_currency })
+				}
 				fetchCurrency(response.default_currency)
 					.then((response) => {
 						toastMessage('Service Available', 'success', 3500)
-						console.log(response)
 						const listCurrency = []
 						for (const [prop, value] of Object.entries(response.rates)) {
 							const currencyName = '(' + currenciesName[prop] + ')'
@@ -381,22 +405,28 @@ export default class HistoricalRate extends Component {
 						const start_date = getDate(date)
 						const end_date = getDateBefore(date, 1, 'months')
 						this.getListExchange(start_date, end_date, this.state.selectedCurrency, listCurrency)
-						this.setState({
-							listCurrency: listCurrency,
-							listCurrencyError: false,
-							listCurrencyLoaded: true,
-							listCurrencyHistoryError: false,
-							listCurrencyHistoryLoaded: true,
-						})
+						if (this.mounted) {
+							this.setState({
+								listCurrency: listCurrency,
+								listCurrencyError: false,
+								listCurrencyLoaded: true,
+								listCurrencyHistoryError: false,
+								listCurrencyHistoryLoaded: true,
+							})
+						}
 					})
 					.catch((error) => {
 						toastMessage('Impossible to load Historical Rate', 'error', 3500)
-						this.setState({ listCurrencyError: true, listCurrencyHistoryError: true })
+						if (this.mounted) {
+							this.setState({ listCurrencyError: true, listCurrencyHistoryError: true })
+						}
 					})
 			})
 			.catch((error) => {
 				toastMessage('Service not available, Try Again', 'error', 3500)
-				this.setState({ listCurrencyError: true, listCurrencyHistoryError: true, listCurrencyLoaded: true })
+				if (this.mounted) {
+					this.setState({ listCurrencyError: true, listCurrencyHistoryError: true, listCurrencyLoaded: true })
+				}
 			})
 	}
 

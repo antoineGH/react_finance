@@ -38,7 +38,7 @@ export default class InputField extends Component {
 					<CardBody>
 						<Row className='vertical-center reverse_div mt-1'>
 							<Col lg='10' xl='10'>
-								<div className='col'>
+								<div className='col' style={{ paddingLeft: '0px' }}>
 									<h5 className='text-uppercase text-muted mb-0 card-title'>
 										Convert Currency {valueInput && valueOutput && '(' + valueInput + ' - ' + valueOutput + ')'}
 									</h5>

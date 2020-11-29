@@ -6,12 +6,12 @@ import { Card, CardBody, CardTitle, Row, Col } from 'reactstrap'
 
 // INFO: LOAD FUNCTION
 function LoadInformationCurrency(props) {
-	const { infoIsLoading, outputCurrency, inputCurrency, listCurrency, hasError, date } = props
+	const { infoIsLoading, outputCurrency, inputCurrency, listCurrency, hasError, date, cardColor } = props
 	if (hasError) {
 		return (
 			<>
 				<div className='text-center justify-content-center'>
-					<span style={{ fontSize: '0.80rem' }}>&nbsp;Impossible to fetch Foreign Exchange Rate</span>
+					<span style={{ fontSize: '0.80rem', color: cardColor && 'white' }}>&nbsp;Impossible to fetch Foreign Exchange Rate</span>
 				</div>
 			</>
 		)
@@ -20,7 +20,7 @@ function LoadInformationCurrency(props) {
 	if (infoIsLoading) {
 		return (
 			<div className='text-center justify-content-center mt-3'>
-				<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
+				<BarLoader css='display: flex; justify-content: center;' color={cardColor ? 'white' : '#2E3030'} size={15} />
 			</div>
 		)
 	}
@@ -36,20 +36,22 @@ function LoadInformationCurrency(props) {
 			<>
 				<Row>
 					<Col className='mt-0 mt-xl-3'>
-						<p style={{ fontWeight: '650', fontSize: '1.5rem' }} className='h2 mb-0 mt-1'>
+						<p style={{ fontWeight: '650', fontSize: '1.5rem', color: cardColor && 'white' }} className='h2 mb-0 mt-1'>
 							1 {inputCurrency} equals
 						</p>
 
-						<h2 style={{ fontWeight: '650', fontSize: '2rem' }} className='h2 mt-0 mb-0'>
+						<h2 style={{ fontWeight: '650', fontSize: '2rem', color: cardColor && 'white' }} className='h2 mt-0 mb-0'>
 							{toCurrency(1, outputCurrency, listCurrency)} {outputCurrency}
 						</h2>
 					</Col>
 				</Row>
 				<Row className='mt-0 mt-xl-4'>
 					<Col>
-						<span className='text-muted text-sm text-nowrap mt-0 mt-xl-2'>European Central Bank</span>
+						<span className={cardColor ? 'text-white text-sm text-nowrap mt-0 mt-xl-2' : 'text-muted text-sm text-nowrap mt-0 mt-xl-2'}>
+							European Central Bank
+						</span>
 						{date && (
-							<p className='text-muted text-sm'>
+							<p className={cardColor ? 'text-white' : 'text-muted text-sm'}>
 								<span className='text-nowrap'>{getDatetime(Date.parse(date))}</span>
 							</p>
 						)}
@@ -62,14 +64,14 @@ function LoadInformationCurrency(props) {
 
 // INFO: INFORMATION CURRENCY FIELD
 export default function InformationCurrency(props) {
-	const { infoIsLoading, outputCurrency, inputCurrency, listCurrency, hasError, date, borderColor } = props
+	const { infoIsLoading, outputCurrency, inputCurrency, listCurrency, hasError, date, borderColor, cardColor } = props
 
 	return (
-		<Card className='card-stats' style={{ height: '100%' }}>
+		<Card className='card-stats' style={{ height: '100%', background: cardColor && cardColor }}>
 			<CardBody>
 				<Row>
 					<div className='col'>
-						<CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+						<CardTitle tag='h5' className={cardColor ? 'text-uppercase text-white mb-0' : 'text-uppercase text-muted mb-0'}>
 							Exchange Rate
 						</CardTitle>
 						<LoadInformationCurrency
@@ -79,6 +81,7 @@ export default function InformationCurrency(props) {
 							listCurrency={listCurrency}
 							hasError={hasError}
 							date={date}
+							cardColor={cardColor}
 						/>
 					</div>
 					<Col className='col-auto'>

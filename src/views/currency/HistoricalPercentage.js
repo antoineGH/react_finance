@@ -3,13 +3,13 @@ import BarLoader from 'react-spinners/BarLoader'
 import { Card, CardBody, CardTitle, Row, Col } from 'reactstrap'
 
 function LoadHistoricalPercentage(props) {
-	const { isHistoryLoaded, hasHistoryError, outputCurrency, inputCurrency, historyPercentage, start_at, end_at, active } = props
+	const { isHistoryLoaded, hasHistoryError, outputCurrency, inputCurrency, historyPercentage, start_at, end_at, active, cardColor } = props
 
 	if (hasHistoryError) {
 		return (
 			<>
 				<div className='text-center justify-content-center'>
-					<span style={{ fontSize: '0.80rem' }}>&nbsp;Impossible to fetch History</span>
+					<span style={{ fontSize: '0.80rem', color: cardColor && 'white' }}>&nbsp;Impossible to fetch History</span>
 				</div>
 			</>
 		)
@@ -18,7 +18,7 @@ function LoadHistoricalPercentage(props) {
 	if (!isHistoryLoaded) {
 		return (
 			<div className='text-center justify-content-center mt-3'>
-				<BarLoader css='display: flex; justify-content: center;' color={'#2E3030'} size={15} />
+				<BarLoader css='display: flex; justify-content: center;' color={cardColor ? 'white' : '#2E3030'} size={15} />
 			</div>
 		)
 	}
@@ -28,7 +28,7 @@ function LoadHistoricalPercentage(props) {
 			<>
 				<Row>
 					<Col className='mt-0 mt-xl-3'>
-						<h2 className='h2' style={{ fontWeight: '650', fontSize: '1.5rem' }}>
+						<h2 className='h2' style={{ fontWeight: '650', fontSize: '1.5rem', color: cardColor && 'white' }}>
 							{inputCurrency} per {outputCurrency}
 						</h2>
 						{historyPercentage >= 0 ? (
@@ -40,7 +40,7 @@ function LoadHistoricalPercentage(props) {
 							</>
 						) : (
 							<>
-								<span className='text-danger mr-2' style={{ fontWeight: '650', fontSize: '1.3rem' }}>
+								<span className='text-danger mr-2' style={{ fontWeight: '600', fontSize: '1.3rem' }}>
 									<i className='fas fa-arrow-down' />
 									&nbsp;{historyPercentage}%.
 								</span>{' '}
@@ -50,9 +50,11 @@ function LoadHistoricalPercentage(props) {
 				</Row>
 				<Row className='mt-0 mt-xl-3'>
 					<Col>
-						<div className='text-muted text-sm mt-3'>
-							<span className='text-muted text-sm text-nowrap mt-0 mt-xl-2'>European Central Bank</span>
-							<p className='text-nowrap text-muted text-sm'>
+						<div className='mt-3'>
+							<span className={cardColor ? 'text-white text-nowrap text-sm' : 'text-muted text-sm text-nowrap mt-0 mt-xl-2'}>
+								European Central Bank
+							</span>
+							<p className={cardColor ? 'text-white text-nowrap text-sm' : 'text-nowrap text-muted text-sm'}>
 								{active}: {start_at} <i className='fa-xs fas fa-chevron-right'></i> {end_at}
 							</p>
 						</div>
@@ -63,7 +65,7 @@ function LoadHistoricalPercentage(props) {
 	} else {
 		return (
 			<div className='reverse_div mt-4'>
-				<span style={{ fontSize: '0.80rem' }}>Please select currency</span>
+				<span style={{ fontSize: '0.80rem', color: cardColor && 'white' }}>Please select currency</span>
 			</div>
 		)
 	}
@@ -71,14 +73,14 @@ function LoadHistoricalPercentage(props) {
 
 // INFO: HISTORICAL CURRENCY
 export default function HistoricalPercentage(props) {
-	const { isHistoryLoaded, hasHistoryError, outputCurrency, inputCurrency, historyPercentage, start_at, end_at, active, borderColor } = props
+	const { isHistoryLoaded, hasHistoryError, outputCurrency, inputCurrency, historyPercentage, start_at, end_at, active, borderColor, cardColor } = props
 
 	return (
-		<Card className='card-stats' style={{ height: '100%' }}>
+		<Card className='card-stats' style={{ height: '100%', background: cardColor && cardColor }}>
 			<CardBody>
 				<Row>
 					<div className='col'>
-						<CardTitle tag='h5' className='text-uppercase text-muted mb-0'>
+						<CardTitle tag='h5' className={cardColor ? 'text-uppercase text-white mb-0' : 'text-uppercase text-muted mb-0'}>
 							History
 						</CardTitle>
 						<LoadHistoricalPercentage
@@ -90,6 +92,7 @@ export default function HistoricalPercentage(props) {
 							start_at={start_at}
 							end_at={end_at}
 							active={active}
+							cardColor={cardColor}
 						/>
 					</div>
 					<Col className='col-auto'>

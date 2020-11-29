@@ -354,8 +354,17 @@ export default class Convert extends Component {
 			})
 	}
 
+	getCardColor(color) {
+		let split = color.split(',')
+		let myColor = split[2].substr(0, split[2].length - 1)
+		split[1] = myColor
+		return split.toString()
+	}
+
 	render() {
 		const { color, borderColor } = this.props
+		const cardColor = this.getCardColor(color)
+
 		const { listCurrency, listCurrencyError, listCurrencyLoaded, selectedSourceCurrency, selectedDestCurrency, historyPercentage } = this.state
 		const welcome = 'Convert Currency'
 		const message = 'Our currency converter calculator will convert your money based on current values from around the world.'
@@ -521,6 +530,7 @@ export default class Convert extends Component {
 								listCurrency={listCurrency}
 								date={'1999-05-05'}
 								borderColor={borderColor}
+								cardColor={cardColor}
 							/>
 						</Col>
 						<Col lg='6' xl='6' className='mt-4'>
@@ -534,6 +544,7 @@ export default class Convert extends Component {
 								end_at={end_date}
 								active={'1M'}
 								borderColor={borderColor}
+								cardColor={cardColor}
 							/>
 						</Col>
 					</Row>

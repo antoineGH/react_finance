@@ -125,7 +125,6 @@ export default class Convert extends Component {
 	}
 
 	setBase(selectedCurrency) {
-		this.mounted = true
 		if (this.mounted) {
 			this.setState({ listCurrencyLoaded: false })
 		}
@@ -169,7 +168,6 @@ export default class Convert extends Component {
 
 		fetchHistoryCurrency(end_date, start_date, selected[0].value, this.state.selectedDestCurrency)
 			.then((response) => {
-				this.mounted = true
 				const orderedDates = sortDate(response)
 				const historyPercentage = this.getHistoryPercentage(orderedDates, this.state.selectedDestCurrency)
 				if (this.mounted) {
@@ -186,7 +184,6 @@ export default class Convert extends Component {
 	}
 
 	handleChangeDestination(selected) {
-		this.mounted = true
 		if (this.mounted) {
 			selected && this.setState({ selectedDestCurrency: selected[0].value })
 		}
@@ -235,7 +232,6 @@ export default class Convert extends Component {
 	}
 
 	getListExchange(startDate, endDate, baseCurrency, listCurrency) {
-		this.mounted = true
 		this.setState({ listCurrencyError: false, listCurrencyLoaded: false })
 		const items = 33
 		for (let i = 0; i < items - 1; i++) {
@@ -287,7 +283,6 @@ export default class Convert extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
 		this.setState({ listCurrencyHistory: [] })
-		this.mounted = true
 		fetchHistoryCurrency(end_date, start_date, this.state.selectedDestCurrency, this.state.selectedSourceCurrency)
 			.then((response) => {
 				const orderedDates = sortDate(response)
@@ -305,7 +300,6 @@ export default class Convert extends Component {
 
 	handleClick() {
 		this.setState({ listCurrencyError: false, listCurrencyLoaded: false })
-		this.mounted = true
 		this.fetchUserSettings()
 			.then((response) => {
 				const selectedSourceCurrency = response.default_currency

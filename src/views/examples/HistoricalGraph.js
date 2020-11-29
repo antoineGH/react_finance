@@ -44,6 +44,7 @@ export default class HistoricalGraph extends Component {
 	// --- COMPONENT LIFECYCLE ---
 
 	componentDidMount() {
+		this.mounted = true
 		this.fetchUserSettings()
 			.then((response) => {
 				const date = new Date(Date.now())
@@ -55,10 +56,12 @@ export default class HistoricalGraph extends Component {
 					start_at: start_date,
 					end_at: end_date,
 				}
-				this.setState({
-					selectedSourceCurrency: response.default_currency,
-					graphTitle: graphTitle,
-				})
+				if (this.mounted) {
+					this.setState({
+						selectedSourceCurrency: response.default_currency,
+						graphTitle: graphTitle,
+					})
+				}
 				fetchCurrency(response.default_currency)
 					.then((response) => {
 						const listCurrency = []
@@ -70,22 +73,28 @@ export default class HistoricalGraph extends Component {
 								rate: value,
 							})
 						}
-						this.setState({
-							listCurrency: listCurrency,
-							listCurrencyLoaded: true,
-							listCurrencyError: false,
-						})
+						if (this.mounted) {
+							this.setState({
+								listCurrency: listCurrency,
+								listCurrencyLoaded: true,
+								listCurrencyError: false,
+							})
+						}
 
 						this.getHistoryGraphInfo(end_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
 					})
 					.catch((error) => {
 						toastMessage('Impossible to load Historical Graph', 'error', 3500)
-						this.setState({ listCurrencyError: true })
+						if (this.mounted) {
+							this.setState({ listCurrencyError: true })
+						}
 					})
 			})
 			.catch((error) => {
 				toastMessage('Service not available, Try Again', 'error', 3500)
-				this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
+				if (this.mounted) {
+					this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
+				}
 			})
 		this.createMockData()
 	}
@@ -139,7 +148,6 @@ export default class HistoricalGraph extends Component {
 	}
 
 	getHistoryGraphInfo(endDate, baseCurrency, destCurrency) {
-		this.mounted = true
 		const graphHistoryDates = []
 		const graphHistoryValue = []
 		const graphHistoryLegend = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
@@ -215,7 +223,6 @@ export default class HistoricalGraph extends Component {
 	}
 
 	createMockData() {
-		this.mounted = true
 		const currency_style = {
 			borderColor: 'rgb(255, 93, 93)',
 			backgroundColor: 'rgba(255, 10, 13, 0.1)',
@@ -237,7 +244,6 @@ export default class HistoricalGraph extends Component {
 	}
 
 	handleClick() {
-		this.mounted = true
 		if (this.mounted) {
 			this.setState({ graphError: false, graphLoaded: false, listCurrencyLoaded: false })
 		}

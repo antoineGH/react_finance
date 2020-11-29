@@ -314,7 +314,6 @@ export default class HistoricalRate extends Component {
 	}
 
 	getListExchange(startDate, endDate, baseCurrency, listCurrency) {
-		this.mounted = true
 		if (this.mounted) {
 			this.setState({ listCurrencyHistoryError: false, listCurrencyHistoryLoaded: false })
 		}
@@ -383,7 +382,6 @@ export default class HistoricalRate extends Component {
 
 	handleClick() {
 		this.setState({ listCurrencyError: false, listCurrencyLoaded: false, listCurrencyHistoryError: false, listCurrencyHistoryLoaded: false })
-		this.mounted = true
 		this.fetchUserSettings()
 			.then((response) => {
 				if (this.mounted) {

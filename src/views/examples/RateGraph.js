@@ -46,9 +46,12 @@ export default class RateGraph extends Component {
 	// --- COMPONENT LIFECYCLE ---
 
 	componentDidMount() {
+		this.mounted = true
 		this.fetchUserSettings()
 			.then((response) => {
-				this.setState({ selectedSourceCurrency: response.default_currency })
+				if (this.mounted) {
+					this.setState({ selectedSourceCurrency: response.default_currency })
+				}
 				fetchCurrency(response.default_currency)
 					.then((response) => {
 						const listCurrency = []
@@ -60,11 +63,13 @@ export default class RateGraph extends Component {
 								rate: value,
 							})
 						}
-						this.setState({
-							listCurrency: listCurrency,
-							listCurrencyLoaded: true,
-							listCurrencyError: false,
-						})
+						if (this.mounted) {
+							this.setState({
+								listCurrency: listCurrency,
+								listCurrencyLoaded: true,
+								listCurrencyError: false,
+							})
+						}
 						const date = new Date(Date.now())
 						const start_date = getDate(date)
 						const end_date = getDateBefore(date, 1, 'months')
@@ -72,14 +77,22 @@ export default class RateGraph extends Component {
 					})
 					.catch((error) => {
 						toastMessage('Impossible to load Exchange Rate Graph', 'error', 3500)
-						this.setState({ listCurrencyError: true })
+						if (this.mounted) {
+							this.setState({ listCurrencyError: true })
+						}
 					})
 			})
 			.catch((error) => {
 				toastMessage('Service not available, Try Again', 'error', 3500)
-				this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
+				if (this.mounted) {
+					this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
+				}
 			})
 		this.createMockData()
+	}
+
+	componentWillUnmount() {
+		this.mounted = false
 	}
 
 	static getDerivedStateFromProps(props) {
@@ -132,7 +145,9 @@ export default class RateGraph extends Component {
 	}
 
 	handleChangeSource(selected) {
-		selected && this.setState({ selectedSourceCurrency: selected[0].value, active: '1M' })
+		if (this.mounted) {
+			selected && this.setState({ selectedSourceCurrency: selected[0].value, active: '1M' })
+		}
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'month')
@@ -140,7 +155,9 @@ export default class RateGraph extends Component {
 	}
 
 	handleChangeDestination(selected) {
-		selected && this.setState({ selectedDestCurrency: selected[0].value, active: '1M' })
+		if (this.mounted) {
+			selected && this.setState({ selectedDestCurrency: selected[0].value, active: '1M' })
+		}
 		const date = new Date(Date.now())
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'month')
@@ -159,18 +176,22 @@ export default class RateGraph extends Component {
 				const orderedDates = sortDate(response)
 				const historyPercentage = this.getHistoryPercentage(orderedDates, destCurrency)
 				const { graphLegend, graphValues } = genValues(orderedDates, destCurrency)
-				this.setState({
-					graphLegend: graphLegend,
-					graphValues: graphValues,
-					graphTitle: graphTitle,
-					isHistoryLoaded: true,
-					historyPercentage: historyPercentage,
-					graphLoaded: true,
-					graphError: false,
-				})
+				if (this.mounted) {
+					this.setState({
+						graphLegend: graphLegend,
+						graphValues: graphValues,
+						graphTitle: graphTitle,
+						isHistoryLoaded: true,
+						historyPercentage: historyPercentage,
+						graphLoaded: true,
+						graphError: false,
+					})
+				}
 			})
 			.catch((error) => {
-				this.setState({ hasHistoryError: true, graphError: true })
+				if (this.mounted) {
+					this.setState({ hasHistoryError: true, graphError: true })
+				}
 			})
 	}
 
@@ -203,7 +224,9 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'years')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.setState({ active: '1Y' })
+		if (this.mounted) {
+			this.setState({ active: '1Y' })
+		}
 	}
 
 	getSixMonths() {
@@ -222,7 +245,9 @@ export default class RateGraph extends Component {
 		let end_date = getDateBefore(date, 6, 'months')
 		end_date = getDateAfter(end_date, 2, 'days')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.setState({ active: '6M' })
+		if (this.mounted) {
+			this.setState({ active: '6M' })
+		}
 	}
 
 	getThreeMonths() {
@@ -231,7 +256,9 @@ export default class RateGraph extends Component {
 		let end_date = getDateBefore(date, 3, 'months')
 		end_date = getDateAfter(end_date, 2, 'days')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.setState({ active: '3M' })
+		if (this.mounted) {
+			this.setState({ active: '3M' })
+		}
 	}
 
 	getMonth() {
@@ -239,7 +266,9 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 1, 'months')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.setState({ active: '1M' })
+		if (this.mounted) {
+			this.setState({ active: '1M' })
+		}
 	}
 
 	getWeek() {
@@ -257,14 +286,18 @@ export default class RateGraph extends Component {
 		const start_date = getDate(date)
 		const end_date = getDateBefore(date, 9, 'days')
 		this.getGraphInfo(end_date, start_date, this.state.selectedSourceCurrency, this.state.selectedDestCurrency)
-		this.setState({ active: '1W' })
+		if (this.mounted) {
+			this.setState({ active: '1W' })
+		}
 	}
 
 	handleClick() {
 		this.setState({ graphError: false, listCurrencyLoaded: false })
 		this.fetchUserSettings()
 			.then((response) => {
-				this.setState({ selectedSourceCurrency: response.default_currency })
+				if (this.mounted) {
+					this.setState({ selectedSourceCurrency: response.default_currency })
+				}
 				fetchCurrency(response.default_currency)
 					.then((response) => {
 						toastMessage('Service Available', 'success', 3500)
@@ -277,11 +310,13 @@ export default class RateGraph extends Component {
 								rate: value,
 							})
 						}
-						this.setState({
-							listCurrency: listCurrency,
-							listCurrencyLoaded: true,
-							listCurrencyError: false,
-						})
+						if (this.mounted) {
+							this.setState({
+								listCurrency: listCurrency,
+								listCurrencyLoaded: true,
+								listCurrencyError: false,
+							})
+						}
 						const date = new Date(Date.now())
 						const start_date = getDate(date)
 						const end_date = getDateBefore(date, 1, 'months')
@@ -289,12 +324,16 @@ export default class RateGraph extends Component {
 					})
 					.catch((error) => {
 						toastMessage('Impossible to load Exchange Rate Graph', 'error', 3500)
-						this.setState({ listCurrencyError: true })
+						if (this.mounted) {
+							this.setState({ listCurrencyError: true })
+						}
 					})
 			})
 			.catch((error) => {
 				toastMessage('Service not available, Try Again', 'error', 3500)
-				this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
+				if (this.mounted) {
+					this.setState({ listCurrencyError: true, graphError: true, listCurrencyLoaded: true })
+				}
 			})
 		this.createMockData()
 	}

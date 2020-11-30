@@ -105,13 +105,15 @@ class Admin extends React.Component {
 	}
 
 	changeColor(color) {
-		this.setState({
-			color: themes[color].header,
-			backgroundColor: themes[color].backgroundColor,
-			borderColor: themes[color].borderColor,
-			pointBackgroundColor: themes[color].pointBackgroundColor,
-			pointHoverBackgroundColor: themes[color].pointHoverBackgroundColor,
-		})
+		setTimeout(() => {
+			this.setState({
+				color: themes[color].header,
+				backgroundColor: themes[color].backgroundColor,
+				borderColor: themes[color].borderColor,
+				pointBackgroundColor: themes[color].pointBackgroundColor,
+				pointHoverBackgroundColor: themes[color].pointHoverBackgroundColor,
+			})
+		}, 500)
 
 		this.updateColor(color)
 			.then((response) => {

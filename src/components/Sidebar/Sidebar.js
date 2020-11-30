@@ -229,9 +229,23 @@ class Sidebar extends React.Component {
 							<Row className='justify-content-left text-left mt-2'>
 								<Col>
 									<Button
+										className='mb-1 squared_button'
+										style={{
+											background: 'linear-gradient(to right, #000428 , #0C3B61)',
+											border: 0,
+										}}
+										onClick={() => this.handleChange('royal')}></Button>
+									<Button
+										className='mb-1 squared_button'
+										style={{
+											background: 'linear-gradient(to right, #000000 , #434343)',
+											border: 0,
+										}}
+										onClick={() => this.handleChange('black')}></Button>
+									<Button
 										className=' ml-1 mb-1 squared_button'
 										style={{
-											background: 'linear-gradient(to right, #2193b0, #6dd5ed)',
+											background: 'linear-gradient(to right, #13547a , #80d0c7)',
 											border: 0,
 										}}
 										onClick={() => this.handleChange('blue')}></Button>
@@ -243,30 +257,16 @@ class Sidebar extends React.Component {
 										}}
 										onClick={() => this.handleChange('mauve')}></Button>
 									<Button
-										className='mb-1 squared_button'
-										style={{
-											background: 'linear-gradient(to right, #eb3349, #f45c43)',
-											border: 0,
-										}}
-										onClick={() => this.handleChange('orange')}></Button>
-									<Button
 										className=' ml-1 mb-1 squared_button'
 										style={{
-											background: 'linear-gradient(to right, #ddd6f3, #faaca8)',
+											background: 'linear-gradient(to right, #FF8E88, #faaca8)',
 											border: 0,
 										}}
 										onClick={() => this.handleChange('pink')}></Button>
 									<Button
 										className='mb-1 squared_button'
 										style={{
-											background: 'linear-gradient(to right, #000428, #004e92)',
-											border: 0,
-										}}
-										onClick={() => this.handleChange('royal')}></Button>
-									<Button
-										className='mb-1 squared_button'
-										style={{
-											background: 'linear-gradient(to right, #141e30, #243b55)',
+											background: 'linear-gradient(to right, #141e30  , #243b55)',
 											border: 0,
 										}}
 										onClick={() => this.handleChange('grey')}></Button>

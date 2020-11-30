@@ -289,6 +289,7 @@ export default function LoadUserSettings(props) {
 					listCurrencyError={listCurrencyError}
 					setSelectedCurrency={setSelectedCurrency}
 					updateProfilePicture={props.updateProfilePicture}
+					changeColor={props.changeColor}
 				/>
 			)}
 		</>

@@ -173,7 +173,6 @@ class Admin extends React.Component {
 			<>
 				<Sidebar
 					{...this.props}
-					changeColor={this.changeColor}
 					profile_picture={this.state.profile_picture}
 					routes={routes}
 					logo={{
@@ -205,6 +204,7 @@ class Admin extends React.Component {
 									borderColor={this.state.borderColor}
 									color={this.state.color}
 									updateProfilePicture={this.updateProfilePicture}
+									changeColor={this.changeColor}
 									{...props}
 								/>
 							)}

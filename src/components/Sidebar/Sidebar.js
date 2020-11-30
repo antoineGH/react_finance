@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink as NavLinkRRD, Link } from 'react-router-dom'
 import { logout } from '../../auth'
-import { themes } from '../../views/examples/Themes'
 import { toast } from 'react-toastify'
 import { PropTypes } from 'prop-types'
 import {
@@ -25,7 +24,6 @@ import {
 	Row,
 	Col,
 } from 'reactstrap'
-import Button from 'react-bootstrap/Button'
 
 class Sidebar extends React.Component {
 	state = {
@@ -34,7 +32,6 @@ class Sidebar extends React.Component {
 	constructor(props) {
 		super(props)
 		this.activeRoute.bind(this)
-		this.changeColor = this.props.changeColor.bind(this)
 	}
 	activeRoute(routeName) {
 		return this.props.location.pathname.indexOf(routeName) > -1 ? 'active' : ''
@@ -104,15 +101,6 @@ class Sidebar extends React.Component {
 				return null
 			}
 		})
-	}
-
-	handleChange(color) {
-		this.changeColor(color)
-		localStorage.setItem('color', themes[color].header)
-		localStorage.setItem('backgroundColor', themes[color].backgroundColor)
-		localStorage.setItem('borderColor', themes[color].borderColor)
-		localStorage.setItem('pointBackgroundColor', themes[color].pointBackgroundColor)
-		localStorage.setItem('pointHoverBackgroundColor', themes[color].pointHoverBackgroundColor)
 	}
 
 	render() {
@@ -226,52 +214,6 @@ class Sidebar extends React.Component {
 							<Nav navbar>{this.createLinks(routes)}</Nav>
 							{/* Divider */}
 							<hr className='my-3' />
-							<Row className='justify-content-left text-left mt-2'>
-								<Col>
-									<Button
-										className='mb-1 squared_button'
-										style={{
-											background: 'linear-gradient(to right, #000428 , #0C3B61)',
-											border: 0,
-										}}
-										onClick={() => this.handleChange('royal')}></Button>
-									<Button
-										className='mb-1 squared_button'
-										style={{
-											background: 'linear-gradient(to right, #000000 , #434343)',
-											border: 0,
-										}}
-										onClick={() => this.handleChange('black')}></Button>
-									<Button
-										className=' ml-1 mb-1 squared_button'
-										style={{
-											background: 'linear-gradient(to right, #13547a , #80d0c7)',
-											border: 0,
-										}}
-										onClick={() => this.handleChange('blue')}></Button>
-									<Button
-										className='mb-1 squared_button'
-										style={{
-											background: 'linear-gradient(to right, #42275a, #734b6d)',
-											border: 0,
-										}}
-										onClick={() => this.handleChange('mauve')}></Button>
-									<Button
-										className=' ml-1 mb-1 squared_button'
-										style={{
-											background: 'linear-gradient(to right, #FF8E88, #faaca8)',
-											border: 0,
-										}}
-										onClick={() => this.handleChange('pink')}></Button>
-									<Button
-										className='mb-1 squared_button'
-										style={{
-											background: 'linear-gradient(to right, #141e30  , #243b55)',
-											border: 0,
-										}}
-										onClick={() => this.handleChange('grey')}></Button>
-								</Col>
-							</Row>
 						</Collapse>
 					</Container>
 				</Navbar>

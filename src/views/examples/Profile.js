@@ -10,6 +10,7 @@ import toastMessage from '../currency/utils/toastMessage'
 import { Button, Card, CardHeader, CardBody, FormGroup, FormText, Form, Input, Container, Row, Col } from 'reactstrap'
 import { Helmet } from 'react-helmet'
 import ClipLoader from 'react-spinners/ClipLoader'
+import { themes } from '../../views/examples/Themes'
 
 export default function Profile(props) {
 	const {
@@ -343,6 +344,15 @@ export default function Profile(props) {
 		props.updateProfilePicture(url)
 	}
 
+	function handleClick(color) {
+		props.changeColor(color)
+		localStorage.setItem('color', themes[color].header)
+		localStorage.setItem('backgroundColor', themes[color].backgroundColor)
+		localStorage.setItem('borderColor', themes[color].borderColor)
+		localStorage.setItem('pointBackgroundColor', themes[color].pointBackgroundColor)
+		localStorage.setItem('pointHoverBackgroundColor', themes[color].pointHoverBackgroundColor)
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -458,6 +468,56 @@ export default function Profile(props) {
 														disabled={listCurrencyError ? true : false}
 														style={{ borderRadius: '.25rem' }}
 													/>
+												</FormGroup>
+											</Col>
+											<Col lg='6'>
+												<FormGroup>
+													<label className='form-control-label' htmlFor='input-username'>
+														Change Theme
+													</label>
+													<br />
+													<Button
+														className='mb-1 squared_button'
+														style={{
+															background: 'linear-gradient(to right, #000428 , #0C3B61)',
+															border: 0,
+														}}
+														onClick={() => handleClick('royal')}></Button>
+													<Button
+														className='mb-1 squared_button'
+														style={{
+															background: 'linear-gradient(to right, #000000 , #434343)',
+															border: 0,
+														}}
+														onClick={() => handleClick('black')}></Button>
+													<Button
+														className=' ml-1 mb-1 squared_button'
+														style={{
+															background: 'linear-gradient(to right, #13547a , #80d0c7)',
+															border: 0,
+														}}
+														onClick={() => handleClick('blue')}></Button>
+													<Button
+														className='mb-1 squared_button'
+														style={{
+															background: 'linear-gradient(to right, #42275a, #734b6d)',
+															border: 0,
+														}}
+														onClick={() => handleClick('mauve')}></Button>
+													<Button
+														className=' ml-1 mb-1 squared_button'
+														style={{
+															background: 'linear-gradient(to right, #FF8E88, #faaca8)',
+															border: 0,
+														}}
+														onClick={() => handleClick('pink')}></Button>
+													<Button
+														className='mb-1 squared_button'
+														style={{
+															background: 'linear-gradient(to right, #141e30  , #243b55)',
+															border: 0,
+														}}
+														onClick={() => handleClick('grey')}></Button>
 												</FormGroup>
 											</Col>
 										</Row>

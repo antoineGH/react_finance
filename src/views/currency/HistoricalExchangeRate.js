@@ -303,7 +303,7 @@ export default class HistoricalExchangeRate extends Component {
 							{inputCurrency && (
 								<p className='mt-1 mb-0 text-muted text-sm'>
 									<span className='text-nowrap'>
-										1M: {end_date} <i className='fa-xs fas fa-chevron-right'></i> {start_date}
+										1 Month: {end_date} <i className='fa-xs fas fa-chevron-right'></i> {start_date}
 									</span>
 								</p>
 							)}

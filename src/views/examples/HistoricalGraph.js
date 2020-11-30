@@ -417,8 +417,8 @@ export default class HistoricalGraph extends Component {
 													</h5>
 													<p className='mt-1 mb-0 text-muted text-sm'>
 														<span className='text-nowrap'>
-															1Y: {getDateBefore(graphTitle.end_at, 1, 'years')} <i className='fa-xs fas fa-chevron-right'></i>{' '}
-															{graphTitle.end_at}
+															1 Year: {getDateBefore(graphTitle.end_at, 1, 'years')}{' '}
+															<i className='fa-xs fas fa-chevron-right'></i> {graphTitle.end_at}
 														</span>
 													</p>
 													<span style={{ fontSize: '0.80rem' }}></span>

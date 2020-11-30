@@ -11,6 +11,7 @@ import fetchCurrency from '../currency/utils/fetchCurrency'
 import fetchHistoryCurrency from '../currency/utils/fetchHistoryCurrency'
 import sortDate from '../currency/utils/sortDate'
 import genValues from '../currency/utils/genValues'
+import activeToDate from '../currency/utils/activeToDate'
 import { currenciesName } from '../currency/utils/currenciesName'
 import toastMessage from '../currency/utils/toastMessage'
 import { Col } from 'react-bootstrap'
@@ -441,7 +442,8 @@ export default class RateGraph extends Component {
 												</h5>
 												<p className='mt-1 mb-0 text-muted text-sm'>
 													<span className='text-nowrap'>
-														{active}: {graphTitle.start_at} <i className='fa-xs fas fa-chevron-right'></i> {graphTitle.end_at}
+														{activeToDate(active)}: {graphTitle.start_at} <i className='fa-xs fas fa-chevron-right'></i>{' '}
+														{graphTitle.end_at}
 													</span>
 												</p>
 											</div>

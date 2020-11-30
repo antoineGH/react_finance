@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import getDate from '../currency/utils/getDate'
 import getDateBefore from '../currency/utils/getDateBefore'
 import getDateAfter from '../currency/utils/getDateAfter'
+import activeToDate from '../currency/utils/activeToDate'
 import LineGraph from './LineGraph'
 import { Card, CardHeader, CardBody, NavItem, NavLink, Nav, Row, Col } from 'reactstrap'
 
@@ -152,8 +153,8 @@ export default class ExhangeRateGraph extends Component {
 										</h5>
 										<p className='mt-1 mb-0 text-muted text-sm'>
 											<span className='text-nowrap'>
-												{this.props.active}: {this.props.graphTitle.start_at} <i className='fa-xs fas fa-chevron-right'></i>{' '}
-												{this.props.graphTitle.end_at}
+												{activeToDate(this.props.active)}: {this.props.graphTitle.start_at}{' '}
+												<i className='fa-xs fas fa-chevron-right'></i> {this.props.graphTitle.end_at}
 											</span>
 										</p>
 									</div>

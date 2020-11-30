@@ -1,5 +1,6 @@
 import React from 'react'
 import BarLoader from 'react-spinners/BarLoader'
+import activeToDate from '../currency/utils/activeToDate'
 import { Card, CardBody, CardTitle, Row, Col } from 'reactstrap'
 
 function LoadHistoricalPercentage(props) {
@@ -55,7 +56,7 @@ function LoadHistoricalPercentage(props) {
 								European Central Bank
 							</span>
 							<p className={cardColor ? 'text-white text-nowrap text-sm' : 'text-nowrap text-muted text-sm'}>
-								{active}: {start_at} <i className='fa-xs fas fa-chevron-right'></i> {end_at}
+								{activeToDate(active)}: {start_at} <i className='fa-xs fas fa-chevron-right'></i> {end_at}
 							</p>
 						</div>
 					</Col>

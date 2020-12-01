@@ -357,6 +357,15 @@ a {
 	color: ${(props) => props.theme.mode === 'dark' && 'white !important'}
 }
 
+.navbar-collapse.collapsing, .navbar-collapse.show {
+    background: ${(props) => props.theme.mode === 'dark' && '#111 !important'} 
+}
+
+.input-group-text {
+    background-color:  ${(props) => props.theme.mode === 'dark' && `${borderColor} !important`}; 
+    border: 1px solid ${(props) => props.theme.mode === 'dark' && `${secondary} !important`}; ;
+}
+
 .footer {
 	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(22, 24, 25) !important'};
 	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};

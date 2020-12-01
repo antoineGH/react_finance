@@ -25,140 +25,6 @@ function getInitialTheme() {
 	return savedTheme ? JSON.parse(savedTheme) : { mode: 'light' }
 }
 
-const GlobalStyle = createGlobalStyle`
-body {
-	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(22, 24, 25)'};
-}
-.bg-white {
-	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
-}
-
-.navbar-light .navbar-nav .nav-link {
-	color: ${(props) => props.theme.mode === 'dark' && 'rgba(237, 235, 232, 0.5) !important'};
-}
-.bg-light {
-	background-color: ${(props) => props.theme.mode === 'dark' && '#111 !important'};
-	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
-}
-.text-muted {
-    color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 161, 148) !important'};
-}
-.navbar-light{
-	background-color: ${(props) => (props.theme.mode === 'dark' ? '#111 !important' : '#EEE')};
-	color: ${(props) => (props.theme.mode === 'dark' ? '#EEE !important' : '#111')};
-}
-.card {
-	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
-	color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 160, 148) !important'};
-}
-
-.card-header {
-	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
-	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
-}
-
-.form-control, .form-control:focus {
-    color: ${(props) => props.theme.mode === 'dark' && 'rgb(184, 177, 168) !important'}; 
-	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
-	border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(57, 62, 65) !important'};
-}
-
-.css-wmw4vi-ReactDropdownSelect {
-    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(59, 65, 67) !important'};
-}
-
-.nav-pills .nav-link {
-	color: ${(props) => props.theme.mode === 'dark' && 'rgb(143, 187, 230) !important'};
-	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22)'};
-}
-
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 184, 211) !important'};
-}
-
-.page-link {
-    color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
-    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22)'};
-    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
-}
-
-.page-link:hover {
-    color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
-    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36, 40, 41)'};
-    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
-}
-
-.page-item.active .page-link {
-    color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
-    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36, 40, 41)'};
-    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
-}
-
-.page-item.disabled .page-link  {
-	color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
-    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36, 40, 41)'};
-    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
-}
-
-.btn-primary {
-	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(66, 39, 90) !important'};
-	border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(66, 39, 90) !important'};
-	color: ${(props) => props.theme.mode === 'dark' && 'white !important'};
-}
-
-.decoration-input {
-	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(66, 39, 90) !important'};
-	border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(66, 39, 90) !important'};
-	color: ${(props) => props.theme.mode === 'dark' && 'white !important'};
-}
-
-.table .thead-light th {
-    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
-    color: ${(props) => props.theme.mode === 'dark' && 'rgb(237, 235, 232) !important'};
-}
-
-.table td, .table th {
-	border-top-color: ${(props) => props.theme.mode === 'dark' && 'rgb(49, 55, 57) !important'};
-	color: ${(props) => props.theme.mode === 'dark' && 'rgb(213, 209, 203) !important'}
-}
-
-a {
-	color: ${(props) => props.theme.mode === 'dark' && 'rgb(117 111 101) !important'}
-}
-
-.dropdown-menu {
-	color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 160, 148) !important'};
-    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
-	border-color: ${(props) => props.theme.mode === 'dark' && 'rgba(141, 130, 114, 0.15) !important'};
-	box-shadow: ${(props) =>
-		props.theme.mode === 'dark' &&
-		'1px 5px 10px rgba(50,50,93,0.35),1px -2px 0px rgba(50,50,93,0.05),6px 2px 17px rgba(0,0,0,0.05) !important; !important'};
-}
-
-.navbar .dropdown-menu-arrow:before {
-	background: ${(props) => props.theme.mode === 'dark' && 'rgb(19,21,22) !important'};
-}
-
-.dropdown-item:hover, .dropdown-item:focus {
-    color: ${(props) => props.theme.mode === 'dark' && '#16181b !important'};
-    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36,40,41) !important'};
-}
-
-.dropdown-item {
-	color: ${(props) => props.theme.mode === 'dark' && '#756f65 !important'}
-}
-
-
-.text-username {
-	color: ${(props) => props.theme.mode === 'dark' && 'white !important'}
-}
-
-.footer {
-	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(22, 24, 25) !important'};
-	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
-}
-`
-
 class Admin extends React.Component {
 	constructor(props) {
 		super(props)
@@ -318,7 +184,184 @@ class Admin extends React.Component {
 		localStorage.setItem('profile_picture', url)
 	}
 
+	getSecondary(borderColor) {
+		let secondary = ''
+		switch (borderColor) {
+			case 'rgb(20, 30, 48)':
+				secondary = 'rgb(36 107 234)'
+				break
+			case 'rgb(66, 39, 90)':
+				secondary = 'rgb(166 108 218)'
+				break
+			case 'rgb(0, 4, 40)':
+				secondary = 'rgb(72 87 220)'
+				break
+			case 'rgb(255,142,136)':
+				secondary = 'rgb(255 255 255)'
+				break
+			case 'rgb(67, 67, 67)':
+				secondary = 'rgb(228 220 220)'
+				break
+			default:
+				secondary = 'rgb(42 118 255)'
+		}
+		return secondary
+	}
+
 	render() {
+		const borderColor = this.state.borderColor
+		const secondary = this.getSecondary(borderColor)
+		const GlobalStyle = createGlobalStyle`
+body {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(22, 24, 25)'};
+}
+.bg-white {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+}
+
+.navbar-light .navbar-nav .nav-link {
+	color: ${(props) => props.theme.mode === 'dark' && 'rgba(237, 235, 232, 0.5) !important'};
+}
+.bg-light {
+	background-color: ${(props) => props.theme.mode === 'dark' && '#111 !important'};
+	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
+}
+.text-muted {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 161, 148) !important'};
+}
+.navbar-light{
+	background-color: ${(props) => (props.theme.mode === 'dark' ? '#111 !important' : '#EEE')};
+	color: ${(props) => (props.theme.mode === 'dark' ? '#EEE !important' : '#111')};
+}
+.card {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 160, 148) !important'};
+}
+
+.card-header {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
+}
+
+.form-control, .form-control:focus {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(184, 177, 168) !important'}; 
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+	border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(57, 62, 65) !important'};
+}
+
+.css-wmw4vi-ReactDropdownSelect {
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(59, 65, 67) !important'};
+}
+
+.nav-pills .nav-link {
+	color: ${(props) => props.theme.mode === 'dark' && `${secondary} !important`};
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22)'};
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 184, 211) !important'};
+}
+
+.page-link {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22)'};
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
+}
+
+.page-link:hover {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36, 40, 41)'};
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
+}
+
+.page-item.active .page-link {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36, 40, 41)'};
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
+}
+
+.page-item.disabled .page-link  {
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36, 40, 41)'};
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
+}
+
+.btn-primary {
+	background-color: ${(props) => props.theme.mode === 'dark' && `${borderColor} !important`};
+	border-color: ${(props) => props.theme.mode === 'dark' && `${secondary} !important`};
+	color: ${(props) => props.theme.mode === 'dark' && 'white !important'};
+}
+
+.btn-secondary {
+	background-color: ${(props) => props.theme.mode === 'dark' && `${borderColor} !important`};
+	border-color: ${(props) => props.theme.mode === 'dark' && `${secondary} !important`};
+	color: ${(props) => props.theme.mode === 'dark' && 'white !important'};
+}
+
+.decoration-input {
+	background-color: ${(props) => props.theme.mode === 'dark' && `${borderColor} !important`};
+	border-color: ${(props) => props.theme.mode === 'dark' && `${secondary} !important`};
+	color: ${(props) => props.theme.mode === 'dark' && 'white !important'};
+}
+
+.table .thead-light th {
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(237, 235, 232) !important'};
+}
+
+.table td, .table th {
+	border-top-color: ${(props) => props.theme.mode === 'dark' && 'rgb(49, 55, 57) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(213, 209, 203) !important'}
+}
+
+.table-hover tbody tr:hover {
+    background-color: ${(props) => props.theme.mode === 'dark' && '#242829 !important'};
+}
+
+a {
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(117 111 101) !important'}
+}
+
+.shadow {
+    box-shadow: ${(props) => props.theme.mode === 'dark' && 'none !important'}; 
+}
+
+.navbar-vertical {
+    box-shadow: ${(props) => props.theme.mode === 'dark' && 'none !important'};
+}
+
+.dropdown-menu {
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 160, 148) !important'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+	border-color: ${(props) => props.theme.mode === 'dark' && 'rgba(141, 130, 114, 0.15) !important'};
+	box-shadow: ${(props) =>
+		props.theme.mode === 'dark' &&
+		'1px 5px 10px rgba(50,50,93,0.35),1px -2px 0px rgba(50,50,93,0.05),6px 2px 17px rgba(0,0,0,0.05) !important; !important'};
+}
+
+.navbar .dropdown-menu-arrow:before {
+	background: ${(props) => props.theme.mode === 'dark' && 'rgb(19,21,22) !important'};
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: ${(props) => props.theme.mode === 'dark' && '#16181b !important'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36,40,41) !important'};
+}
+
+.dropdown-item {
+	color: ${(props) => props.theme.mode === 'dark' && '#756f65 !important'}
+}
+
+
+.text-username {
+	color: ${(props) => props.theme.mode === 'dark' && 'white !important'}
+}
+
+.footer {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(22, 24, 25) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
+}
+`
 		return (
 			<ThemeProvider theme={this.state.theme}>
 				<GlobalStyle />

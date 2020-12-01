@@ -126,6 +126,29 @@ a {
 	color: ${(props) => props.theme.mode === 'dark' && 'rgb(117 111 101) !important'}
 }
 
+.dropdown-menu {
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 160, 148) !important'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+	border-color: ${(props) => props.theme.mode === 'dark' && 'rgba(141, 130, 114, 0.15) !important'};
+	box-shadow: ${(props) =>
+		props.theme.mode === 'dark' &&
+		'1px 5px 10px rgba(50,50,93,0.35),1px -2px 0px rgba(50,50,93,0.05),6px 2px 17px rgba(0,0,0,0.05) !important; !important'};
+}
+
+.navbar .dropdown-menu-arrow:before {
+	background: ${(props) => props.theme.mode === 'dark' && 'rgb(19,21,22) !important'};
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: ${(props) => props.theme.mode === 'dark' && '#16181b !important'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36,40,41) !important'};
+}
+
+.dropdown-item {
+	color: ${(props) => props.theme.mode === 'dark' && '#756f65 !important'}
+}
+
+
 .text-username {
 	color: ${(props) => props.theme.mode === 'dark' && 'white !important'}
 }

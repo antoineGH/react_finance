@@ -55,7 +55,7 @@ export default function AdminNavbar({ brandText, userInfo, profile_picture }) {
 										/>
 									</span>
 									<Media className='ml-2 d-none d-lg-block'>
-										<span className='mb-0 text-sm font-weight-bold'>{userInfo.username}</span>
+										<span className='mb-0 text-sm font-weight-bold text-username'>{userInfo.username}</span>
 									</Media>
 								</Media>
 							</DropdownToggle>

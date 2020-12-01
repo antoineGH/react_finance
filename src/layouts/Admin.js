@@ -17,6 +17,124 @@ import LoadUserSettings from '../views/examples/LoadUserSettings'
 import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 import toastMessage from '../views/currency/utils/toastMessage'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import DarkModeToggle from 'react-dark-mode-toggle'
+
+function getInitialTheme() {
+	const savedTheme = localStorage.getItem('theme')
+	return savedTheme ? JSON.parse(savedTheme) : { mode: 'light' }
+}
+
+const GlobalStyle = createGlobalStyle`
+body {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(22, 24, 25)'};
+}
+.bg-white {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+}
+
+.navbar-light .navbar-nav .nav-link {
+	color: ${(props) => props.theme.mode === 'dark' && 'rgba(237, 235, 232, 0.5) !important'};
+}
+.bg-light {
+	background-color: ${(props) => props.theme.mode === 'dark' && '#111 !important'};
+	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
+}
+.text-muted {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 161, 148) !important'};
+}
+.navbar-light{
+	background-color: ${(props) => (props.theme.mode === 'dark' ? '#111 !important' : '#EEE')};
+	color: ${(props) => (props.theme.mode === 'dark' ? '#EEE !important' : '#111')};
+}
+.card {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 160, 148) !important'};
+}
+
+.card-header {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
+}
+
+.form-control, .form-control:focus {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(184, 177, 168) !important'}; 
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+	border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(57, 62, 65) !important'};
+}
+
+.css-wmw4vi-ReactDropdownSelect {
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(59, 65, 67) !important'};
+}
+
+.nav-pills .nav-link {
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(143, 187, 230) !important'};
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22)'};
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 184, 211) !important'};
+}
+
+.page-link {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22)'};
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
+}
+
+.page-link:hover {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36, 40, 41)'};
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
+}
+
+.page-item.active .page-link {
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36, 40, 41)'};
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
+}
+
+.page-item.disabled .page-link  {
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(170, 162, 150)'};
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(36, 40, 41)'};
+    border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(52, 58, 60)'};
+}
+
+.btn-primary {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(66, 39, 90) !important'};
+	border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(66, 39, 90) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && 'white !important'};
+}
+
+.decoration-input {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(66, 39, 90) !important'};
+	border-color: ${(props) => props.theme.mode === 'dark' && 'rgb(66, 39, 90) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && 'white !important'};
+}
+
+.table .thead-light th {
+    background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
+    color: ${(props) => props.theme.mode === 'dark' && 'rgb(237, 235, 232) !important'};
+}
+
+.table td, .table th {
+	border-top-color: ${(props) => props.theme.mode === 'dark' && 'rgb(49, 55, 57) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(213, 209, 203) !important'}
+}
+
+a {
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(117 111 101) !important'}
+}
+
+.text-username {
+	color: ${(props) => props.theme.mode === 'dark' && 'white !important'}
+}
+
+.footer {
+	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(22, 24, 25) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
+}
+`
 
 class Admin extends React.Component {
 	constructor(props) {
@@ -30,6 +148,15 @@ class Admin extends React.Component {
 			pointBackgroundColor: localStorage.pointBackgroundColor,
 			pointHoverBackgroundColor: localStorage.pointHoverBackgroundColor,
 			profile_picture: '',
+			theme: getInitialTheme,
+		}
+	}
+
+	handleChangeTheme(toggle) {
+		if (toggle) {
+			this.setState({ theme: { mode: 'light' } })
+		} else {
+			this.setState({ theme: { mode: 'dark' } })
 		}
 	}
 
@@ -170,7 +297,8 @@ class Admin extends React.Component {
 
 	render() {
 		return (
-			<>
+			<ThemeProvider theme={this.state.theme}>
+				<GlobalStyle />
 				<Sidebar
 					{...this.props}
 					profile_picture={this.state.profile_picture}
@@ -247,11 +375,16 @@ class Admin extends React.Component {
 						{this.getRoutes(routes)}
 						<Redirect from='*' to='/admin/index' />
 					</Switch>
+					<DarkModeToggle
+						onChange={(toggle) => this.handleChangeTheme(toggle)}
+						checked={this.state.theme.mode === 'light' ? true : false}
+						size={70}
+					/>
 					<Container fluid>
 						<AdminFooter />
 					</Container>
 				</div>
-			</>
+			</ThemeProvider>
 		)
 	}
 }

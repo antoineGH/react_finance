@@ -197,7 +197,7 @@ class LoadNewsFeed extends Component {
 										</Col>
 										<Col xs={12} sm={12} md={12} lg={12} xl={8}>
 											<Row className='text-left mx-auto justify-content-left'>
-												<a style={{ color: 'black', fontSize: '0.8rem' }} href={info.url}>
+												<a style={{ fontSize: '0.8rem' }} href={info.url}>
 													{info.title}
 												</a>
 											</Row>

@@ -18,7 +18,6 @@ import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 import toastMessage from '../views/currency/utils/toastMessage'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
-import DarkModeToggle from 'react-dark-mode-toggle'
 
 function getInitialTheme() {
 	const savedTheme = localStorage.getItem('theme')
@@ -30,6 +29,7 @@ class Admin extends React.Component {
 		super(props)
 		this.changeColor = this.changeColor.bind(this)
 		this.updateProfilePicture = this.updateProfilePicture.bind(this)
+		this.handleChangeTheme = this.handleChangeTheme.bind(this)
 		this.state = {
 			color: localStorage.color,
 			backgroundColor: localStorage.backgroundColor,
@@ -378,12 +378,15 @@ a {
 	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
 }
 `
+
 		return (
 			<ThemeProvider theme={this.state.theme}>
 				<GlobalStyle />
 				<Sidebar
 					{...this.props}
 					profile_picture={this.state.profile_picture}
+					mode={this.state.theme.mode}
+					handleChangeTheme={this.handleChangeTheme}
 					routes={routes}
 					logo={{
 						innerLink: '/admin/index',
@@ -457,11 +460,6 @@ a {
 						{this.getRoutes(routes)}
 						<Redirect from='*' to='/admin/index' />
 					</Switch>
-					<DarkModeToggle
-						onChange={(toggle) => this.handleChangeTheme(toggle)}
-						checked={this.state.theme.mode === 'light' ? true : false}
-						size={70}
-					/>
 					<Container fluid>
 						<AdminFooter />
 					</Container>

@@ -3,6 +3,7 @@ import { NavLink as NavLinkRRD, Link } from 'react-router-dom'
 import { logout } from '../../auth'
 import { toast } from 'react-toastify'
 import { PropTypes } from 'prop-types'
+import DarkModeToggle from 'react-dark-mode-toggle'
 import {
 	Collapse,
 	DropdownMenu,
@@ -32,6 +33,7 @@ class Sidebar extends React.Component {
 	constructor(props) {
 		super(props)
 		this.activeRoute.bind(this)
+		this.handleChangeTheme = this.props.handleChangeTheme.bind(this)
 	}
 	activeRoute(routeName) {
 		return this.props.location.pathname.indexOf(routeName) > -1 ? 'active' : ''
@@ -214,6 +216,13 @@ class Sidebar extends React.Component {
 							<Nav navbar>{this.createLinks(routes)}</Nav>
 							{/* Divider */}
 							<hr className='my-3' />
+							<div className='mx-auto'>
+								<DarkModeToggle
+									onChange={(toggle) => this.handleChangeTheme(toggle)}
+									checked={this.props.mode === 'light' ? true : false}
+									size={70}
+								/>
+							</div>
 						</Collapse>
 					</Container>
 				</Navbar>

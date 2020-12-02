@@ -37,15 +37,17 @@ class Admin extends React.Component {
 			pointBackgroundColor: localStorage.pointBackgroundColor,
 			pointHoverBackgroundColor: localStorage.pointHoverBackgroundColor,
 			profile_picture: '',
-			theme: getInitialTheme,
+			theme: getInitialTheme(),
 		}
 	}
 
 	handleChangeTheme(toggle) {
 		if (toggle) {
 			this.setState({ theme: { mode: 'light' } })
+			localStorage.setItem('theme', JSON.stringify({ mode: 'light' }))
 		} else {
 			this.setState({ theme: { mode: 'dark' } })
+			localStorage.setItem('theme', JSON.stringify({ mode: 'dark' }))
 		}
 	}
 
@@ -219,6 +221,10 @@ body {
 	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
 }
 
+.navbar-toggler { 
+	background-color: ${(props) => props.theme.mode === 'dark' && `${borderColor} !important`};
+} 
+
 .navbar-light .navbar-nav .nav-link {
 	color: ${(props) => props.theme.mode === 'dark' && 'rgba(237, 235, 232, 0.5) !important'};
 }
@@ -227,12 +233,15 @@ body {
 	color: ${(props) => props.theme.mode === 'dark' && '#EEE !important'};
 }
 .text-muted {
-    color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 161, 148) !important'};
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 161, 148) !important'};
 }
+
 .navbar-light{
 	background-color: ${(props) => (props.theme.mode === 'dark' ? '#111 !important' : '#EEE')};
 	color: ${(props) => (props.theme.mode === 'dark' ? '#EEE !important' : '#111')};
 }
+
+
 .card {
 	background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
 	color: ${(props) => props.theme.mode === 'dark' && 'rgb(168, 160, 148) !important'};
@@ -311,7 +320,7 @@ body {
 
 .table td, .table th {
 	border-top-color: ${(props) => props.theme.mode === 'dark' && 'rgb(49, 55, 57) !important'};
-	color: ${(props) => props.theme.mode === 'dark' && 'rgb(213, 209, 203) !important'}
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(213, 209, 203) !important'};
 }
 
 .table-hover tbody tr:hover {
@@ -319,7 +328,7 @@ body {
 }
 
 a {
-	color: ${(props) => props.theme.mode === 'dark' && 'rgb(117 111 101) !important'}
+	color: ${(props) => props.theme.mode === 'dark' && 'rgb(117 111 101) !important'};
 }
 
 .shadow {
@@ -335,8 +344,7 @@ a {
     background-color: ${(props) => props.theme.mode === 'dark' && 'rgb(19, 21, 22) !important'};
 	border-color: ${(props) => props.theme.mode === 'dark' && 'rgba(141, 130, 114, 0.15) !important'};
 	box-shadow: ${(props) =>
-		props.theme.mode === 'dark' &&
-		'1px 5px 10px rgba(50,50,93,0.35),1px -2px 0px rgba(50,50,93,0.05),6px 2px 17px rgba(0,0,0,0.05) !important; !important'};
+		props.theme.mode === 'dark' && '1px 5px 10px rgba(50,50,93,0.35),1px -2px 0px rgba(50,50,93,0.05),6px 2px 17px rgba(0,0,0,0.05) !important;'};
 }
 
 .navbar .dropdown-menu-arrow:before {
@@ -349,16 +357,15 @@ a {
 }
 
 .dropdown-item {
-	color: ${(props) => props.theme.mode === 'dark' && '#756f65 !important'}
+	color: ${(props) => props.theme.mode === 'dark' && '#756f65 !important'};
 }
 
-
 .text-username {
-	color: ${(props) => props.theme.mode === 'dark' && 'white !important'}
+	color: ${(props) => props.theme.mode === 'dark' && 'white !important'};
 }
 
 .navbar-collapse.collapsing, .navbar-collapse.show {
-    background: ${(props) => props.theme.mode === 'dark' && '#111 !important'} 
+    background: ${(props) => props.theme.mode === 'dark' && '#111 !important'};
 }
 
 .input-group-text {

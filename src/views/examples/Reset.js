@@ -45,7 +45,7 @@ export default function Reset() {
 			password,
 			token,
 		}
-		const response = await authFetch('https://flask-finance-api.herokuapp.com/apireset_password', {
+		const response = await authFetch('https://flask-finance-api.herokuapp.com/api/reset_password', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

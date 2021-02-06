@@ -7,8 +7,6 @@
 // fetchNewsFeed(identifier) return JSON Promise
 // return response.articles
 
-// Backup Proxy CORS
-// https://proxycorsfalcon.herokuapp.com/
 // eslint-disable-next-line
 const language = 'en'
 // eslint-disable-next-line
@@ -17,7 +15,6 @@ const access_token = '9e522ad481d49a67ba237d3445b5eea849576a83e8ab46f9911f30406c
 export default async function fetchNewsFeed(identifier_type, identifiers) {
 	// eslint-disable-next-line
 	const identifiersString = identifiers.toString()
-	// const urlToFetch = `https://proxycorsfalcon.herokuapp.com/${identifier_type}/${identifiersString}/${language}/${access_token}`
 	// const urlToFetch = `https://proxycorsfinance.herokuapp.com/${identifier_type}/${identifiersString}/${language}/${access_token}`
 	const urlToFetch = `https://sandbox-api.cityfalcon.com/v0.2/stories?identifier_type=assets&identifiers=Apple&access_token=9e522ad481d49a67ba237d3445b5eea849576a83e8ab46f9911f30406c42f810`
 	console.log(urlToFetch)

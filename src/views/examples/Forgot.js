@@ -127,7 +127,7 @@ export default function Forgot() {
 							</FormGroup>
 							<div className='text-center'>
 								<Button className='mt-1 mb-4' color='primary' type='submit' disabled={isActive}>
-									Request reset {isActive && seconds !== 0 && seconds + 's'}{' '}
+									Request reset {seconds && seconds}s {isActive && seconds !== 0 && seconds + 's'}{' '}
 									{isActive && <ClipLoader css='margin-bottom: -2%; margin-left: 5%' color={'white'} size={15} />}
 								</Button>
 							</div>

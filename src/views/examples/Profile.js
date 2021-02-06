@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom'
 import Select from 'react-dropdown-select'
 import { currenciesName } from '../currency/utils/currenciesName'
 import toastMessage from '../currency/utils/toastMessage'
-import { Button, Card, CardHeader, CardBody, FormGroup, FormText, Form, Input, Container, Row, Col } from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, FormGroup, FormText, Form, Input, Container, Row, Col, Modal } from 'reactstrap'
 import { Helmet } from 'react-helmet'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { themes } from '../../views/examples/Themes'
@@ -844,7 +844,6 @@ export default function Profile(props) {
 					</Modal.Title>
 				</Modal.Header>
 			</Modal>
-
 			<Modal size='sm' show={show} onHide={handleClose} aria-labelledby='example-modal-sizes-title-sm'>
 				<Modal.Header closeButton>
 					<Modal.Title id='example-modal-sizes-title-sm'>Confirm Account Deletion ?</Modal.Title>
@@ -858,6 +857,7 @@ export default function Profile(props) {
 					</Button>
 				</Modal.Body>
 			</Modal>
+			var userLang = navigator.language || navigator.userLanguage; alert ("The language is: " + userLang);
 		</>
 	)
 }

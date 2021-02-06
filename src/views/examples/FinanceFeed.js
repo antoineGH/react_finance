@@ -55,6 +55,8 @@ class LoadNewsFeed extends Component {
 	render() {
 		let { newsFeed, newsFeedError, newsFeedLoaded, borderColor } = this.props
 		const { currentItems } = this.state
+		console.log(this.state)
+		console.log(currentItems)
 
 		if (newsFeedError) {
 			return (

@@ -1,59 +1,229 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Finance
 
-## Available Scripts
+# Table of contents
 
-In the project directory, you can run:
+1. [Project description](#description)
+2. [References](#references)
+3. [General Features](#features)
+4. [Technical Implementation](#implementation)
+5. [Technologies](#tech)
+6. [System Features](#sys-features)
+7. [Software Interfaces](#soft-interfaces)
+8. [Installation instructions](#installation)
+9. [Project structure](#structure)
+10. [Screenshots](#screenshots)
 
-### `npm start`
+## 1. Project description<a name="description"></a>
 
-Runs the app in the development mode.<br /> Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Financial is a tool to verify the current exchange rate and finance related information. This application to check the current finance rate depending on multiple currencies, convert in multiple ways, check finance related news and observe graph representation of exchange rate values.
 
-The page will reload if you make edits.<br /> You will also see any lint errors in the console.
+The product is a full stack web application implemented on both front and back end, it is using API calls to operate the database.
 
-### `npm test`
+### [> View Technical Specifications Finance](screenshots/Specifications_Project_Financial.pdff)
 
-Launches the test runner in the interactive watch mode.<br /> See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Project Scope
 
-### `npm run build`
+Financial is a programming project, that allows its developers to practice client-side programming using API calls, authentication and user management.
 
-Builds the app for production to the `build` folder.<br /> It correctly bundles React in production mode and optimizes the build for the best performance.
+## 2. References<a name="references"></a>
 
-The build is minified and the filenames include the hashes.<br /> Your app is ready to be deployed!
+-   React - https://reactjs.org/
+-   React Router - https://reactrouter.com/web/guides/quick-start
+-   React Bootstrap - https://react-bootstrap.github.io/
+-   React Spinners - http://www.davidhu.io/react-spinners/
+-   React Toastify - https://www.npmjs.com/package/react-toastify/v/1.4.3
+-   Formik - https://www.npmjs.com/package/formik
+-   Yup - https://www.npmjs.com/package/yup
+-   React Dark Mode Toggle - https://www.npmjs.com/package/react-dark-mode-toggle
+-   React Token Auth - https://www.npmjs.com/package/react-token-auth
+-   Flask - https://flask.palletsprojects.com/en/1.1.x/
+-   Flask Mail - https://flask-mail.readthedocs.io/en/latest/
+-   ItsDangerous - https://pypi.org/project/itsdangerous/
+-   Flask SQLalchemy - https://flask-sqlalchemy.palletsprojects.com/en/2.x/
+-   Flask JWT Extended - https://flask-jwt-extended.readthedocs.io/en/stable/
+-   Flask Bcrypt - https://flask-bcrypt.readthedocs.io/en/latest/
+-   Cloudinary - https://cloudinary.com/documentation/image_upload_api_reference
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 3. General Features<a name="features"></a>
 
-### `npm run eject`
+The Financial system provides a simple mechanism for users to acquire information.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The following are the main features that are included in the system:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-   Convert Currencies: allow the user to convert from any source to any destination currency
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+-   Get Latest Rates: search for the latest currency rate from the European Central Bank
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+-   Exchange Rate Graph: draw an exchange graph for the selected currency available for different period of time.
 
-## Learn More
+-   Historical Exchange Rate Graph: draw historical exchange rate graph for the selected currency in the last year
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-   Historical Exchange Rate: fetch and selected currency’s rate on all the available destination currencies, along with the historical rate of the last month.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-   Finance NewsFeed: fetch and provide the latest finance news feed related to finance trending topics.
 
-### Code Splitting
+-   User management: allow the user to connect and save preferences such as theme color and settings like default currency. That information and preferences about users are saved for future sessions.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## 4. Technical Implementation<a name="implementation"></a>
 
-### Analyzing the Bundle Size
+![Communication Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/Components_Advisor.png?raw=true)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+Application Communication Schema
 
-### Making a Progressive Web App
+## 5. Technologies<a name="tech"></a>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+This system is provisioned to be built in JavaScript using React library which is highly flexible.
 
-### Advanced Configuration
+The browser will be in charge of rendering this application in its final form, HTML. Some of the logic involved in creating the web page, especially the one in charge of dealing with presentation logic is handled on the client-side.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+List of frontend dependencies and version used:
 
-### Deployment
+-   react-fontawesome: V0.1.11,
+-   bootstrap: V4.5.3,
+-   chart.js: V2.9.3,
+-   formik: V2.2.5,
+-   jwt-decode: V3.1.2,
+-   react: 16.12.0,
+-   react-bootstrap: V1.4.0,
+-   react-chartjs-2: 2.9.0,
+-   react-dark-mode-toggle: 0.0.10,
+-   react-datetime: 2.16.3,
+-   react-dom: 16.12.0,
+-   react-dropdown-select: V4.6.0,
+-   react-helmet: V6.1.0,
+-   react-js-pagination: V3.0.3,
+-   react-router-dom: 5.1.2,
+-   react-scripts: V3.4.4,
+-   react-spinners: V0.9.0,
+-   react-toastify: V6.1.0,
+-   react-token-auth: V1.1.7,
+-   reactstrap: V8.4.1,
+-   styled-components: V5.2.1,
+-   yup: V0.29.3
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## 6. System Features<a name="sys-features"></a>
+
+### Not Connected Features
+
+-   Create an account
+-   Login
+-   Forgot Password
+-   Reset Password
+
+### Connected Features
+
+Dashboard
+
+-   Consult Financial Dashboard
+-   Switch to Dark / Light mode in the sidebar
+-   Navigate to other website pages in the sidebar
+-   Access to Profile
+-   Disconnect
+
+Profile
+
+-   Update Profile Information
+-   Upload Profile Picture
+-   Choose Default Currency (settings)
+-   Choose Theme (settings)
+-   Delete Profile Information
+-   Delete Account
+-   Consult User current information
+
+Convert
+
+-   Convert source currency to destination currency
+-   Calculate input value to output value depending on the currency
+-   Change input and output currency
+-   Inverse source currency with destination currency
+-   Check the daily exchange rate for selected currencies
+
+Exchange Rate Graph
+
+-   Check the exchange rate graph for selected currencies from 1 week, 1 month, 3 months, 6 months to a year time period.
+
+Historical Exchange Rate Graph
+
+-   Check the history rate graph for selected currencies for a year time period
+
+Historical Rate
+
+-   Check the history rate currency for selected currencies from 1 week, 1 month, 3 months, 6 months to a year time period.
+-   Check the historical exchange rate from input currency to all existing currencies
+-   Sort the historical exchange rate per currency, rate or, history value
+-   Filter the historical exchange rate per currency label or the currency name
+-   Paginate the results of the historical exchange rate currency to display only 10 results at once • Graphic representation in the historical exchange rate of the negative and positive using variable indicative color arrows.
+
+Finance Feed
+
+-   Check latest news feed related to Finance
+-   Sort the news per Brand, Date or, Score
+-   Filter the news per Article Name, Article Description or Brand
+-   Click the Article Name to read the new article (external link)
+-   Paginate the results of the finance feed to display only 12 results at once
+
+## 7. Software Interfaces<a name="soft-interfaces"></a>
+
+Software is designed in small fragmented atomic components. Each component has specific functionality and assembled together creates our application.
+
+This is easier to maintain, replace, and re-use. The component organization of the Financial app is available in the scheme below:
+
+![Components Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/Components_Advisor.png?raw=true)
+
+Communication is assured to external interfaces. The system is connected to several APIs using REST (representational state transfer), The payload is defined in the request itself and is formatted in JSON. Most of the operations are directed to a custom-made API.
+
+This API is a CRUD API created with Python and Flask technology in order to handle the Front-End requests and communicate safely with a PostgreSQL database.
+
+## 8. Installation instructions<a name="installation"></a>
+
+Versions:
+
+-   Node: 14.15.1
+-   Npm: 6.14.8
+-   React: 17.0.1
+
+Download code from Github:
+
+```shell
+git clone https://github.com/antoineratat/react_dashboard_finance.git
+```
+
+Navigate to project directory.
+
+```shell
+cd react_dashboard_finance
+```
+
+Install node modules.
+
+```shell
+npm install
+```
+
+Create .env
+
+```shell
+REACT_APP_AUTOCOMPLETE_API_KEY=yourKey
+REACT_APP_MAP_API_KEY=yourKey
+REACT_APP_FOURSQUARE_API_CLIENT_ID=yourKey
+REACT_APP_FOURSQUARE_API_CLIENT_SECRET=yourKey
+REACT_APP_OPENWEATHER_API_KEY=yourKey
+```
+
+Run the app in development mode. Open http://localhost:3000 to view it in the browser.
+
+```shell
+npm start
+```
+
+## 9. Project structure<a name="structure"></a>
+
+![Components Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/Components_Advisor.png?raw=true)
+
+## 10. Screenshots<a name="screenshots"></a>
+
+Login Page – Desktop and Mobile Version ![Components Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/main_search.PNG?raw=true)
+
+Dashboard - Purple Theme - Light Mode – Desktop and Mobile Version ![Components Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/main_search.PNG?raw=true)
+
+Dashboard - Purple Theme - Dark Mode – Desktop and Mobile Version ![Components Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/main_search.PNG?raw=true)

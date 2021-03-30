@@ -19,7 +19,7 @@ Financial is a tool to verify the current exchange rate and finance related info
 
 The product is a full stack web application implemented on both front and back end, it is using API calls to operate the database.
 
-### [> View Technical Specifications Finance](screenshots/Specifications_Project_Financial.pdff)
+### [> View Technical Specifications Finance](screenshots/Specifications_Project_Financial.pdf)
 
 ### Project Scope
 

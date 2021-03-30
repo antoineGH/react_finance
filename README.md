@@ -200,16 +200,6 @@ Install node modules.
 npm install
 ```
 
-Create .env
-
-```shell
-REACT_APP_AUTOCOMPLETE_API_KEY=yourKey
-REACT_APP_MAP_API_KEY=yourKey
-REACT_APP_FOURSQUARE_API_CLIENT_ID=yourKey
-REACT_APP_FOURSQUARE_API_CLIENT_SECRET=yourKey
-REACT_APP_OPENWEATHER_API_KEY=yourKey
-```
-
 Run the app in development mode. Open http://localhost:3000 to view it in the browser.
 
 ```shell

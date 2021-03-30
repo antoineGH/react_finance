@@ -66,7 +66,7 @@ The following are the main features that are included in the system:
 
 ## 4. Technical Implementation<a name="implementation"></a>
 
-![Communication Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/Components_Advisor.png?raw=true)
+![Communication Screenshot](https://github.com/antoineratat/react_dashboard_finance/blob/main/screenshots/1.png?raw=true)
 
 Application Communication Schema
 
@@ -168,7 +168,7 @@ Software is designed in small fragmented atomic components. Each component has s
 
 This is easier to maintain, replace, and re-use. The component organization of the Financial app is available in the scheme below:
 
-![Components Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/Components_Advisor.png?raw=true)
+![Interfaces Screenshot](https://github.com/antoineratat/react_dashboard_finance/blob/main/screenshots/12.png?raw=true)
 
 Communication is assured to external interfaces. The system is connected to several APIs using REST (representational state transfer), The payload is defined in the request itself and is formatted in JSON. Most of the operations are directed to a custom-made API.
 
@@ -218,7 +218,7 @@ npm start
 
 ## 9. Project structure<a name="structure"></a>
 
-![Components Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/Components_Advisor.png?raw=true)
+![Components Screenshot](https://github.com/antoineratat/react_dashboard_finance/blob/main/screenshots/2.png?raw=true)
 
 ## 10. Screenshots<a name="screenshots"></a>
 

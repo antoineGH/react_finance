@@ -222,7 +222,7 @@ npm start
 
 ## 10. Screenshots<a name="screenshots"></a>
 
-Login Page – Desktop and Mobile Version ![Components Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/main_search.PNG?raw=true)
+Login Page – Desktop and Mobile Version ![Components Screenshot](https://github.com/antoineratat/react_dashboard_finance/blob/main/screenshots/3.png?raw=true)
 
 Dashboard - Purple Theme - Light Mode – Desktop and Mobile Version ![Components Screenshot](https://github.com/antoineratat/react_advisor/blob/master/screenshots/main_search.PNG?raw=true)
 

@@ -8,9 +8,7 @@
 // fetchCurrency(baseCurrency) return JSON Promise
 // response.base (string), response.date (string), response.rates (object)
 
-const key = process.env.REACT_APP_EXCHANGE_API_KEY
-
-const url = `https://api.exchangeratesapi.io/history?access_key=${key}`
+const url = `https://api.exchangeratesapi.io/history?access_key=`
 
 export default async function fetchHistoryCurrency(startDate, endDate, baseCurrency, destCurrency) {
 	const urlToFetch = `${url}?start_at=${startDate}&end_at=${endDate}&base=${baseCurrency}&symbols=${destCurrency}`

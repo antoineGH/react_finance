@@ -8,11 +8,13 @@
 // fetchCurrency(baseCurrency) return JSON Promise
 // response.base (string), response.date (string), response.rates (object)
 
-const url = `https://api.exchangeratesapi.io/latest?access_key=`
+// const url = `https://api.exchangeratesapi.io/latest?access_key=`
+import { authFetch } from 'auth'
+const url = `https://flask-finance-api.herokuapp.com/api/exchange/latest`
 
 export default async function fetchCurrency(baseCurrency) {
-	const urlToFetch = `${url}?base=${baseCurrency}`
-	const response = await fetch(urlToFetch)
+	// const urlToFetch = `${url}?base=${baseCurrency}`
+	const response = await authFetch(url)
 	const responseJson = await response.json()
 
 	return new Promise((resolve, reject) => {

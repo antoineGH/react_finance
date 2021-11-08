@@ -8,11 +8,13 @@
 // fetchCurrency(baseCurrency) return JSON Promise
 // response.base (string), response.date (string), response.rates (object)
 
-const url = `https://api.exchangeratesapi.io/history?access_key=`
+// const url = `https://api.exchangeratesapi.io/history?access_key=`
+import { authFetch } from 'auth'
+const url = `https://flask-finance-api.herokuapp.com/api/exchange/history`
 
 export default async function fetchHistoryCurrency(startDate, endDate, baseCurrency, destCurrency) {
-	const urlToFetch = `${url}?start_at=${startDate}&end_at=${endDate}&base=${baseCurrency}&symbols=${destCurrency}`
-	const response = await fetch(urlToFetch)
+	const urlToFetch = `${url}?date=${startDate}&symbols=${destCurrency}`
+	const response = await authFetch(urlToFetch)
 	const responseJson = await response.json()
 
 	return new Promise((resolve, reject) => {

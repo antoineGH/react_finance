@@ -66,7 +66,7 @@ The following are the main features that are included in the system:
 
 ## 4. Technical Implementation<a name="implementation"></a>
 
-![Communication Screenshot](https://templars.guru/app/github/react_dashboard_finance/1.png)
+![Communication Screenshot](https://github.com/antoineratat/github_docs/blob/main/react_dashboard_finance/1.png?raw=true)
 
 Application Communication Schema
 
@@ -168,7 +168,7 @@ Software is designed in small fragmented atomic components. Each component has s
 
 This is easier to maintain, replace, and re-use. The component organization of the Financial app is available in the scheme below:
 
-![Interfaces Screenshot](https://templars.guru/app/github/react_dashboard_finance/2.png)
+![Interfaces Screenshot](https://github.com/antoineratat/github_docs/blob/main/react_dashboard_finance/2.png?raw=true)
 
 
 Communication is assured to external interfaces. The system is connected to several APIs using REST (representational state transfer), The payload is defined in the request itself and is formatted in JSON. Most of the operations are directed to a custom-made API.
@@ -209,10 +209,10 @@ npm start
 
 ## 9. Project structure<a name="structure"></a>
 
-![Components Screenshot](https://templars.guru/app/github/react_dashboard_finance/12.png)
+![Components Screenshot](https://github.com/antoineratat/github_docs/blob/main/react_dashboard_finance/12.png?raw=true)
 
 ## 10. Screenshots<a name="screenshots"></a>
 
-Login Page – Desktop and Mobile Version ![Components Screenshot](https://templars.guru/app/github/react_dashboard_finance/3.png)
+Login Page – Desktop and Mobile Version ![Components Screenshot](https://github.com/antoineratat/github_docs/blob/main/react_dashboard_finance/3.png?raw=true)
 
-Dashboard - Purple Theme - Light Mode – Desktop and Mobile Version ![Components Screenshot](https://templars.guru/app/github/react_dashboard_finance/4.png)
+Dashboard - Purple Theme - Light Mode – Desktop and Mobile Version ![Components Screenshot](https://github.com/antoineratat/github_docs/blob/main/react_dashboard_finance/4.png?raw=true)
